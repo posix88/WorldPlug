@@ -242,7 +242,7 @@
     {
         "name": "Belize",
         "country_code": "BZ",
-        "voltage": "110V  /                       220V",
+        "voltage": "110V / 220V",
         "frequency": "60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/bz.png",
         "flag_emoji": "\ud83c\udde7\ud83c\uddff",
@@ -294,7 +294,7 @@
     {
         "name": "Bolivia",
         "country_code": "BO",
-        "voltage": "115V  /                       230V",
+        "voltage": "115V / 230V",
         "frequency": "50Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/bo.png",
         "flag_emoji": "\ud83c\udde7\ud83c\uddf4",
@@ -331,7 +331,7 @@
     {
         "name": "Brazil",
         "country_code": "BR",
-        "voltage": "127V  /                       220V",
+        "voltage": "127V / 220V",
         "frequency": "60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/br.png",
         "flag_emoji": "\ud83c\udde7\ud83c\uddf7",
@@ -1121,7 +1121,7 @@
     {
         "name": "Indonesia",
         "country_code": "ID",
-        "voltage": "220V  /                       110V",
+        "voltage": "220V / 110V",
         "frequency": "50Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/id.png",
         "flag_emoji": "\ud83c\uddee\ud83c\udde9",
@@ -1218,7 +1218,7 @@
         "name": "Japan",
         "country_code": "JP",
         "voltage": "100V",
-        "frequency": "50Hz  /                       60Hz",
+        "frequency": "50Hz / 60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/jp.png",
         "flag_emoji": "\ud83c\uddef\ud83c\uddf5",
         "plug_types": [
@@ -1279,8 +1279,8 @@
     {
         "name": "Korea, Democratic Peoples Republic of",
         "country_code": "KP",
-        "voltage": "220V  /                       110V",
-        "frequency": "50Hz  /                       60Hz",
+        "voltage": "220V / 110V",
+        "frequency": "50Hz / 60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/kp.png",
         "flag_emoji": "\ud83c\uddf0\ud83c\uddf5",
         "plug_types": [
@@ -1382,8 +1382,8 @@
     {
         "name": "Liberia",
         "country_code": "LR",
-        "voltage": "120V  /                       220V",
-        "frequency": "50Hz  /                       60Hz",
+        "voltage": "120V / 220V",
+        "frequency": "50Hz / 60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/lr.png",
         "flag_emoji": "\ud83c\uddf1\ud83c\uddf7",
         "plug_types": [
@@ -1397,7 +1397,7 @@
     {
         "name": "Libyan Arab Jamahiriya",
         "country_code": "LY",
-        "voltage": "127V  /                       230V",
+        "voltage": "127V / 230V",
         "frequency": "50Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/ly.png",
         "flag_emoji": "\ud83c\uddf1\ud83c\uddfe",
@@ -1473,7 +1473,7 @@
     {
         "name": "Madagascar",
         "country_code": "MG",
-        "voltage": "127V  /                       220V",
+        "voltage": "127V / 220V",
         "frequency": "50Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/mg.png",
         "flag_emoji": "\ud83c\uddf2\ud83c\uddec",
@@ -1634,7 +1634,7 @@
     {
         "name": "Morocco",
         "country_code": "MA",
-        "voltage": "127V  /                       220V",
+        "voltage": "127V / 220V",
         "frequency": "50Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/ma.png",
         "flag_emoji": "\ud83c\uddf2\ud83c\udde6",
@@ -1700,20 +1700,6 @@
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/nl.png",
         "flag_emoji": "\ud83c\uddf3\ud83c\uddf1",
         "plug_types": [
-            "C",
-            "F"
-        ]
-    },
-    {
-        "name": "Netherlands Antilles",
-        "country_code": "AN",
-        "voltage": "127V  /                       220V",
-        "frequency": "50Hz",
-        "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/an.png",
-        "flag_emoji": "\ud83c\udde6\ud83c\uddf3",
-        "plug_types": [
-            "A",
-            "B",
             "C",
             "F"
         ]
@@ -2024,7 +2010,7 @@
     {
         "name": "Saint Martin",
         "country_code": "MF",
-        "voltage": "120V  /                       220V",
+        "voltage": "120V / 220V",
         "frequency": "60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/mf.png",
         "flag_emoji": "\ud83c\uddf2\ud83c\uddeb",
@@ -2088,7 +2074,7 @@
     {
         "name": "Saudi Arabia",
         "country_code": "SA",
-        "voltage": "220V  /                       230V",
+        "voltage": "220V / 230V",
         "frequency": "60Hz",
         "flag_image": "https://www.iec.ch/themes/custom/iec/images/world-plugs/countries-flags/sa.png",
         "flag_emoji": "\ud83c\uddf8\ud83c\udde6",
