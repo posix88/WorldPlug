@@ -15,6 +15,7 @@ let project = Project(
             resources: ["Resources/**/*"],
             dependencies: [
                 .project(target: "Network_iOS", path: .relativeToRoot("Network")),
+                .project(target: "Repository_iOS", path: .relativeToRoot("Repository")),
                 .external(name: "ComposableArchitecture")
             ],
             settings: .targetSettings

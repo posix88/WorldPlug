@@ -1,42 +1,52 @@
-//
-//  CountriesListFeature.swift
-//  WorldPlug
-//
-//  Created by Antonino Musolino on 02/04/24.
-//
-
 import Foundation
 import ComposableArchitecture
+import Repository_iOS
 
 @Reducer
 struct CountriesListFeature {
     @ObservableState
     struct State {
         var countries: [Country] = []
+        var filteredCountries: [Country] = []
+        var searchQuery = ""
+        var path = StackState<CountryDetailFeature.State>()
     }
 
     enum Action {
-        case loadView
         case viewLoaded(countries: [Country])
+        case searchQueryChanged(String)
+        case searchResult(countries: [Country])
+        case path(StackAction<CountryDetailFeature.State, CountryDetailFeature.Action>)
     }
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .loadView:
-                return .run { send in
-                    guard let url = WorldPlugResources.bundle.url(forResource: "countries", withExtension: "json") else {
-                        await send(.viewLoaded(countries: []))
-                        return
-                    }
-                    let data = try Data(contentsOf: url)
-                    let countries = try JSONDecoder().decode([Country].self, from: data)
-                    await send(.viewLoaded(countries: countries))
-                }
             case .viewLoaded(let countries):
                 state.countries = countries
+                state.filteredCountries = countries
                 return .none
+
+            case .searchQueryChanged(let query):
+                guard !query.isEmpty else {
+                    state.filteredCountries = state.countries
+                    return .none
+                }
+                return .run { [countries = state.countries] send in
+                    let filter = countries.filter { $0.name.lowercased().contains(query.lowercased()) }
+                    await send(.searchResult(countries: filter ))
+                }
+
+            case .searchResult(let countries):
+                state.filteredCountries = countries
+                return .none
+
+            case .path:
+                return .none
+
             }
+        }.forEach(\.path, action: \.path) {
+            CountryDetailFeature()
         }
     }
 }
