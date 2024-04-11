@@ -15,7 +15,7 @@ public final class Repository {
     }()
 
     @MainActor
-    static public func preloadCountries() {
+    static public func preloadData() {
         do {
             // Check we haven't already added our users.
             let descriptor = FetchDescriptor<Country>()
@@ -23,16 +23,25 @@ public final class Repository {
             guard existingCountries == 0 else { return }
 
             // Load and decode the JSON.
-            guard let url = RepositoryIOSResources.bundle.url(forResource: "countries", withExtension: "json") else {
+            guard let urlcountries = RepositoryIOSResources.bundle.url(forResource: "countries", withExtension: "json") else {
+                fatalError("Failed to find users.json")
+            }
+            // Load and decode the JSON.
+            guard let plugsurl = RepositoryIOSResources.bundle.url(forResource: "plugs", withExtension: "json") else {
                 fatalError("Failed to find users.json")
             }
 
-            let data = try Data(contentsOf: url)
-            let countries = try JSONDecoder().decode([Country].self, from: data)
+            let dataplugs = try Data(contentsOf: plugsurl)
+            let plugs = try JSONDecoder().decode([PlugDecodable].self, from: dataplugs)
+
+            let datacountries = try Data(contentsOf: urlcountries)
+            let countries = try JSONDecoder().decode([CountryDecodable].self, from: datacountries)
 
             // Add all our data to the context.
             for country in countries {
-                sharedModelContainer.mainContext.insert(country)
+                let db = Country(code: country.code, voltage: country.voltage, frequency: country.frequency, flagUnicode: country.flagUnicode)
+                sharedModelContainer.mainContext.insert(db)
+                db.plugs = plugs.filter { country.plugTypes.contains($0.id) }.map { Plug(id: $0.id, name: $0.name, info: $0.info, images: $0.images) }
             }
         } catch {
             print("Failed to pre-seed database.")
@@ -40,41 +49,14 @@ public final class Repository {
     }
 
     @MainActor
-    static public func preloadPlugs() {
-        do {
-            // Check we haven't already added our users.
-            let descriptor = FetchDescriptor<Plug>()
-            let existingPlugs = try sharedModelContainer.mainContext.fetchCount(descriptor)
-            guard existingPlugs == 0 else { return }
-
-            // Load and decode the JSON.
-            guard let url = RepositoryIOSResources.bundle.url(forResource: "plugs", withExtension: "json") else {
-                fatalError("Failed to find users.json")
-            }
-
-            let data = try Data(contentsOf: url)
-            let plugs = try JSONDecoder().decode([Plug].self, from: data)
-
-            // Add all our data to the context.
-            for plug in plugs {
-                sharedModelContainer.mainContext.insert(plug)
-            }
-        } catch {
-            print("Failed to pre-seed database.")
+    static public func cleanDataBase() throws {
+        let countries = try sharedModelContainer.mainContext.fetch(FetchDescriptor<Country>())
+        let plugs = try sharedModelContainer.mainContext.fetch(FetchDescriptor<Plug>())
+        for country in countries {
+            sharedModelContainer.mainContext.delete(country)
         }
-    }
-
-
-    @MainActor
-    public static func allPlugsByIDs(_ id: [String]) -> [Plug] {
-        let descriptor = FetchDescriptor(predicate: #Predicate { plug in
-            id.contains(plug.id)
-        }, sortBy: [SortDescriptor(\Plug.id)])
-
-        do {
-            return try sharedModelContainer.mainContext.fetch(descriptor)
-        } catch {
-            return []
+        for plug in plugs {
+            sharedModelContainer.mainContext.delete(plug)
         }
     }
 }

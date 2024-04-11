@@ -8,8 +8,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        Repository.preloadPlugs()
-        Repository.preloadCountries()
+        Repository.preloadData()
         return true
     }
 }

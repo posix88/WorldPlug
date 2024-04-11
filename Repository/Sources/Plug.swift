@@ -2,7 +2,44 @@ import SwiftData
 import Foundation
 
 @Model
-public class Plug: Identifiable, Decodable, Hashable {
+public class Plug: Identifiable, Hashable {
+    public let id: String
+    public let plugType: PlugType
+    public let name: String
+    public let info: String
+    public let images: [URL]
+    @Relationship(inverse: \Country.plugs) var countries: [Country]
+
+    public init(id: String, name: String, info: String, images: [URL], countries: [Country] = []) {
+        self.id = id
+        self.plugType = PlugType(rawValue: id) ?? .unknown
+        self.name = name
+        self.info = info
+        self.images = images
+        self.countries = countries
+    }
+}
+
+public enum PlugType: String, Codable, CaseIterable {
+    case a = "A"
+    case b = "B"
+    case c = "C"
+    case d = "D"
+    case e = "E"
+    case f = "F"
+    case g = "G"
+    case h = "H"
+    case i = "I"
+    case j = "J"
+    case k = "K"
+    case l = "L"
+    case m = "M"
+    case n = "N"
+    case o = "O"
+    case unknown
+}
+
+final class PlugDecodable: Decodable {
     public let id: String
     public let name: String
     public let info: String
@@ -13,13 +50,6 @@ public class Plug: Identifiable, Decodable, Hashable {
         case name
         case description
         case plug_images
-    }
-
-    public init(id: String, name: String, info: String, images: [URL]) {
-        self.id = id
-        self.name = name
-        self.info = info
-        self.images = images
     }
 
     required public init(from decoder: Decoder) throws {
