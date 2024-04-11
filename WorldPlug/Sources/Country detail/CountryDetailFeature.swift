@@ -20,9 +20,10 @@ struct CountryDetailFeature {
         Reduce { state, action in
             switch action {
             case .viewLoaded:
-                return .run { [types = state.country.plugTypes] send in
-                    await send(.searchResult(plugs: Repository.allPlugsByIDs(types)))
-                }
+                return .none
+//                    .run { [types = state.country.plugTypes] send in
+//                    await send(.searchResult(plugs: Repository.allPlugsByIDs(types)))
+//                }
                 
             case .searchResult(let plugs):
                 state.plugs = plugs

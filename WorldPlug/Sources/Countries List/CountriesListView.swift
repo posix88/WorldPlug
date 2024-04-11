@@ -7,23 +7,74 @@ public struct CountriesListView: View {
     @Bindable var store: StoreOf<CountriesListFeature>
     @State private var searchText = ""
     @Query(sort: \Country.name) private var countries: [Country]
+    @Query(sort: \Plug.id) private var plugs: [Plug]
 
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             List(store.filteredCountries) { country in
-                NavigationLink(state: CountryDetailFeature.State(country: country)) {
-                    HStack {
-                        Text(country.flagUnicode)
-                            .font(.system(size: 30))
-                        VStack(alignment: .leading) {
+                ZStack {
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            Text(country.flagUnicode)
+                                .font(.system(size: 30))
+
                             Text(country.name)
                                 .font(.headline)
-                            Text("Plug types: " + country.plugTypes.joined(separator: " • "))
-                                .font(.caption)
+                                .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+                        }
+                        .padding(.bottom, 8)
+
+                        HStack {
+                            HStack(spacing: 4) {
+                                Image(systemName: "bolt.circle")
+                                    .imageScale(.medium)
+
+                                Text(country.voltage)
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(WorldPlugAsset.Assets.volt.swiftUIColor)
+
+                            HStack(spacing: 4) {
+                                Image(systemName: "waveform")
+                                    .imageScale(.medium)
+
+                                Text(country.frequency)
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(WorldPlugAsset.Assets.frequency.swiftUIColor)
+                        }
+                        .padding(.bottom, 16)
+
+
+                        HStack {
+                            ForEach(country.plugs) { plug in
+                                HStack(spacing: 8) {
+                                    Image(systemName: plug.plugSymbol)
+                                        .imageScale(.small)
+
+                                    Text(plug.id)
+                                        .font(.caption2)
+                                        .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+                                }
+                                .padding(.all, 5)
+                                .background(WorldPlugAsset.Assets.surfaceSecondary.swiftUIColor)
+                                .roundedCornerWithBorder(radius: 8, lineWidth: 1)
+                            }
                         }
                     }
-                }.buttonStyle(.borderless)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .embedInCard()
+
+                    NavigationLink(state: CountryDetailFeature.State(country: country)) {
+                        EmptyView()
+                    }
+                    .opacity(0)
+                }
+                .listRowSeparator(.hidden, edges: .all)
+                .listSectionSeparator(.hidden, edges: .all)
+                .listRowBackground(Color.clear)
             }
+            .listStyle(.plain)
             .background(WorldPlugAsset.Assets.background.swiftUIColor)
             .scrollContentBackground(.hidden)
             .searchable(text: $store.searchQuery.sending(\.searchQueryChanged))
@@ -44,8 +95,12 @@ public struct CountriesListView: View {
     let container = try! ModelContainer(for: Country.self, configurations: config)
 
     for i in ["AF", "IT", "GB", "FO", "GU"] {
-        let user = Country(code: "\(i)", voltage: "", frequency: "", flagUnicode: "🏴‍☠️", plugTypes: ["A", "B", "C"])
-        container.mainContext.insert(user)
+        let country = Country(code: "\(i)", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
+        container.mainContext.insert(country)
+        country.plugs = [
+            Plug(id: "A", name: "Type A", info: "info", images: []),
+            Plug(id: "B", name: "Type B", info: "info", images: [])
+        ]
     }
 
     return CountriesListView(
