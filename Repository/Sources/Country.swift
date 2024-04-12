@@ -11,6 +11,9 @@ public class Country: Identifiable, Hashable {
     public let flagUnicode: String
     public var plugs: [Plug]
 
+    @Transient
+    public lazy var sortedPlugs: [Plug] = plugs.sorted(by: { $0.id < $1.id })
+
     public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
         self.name = Locale.current.localizedString(forRegionCode: code) ?? ""
         self.code = code
@@ -27,7 +30,7 @@ final class CountryDecodable: Decodable {
     let voltage: String
     let frequency: String
     let flagUnicode: String
-    let plugTypes: Set<String>
+    let plugTypes: [String]
 
     enum CodingKeys: String, CodingKey {
         case name
@@ -46,6 +49,6 @@ final class CountryDecodable: Decodable {
         self.voltage = try container.decode(String.self, forKey: .voltage)
         self.frequency = try container.decode(String.self, forKey: .frequency)
         self.flagUnicode = try container.decode(String.self, forKey: .flagUnicode)
-        self.plugTypes = try container.decode(Set<String>.self, forKey: .plugTypes)
+        self.plugTypes = try container.decode([String].self, forKey: .plugTypes)
     }
 }

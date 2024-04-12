@@ -7,7 +7,6 @@ public struct CountriesListView: View {
     @Bindable var store: StoreOf<CountriesListFeature>
     @State private var searchText = ""
     @Query(sort: \Country.name) private var countries: [Country]
-    @Query(sort: \Plug.id) private var plugs: [Plug]
 
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
@@ -47,7 +46,7 @@ public struct CountriesListView: View {
 
 
                         HStack {
-                            ForEach(country.plugs) { plug in
+                            ForEach(country.sortedPlugs) { plug in
                                 HStack(spacing: 8) {
                                     Image(systemName: plug.plugSymbol)
                                         .imageScale(.small)
@@ -81,7 +80,7 @@ public struct CountriesListView: View {
             .onAppear {
                 store.send(.viewLoaded(countries: countries))
             }
-            .navigationTitle("World plugs")
+            .navigationTitle("Pluggy")
         }
         destination: { store in
             CountryDetailView(store: store)
