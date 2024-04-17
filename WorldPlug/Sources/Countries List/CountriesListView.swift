@@ -64,7 +64,7 @@ public struct CountriesListView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .embedInCard()
 
-                    NavigationLink(state: CountryDetailFeature.State(country: country)) {
+                    NavigationLink(state: CountriesListFeature.Path.State.countryDetail(CountryDetailFeature.State(country: country))) {
                         EmptyView()
                     }
                     .opacity(0)
@@ -83,7 +83,13 @@ public struct CountriesListView: View {
             .navigationTitle("Pluggy")
         }
         destination: { store in
-            CountryDetailView(store: store)
+            switch store.case {
+            case .countryDetail(let store):
+                CountryDetailView(store: store)
+
+            case .plugDetail(let store):
+                PlugDetailView(store: store)
+            }
         }
     }
 }

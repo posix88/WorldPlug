@@ -9,14 +9,20 @@ struct CountriesListFeature {
         var countries: [Country] = []
         var filteredCountries: [Country] = []
         var searchQuery = ""
-        var path = StackState<CountryDetailFeature.State>()
+        var path = StackState<Path.State>()
     }
 
     enum Action {
         case viewLoaded(countries: [Country])
         case searchQueryChanged(String)
         case searchResult(countries: [Country])
-        case path(StackAction<CountryDetailFeature.State, CountryDetailFeature.Action>)
+        case path(StackAction<Path.State, Path.Action>)
+    }
+
+    @Reducer
+    enum Path {
+        case countryDetail(CountryDetailFeature)
+        case plugDetail(PlugDetailFeature)
     }
 
     var body: some ReducerOf<Self> {
@@ -45,8 +51,7 @@ struct CountriesListFeature {
                 return .none
 
             }
-        }.forEach(\.path, action: \.path) {
-            CountryDetailFeature()
         }
+        .forEach(\.path, action: \.path)
     }
 }

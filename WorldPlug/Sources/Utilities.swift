@@ -70,3 +70,38 @@ extension Plug {
         }
     }
 }
+
+
+public extension View {
+    @ViewBuilder
+    /// A View modifier that allows to retrieve the current view size
+    func viewSizeReader(_ size: Binding<CGSize>) -> some View {
+        modifier(ViewSizeReaderViewModifier(viewSize: size))
+    }
+}
+
+// MARK: - ViewSizeReaderViewModifier
+
+private struct ViewSizeReaderViewModifier: ViewModifier {
+    @Binding var viewSize: CGSize
+
+    func body(content: Content) -> some View {
+        content
+            .background(
+                GeometryReader {
+                    Color.clear.preference(key: ViewSizeKey.self, value: $0.frame(in: .local).size)
+                }
+            )
+            .onPreferenceChange(ViewSizeKey.self) {
+                viewSize = $0
+            }
+    }
+}
+
+// MARK: - ViewSizeKey
+
+/// Preference key used to let the view size propagate to the caller
+private struct ViewSizeKey: SwiftUI.PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {}
+}
