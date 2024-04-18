@@ -37,7 +37,7 @@ struct CountryDetailView: View {
 
                                 VStack(alignment: .leading, spacing: 8) {
                                     Text(plug.name)
-                                        .font(.body)
+                                        .font(.callout)
                                         .bold()
                                 }
                             }

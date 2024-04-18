@@ -16,6 +16,7 @@ struct CountriesListFeature {
         case viewLoaded(countries: [Country])
         case searchQueryChanged(String)
         case searchResult(countries: [Country])
+        case openDetail(country: Country)
         case path(StackAction<Path.State, Path.Action>)
     }
 
@@ -45,6 +46,14 @@ struct CountriesListFeature {
 
             case .searchResult(let countries):
                 state.filteredCountries = countries
+                return .none
+
+            case .openDetail(let country):
+                if country.plugs.count > 1 {
+                    state.path.append(.countryDetail(CountryDetailFeature.State(country: country)))
+                } else if let plug = country.plugs.first {
+                    state.path.append(.plugDetail(PlugDetailFeature.State(plug: plug)))
+                }
                 return .none
 
             case .path:
