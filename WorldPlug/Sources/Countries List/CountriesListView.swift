@@ -11,7 +11,10 @@ public struct CountriesListView: View {
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             List(store.filteredCountries) { country in
-                ZStack {
+                
+                Button {
+                    store.send(.openDetail(country: country))
+                } label: {
                     VStack(alignment: .leading, spacing: 0) {
                         HStack {
                             Text(country.flagUnicode)
@@ -63,11 +66,6 @@ public struct CountriesListView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .embedInCard()
-
-                    NavigationLink(state: CountriesListFeature.Path.State.countryDetail(CountryDetailFeature.State(country: country))) {
-                        EmptyView()
-                    }
-                    .opacity(0)
                 }
                 .listRowSeparator(.hidden, edges: .all)
                 .listSectionSeparator(.hidden, edges: .all)
@@ -82,15 +80,15 @@ public struct CountriesListView: View {
             }
             .navigationTitle("Pluggy")
         }
-        destination: { store in
-            switch store.case {
-            case .countryDetail(let store):
-                CountryDetailView(store: store)
+    destination: { store in
+        switch store.case {
+        case .countryDetail(let store):
+            CountryDetailView(store: store)
 
-            case .plugDetail(let store):
-                PlugDetailView(store: store)
-            }
+        case .plugDetail(let store):
+            PlugDetailView(store: store)
         }
+    }
     }
 }
 
