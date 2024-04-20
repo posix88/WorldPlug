@@ -6,52 +6,30 @@ struct CountryDetailView: View {
     var store: StoreOf<CountryDetailFeature>
 
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: [ GridItem(.flexible()), GridItem(.flexible())] ){
-                ForEach(store.country.sortedPlugs) { plug in
-                    NavigationLink(state: CountriesListFeature.Path.State.plugDetail(PlugDetailFeature.State(plug: plug))) {
-                        VStack {
-                            AsyncImage(url: plug.images.first) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                            } placeholder: {
-                                VStack {
-                                    Image(systemName: "photo")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 25, height: 25)
-                                        .clipped()
-                                        .foregroundStyle(WorldPlugAsset.Assets.background.swiftUIColor)
-                                }
-                                .frame(width: 50, height: 50)
-                                .background(WorldPlugAsset.Assets.textLighter.swiftUIColor)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            }
+        List(store.country.sortedPlugs) { plug in
+                NavigationLink(state: CountriesListFeature.Path.State.plugDetail(PlugDetailFeature.State(plug: plug))) {
+                    HStack {
+                        Image(systemName: plug.plugSymbol)
+                            .imageScale(.large)
 
-                            HStack {
-                                Image(systemName: plug.plugSymbol)
-                                    .imageScale(.large)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(plug.name)
+                                .font(.callout)
+                                .bold()
 
-                                VStack(alignment: .leading, spacing: 8) {
-                                    Text(plug.name)
-                                        .font(.callout)
-                                        .bold()
-                                }
-                            }
-                            .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-                            .frame(maxWidth: .infinity)
+                            Text(plug.info)
+                                .font(.caption)
+                                .lineLimit(1)
                         }
-                        .embedInCard()
                     }
+                    .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
-            }
-            .padding()
+                .listRowSeparator(.hidden, edges: .all)
+                .listSectionSeparator(.hidden, edges: .all)
         }
         .background(WorldPlugAsset.Assets.background.swiftUIColor)
-        .scrollBounceBehavior(.basedOnSize)
+        .scrollContentBackground(.hidden)
         .navigationTitle(store.country.name)
     }
 }
