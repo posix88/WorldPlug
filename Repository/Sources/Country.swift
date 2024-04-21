@@ -1,26 +1,31 @@
 import SwiftData
 import Foundation
 
-@Model
-public class Country: Identifiable, Hashable {
-    public var id: String { code }
-    public let name: String
-    public let code: String
-    public let voltage: String
-    public let frequency: String
-    public let flagUnicode: String
-    public var plugs: [Plug]
+extension SchemaV2 {
+    @Model
+    public class Country: Identifiable, Hashable {
+        @Attribute(.unique)
+        public let code: String
+        public let name: String
+        public let voltage: String
+        public let frequency: String
+        public let flagUnicode: String
+        public var plugs: [Plug]
 
-    @Transient
-    public lazy var sortedPlugs: [Plug] = plugs.sorted(by: { $0.id < $1.id })
+        @Transient
+        public var id: String { code }
 
-    public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
-        self.name = Locale.current.localizedString(forRegionCode: code) ?? ""
-        self.code = code
-        self.voltage = voltage
-        self.frequency = frequency
-        self.flagUnicode = flagUnicode
-        self.plugs = plugs
+        @Transient
+        public lazy var sortedPlugs: [Plug] = plugs.sorted(by: { $0.id < $1.id })
+
+        public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
+            self.name = Locale.current.localizedString(forRegionCode: code) ?? ""
+            self.code = code
+            self.voltage = voltage
+            self.frequency = frequency
+            self.flagUnicode = flagUnicode
+            self.plugs = plugs
+        }
     }
 }
 
