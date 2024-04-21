@@ -2,7 +2,8 @@
     {
         "id": "A",
         "name": "Plug Type A",
-        "description": "Used in: North and Central America, Japan\nThe Type A electrical plug (or flat blade attachment plug) is an ungrounded plug with two flat parallel pins. Although the American and Japanese plugs appear identical, the neutral pin on the American plug is wider than the live pin, whereas on the Japanese plug both pins are the same size. As a result, Japanese plugs can be used in the US but often not the other way around.\nThe pins on Type A and Type B plugs have a hole near the tip that fits into \u2018bumps\u2019 found on the contact wipers of some sockets, so that the pins are gripped more tightly allowing for better contact and also to prevent the plug from slipping out of the socket. Some sockets have spring-action blades that grip the sides of the pins, making the holes obsolete.",
+        "short_description": "Used in: North and Central America, Japan.",
+        "description": "The Type A electrical plug (or flat blade attachment plug) is an ungrounded plug with two flat parallel pins. Although the American and Japanese plugs appear identical, the neutral pin on the American plug is wider than the live pin, whereas on the Japanese plug both pins are the same size. As a result, Japanese plugs can be used in the US but often not the other way around.\nThe pins on Type A and Type B plugs have a hole near the tip that fits into \u2018bumps\u2019 found on the contact wipers of some sockets, so that the pins are gripped more tightly allowing for better contact and also to prevent the plug from slipping out of the socket. Some sockets have spring-action blades that grip the sides of the pins, making the holes obsolete.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_sock_l.png",
@@ -13,7 +14,8 @@
     {
         "id": "B",
         "name": "Plug Type B",
-        "description": "Used in: North and Central America, Japan\nThe Type B electrical plug has two flat parallel pins and a round grounding (or earth) pin. The earth pin is longer than the other two so that the device is grounded before the power is connected. As with the type A plugs, the American and Japanese versions vary slightly.\nType B plugs are rated at 15 amps.",
+        "short_description": "Used in: North and Central America, Japan.",
+        "description": "The Type B electrical plug has two flat parallel pins and a round grounding (or earth) pin. The earth pin is longer than the other two so that the device is grounded before the power is connected. As with the type A plugs, the American and Japanese versions vary slightly.\nType B plugs are rated at 15 amps.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/B/B_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/B/B_3d_sock_l.png",
@@ -24,7 +26,8 @@
     {
         "id": "C",
         "name": "Plug Type C",
-        "description": "Used in: Europe, with the exception of the UK, Ireland, Cyprus and Malta\nThe Type C electrical plug (or Europlug) is a two-wire plug that has two round pins. It fits into any socket that accepts 4.0 \u2013 4.8 mm round contacts on 19 mm centres. They are being replaced by E, F, J, K or N sockets which work perfectly with Type C plugs.\nType C plugs are generally limited for use in appliances that require 2.5 amps or less.",
+        "short_description": "Used in: Europe, with the exception of the UK, Ireland, Cyprus and Malta.",
+        "description": "The Type C electrical plug (or Europlug) is a two-wire plug that has two round pins. It fits into any socket that accepts 4.0 \u2013 4.8 mm round contacts on 19 mm centres. They are being replaced by E, F, J, K or N sockets which work perfectly with Type C plugs.\nType C plugs are generally limited for use in appliances that require 2.5 amps or less.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_3d_sock_l.png",
@@ -35,7 +38,8 @@
     {
         "id": "D",
         "name": "Plug Type D",
-        "description": "Used in: India, Sri Lanka, Nepal, Namibia\nThe Type D electrical plug has three large round pins in a triangular pattern. Type M plugs are often used alongside Type D plugs for larger appliances and as a result, some sockets work with both Type D and Type M plugs.\nType D plugs are rated 5 amps.",
+        "short_description": "Used in: India, Sri Lanka, Nepal, Namibia.",
+        "description": "The Type D electrical plug has three large round pins in a triangular pattern. Type M plugs are often used alongside Type D plugs for larger appliances and as a result, some sockets work with both Type D and Type M plugs.\nType D plugs are rated 5 amps.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/D/D_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/D/D_3d_sock_l.png",
@@ -46,7 +50,8 @@
     {
         "id": "E",
         "name": "Plug Type E",
-        "description": "Used in: France, Belgium, Slovakia and Tunisia among others\nThe Type E electrical plug has two 4.8 mm round pins spaced 19 mm apart and a hole for the socket's male earthing pin. The Type E plug has a rounded shape and the Type E socket has a round recess. Type E plugs are rated 16 amps.\nNote: The CEE 7/7 plug was developed to work with Type E and Type F sockets with a female contact (to accept the earthing pin of the Type E socket) and has earthing clips on both sides (to work with Type F sockets).",
+        "short_description": "Used in: France, Belgium, Slovakia and Tunisia among others.",
+        "description": "The Type E electrical plug has two 4.8 mm round pins spaced 19 mm apart and a hole for the socket's male earthing pin. The Type E plug has a rounded shape and the Type E socket has a round recess. Type E plugs are rated 16 amps.\nNote: The CEE 7/7 plug was developed to work with Type E and Type F sockets with a female contact (to accept the earthing pin of the Type E socket) and has earthing clips on both sides (to work with Type F sockets).",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/E/E_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/E/E_3d_sock_l.png",
@@ -57,7 +62,8 @@
     {
         "id": "F",
         "name": "Plug Type F",
-        "description": "Used in: Germany, Austria, the Netherlands and Spain among others\nThe Type F electrical plug (also known as a Schuko plug) has two 4.8 mm round pins spaced 19 mm apart. It is similar to the Type E plug but has two earth clips on the side rather than a female  earth contact. The CEE 7/7 plug was developed to work with sockets E and F and has grounding clips on both sides (to work with Type F sockets) and a female contact (to accept the grounding pin of the type E socket).\nType F plugs are rated 16 amps.",
+        "short_description": "Used in: Germany, Austria, the Netherlands and Spain among others.",
+        "description": "The Type F electrical plug (also known as a Schuko plug) has two 4.8 mm round pins spaced 19 mm apart. It is similar to the Type E plug but has two earth clips on the side rather than a female  earth contact. The CEE 7/7 plug was developed to work with sockets E and F and has grounding clips on both sides (to work with Type F sockets) and a female contact (to accept the grounding pin of the type E socket).\nType F plugs are rated 16 amps.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/F/F_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/F/F_3d_sock_l.png",
@@ -68,7 +74,8 @@
     {
         "id": "G",
         "name": "Plug Type G",
-        "description": "Used in: UK, Ireland, Cyprus, Malta, Malaysia, Singapore, Hong Kong\nThe Type G electrical plug has three rectangular blades in a triangular pattern and has an incorporated fuse (usually a 3 amps fuse for smaller appliances such as a computer and a 13 amps one for heavy duty appliances such as heaters). British sockets have shutters on the live and neutral contacts so that foreign objects can\u2019t be introduced into them.",
+        "short_description": "Used in: UK, Ireland, Cyprus, Malta, Malaysia, Singapore, Hong Kong.",
+        "description": "The Type G electrical plug has three rectangular blades in a triangular pattern and has an incorporated fuse (usually a 3 amps fuse for smaller appliances such as a computer and a 13 amps one for heavy duty appliances such as heaters). British sockets have shutters on the live and neutral contacts so that foreign objects can\u2019t be introduced into them.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_3d_sock_l.png",
@@ -79,7 +86,8 @@
     {
         "id": "H",
         "name": "Plug Type H",
-        "description": "Used in: Israel\nThe Type H plug is unique to Israel and has two flat pins in a V-shape as well as a grounding pin. It is however currently being phased out in favour of a round-pinned version. The holes in Type H sockets are wide in the middle so as to accommodate the round-pinned version of the Type H plug as well as Type C plugs.",
+        "short_description": "Used in: Israel.",
+        "description": "The Type H plug is unique to Israel and has two flat pins in a V-shape as well as a grounding pin. It is however currently being phased out in favour of a round-pinned version. The holes in Type H sockets are wide in the middle so as to accommodate the round-pinned version of the Type H plug as well as Type C plugs.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/H/H_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/H/H_3d_sock_l.png",
@@ -90,7 +98,8 @@
     {
         "id": "I",
         "name": "Plug Type I",
-        "description": "Used in: Australia, New Zealand, Papua New Guinea, Argentina\nThe Type I plug has two flat pins in a V-shape as well as a grounding pin. A version of the plug, which only has the two flat pins, exists as well. The Australian plug also works with sockets in China.\nAustralia\u2019s standard plug/socket system is rated 10 amps but a plug/socket configuration rated 15 amps also exists, although the ground pin is wider. A standard 10 amp plug will fit into a 15 amp socket but not the other way around.",
+        "short_description": "Used in: Australia, New Zealand, Papua New Guinea, Argentina.",
+        "description": "The Type I plug has two flat pins in a V-shape as well as a grounding pin. A version of the plug, which only has the two flat pins, exists as well. The Australian plug also works with sockets in China.\nAustralia\u2019s standard plug/socket system is rated 10 amps but a plug/socket configuration rated 15 amps also exists, although the ground pin is wider. A standard 10 amp plug will fit into a 15 amp socket but not the other way around.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_3d_sock_l.png",
@@ -101,7 +110,8 @@
     {
         "id": "J",
         "name": "Plug Type J",
-        "description": "Used in: Switzerland and Lichtenstein\nThe Type J plug has two round pins as well as a grounding pin. Although the Type J plug looks a lot like the Brazilian Type N plug it is incompatible with the Type N socket as the earth pin is further away from the centre line than on Type N. However, Type C plugs are perfectly compatible with Type J sockets.\nType J plugs are rated 10 amps.",
+        "short_description": "Used in: Switzerland and Lichtenstein.",
+        "description": "The Type J plug has two round pins as well as a grounding pin. Although the Type J plug looks a lot like the Brazilian Type N plug it is incompatible with the Type N socket as the earth pin is further away from the centre line than on Type N. However, Type C plugs are perfectly compatible with Type J sockets.\nType J plugs are rated 10 amps.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/J/J_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/J/J_3d_sock_l.png",
@@ -112,7 +122,8 @@
     {
         "id": "K",
         "name": "Plug Type K",
-        "description": "Used in: Denmark and Greenland\nThe Type K plug has two round pins as well as a grounding pin. It is similar to Type F, the difference being that Type F has grounding clips instead of a grounding pin. Type C plugs are perfectly compatible with Type F sockets. Type E plugs and sockets are also used in Denmark.",
+        "short_description": "Used in: Denmark and Greenland.",
+        "description": "The Type K plug has two round pins as well as a grounding pin. It is similar to Type F, the difference being that Type F has grounding clips instead of a grounding pin. Type C plugs are perfectly compatible with Type F sockets. Type E plugs and sockets are also used in Denmark.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/K/K_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/K/K_3d_sock_l.png",
@@ -123,7 +134,8 @@
     {
         "id": "L",
         "name": "Plug Type L",
-        "description": "Used in: Italy\nThere are two variations of the Type L plug, one rated at 10 amps, and one at 16 amps. The 10 amp version has two round pins that are 4 mm thick and spaced 5.5 mm apart, with a grounding pin in the middle. The 16 amp version has two round pins that are 5 mm thick, spaced 8mm apart, as well as a grounding pin. Italy has a kind of \u201cuniversal\u201d socket that comprises a \u201cschuko\u201d socket for C, E, F and L plugs and a \u201cbipasso\u201d socket for L and C plugs.",
+        "short_description": "Used in: Italy.",
+        "description": "There are two variations of the Type L plug, one rated at 10 amps, and one at 16 amps. The 10 amp version has two round pins that are 4 mm thick and spaced 5.5 mm apart, with a grounding pin in the middle. The 16 amp version has two round pins that are 5 mm thick, spaced 8mm apart, as well as a grounding pin. Italy has a kind of \u201cuniversal\u201d socket that comprises a \u201cschuko\u201d socket for C, E, F and L plugs and a \u201cbipasso\u201d socket for L and C plugs.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_3d_sock_l.png",
@@ -134,7 +146,8 @@
     {
         "id": "M",
         "name": "Plug Type M",
-        "description": "Used in: South Africa, Swaziland, Lesotho\nThe Type M plug has three round pins in a triangular pattern and looks similar to the Indian Type D plug, but its pins are much larger. Type M plugs are sometimes used for bigger appliances in countries that make use of Type D plugs, as well as in Israel (Type H). Therefore, sockets in these countries sometimes work with Type M plugs.",
+        "short_description": "Used in: South Africa, Swaziland, Lesotho.",
+        "description": "The Type M plug has three round pins in a triangular pattern and looks similar to the Indian Type D plug, but its pins are much larger. Type M plugs are sometimes used for bigger appliances in countries that make use of Type D plugs, as well as in Israel (Type H). Therefore, sockets in these countries sometimes work with Type M plugs.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/M/M_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/M/M_3d_sock_l.png",
@@ -145,7 +158,8 @@
     {
         "id": "N",
         "name": "Plug Type N",
-        "description": "Used in: Brazil\nThere are two variations of the Type N plug, one rated at 10 amps, and one at 20 amps. The 10 amp version has two round pins that are 4 mm thick, and a grounding pin. The 20 amp version, used for heavier appliances, has two round pins 4.8 mm in diameter, and a grounding pin. The Type N socket was designed to work with Type C plugs as well.\nBrazil is one of the few countries that uses two types of voltage. While most states use 127 V, some of them use 220 V. It is therefore important to find out the local voltage before plugging in your appliance (note: wrong voltage can destroy your appliance). Many appliances sold in Brazil are dual voltage.",
+        "short_description": "Used in: Brazil.",
+        "description": "There are two variations of the Type N plug, one rated at 10 amps, and one at 20 amps. The 10 amp version has two round pins that are 4 mm thick, and a grounding pin. The 20 amp version, used for heavier appliances, has two round pins 4.8 mm in diameter, and a grounding pin. The Type N socket was designed to work with Type C plugs as well.\nBrazil is one of the few countries that uses two types of voltage. While most states use 127 V, some of them use 220 V. It is therefore important to find out the local voltage before plugging in your appliance (note: wrong voltage can destroy your appliance). Many appliances sold in Brazil are dual voltage.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_sock_l.png",
@@ -156,7 +170,8 @@
     {
         "id": "O",
         "name": "Plug Type O",
-        "description": "Type O is used exclusively in Thailand.\nThe type O socket and plug, rated at 16 amps, are the official standard in Thailand. The plug system was designed in 2006, but its use is not widespread as yet. It is currently gradually being phased in. The standard is described in TIS 166-2549.\nType O consists of two power pins and an earth pin, which are round and have a 4.8 mm diameter. The power pins measure 19 mm in length, they have 10 mm long insulated sleeves and their centers are spaced 19 mm apart.",
+        "short_description": "Used in: Thailand.",
+        "description": "The type O socket and plug, rated at 16 amps, are the official standard in Thailand. The plug system was designed in 2006, but its use is not widespread as yet. It is currently gradually being phased in. The standard is described in TIS 166-2549.\nType O consists of two power pins and an earth pin, which are round and have a 4.8 mm diameter. The power pins measure 19 mm in length, they have 10 mm long insulated sleeves and their centers are spaced 19 mm apart.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_sock_l.png",

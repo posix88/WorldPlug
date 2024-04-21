@@ -9,4 +9,8 @@ struct CountryDetailFeature {
     struct State {
         var country: Country
     }
+
+    enum Action {
+        case openDetail(plug: Plug)
+    }
 }

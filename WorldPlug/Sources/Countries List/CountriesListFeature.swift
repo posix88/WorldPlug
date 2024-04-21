@@ -56,6 +56,10 @@ struct CountriesListFeature {
                 }
                 return .none
 
+            case .path(.element(id: _, action: .countryDetail(.openDetail(plug: let plug)))):
+                state.path.append(.plugDetail(PlugDetailFeature.State(plug: plug)))
+                return .none
+
             case .path:
                 return .none
 

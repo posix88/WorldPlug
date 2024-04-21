@@ -1,22 +1,28 @@
 import SwiftData
 import Foundation
 
-@Model
-public class Plug: Identifiable, Hashable {
-    public let id: String
-    public let plugType: PlugType
-    public let name: String
-    public let info: String
-    public let images: [URL]
-    @Relationship(inverse: \Country.plugs) var countries: [Country]
+extension SchemaV2 {
+    @Model
+    public class Plug: Identifiable, Hashable {
+        @Attribute(.unique)
+        public let id: String
+        
+        public let plugType: PlugType
+        public let name: String
+        public let shortInfo: String
+        public let info: String
+        public let images: [URL]
+        @Relationship(inverse: \Country.plugs) var countries: [Country]
 
-    public init(id: String, name: String, info: String, images: [URL], countries: [Country] = []) {
-        self.id = id
-        self.plugType = PlugType(rawValue: id) ?? .unknown
-        self.name = name
-        self.info = info
-        self.images = images
-        self.countries = countries
+        public init(id: String, name: String, shortInfo: String, info: String, images: [URL], countries: [Country] = []) {
+            self.id = id
+            self.plugType = PlugType(rawValue: id) ?? .unknown
+            self.name = name
+            self.info = info
+            self.images = images
+            self.countries = countries
+            self.shortInfo = shortInfo
+        }
     }
 }
 
@@ -44,12 +50,14 @@ final class PlugDecodable: Decodable {
     public let name: String
     public let info: String
     public let images: [URL]
+    public let shortInfo: String
 
     enum CodingKeys: String, CodingKey {
         case id
         case name
         case description
         case plug_images
+        case short_description
     }
 
     required public init(from decoder: Decoder) throws {
@@ -59,5 +67,6 @@ final class PlugDecodable: Decodable {
         self.info = try container.decode(String.self, forKey: .description)
         let images: [String] = try container.decode([String].self, forKey: .plug_images)
         self.images = images.compactMap { URL(string: $0 ) }
+        self.shortInfo = try container.decode(String.self, forKey: .short_description)
     }
 }

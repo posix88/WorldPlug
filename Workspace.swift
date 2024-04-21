@@ -4,7 +4,6 @@ let workspace = Workspace(
     name: "WorldPlug",
     projects: [
         "WorldPlug",
-        "Network",
         "Repository"
     ]
 )

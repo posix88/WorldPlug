@@ -1,13 +1,17 @@
 import SwiftData
 import Foundation
 
+public typealias Plug = SchemaV2.Plug
+public typealias Country = SchemaV2.Country
+
 public final class Repository {
     public static let shared : Repository = Repository()
 
     public static var sharedModelContainer: ModelContainer = {
         do {
             return try ModelContainer(
-                for: Plug.self, Country.self
+                for: Plug.self, Country.self,
+                migrationPlan: MigrationPlan.self
             )
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
@@ -41,10 +45,10 @@ public final class Repository {
             for country in countries {
                 let db = Country(code: country.code, voltage: country.voltage, frequency: country.frequency, flagUnicode: country.flagUnicode)
                 sharedModelContainer.mainContext.insert(db)
-                db.plugs = plugs.filter { country.plugTypes.contains($0.id) }.map { Plug(id: $0.id, name: $0.name, info: $0.info, images: $0.images) }
+                db.plugs = plugs.filter { country.plugTypes.contains($0.id) }.map { Plug(id: $0.id, name: $0.name, shortInfo: $0.shortInfo, info: $0.info, images: $0.images) }
             }
         } catch {
-            print("Failed to pre-seed database.")
+            print("Failed to pre-seed database. \(error.localizedDescription)")
         }
     }
 

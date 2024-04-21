@@ -50,10 +50,10 @@ public struct CountriesListView: View {
         let country = Country(code: "\(i)", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
         container.mainContext.insert(country)
         country.plugs = [
-            Plug(id: "A", name: "Type A", info: "info", images: []),
-            Plug(id: "B", name: "Type B", info: "info", images: []),
-            Plug(id: "C", name: "Type B", info: "info", images: []),
-            Plug(id: "D", name: "Type B", info: "info", images: [])
+            Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
+            Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
+            Plug(id: "C", name: "Type B", shortInfo: "short info", info: "info", images: []),
+            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: [])
         ]
     }
 
