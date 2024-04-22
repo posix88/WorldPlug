@@ -10,61 +10,104 @@ import Repository_iOS
 
 struct CountryCard: View {
     let country: Country
-
+    @Binding var selectedPlug: Plug?
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text(country.flagUnicode)
-                    .font(.system(size: 30))
+        DisclosureGroup(
+            content: {
+                VStack(alignment: .leading, spacing: 16) {
+                    HStack {
+                        HStack(spacing: 4) {
+                            Image(systemName: "bolt.circle")
+                                .imageScale(.medium)
 
-                Text(country.name)
-                    .font(.headline)
-                    .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-            }
-            .padding(.bottom, 8)
+                            Text(country.voltage)
+                                .font(.caption)
+                        }
+                        .foregroundStyle(WorldPlugAsset.Assets.volt.swiftUIColor)
 
-            HStack {
-                HStack(spacing: 4) {
-                    Image(systemName: "bolt.circle")
-                        .imageScale(.medium)
+                        HStack(spacing: 4) {
+                            Image(systemName: "waveform")
+                                .imageScale(.medium)
 
-                    Text(country.voltage)
-                        .font(.caption)
-                }
-                .foregroundStyle(WorldPlugAsset.Assets.volt.swiftUIColor)
-
-                HStack(spacing: 4) {
-                    Image(systemName: "waveform")
-                        .imageScale(.medium)
-
-                    Text(country.frequency)
-                        .font(.caption)
-                }
-                .foregroundStyle(WorldPlugAsset.Assets.frequency.swiftUIColor)
-            }
-            .padding(.bottom, 16)
-
-
-            HStack {
-                ForEach(country.sortedPlugs) { plug in
-                    HStack(spacing: 8) {
-                        Image(systemName: plug.plugSymbol)
-                            .imageScale(.small)
-                            .bold()
-
-                        Text(plug.id)
-                            .font(.caption2)
-                            .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-                            .bold()
+                            Text(country.frequency)
+                                .font(.caption)
+                        }
+                        .foregroundStyle(WorldPlugAsset.Assets.frequency.swiftUIColor)
                     }
-                    .padding(.all, 5)
-                    .background(WorldPlugAsset.Assets.surfaceSecondary.swiftUIColor)
-                    .roundedCornerWithBorder(radius: 8, lineWidth: 1)
+
+                    VStack(alignment: .leading) {
+                        ForEach(country.sortedPlugs) { plug in
+                            Button {
+                                selectedPlug = plug
+                            } label: {
+                                HStack(spacing: 8) {
+                                    Image(systemName: plug.plugSymbol)
+                                        .imageScale(.medium)
+                                        .bold()
+                                        .frame(width: 30, height: 30)
+
+                                    Text(plug.name)
+                                        .font(.callout)
+                                        .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+
+                                    Image(systemName: "chevron.right")
+                                        .imageScale(.small)
+                                }
+                                .padding(.all, 5)
+                                .background(WorldPlugAsset.Assets.surfaceSecondary.swiftUIColor)
+                                .roundedCornerWithBorder(radius: 8, lineWidth: 1)
+                            }
+                        }
+                    }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            },
+            label: {
+                HStack {
+                    Text(country.flagUnicode)
+                        .font(.system(size: 30))
+
+                    Text(country.name)
+                        .font(.headline)
+                        .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+                }
+            }
+        )
+        .disclosureGroupStyle(MyDisclosureStyle())
+        .tint(WorldPlugAsset.Assets.textRegular.swiftUIColor)
+        .embedInCard()
+    }
+}
+
+struct MyDisclosureStyle: DisclosureGroupStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        VStack {
+            Button {
+                withAnimation {
+                    configuration.isExpanded.toggle()
+                }
+            } label: {
+                HStack {
+                    configuration.label
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .animation(.spring, value: configuration.isExpanded)
+                        .rotationEffect(configuration.isExpanded ? .degrees(90) : .zero, anchor: .center)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(NoButtonStyle())
+            if configuration.isExpanded {
+                configuration.content
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .embedInCard()
+    }
+}
+
+struct NoButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        return configuration.label
     }
 }
 
@@ -79,11 +122,22 @@ import SwiftData
     country.plugs = [
         Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
         Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "C", name: "Type B", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: [])
+        Plug(id: "C", name: "Type C", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "D", name: "Type D", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "E", name: "Type E", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "F", name: "Type F", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "G", name: "Type G", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "H", name: "Type H", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "I", name: "Type I", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "J", name: "Type J", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "K", name: "Type K", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "L", name: "Type L", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "M", name: "Type M", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "N", name: "Type N", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: [])
     ]
 
-    return CountryCard(country: country)
+    return CountryCard(country: country, selectedPlug: .constant(nil))
         .padding()
 }
 #endif

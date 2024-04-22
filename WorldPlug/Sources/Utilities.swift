@@ -31,6 +31,7 @@ public extension View {
                     .stroke(borderColor, lineWidth: border)
                     .fill(color)
             }
+            .contentShape(RoundedRectangle(cornerRadius: radius))
     }
 
     /// Sets a clipping shape with rounded corners for this view.

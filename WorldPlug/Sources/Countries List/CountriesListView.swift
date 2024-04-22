@@ -5,22 +5,18 @@ import SwiftData
 
 public struct CountriesListView: View {
     @Bindable var store: StoreOf<CountriesListFeature>
-    @State private var searchText = ""
     @Query(sort: \Country.name) private var countries: [Country]
 
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
-            List(store.filteredCountries) { country in
-                Button {
-                    store.send(.openDetail(country: country))
-                } label: {
-                    CountryCard(country: country)
+            ScrollView {
+                LazyVStack(spacing: 16) {
+                    ForEach(store.filteredCountries) { country in
+                        CountryCard(country: country, selectedPlug: $store.selectedPlug.sending(\.openPlugDetail))
+                    }
                 }
-                .listRowSeparator(.hidden, edges: .all)
-                .listSectionSeparator(.hidden, edges: .all)
-                .listRowBackground(Color.clear)
+                .padding(.horizontal, 16)
             }
-            .listStyle(.plain)
             .background(WorldPlugAsset.Assets.background.swiftUIColor)
             .scrollContentBackground(.hidden)
             .searchable(text: $store.searchQuery.sending(\.searchQueryChanged))
