@@ -9,12 +9,14 @@ struct CountriesListFeature {
         var countries: [Country] = []
         var filteredCountries: [Country] = []
         var searchQuery = ""
+        var selectedPlug: Plug?
         var path = StackState<Path.State>()
     }
 
     enum Action {
         case viewLoaded(countries: [Country])
         case searchQueryChanged(String)
+        case openPlugDetail(Plug?)
         case searchResult(countries: [Country])
         case openDetail(country: Country)
         case path(StackAction<Path.State, Path.Action>)
@@ -46,6 +48,11 @@ struct CountriesListFeature {
 
             case .searchResult(let countries):
                 state.filteredCountries = countries
+                return .none
+
+            case .openPlugDetail(let plug):
+                guard let plug else { return .none }
+                state.path.append(.plugDetail(PlugDetailFeature.State(plug: plug)))
                 return .none
 
             case .openDetail(let country):
