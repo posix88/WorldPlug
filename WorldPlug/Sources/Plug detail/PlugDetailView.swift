@@ -32,15 +32,15 @@ struct PlugDetailView: View {
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
                 .padding(.horizontal, 16)
-                .frame(height: 250)
+                .frame(height: store.viewSize.height * 0.4)
 
                 Text(store.plug.info)
                     .font(.body)
                     .embedInCard()
                     .padding(.horizontal, 16)
             }
-
         }
+        .viewSizeReader($store.viewSize.sending(\.sizeUpdated))
         .background(WorldPlugAsset.Assets.background.swiftUIColor)
         .navigationTitle(store.plug.name)
         .scrollContentBackground(.hidden)

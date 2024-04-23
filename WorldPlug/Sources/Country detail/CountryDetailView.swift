@@ -58,7 +58,7 @@ struct CountryDetailView: View {
             .listStyle(.plain)
             .background(WorldPlugAsset.Assets.background.swiftUIColor)
             .scrollContentBackground(.hidden)
-        .navigationTitle(store.country.name)
+            .navigationTitle(store.country.name)
         }
     }
 }
