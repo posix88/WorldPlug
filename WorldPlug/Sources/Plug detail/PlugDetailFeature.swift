@@ -1,23 +1,24 @@
 import ComposableArchitecture
 import Repository_iOS
+import CoreGraphics
 
 @Reducer
 struct PlugDetailFeature {
     @ObservableState
     struct State {
         var plug: Plug
-        var currentTab: Int = 0
+        var viewSize: CGSize = .zero
     }
 
     enum Action {
-        case tabUpdated(Int)
+        case sizeUpdated(CGSize)
     }
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .tabUpdated(let newTab):
-                state.currentTab = newTab
+            case .sizeUpdated(let newSize):
+                state.viewSize = newSize
                 return .none
             }
         }
