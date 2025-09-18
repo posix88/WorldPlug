@@ -1,10 +1,10 @@
 import Foundation
 import ComposableArchitecture
-import Repository_iOS
+import Repository
 
 @Reducer
 struct CountriesListFeature {
-    @ObservableState
+    @ObservableState 
     struct State {
         var countries: [Country] = []
         var filteredCountries: [Country] = []

@@ -1,5 +1,5 @@
 import SwiftUI
-import Repository_iOS
+import Repository
 import ComposableArchitecture
 
 struct PlugDetailView: View {
@@ -21,10 +21,10 @@ struct PlugDetailView: View {
                                 Image(systemName: "photo")
                                     .imageScale(.large)
                                     .tag(url)
-                                    .foregroundStyle(WorldPlugAsset.Assets.textLight.swiftUIColor)
+                                    .foregroundStyle(Color.textLight)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .background(WorldPlugAsset.Assets.surfaceSecondary.swiftUIColor)
+                            .background(Color.surfaceSecondary)
                         }
                         .roundedCorner(radius: 10)
                     }
@@ -41,7 +41,7 @@ struct PlugDetailView: View {
             }
         }
         .viewSizeReader($store.viewSize.sending(\.sizeUpdated))
-        .background(WorldPlugAsset.Assets.background.swiftUIColor)
+        .background(Color.background)
         .navigationTitle(store.plug.name)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)

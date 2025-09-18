@@ -6,34 +6,9 @@
 //
 
 import SwiftUI
-import Repository_iOS
+import Repository
 
 public extension View {
-    @ViewBuilder
-    /// Embed the current View in a `Card` style background.
-    /// - Parameter color: the background color
-    /// - Parameter radius: the card corner radius
-    /// - Parameter insets: the insets to be applied to the card view content
-    /// - Parameter borderColor: the card border color
-    /// - Parameter border: the card border tickness
-    func embedInCard(
-        _ color: Color = WorldPlugAsset.Assets.card.swiftUIColor,
-        radius: CGFloat = 10,
-        insets: EdgeInsets = .init(top: 16, leading: 16, bottom: 16, trailing: 16),
-        borderColor: Color = WorldPlugAsset.Assets.border.swiftUIColor,
-        border: CGFloat = 1,
-        action: (() -> Void)? = nil
-    ) -> some View {
-        padding(insets)
-            .clipShape(RoundedRectangle(cornerRadius: radius))
-            .background {
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(borderColor, lineWidth: border)
-                    .fill(color)
-            }
-            .contentShape(RoundedRectangle(cornerRadius: radius))
-    }
-
     /// Sets a clipping shape with rounded corners for this view.
     /// - Parameters:
     ///   - radius: the corner radius
