@@ -1,6 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
-import Repository_iOS
+import Repository
 import SwiftData
 
 @main

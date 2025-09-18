@@ -5,11 +5,11 @@ extension SchemaV2 {
     @Model
     public class Country: Identifiable, Hashable {
         @Attribute(.unique)
-        public let code: String
-        public let name: String
-        public let voltage: String
-        public let frequency: String
-        public let flagUnicode: String
+        public var code: String
+        public var name: String
+        public var voltage: String
+        public var frequency: String
+        public var flagUnicode: String
         public var plugs: [Plug]
 
         @Transient

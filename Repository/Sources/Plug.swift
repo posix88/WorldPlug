@@ -5,13 +5,13 @@ extension SchemaV2 {
     @Model
     public class Plug: Identifiable, Hashable {
         @Attribute(.unique)
-        public let id: String
-        
-        public let plugType: PlugType
-        public let name: String
-        public let shortInfo: String
-        public let info: String
-        public let images: [URL]
+        public var id: String
+
+        public var plugType: PlugType
+        public var name: String
+        public var shortInfo: String
+        public var info: String
+        public var images: [URL]
         @Relationship(inverse: \Country.plugs) var countries: [Country]
 
         public init(id: String, name: String, shortInfo: String, info: String, images: [URL], countries: [Country] = []) {

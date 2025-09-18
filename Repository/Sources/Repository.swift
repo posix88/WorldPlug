@@ -5,8 +5,8 @@ public typealias Plug = SchemaV2.Plug
 public typealias Country = SchemaV2.Country
 
 public final class Repository {
-    public static let shared : Repository = Repository()
 
+    @MainActor
     public static var sharedModelContainer: ModelContainer = {
         do {
             return try ModelContainer(
@@ -26,13 +26,16 @@ public final class Repository {
             let existingCountries = try sharedModelContainer.mainContext.fetchCount(descriptor)
             guard existingCountries == 0 else { return }
 
+            // Get the bundle for this class
+            let bundle = Bundle(for: Repository.self)
+            
             // Load and decode the JSON.
-            guard let urlcountries = RepositoryIOSResources.bundle.url(forResource: "countries", withExtension: "json") else {
-                fatalError("Failed to find users.json")
+            guard let urlcountries = bundle.url(forResource: "countries", withExtension: "json") else {
+                fatalError("Failed to find countries.json")
             }
             // Load and decode the JSON.
-            guard let plugsurl = RepositoryIOSResources.bundle.url(forResource: "plugs", withExtension: "json") else {
-                fatalError("Failed to find users.json")
+            guard let plugsurl = bundle.url(forResource: "plugs", withExtension: "json") else {
+                fatalError("Failed to find plugs.json")
             }
 
             let dataplugs = try Data(contentsOf: plugsurl)

@@ -1,5 +1,5 @@
 import SwiftUI
-import Repository_iOS
+import Repository
 import ComposableArchitecture
 import SwiftData
 
@@ -17,7 +17,7 @@ public struct CountriesListView: View {
                 }
                 .padding(.horizontal, 16)
             }
-            .background(WorldPlugAsset.Assets.background.swiftUIColor)
+            .background(.backgroundSurface)
             .scrollContentBackground(.hidden)
             .searchable(text: $store.searchQuery.sending(\.searchQueryChanged))
             .onAppear {

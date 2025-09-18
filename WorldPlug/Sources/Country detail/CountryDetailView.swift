@@ -1,5 +1,5 @@
 import SwiftUI
-import Repository_iOS
+import Repository
 import ComposableArchitecture
 
 struct CountryDetailView: View {
@@ -15,7 +15,7 @@ struct CountryDetailView: View {
                     Text(store.country.voltage)
                         .font(.caption)
                 }
-                .foregroundStyle(WorldPlugAsset.Assets.volt.swiftUIColor)
+                .foregroundStyle(.voltTint)
 
                 HStack(spacing: 4) {
                     Image(systemName: "waveform")
@@ -24,7 +24,7 @@ struct CountryDetailView: View {
                     Text(store.country.frequency)
                         .font(.caption)
                 }
-                .foregroundStyle(WorldPlugAsset.Assets.frequency.swiftUIColor)
+                .foregroundStyle(.frequencyTint)
             }
             .padding(.leading, 16)
 
@@ -33,30 +33,31 @@ struct CountryDetailView: View {
                     store.send(.openDetail(plug: plug))
                 }
                 label: {
-                    HStack {
-                        Image(systemName: plug.plugSymbol)
-                            .imageScale(.large)
-                            .bold()
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(plug.name)
-                                .font(.callout)
+                    Card {
+                        HStack {
+                            Image(systemName: plug.plugSymbol)
+                                .imageScale(.large)
                                 .bold()
-
-                            Text(plug.shortInfo)
-                                .font(.caption)
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(plug.name)
+                                    .font(.callout)
+                                    .bold()
+                                
+                                Text(plug.shortInfo)
+                                    .font(.caption)
+                            }
                         }
+                        .foregroundStyle(.textRegular)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .embedInCard()
                 }
                 .listRowSeparator(.hidden, edges: .all)
                 .listSectionSeparator(.hidden, edges: .all)
                 .listRowBackground(Color.clear)
             }
             .listStyle(.plain)
-            .background(WorldPlugAsset.Assets.background.swiftUIColor)
+            .background(.backgroundSurface)
             .scrollContentBackground(.hidden)
             .navigationTitle(store.country.name)
         }

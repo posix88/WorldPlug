@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Repository_iOS
+import Repository
 import CoreGraphics
 
 @Reducer

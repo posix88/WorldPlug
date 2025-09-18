@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import Repository_iOS
+import Repository
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {

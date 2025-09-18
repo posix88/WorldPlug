@@ -6,77 +6,78 @@
 //
 
 import SwiftUI
-import Repository_iOS
+import Repository
 
 struct CountryCard: View {
     let country: Country
     @Binding var selectedPlug: Plug?
     
     var body: some View {
-        DisclosureGroup(
-            content: {
-                VStack(alignment: .leading, spacing: 16) {
-                    HStack {
-                        HStack(spacing: 4) {
-                            Image(systemName: "bolt.circle")
-                                .imageScale(.medium)
-
-                            Text(country.voltage)
-                                .font(.caption)
+        Card {
+            DisclosureGroup(
+                content: {
+                    VStack(alignment: .leading, spacing: 16) {
+                        HStack {
+                            HStack(spacing: 4) {
+                                Image(systemName: "bolt.circle")
+                                    .imageScale(.medium)
+                                
+                                Text(country.voltage)
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(.voltTint)
+                            
+                            HStack(spacing: 4) {
+                                Image(systemName: "waveform")
+                                    .imageScale(.medium)
+                                
+                                Text(country.frequency)
+                                    .font(.caption)
+                            }
+                            .foregroundStyle(.frequencyTint)
                         }
-                        .foregroundStyle(WorldPlugAsset.Assets.volt.swiftUIColor)
-
-                        HStack(spacing: 4) {
-                            Image(systemName: "waveform")
-                                .imageScale(.medium)
-
-                            Text(country.frequency)
-                                .font(.caption)
-                        }
-                        .foregroundStyle(WorldPlugAsset.Assets.frequency.swiftUIColor)
-                    }
-
-                    VStack(alignment: .leading) {
-                        ForEach(country.sortedPlugs) { plug in
-                            Button {
-                                selectedPlug = plug
-                            } label: {
-                                HStack(spacing: 8) {
-                                    Image(systemName: plug.plugSymbol)
-                                        .imageScale(.medium)
-                                        .bold()
-                                        .frame(width: 30, height: 30)
-
-                                    Text(plug.name)
-                                        .font(.callout)
-                                        .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-
-                                    Image(systemName: "chevron.right")
-                                        .imageScale(.small)
+                        
+                        VStack(alignment: .leading) {
+                            ForEach(country.sortedPlugs) { plug in
+                                Button {
+                                    selectedPlug = plug
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: plug.plugSymbol)
+                                            .imageScale(.medium)
+                                            .bold()
+                                            .frame(width: 30, height: 30)
+                                        
+                                        Text(plug.name)
+                                            .font(.callout)
+                                            .foregroundStyle(Color.textRegular)
+                                        
+                                        Image(systemName: "chevron.right")
+                                            .imageScale(.small)
+                                    }
+                                    .padding(.all, 5)
+                                    .background(Color.surfaceSecondary)
+                                    .roundedCornerWithBorder(radius: 8, lineWidth: 1)
                                 }
-                                .padding(.all, 5)
-                                .background(WorldPlugAsset.Assets.surfaceSecondary.swiftUIColor)
-                                .roundedCornerWithBorder(radius: 8, lineWidth: 1)
                             }
                         }
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                },
+                label: {
+                    HStack {
+                        Text(country.flagUnicode)
+                            .font(.system(size: 30))
+                        
+                        Text(country.name)
+                            .font(.headline)
+                            .foregroundStyle(Color.textRegular)
+                    }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            },
-            label: {
-                HStack {
-                    Text(country.flagUnicode)
-                        .font(.system(size: 30))
-
-                    Text(country.name)
-                        .font(.headline)
-                        .foregroundStyle(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-                }
-            }
-        )
-        .disclosureGroupStyle(MyDisclosureStyle())
-        .tint(WorldPlugAsset.Assets.textRegular.swiftUIColor)
-        .embedInCard()
+            )
+            .disclosureGroupStyle(MyDisclosureStyle())
+            .tint(Color.textRegular)
+        }
     }
 }
 
