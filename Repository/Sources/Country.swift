@@ -3,7 +3,7 @@ import Foundation
 
 extension SchemaV2 {
     @Model
-    public class Country: Identifiable, Hashable {
+    public class Country {
         @Attribute(.unique)
         public var code: String
         public var name: String

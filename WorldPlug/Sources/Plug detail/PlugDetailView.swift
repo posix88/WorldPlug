@@ -7,7 +7,7 @@ struct PlugDetailView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(spacing: .xl) {
                 TabView {
                     ForEach(store.plug.images, id: \.self) { url in
                         AsyncImage(url: url) { image in
@@ -18,10 +18,10 @@ struct PlugDetailView: View {
 
                         } placeholder: {
                             VStack {
-                                Image(systemName: "photo")
-                                    .imageScale(.large)
-                                    .tag(url)
-                                    .foregroundStyle(Color.textLight)
+                                SFSymbols.photo.image
+                                .imageScale(.large)
+                                .tag(url)
+                                .foregroundStyle(Color.textLight)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(Color.surfaceSecondary)
@@ -31,17 +31,18 @@ struct PlugDetailView: View {
                 }
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
-                .padding(.horizontal, 16)
+                .padding(.horizontal, .xl)
                 .frame(height: store.viewSize.height * 0.4)
 
-                Text(store.plug.info)
-                    .font(.body)
-                    .embedInCard()
-                    .padding(.horizontal, 16)
+                Card {
+                    Text(store.plug.info)
+                        .font(.body)
+                        .padding(.horizontal, .xl)
+                }
             }
         }
         .viewSizeReader($store.viewSize.sending(\.sizeUpdated))
-        .background(Color.background)
+        .background(Color.backgroundSurface)
         .navigationTitle(store.plug.name)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)

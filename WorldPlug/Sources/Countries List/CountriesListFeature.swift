@@ -4,7 +4,7 @@ import Repository
 
 @Reducer
 struct CountriesListFeature {
-    @ObservableState 
+    @ObservableState
     struct State {
         var countries: [Country] = []
         var filteredCountries: [Country] = []
@@ -37,14 +37,14 @@ struct CountriesListFeature {
                 return .none
 
             case .searchQueryChanged(let query):
+                state.searchQuery = query
                 guard !query.isEmpty else {
                     state.filteredCountries = state.countries
                     return .none
                 }
-                return .run { [countries = state.countries] send in
-                    let filter = countries.filter { $0.name.lowercased().contains(query.lowercased()) }
-                    await send(.searchResult(countries: filter ))
-                }
+                // Perform filtering synchronously to avoid Sendable issues
+                state.filteredCountries = state.countries.lazy.filter { $0.name.lowercased().contains(query.lowercased()) }
+                return .none
 
             case .searchResult(let countries):
                 state.filteredCountries = countries

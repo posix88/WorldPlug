@@ -10,30 +10,61 @@ public struct CountriesListView: View {
     public var body: some View {
         NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
             ScrollView {
-                LazyVStack(spacing: 16) {
+                LazyVStack(spacing: .lg) {
+                    // Enhanced header section when there are countries
+                    if !store.filteredCountries.isEmpty {
+                        HStack {
+                            VStack(alignment: .leading, spacing: .xs) {
+                                Text(LocalizationKeys.countriesTitle.localized)
+                                    .font(.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.textRegular)
+                                
+                                Text(LocalizationKeys.countriesAvailable.localized(store.filteredCountries.count))
+                                    .font(.subheadline)
+                                    .foregroundStyle(.textLight)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .padding(.horizontal, .xxl)
+                        .padding(.top, .md)
+                        .padding(.bottom, .lg)
+                    }
+                    
+                    // Countries list
                     ForEach(store.filteredCountries) { country in
                         CountryCard(country: country, selectedPlug: $store.selectedPlug.sending(\.openPlugDetail))
                     }
+                    
+                    // Empty state
+                    if store.filteredCountries.isEmpty && !store.searchQuery.isEmpty {
+                        ContentUnavailableView.search(text: store.searchQuery)
+                            .padding(.top, .special)
+                    }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, .xxl)
+                .padding(.bottom, .xxl)
             }
             .background(.backgroundSurface)
             .scrollContentBackground(.hidden)
-            .searchable(text: $store.searchQuery.sending(\.searchQueryChanged))
+            .searchable(
+                text: $store.searchQuery.sending(\.searchQueryChanged),
+                prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
+            )
             .onAppear {
                 store.send(.viewLoaded(countries: countries))
             }
-            .navigationTitle("Pluggy")
-        }
-    destination: { store in
-        switch store.case {
-        case .countryDetail(let store):
-            CountryDetailView(store: store)
+            .navigationTitle(LocalizationKeys.appTitle.localized)
+            .navigationBarTitleDisplayMode(.large)
+        } destination: { store in
+            switch store.case {
+            case .countryDetail(let store):
+                CountryDetailView(store: store)
 
-        case .plugDetail(let store):
-            PlugDetailView(store: store)
+            case .plugDetail(let store):
+                PlugDetailView(store: store)
+            }
         }
-    }
     }
 }
 
@@ -49,7 +80,7 @@ public struct CountriesListView: View {
             Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
             Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
             Plug(id: "C", name: "Type B", shortInfo: "short info", info: "info", images: []),
-            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: [])
+            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: []),
         ]
     }
 

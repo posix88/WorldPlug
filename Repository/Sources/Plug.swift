@@ -3,7 +3,7 @@ import Foundation
 
 extension SchemaV2 {
     @Model
-    public class Plug: Identifiable, Hashable {
+    public class Plug {
         @Attribute(.unique)
         public var id: String
 
