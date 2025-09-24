@@ -1,6 +1,8 @@
-import SwiftUI
-import Repository
 import ComposableArchitecture
+import Repository
+import SwiftUI
+
+// MARK: - PlugDetailView
 
 struct PlugDetailView: View {
     @Bindable var store: StoreOf<PlugDetailFeature>
@@ -19,9 +21,9 @@ struct PlugDetailView: View {
                         } placeholder: {
                             VStack {
                                 SFSymbols.photo.image
-                                .imageScale(.large)
-                                .tag(url)
-                                .foregroundStyle(Color.textLight)
+                                    .imageScale(.large)
+                                    .tag(url)
+                                    .foregroundStyle(Color.textLight)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(Color.surfaceSecondary)
@@ -52,6 +54,7 @@ struct PlugDetailView: View {
 
 #if DEBUG
 import SwiftData
+
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Plug.self, configurations: config)
@@ -69,10 +72,13 @@ import SwiftData
     )
     container.mainContext.insert(plug)
     return NavigationStack {
-        PlugDetailView(store: Store(initialState:
-                                        PlugDetailFeature.State(plug: plug), reducer: {
-            PlugDetailFeature()
-        }))
+        PlugDetailView(store: Store(
+            initialState:
+            PlugDetailFeature.State(plug: plug),
+            reducer: {
+                PlugDetailFeature()
+            }
+        ))
     }
 }
 #endif

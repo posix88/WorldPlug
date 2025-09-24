@@ -1,6 +1,8 @@
-import SwiftUI
-import Repository
 import ComposableArchitecture
+import Repository
+import SwiftUI
+
+// MARK: - CountryDetailView
 
 struct CountryDetailView: View {
     var store: StoreOf<CountryDetailFeature>
@@ -39,12 +41,12 @@ struct CountryDetailView: View {
                                 .image
                                 .imageScale(.large)
                                 .bold()
-                            
+
                             VStack(alignment: .leading, spacing: .xs) {
                                 Text(plug.name)
                                     .font(.callout)
                                     .bold()
-                                
+
                                 Text(plug.shortInfo)
                                     .font(.caption)
                             }
@@ -65,7 +67,6 @@ struct CountryDetailView: View {
     }
 }
 
-
 #if DEBUG
 import SwiftData
 
@@ -76,16 +77,32 @@ import SwiftData
     let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
     container.mainContext.insert(country)
     country.plugs = [
-        Plug(id: "A", name: "Type A", shortInfo: "Used in: Australia, New Zealand, Papua New Guinea, Argentina.", info: "info", images: [URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png")!]),
-        Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: [URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png")!])
+        Plug(
+            id: "A",
+            name: "Type A",
+            shortInfo: "Used in: Australia, New Zealand, Papua New Guinea, Argentina.",
+            info: "info",
+            images: [URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png")!]
+        ),
+        Plug(
+            id: "B",
+            name: "Type B",
+            shortInfo: "short info",
+            info: "info",
+            images: [URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png")!]
+        )
     ]
 
     return NavigationStack {
         CountryDetailView(store:
-                            Store(initialState:
-                                    CountryDetailFeature.State(country: country), reducer: {
-            CountryDetailFeature()
-        }))
+            Store(
+                initialState:
+                CountryDetailFeature.State(country: country),
+                reducer: {
+                    CountryDetailFeature()
+                }
+            )
+        )
     }
 }
 #endif

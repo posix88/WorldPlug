@@ -1,11 +1,12 @@
-import SwiftData
 import Foundation
+import SwiftData
 
 public typealias Plug = SchemaV2.Plug
 public typealias Country = SchemaV2.Country
 
-public final class Repository {
+// MARK: - Repository
 
+public enum Repository {
     @MainActor
     public static var sharedModelContainer: ModelContainer = {
         do {
@@ -19,16 +20,18 @@ public final class Repository {
     }()
 
     @MainActor
-    static public func preloadData() {
+    public static func preloadData() {
         do {
             // Check we haven't already added our users.
             let descriptor = FetchDescriptor<Country>()
             let existingCountries = try sharedModelContainer.mainContext.fetchCount(descriptor)
-            guard existingCountries == 0 else { return }
+            guard existingCountries == 0 else {
+                return
+            }
 
             // Get the bundle for this Swift Package
             let bundle = Bundle.module
-            
+
             // Load and decode the JSON.
             guard let urlcountries = bundle.url(forResource: "countries", withExtension: "json") else {
                 fatalError("Failed to find countries.json")
@@ -46,16 +49,27 @@ public final class Repository {
             // First, create all unique plugs and insert them
             var plugsDict: [String: Plug] = [:]
             for plugData in plugsData {
-                let plug = Plug(id: plugData.id, name: plugData.name, shortInfo: plugData.shortInfo, info: plugData.info, images: plugData.images)
+                let plug = Plug(
+                    id: plugData.id,
+                    name: plugData.name,
+                    shortInfo: plugData.shortInfo,
+                    info: plugData.info,
+                    images: plugData.images
+                )
                 plugsDict[plugData.id] = plug
                 sharedModelContainer.mainContext.insert(plug)
             }
-            
+
             // Then create countries and establish relationships
             for countryData in countriesData {
-                let country = Country(code: countryData.code, voltage: countryData.voltage, frequency: countryData.frequency, flagUnicode: countryData.flagUnicode)
+                let country = Country(
+                    code: countryData.code,
+                    voltage: countryData.voltage,
+                    frequency: countryData.frequency,
+                    flagUnicode: countryData.flagUnicode
+                )
                 sharedModelContainer.mainContext.insert(country)
-                
+
                 // Establish bidirectional relationships
                 for plugTypeId in countryData.plugTypes {
                     if let plug = plugsDict[plugTypeId] {
@@ -64,17 +78,17 @@ public final class Repository {
                     }
                 }
             }
-            
+
             // Save the context to persist changes
             try sharedModelContainer.mainContext.save()
-            
+
         } catch {
             print("Failed to pre-seed database. \(error.localizedDescription)")
         }
     }
 
     @MainActor
-    static public func cleanDataBase() throws {
+    public static func cleanDataBase() throws {
         let countries = try sharedModelContainer.mainContext.fetch(FetchDescriptor<Country>())
         let plugs = try sharedModelContainer.mainContext.fetch(FetchDescriptor<Plug>())
         for country in countries {

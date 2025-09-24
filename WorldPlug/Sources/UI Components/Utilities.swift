@@ -5,8 +5,8 @@
 //  Created by Antonino Musolino on 10/04/24.
 //
 
-import SwiftUI
 import Repository
+import SwiftUI
 
 public extension View {
     /// Sets a clipping shape with rounded corners for this view.
@@ -36,8 +36,8 @@ public extension View {
 }
 
 public extension View {
-    @ViewBuilder
     /// A View modifier that allows to retrieve the current view size
+    @ViewBuilder
     func viewSizeReader(_ size: Binding<CGSize>) -> some View {
         modifier(ViewSizeReaderViewModifier(viewSize: size))
     }

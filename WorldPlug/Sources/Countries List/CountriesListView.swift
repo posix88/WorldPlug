@@ -1,7 +1,9 @@
-import SwiftUI
-import Repository
 import ComposableArchitecture
+import Repository
 import SwiftData
+import SwiftUI
+
+// MARK: - CountriesListView
 
 public struct CountriesListView: View {
     @Bindable var store: StoreOf<CountriesListFeature>
@@ -19,7 +21,7 @@ public struct CountriesListView: View {
                                     .font(.title2)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.textRegular)
-                                
+
                                 Text(LocalizationKeys.countriesAvailable.localized(store.filteredCountries.count))
                                     .font(.subheadline)
                                     .foregroundStyle(.textLight)
@@ -30,12 +32,12 @@ public struct CountriesListView: View {
                         .padding(.top, .md)
                         .padding(.bottom, .lg)
                     }
-                    
+
                     // Countries list
                     ForEach(store.filteredCountries) { country in
                         CountryCard(country: country, selectedPlug: $store.selectedPlug.sending(\.openPlugDetail))
                     }
-                    
+
                     // Empty state
                     if store.filteredCountries.isEmpty && !store.searchQuery.isEmpty {
                         ContentUnavailableView.search(text: store.searchQuery)
@@ -80,7 +82,7 @@ public struct CountriesListView: View {
             Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
             Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
             Plug(id: "C", name: "Type B", shortInfo: "short info", info: "info", images: []),
-            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: []),
+            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: [])
         ]
     }
 

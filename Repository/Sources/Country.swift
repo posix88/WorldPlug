@@ -1,9 +1,11 @@
-import SwiftData
 import Foundation
+import SwiftData
 
-extension SchemaV2 {
+// MARK: - SchemaV2.Country
+
+public extension SchemaV2 {
     @Model
-    public class Country {
+    final class Country {
         @Attribute(.unique)
         public var code: String
         public var name: String
@@ -29,6 +31,8 @@ extension SchemaV2 {
     }
 }
 
+// MARK: - CountryDecodable
+
 final class CountryDecodable: Decodable {
     let name: String
     let code: String
@@ -46,7 +50,7 @@ final class CountryDecodable: Decodable {
         case plugTypes = "plug_types"
     }
 
-    required public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let code = try container.decode(String.self, forKey: .code)
         self.code = code
