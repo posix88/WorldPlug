@@ -1,12 +1,12 @@
-import SwiftUI
 import ComposableArchitecture
 import Repository
 import SwiftData
+import SwiftUI
 
 @main
 struct WorldPlugApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     static let store = Store(initialState: CountriesListFeature.State()) {
         CountriesListFeature()
     }

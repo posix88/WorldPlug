@@ -1,7 +1,7 @@
 import ComposableArchitecture
-import SwiftData
 import Foundation
 import Repository
+import SwiftData
 
 @Reducer
 struct CountryDetailFeature {

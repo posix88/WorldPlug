@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// MARK: - Card
+
 /// A custom container view that applies a background, border, and corner radius to its content.
 ///
 /// This view is intended to be used for presenting content inside a card-like container. The container
@@ -83,6 +85,8 @@ struct Card<Content>: View where Content: View {
     }
 }
 
+// MARK: - ShadowStyle
+
 /// Shadow styles for enhanced card appearance
 ///
 /// Provides predefined shadow styles for cards and other UI components, ranging from no shadow
@@ -92,25 +96,25 @@ enum ShadowStyle {
     ///
     /// Use this for a flat design or when shadows are not desired.
     case none
-    
+
     /// A subtle shadow with minimal visual impact.
     ///
     /// Creates a light shadow with 8% black opacity, 8pt radius, and 2pt vertical offset.
     /// Ideal for cards that need slight depth without being too prominent.
     case subtle
-    
+
     /// A medium shadow with moderate visual impact.
     ///
     /// Creates a noticeable shadow with 12% black opacity, 12pt radius, and 4pt vertical offset.
     /// Good for components that need more pronounced depth and separation from the background.
     case medium
-    
+
     /// A strong shadow with significant visual impact.
     ///
     /// Creates a prominent shadow with 16% black opacity, 16pt radius, and 6pt vertical offset.
     /// Best for modals, overlays, or components that need strong emphasis and elevation.
     case strong
-    
+
     /// A custom shadow with full control over all shadow properties.
     ///
     /// - Parameters:
@@ -131,13 +135,13 @@ extension View {
         case .none:
             self
         case .subtle:
-            self.shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 2)
+            shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 2)
         case .medium:
-            self.shadow(color: .black.opacity(0.12), radius: 12, x: 0, y: 4)
+            shadow(color: .black.opacity(0.12), radius: 12, x: 0, y: 4)
         case .strong:
-            self.shadow(color: .black.opacity(0.16), radius: 16, x: 0, y: 6)
+            shadow(color: .black.opacity(0.16), radius: 16, x: 0, y: 6)
         case .custom(let color, let radius, let x, let y):
-            self.shadow(color: color, radius: radius, x: x, y: y)
+            shadow(color: color, radius: radius, x: x, y: y)
         }
     }
 }

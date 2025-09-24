@@ -16,6 +16,12 @@
 # Insert blank line after import statements.
 --rules blankLineAfterImports
 
+# Insert a blank line after switch cases (excluding the last case, which is followed by a closing brace).
+--rules blankLineAfterSwitchCase
+
+# Remove blank lines between consecutive guard statements, and insert a blank after the last guard statement.
+--rules blankLinesAfterGuardStatements
+
 # Insert blank line before and after MARK: comments.
 --rules blankLinesAroundMark
 --lineaftermarks true
@@ -51,8 +57,14 @@
 # Replace consecutive spaces with a single space.
 --rules consecutiveSpaces
 
+# Ensures consistent spacing among all of the cases in a switch statement.
+--rules consistentSwitchCaseSpacing
+
 # Use doc comments for comments preceding declarations.
-# --rules docComments
+ --rules docComments
+
+# Place doc comments before any declaration modifiers or attributes.
+--rules docCommentsBeforeModifiers
 
 # Remove duplicate import statements.
 --rules duplicateImports
@@ -66,12 +78,18 @@
 --rules emptyBraces
 --emptybraces no-space
 
+# Remove empty, non-conforming, extensions.
+--rules emptyExtensions
+
 # Converts types used for hosting only static members into enums.
 --rules enumNamespaces
 
+# Updates SwiftUI EnvironmentValues definitions to use the @Entry macro.
+--rules environmentEntry
+
 # Configure the placement of an extension's access control keyword.
-# --rules extensionAccessControl
-# --extensionacl on-declarations
+--rules extensionAccessControl
+--extensionacl on-extension
 
 # Use specified source file header template for all files.
 # --rules fileHeader
@@ -125,6 +143,9 @@
 # Use consistent ordering for member modifiers.
 --rules modifierOrder
 
+# Ensure that all modifiers are on the same line as the declaration keyword.
+--rules modifiersOnSameLine
+
 # Use consistent grouping for numeric literals. Groups will be separated by _ delimiters to improve readability.
 # For each numeric type you can specify a group size (the number of digits in each group) and a threshold
 # (the minimum number of digits in a number before grouping is applied).
@@ -145,8 +166,23 @@
 # Organizes declarations within class, struct, and enum bodies.
 # --rules organizeDeclarations
 
+# Prefer count(where:) over filter(_:).count.
+--rules preferCountWhere
+
+# Prefer defining final classes. To suppress this rule, add "Base" to the class name, add a doc comment with mentioning "base class" or "subclass", make the class open, or use a // swiftformat:disable:next preferFinalClasses directive.
+--rules preferFinalClasses
+
+# Convert functional forEach calls to for loops.
+#--rules preferForLoop
+
 # Convert trivial map { $0.foo } closures to keyPath-based syntax.
 --rules preferKeyPath
+
+# Adds private access control to @State properties without existing access control modifiers.
+--rules privateStateVariables
+
+# Remove redundant async keyword from function declarations that don't contain any await expressions.
+--rules redundantAsync
 
 # Remove redundant backticks around identifiers.
 --rules redundantBackticks
@@ -156,6 +192,9 @@
 
 # Removes redundant closures bodies, containing a single statement, which are called immediately.
 --rules redundantClosure
+
+# Omit a hand-written Equatable implementation when the compiler-synthesized conformance would be equivalent.
+--rules redundantEquatable
 
 # Remove redundant access control modifiers.
 --rules redundantExtensionACL
@@ -178,6 +217,9 @@
 # Remove redundant let error from catch clause.
 --rules redundantLetError
 
+# Remove explicit internal memberwise initializers that are redundant.
+--rules redundantMemberwiseInit
+
 # Remove redundant nil default value (Optional vars are nil by default).
 --rules redundantNilInit
 
@@ -193,6 +235,9 @@
 # Remove redundant pattern matching parameter syntax.
 --rules redundantPattern
 
+# Simplifies redundant property definitions that are immediately returned.
+--rules redundantProperty
+
 # Remove redundant raw string values for enum cases.
 --rules redundantRawValues
 
@@ -207,6 +252,9 @@
 # Remove explicit Self where applicable.
 --rules redundantStaticSelf
 
+# Remove redundant throws keyword from function declarations that don't throw any errors.
+--rules redundantThrows
+
 # Remove redundant type from variable declarations.
 --rules redundantType
 
@@ -217,12 +265,15 @@
 --rules semicolons
 --semicolons inline
 
+#Use a separate let/var declaration on its own line for every property definition.
+--rules singlePropertyPerLine
+
 # Sort import statements alphabetically.
 --rules sortedImports
 --importgrouping alpha
 
 # Sorts switch cases alphabetically.
-# --rules sortSwitchCases
+--rules sortSwitchCases
 
 # Sort protocol composition typealiases alphabetically.
 --rules sortTypealiases
@@ -332,7 +383,6 @@
 --rules yodaConditions
 
 # Some rules depended on the swiftversion and will be disabled automatically if it's not specified or supported
---swiftversion 5.9
+--swiftversion 6.0
 
---exclude Tools, MoneyfarmUIKit/SwiftGen, Moneyfarm/SwiftGen/Images.swift, Moneyfarm/SwiftGen/Storyboards.swift, Moneyfarm/SwiftGen/Lottie.swift, Moneyfarm/Translation/Smithers+Generated.swift
-
+--exclude Tools

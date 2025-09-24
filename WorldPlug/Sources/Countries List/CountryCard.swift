@@ -5,13 +5,15 @@
 //  Created by Antonino Musolino on 20/04/24.
 //
 
-import SwiftUI
 import Repository
+import SwiftUI
+
+// MARK: - CountryCard
 
 struct CountryCard: View {
     let country: Country
     @Binding var selectedPlug: Plug?
-    
+
     var body: some View {
         Card(shadow: .subtle) {
             DisclosureGroup(
@@ -22,7 +24,7 @@ struct CountryCard: View {
                                 SFSymbols.boltCircleFill
                                     .image
                                     .imageScale(.medium)
-                                    
+
                                 Text(country.voltage)
                                     .font(.subheadline)
                                     .fontWeight(.medium)
@@ -32,12 +34,12 @@ struct CountryCard: View {
                             .padding(.vertical, .md)
                             .background(.voltTint.opacity(0.1))
                             .roundedCorner(radius: 8)
-                            
+
                             HStack(spacing: .sm) {
                                 SFSymbols.waveform
                                     .image
                                     .imageScale(.medium)
-                                    
+
                                 Text(country.frequency)
                                     .font(.subheadline)
                                     .fontWeight(.medium)
@@ -47,22 +49,22 @@ struct CountryCard: View {
                             .padding(.vertical, .md)
                             .background(.frequencyTint.opacity(0.1))
                             .roundedCorner(radius: 8)
-                            
+
                             Spacer()
-                            
+
                             // Plug count indicator
                             HStack(spacing: .xs) {
                                 SFSymbols.powerPlug
                                     .image
                                     .imageScale(.small)
-                                    
+
                                 Text("\(country.plugs.count)")
                                     .font(.caption)
                                     .fontWeight(.medium)
                             }
                             .foregroundStyle(.textLight)
                         }
-                        
+
                         // Enhanced plugs section
                         VStack(alignment: .leading, spacing: .lg) {
                             Text(LocalizationKeys.compatiblePlugs.localized)
@@ -71,7 +73,7 @@ struct CountryCard: View {
                                 .foregroundStyle(.textLight)
                                 .textCase(.uppercase)
                                 .tracking(0.5)
-                            
+
                             // Simple plug type titles
                             LazyVGrid(columns: [
                                 GridItem(.flexible()),
@@ -87,14 +89,14 @@ struct CountryCard: View {
                                                 .font(.callout)
                                                 .fontWeight(.medium)
                                                 .foregroundStyle(.textRegular)
-                                            
+
                                             Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
                                                 .font(.callout)
                                                 .fontWeight(.medium)
                                                 .foregroundStyle(.textRegular)
-                                            
+
                                             Spacer()
-                                            
+
                                             SFSymbols.chevronRight
                                                 .image
                                                 .imageScale(.small)
@@ -120,18 +122,18 @@ struct CountryCard: View {
                             .frame(width: 44, height: 44)
                             .background(.quaternary.opacity(0.3))
                             .roundedCorner(radius: 10)
-                        
+
                         VStack(alignment: .leading, spacing: .xs) {
                             Text(country.name)
                                 .font(.title3)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.textRegular)
-                            
+
                             Text(LocalizationKeys.plugType.localized(country.plugs.count))
                                 .font(.subheadline)
                                 .foregroundStyle(.textLight)
                         }
-                        
+
                         Spacer()
                     }
                 }
@@ -142,7 +144,9 @@ struct CountryCard: View {
     }
 }
 
-// Enhanced disclosure style with smooth animations
+// MARK: - EnhancedDisclosureStyle
+
+/// Enhanced disclosure style with smooth animations
 struct EnhancedDisclosureStyle: DisclosureGroupStyle {
     func makeBody(configuration: Configuration) -> some View {
         VStack(spacing: 0) {
@@ -153,7 +157,7 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
             } label: {
                 HStack {
                     configuration.label
-                    
+
                     SFSymbols.chevronRight
                         .image
                         .font(.title3)
@@ -167,7 +171,7 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
                 }
                 .contentShape(Rectangle())
             }
-            
+
             if configuration.isExpanded {
                 configuration.content
                     .padding(.top, .xxl)
@@ -180,7 +184,9 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
     }
 }
 
-// Scale button style for better interaction feedback
+// MARK: - ScaleButtonStyle
+
+/// Scale button style for better interaction feedback
 struct ScaleButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -213,7 +219,7 @@ import SwiftData
         Plug(id: "L", name: "Type L", shortInfo: "short info", info: "info", images: []),
         Plug(id: "M", name: "Type M", shortInfo: "short info", info: "info", images: []),
         Plug(id: "N", name: "Type N", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: []),
+        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: [])
     ]
 
     return CountryCard(country: country, selectedPlug: .constant(nil))

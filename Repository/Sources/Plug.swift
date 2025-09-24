@@ -1,9 +1,11 @@
-import SwiftData
 import Foundation
+import SwiftData
 
-extension SchemaV2 {
+// MARK: - SchemaV2.Plug
+
+public extension SchemaV2 {
     @Model
-    public class Plug {
+    final class Plug {
         @Attribute(.unique)
         public var id: String
 
@@ -26,6 +28,8 @@ extension SchemaV2 {
     }
 }
 
+// MARK: - PlugType
+
 public enum PlugType: String, Codable, CaseIterable {
     case a = "A"
     case b = "B"
@@ -45,6 +49,8 @@ public enum PlugType: String, Codable, CaseIterable {
     case unknown
 }
 
+// MARK: - PlugDecodable
+
 final class PlugDecodable: Decodable {
     public let id: String
     public let name: String
@@ -60,13 +66,13 @@ final class PlugDecodable: Decodable {
         case short_description
     }
 
-    required public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(String.self, forKey: .id)
         self.name = try container.decode(String.self, forKey: .name)
         self.info = try container.decode(String.self, forKey: .description)
         let images: [String] = try container.decode([String].self, forKey: .plug_images)
-        self.images = images.compactMap { URL(string: $0 ) }
+        self.images = images.compactMap { URL(string: $0) }
         self.shortInfo = try container.decode(String.self, forKey: .short_description)
     }
 }

@@ -1,5 +1,5 @@
-import Foundation
 import ComposableArchitecture
+import Foundation
 import Repository
 
 @Reducer
@@ -42,6 +42,7 @@ struct CountriesListFeature {
                     state.filteredCountries = state.countries
                     return .none
                 }
+
                 // Perform filtering synchronously to avoid Sendable issues
                 state.filteredCountries = state.countries.lazy.filter { $0.name.lowercased().contains(query.lowercased()) }
                 return .none
@@ -51,7 +52,10 @@ struct CountriesListFeature {
                 return .none
 
             case .openPlugDetail(let plug):
-                guard let plug else { return .none }
+                guard let plug else {
+                    return .none
+                }
+
                 state.path.append(.plugDetail(PlugDetailFeature.State(plug: plug)))
                 return .none
 
@@ -69,7 +73,6 @@ struct CountriesListFeature {
 
             case .path:
                 return .none
-
             }
         }
         .forEach(\.path, action: \.path)
