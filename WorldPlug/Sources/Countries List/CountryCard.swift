@@ -13,51 +13,99 @@ struct CountryCard: View {
     @Binding var selectedPlug: Plug?
     
     var body: some View {
-        Card {
+        Card(shadow: .subtle) {
             DisclosureGroup(
                 content: {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            HStack(spacing: 4) {
-                                Image(systemName: "bolt.circle")
+                    VStack(alignment: .leading, spacing: .xxl) {
+                        HStack(spacing: .xl) {
+                            HStack(spacing: .sm) {
+                                SFSymbols.boltCircleFill
+                                    .image
                                     .imageScale(.medium)
-                                
+                                    
                                 Text(country.voltage)
-                                    .font(.caption)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
                             }
                             .foregroundStyle(.voltTint)
+                            .padding(.horizontal, .lg)
+                            .padding(.vertical, .md)
+                            .background(.voltTint.opacity(0.1))
+                            .roundedCorner(radius: 8)
                             
-                            HStack(spacing: 4) {
-                                Image(systemName: "waveform")
+                            HStack(spacing: .sm) {
+                                SFSymbols.waveform
+                                    .image
                                     .imageScale(.medium)
-                                
+                                    
                                 Text(country.frequency)
-                                    .font(.caption)
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
                             }
                             .foregroundStyle(.frequencyTint)
+                            .padding(.horizontal, .lg)
+                            .padding(.vertical, .md)
+                            .background(.frequencyTint.opacity(0.1))
+                            .roundedCorner(radius: 8)
+                            
+                            Spacer()
+                            
+                            // Plug count indicator
+                            HStack(spacing: .xs) {
+                                SFSymbols.powerPlug
+                                    .image
+                                    .imageScale(.small)
+                                    
+                                Text("\(country.plugs.count)")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundStyle(.textLight)
                         }
                         
-                        VStack(alignment: .leading) {
-                            ForEach(country.sortedPlugs) { plug in
-                                Button {
-                                    selectedPlug = plug
-                                } label: {
-                                    HStack(spacing: 8) {
-                                        Image(systemName: plug.plugSymbol)
-                                            .imageScale(.medium)
-                                            .bold()
-                                            .frame(width: 30, height: 30)
-                                        
-                                        Text(plug.name)
-                                            .font(.callout)
-                                            .foregroundStyle(Color.textRegular)
-                                        
-                                        Image(systemName: "chevron.right")
-                                            .imageScale(.small)
+                        // Enhanced plugs section
+                        VStack(alignment: .leading, spacing: .lg) {
+                            Text(LocalizationKeys.compatiblePlugs.localized)
+                                .font(.footnote)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.textLight)
+                                .textCase(.uppercase)
+                                .tracking(0.5)
+                            
+                            // Simple plug type titles
+                            LazyVGrid(columns: [
+                                GridItem(.flexible()),
+                                GridItem(.flexible())
+                            ], spacing: .md) {
+                                ForEach(country.sortedPlugs) { plug in
+                                    Button {
+                                        selectedPlug = plug
+                                    } label: {
+                                        HStack(spacing: .md) {
+                                            SFSymbols.plugSymbol(for: plug.plugType)
+                                                .image
+                                                .font(.callout)
+                                                .fontWeight(.medium)
+                                                .foregroundStyle(.textRegular)
+                                            
+                                            Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
+                                                .font(.callout)
+                                                .fontWeight(.medium)
+                                                .foregroundStyle(.textRegular)
+                                            
+                                            Spacer()
+                                            
+                                            SFSymbols.chevronRight
+                                                .image
+                                                .imageScale(.small)
+                                                .foregroundStyle(.textLighter)
+                                        }
+                                        .padding(.horizontal, .lg)
+                                        .padding(.vertical, .md)
+                                        .background(.quaternary.opacity(0.3))
+                                        .roundedCorner(radius: 8)
                                     }
-                                    .padding(.all, 5)
-                                    .background(Color.surfaceSecondary)
-                                    .roundedCornerWithBorder(radius: 8, lineWidth: 1)
+                                    .buttonStyle(ScaleButtonStyle())
                                 }
                             }
                         }
@@ -65,50 +113,80 @@ struct CountryCard: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 },
                 label: {
-                    HStack {
+                    HStack(spacing: .xl) {
+                        // Enhanced flag display
                         Text(country.flagUnicode)
-                            .font(.system(size: 30))
+                            .font(.system(size: 36))
+                            .frame(width: 44, height: 44)
+                            .background(.quaternary.opacity(0.3))
+                            .roundedCorner(radius: 10)
                         
-                        Text(country.name)
-                            .font(.headline)
-                            .foregroundStyle(Color.textRegular)
+                        VStack(alignment: .leading, spacing: .xs) {
+                            Text(country.name)
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.textRegular)
+                            
+                            Text(LocalizationKeys.plugType.localized(country.plugs.count))
+                                .font(.subheadline)
+                                .foregroundStyle(.textLight)
+                        }
+                        
+                        Spacer()
                     }
                 }
             )
-            .disclosureGroupStyle(MyDisclosureStyle())
-            .tint(Color.textRegular)
+            .disclosureGroupStyle(EnhancedDisclosureStyle())
+            .tint(.textRegular)
         }
     }
 }
 
-struct MyDisclosureStyle: DisclosureGroupStyle {
+// Enhanced disclosure style with smooth animations
+struct EnhancedDisclosureStyle: DisclosureGroupStyle {
     func makeBody(configuration: Configuration) -> some View {
-        VStack {
+        VStack(spacing: 0) {
             Button {
-                withAnimation {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
                     configuration.isExpanded.toggle()
                 }
             } label: {
                 HStack {
                     configuration.label
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                        .animation(.spring, value: configuration.isExpanded)
-                        .rotationEffect(configuration.isExpanded ? .degrees(90) : .zero, anchor: .center)
+                    
+                    SFSymbols.chevronRight
+                        .image
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.textLight)
+                        .rotationEffect(
+                            configuration.isExpanded ? .degrees(90) : .degrees(0),
+                            anchor: .center
+                        )
+                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: configuration.isExpanded)
                 }
                 .contentShape(Rectangle())
             }
-            .buttonStyle(NoButtonStyle())
+            
             if configuration.isExpanded {
                 configuration.content
+                    .padding(.top, .xxl)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity.combined(with: .move(edge: .top))
+                    ))
             }
         }
     }
 }
 
-struct NoButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        return configuration.label
+// Scale button style for better interaction feedback
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .opacity(configuration.isPressed ? 0.8 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
     }
 }
 
@@ -135,7 +213,7 @@ import SwiftData
         Plug(id: "L", name: "Type L", shortInfo: "short info", info: "info", images: []),
         Plug(id: "M", name: "Type M", shortInfo: "short info", info: "info", images: []),
         Plug(id: "N", name: "Type N", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: [])
+        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: []),
     ]
 
     return CountryCard(country: country, selectedPlug: .constant(nil))

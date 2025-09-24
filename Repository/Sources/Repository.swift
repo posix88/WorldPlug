@@ -26,30 +26,48 @@ public final class Repository {
             let existingCountries = try sharedModelContainer.mainContext.fetchCount(descriptor)
             guard existingCountries == 0 else { return }
 
-            // Get the bundle for this class
-            let bundle = Bundle(for: Repository.self)
+            // Get the bundle for this Swift Package
+            let bundle = Bundle.module
             
             // Load and decode the JSON.
             guard let urlcountries = bundle.url(forResource: "countries", withExtension: "json") else {
                 fatalError("Failed to find countries.json")
             }
-            // Load and decode the JSON.
             guard let plugsurl = bundle.url(forResource: "plugs", withExtension: "json") else {
                 fatalError("Failed to find plugs.json")
             }
 
             let dataplugs = try Data(contentsOf: plugsurl)
-            let plugs = try JSONDecoder().decode([PlugDecodable].self, from: dataplugs)
+            let plugsData = try JSONDecoder().decode([PlugDecodable].self, from: dataplugs)
 
             let datacountries = try Data(contentsOf: urlcountries)
-            let countries = try JSONDecoder().decode([CountryDecodable].self, from: datacountries)
+            let countriesData = try JSONDecoder().decode([CountryDecodable].self, from: datacountries)
 
-            // Add all our data to the context.
-            for country in countries {
-                let db = Country(code: country.code, voltage: country.voltage, frequency: country.frequency, flagUnicode: country.flagUnicode)
-                sharedModelContainer.mainContext.insert(db)
-                db.plugs = plugs.filter { country.plugTypes.contains($0.id) }.map { Plug(id: $0.id, name: $0.name, shortInfo: $0.shortInfo, info: $0.info, images: $0.images) }
+            // First, create all unique plugs and insert them
+            var plugsDict: [String: Plug] = [:]
+            for plugData in plugsData {
+                let plug = Plug(id: plugData.id, name: plugData.name, shortInfo: plugData.shortInfo, info: plugData.info, images: plugData.images)
+                plugsDict[plugData.id] = plug
+                sharedModelContainer.mainContext.insert(plug)
             }
+            
+            // Then create countries and establish relationships
+            for countryData in countriesData {
+                let country = Country(code: countryData.code, voltage: countryData.voltage, frequency: countryData.frequency, flagUnicode: countryData.flagUnicode)
+                sharedModelContainer.mainContext.insert(country)
+                
+                // Establish bidirectional relationships
+                for plugTypeId in countryData.plugTypes {
+                    if let plug = plugsDict[plugTypeId] {
+                        country.plugs.append(plug)
+                        plug.countries.append(country)
+                    }
+                }
+            }
+            
+            // Save the context to persist changes
+            try sharedModelContainer.mainContext.save()
+            
         } catch {
             print("Failed to pre-seed database. \(error.localizedDescription)")
         }

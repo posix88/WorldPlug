@@ -24,7 +24,7 @@ public extension View {
     ///   - borderColor: the outline color
     func roundedCornerWithBorder(
         radius: CGFloat,
-        lineWidth: CGFloat = 0,
+        lineWidth: CGFloat = .zero,
         borderColor: Color = .clear
     ) -> some View {
         roundedCorner(radius: radius)
@@ -34,19 +34,6 @@ public extension View {
             )
     }
 }
-
-extension Plug {
-    var plugSymbol: String {
-        switch plugType {
-        case .a, .b, .c, .d, .e, .f, .g, .h, .i, .j, .k, .l, .m, .n, .o:
-            "poweroutlet.type.\(plugType.rawValue.lowercased())"
-
-        case .unknown:
-            "questionmark.app.fill"
-        }
-    }
-}
-
 
 public extension View {
     @ViewBuilder
@@ -78,6 +65,6 @@ private struct ViewSizeReaderViewModifier: ViewModifier {
 
 /// Preference key used to let the view size propagate to the caller
 private struct ViewSizeKey: SwiftUI.PreferenceKey {
-    static var defaultValue: CGSize = .zero
+    static let defaultValue: CGSize = .zero
     static func reduce(value: inout Value, nextValue: () -> Value) {}
 }

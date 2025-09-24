@@ -8,7 +8,7 @@ struct CountryDetailView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                HStack(spacing: 4) {
+                HStack(spacing: .xs) {
                     Image(systemName: "bolt.circle")
                         .imageScale(.medium)
 
@@ -17,7 +17,7 @@ struct CountryDetailView: View {
                 }
                 .foregroundStyle(.voltTint)
 
-                HStack(spacing: 4) {
+                HStack(spacing: .xs) {
                     Image(systemName: "waveform")
                         .imageScale(.medium)
 
@@ -26,7 +26,7 @@ struct CountryDetailView: View {
                 }
                 .foregroundStyle(.frequencyTint)
             }
-            .padding(.leading, 16)
+            .padding(.leading, .xl)
 
             List(store.country.sortedPlugs) { plug in
                 Button {
@@ -35,11 +35,12 @@ struct CountryDetailView: View {
                 label: {
                     Card {
                         HStack {
-                            Image(systemName: plug.plugSymbol)
+                            SFSymbols.plugSymbol(for: plug.plugType)
+                                .image
                                 .imageScale(.large)
                                 .bold()
                             
-                            VStack(alignment: .leading, spacing: 4) {
+                            VStack(alignment: .leading, spacing: .xs) {
                                 Text(plug.name)
                                     .font(.callout)
                                     .bold()
