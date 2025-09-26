@@ -88,8 +88,8 @@
 --rules environmentEntry
 
 # Configure the placement of an extension's access control keyword.
---rules extensionAccessControl
---extensionacl on-extension
+#--rules extensionAccessControl
+#--extensionacl on-extension
 
 # Use specified source file header template for all files.
 # --rules fileHeader

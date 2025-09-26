@@ -3,9 +3,9 @@ import SwiftData
 
 // MARK: - SchemaV2.Country
 
-public extension SchemaV2 {
+extension SchemaV2 {
     @Model
-    final class Country {
+    public final class Country: Identifiable, Hashable {
         @Attribute(.unique)
         public var code: String
         public var name: String

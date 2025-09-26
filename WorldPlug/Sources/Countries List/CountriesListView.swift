@@ -28,9 +28,15 @@ public struct CountriesListView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        .padding(.horizontal, .xxl)
+                        // .padding(.horizontal, .xxl)
                         .padding(.top, .md)
                         .padding(.bottom, .lg)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel(LocalizationKeys.accessibilityCountriesHeader.localized(from: .accessibility))
+                        .accessibilityValue(LocalizationKeys.accessibilityCountryAvailableCount.localized(
+                            from: .accessibility,
+                            store.filteredCountries.count
+                        ))
                     }
 
                     // Countries list
@@ -42,10 +48,21 @@ public struct CountriesListView: View {
                     if store.filteredCountries.isEmpty && !store.searchQuery.isEmpty {
                         ContentUnavailableView.search(text: store.searchQuery)
                             .padding(.top, .special)
+                            .accessibilityLabel(LocalizationKeys.accessibilityEmptyState.localized(from: .accessibility))
+                            .accessibilityValue(LocalizationKeys.accessibilitySearchResults.localized(
+                                from: .accessibility,
+                                store.searchQuery
+                            ))
+                            .accessibilityHint(LocalizationKeys.accessibilityEmptyStateDescription
+                                .localized(from: .accessibility)
+                            )
                     }
                 }
                 .padding(.horizontal, .xxl)
                 .padding(.bottom, .xxl)
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
+                .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
             }
             .background(.backgroundSurface)
             .scrollContentBackground(.hidden)
@@ -58,6 +75,7 @@ public struct CountriesListView: View {
             }
             .navigationTitle(LocalizationKeys.appTitle.localized)
             .navigationBarTitleDisplayMode(.large)
+            .accessibilityLabel(LocalizationKeys.accessibilityNavigationTitle.localized(from: .accessibility))
         } destination: { store in
             switch store.case {
             case .countryDetail(let store):
@@ -90,6 +108,7 @@ public struct CountriesListView: View {
         store: Store(initialState: CountriesListFeature.State()) {
             CountriesListFeature()
         }
-    ).modelContainer(container)
+    )
+    .modelContainer(container)
 }
 #endif
