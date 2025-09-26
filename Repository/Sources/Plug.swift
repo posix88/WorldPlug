@@ -3,9 +3,9 @@ import SwiftData
 
 // MARK: - SchemaV2.Plug
 
-public extension SchemaV2 {
+extension SchemaV2 {
     @Model
-    final class Plug {
+    public final class Plug: Identifiable, Hashable {
         @Attribute(.unique)
         public var id: String
 

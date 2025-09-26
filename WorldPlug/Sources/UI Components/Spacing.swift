@@ -2,7 +2,7 @@
 //  Spacing.swift
 //  WorldPlug
 //
-//  Created by GitHub Copilot on 24/09/25.
+//  Created by Antonino Musolino on 24/09/25.
 //
 
 import SwiftUI

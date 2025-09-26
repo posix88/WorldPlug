@@ -34,6 +34,9 @@ struct CountryCard: View {
                             .padding(.vertical, .md)
                             .background(.voltTint.opacity(0.1))
                             .roundedCorner(radius: 8)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel(LocalizationKeys.accessibilityVoltage.localized(from: .accessibility))
+                            .accessibilityValue(country.voltage)
 
                             HStack(spacing: .sm) {
                                 SFSymbols.waveform
@@ -49,6 +52,9 @@ struct CountryCard: View {
                             .padding(.vertical, .md)
                             .background(.frequencyTint.opacity(0.1))
                             .roundedCorner(radius: 8)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel(LocalizationKeys.accessibilityFrequency.localized(from: .accessibility))
+                            .accessibilityValue(country.frequency)
 
                             Spacer()
 
@@ -63,6 +69,9 @@ struct CountryCard: View {
                                     .fontWeight(.medium)
                             }
                             .foregroundStyle(.textLight)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel(LocalizationKeys.accessibilityPlugTypesCount.localized(from: .accessibility))
+                            .accessibilityValue("\(country.plugs.count)")
                         }
 
                         // Enhanced plugs section
@@ -73,6 +82,7 @@ struct CountryCard: View {
                                 .foregroundStyle(.textLight)
                                 .textCase(.uppercase)
                                 .tracking(0.5)
+                                .accessibilityAddTraits(.isHeader)
 
                             // Simple plug type titles
                             LazyVGrid(columns: [
@@ -104,23 +114,39 @@ struct CountryCard: View {
                                         }
                                         .padding(.horizontal, .lg)
                                         .padding(.vertical, .md)
-                                        .background(.quaternary.opacity(0.3))
+                                        .background(.surfaceSecondary)
                                         .roundedCorner(radius: 8)
                                     }
                                     .buttonStyle(ScaleButtonStyle())
+                                    .accessibilityLabel(LocalizationKeys.accessibilityPlugTypeLabel.localized(
+                                        from: .accessibility,
+                                        plug.id
+                                    ))
+                                    .accessibilityHint(LocalizationKeys.accessibilityPlugTypeHint.localized(
+                                        from: .accessibility,
+                                        plug.id
+                                    ))
+                                    .accessibilityAddTraits(.isButton)
                                 }
                             }
+                            .accessibilityElement(children: .contain)
+                            .accessibilityLabel(LocalizationKeys.accessibilityCompatiblePlugTypes.localized(from: .accessibility))
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel(LocalizationKeys.accessibilityCountryDetails.localized(
+                        from: .accessibility,
+                        country.name
+                    ))
                 },
                 label: {
                     HStack(spacing: .xl) {
-                        // Enhanced flag display
+                        // Enhanced flag display with prominent background
                         Text(country.flagUnicode)
                             .font(.system(size: 36))
                             .frame(width: 44, height: 44)
-                            .background(.quaternary.opacity(0.3))
+                            .background(.flagBackground)
                             .roundedCorner(radius: 10)
 
                         VStack(alignment: .leading, spacing: .xs) {
@@ -128,14 +154,21 @@ struct CountryCard: View {
                                 .font(.title3)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.textRegular)
+                                .lineLimit(2) // Prevent very long country names from breaking layout
+                                .multilineTextAlignment(.leading)
 
                             Text(LocalizationKeys.plugType.localized(country.plugs.count))
                                 .font(.subheadline)
                                 .foregroundStyle(.textLight)
                         }
 
-                        Spacer()
+                        Spacer(minLength: .md) // Ensure minimum space before chevron
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityHint(LocalizationKeys.accessibilityCountryCardHint.localized(
+                        from: .accessibility,
+                        country.name
+                    ))
                 }
             )
             .disclosureGroupStyle(EnhancedDisclosureStyle())
@@ -151,36 +184,53 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
     func makeBody(configuration: Configuration) -> some View {
         VStack(spacing: 0) {
             Button {
-                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
                     configuration.isExpanded.toggle()
                 }
             } label: {
                 HStack {
                     configuration.label
 
-                    SFSymbols.chevronRight
+                    SFSymbols.chevronDown
                         .image
                         .font(.title3)
                         .fontWeight(.medium)
                         .foregroundStyle(.textLight)
                         .rotationEffect(
-                            configuration.isExpanded ? .degrees(90) : .degrees(0),
+                            configuration.isExpanded ? .degrees(180) : .degrees(0),
                             anchor: .center
                         )
-                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: configuration.isExpanded)
+                        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: configuration.isExpanded)
+                        .padding(.horizontal, .md)
+                        .padding(.vertical, .sm)
+                        .background(.surfaceSecondary)
+                        .roundedCorner(radius: 8)
                 }
                 .contentShape(Rectangle())
             }
+            .accessibilityAddTraits(.isButton)
+            .accessibilityLabel(configuration.isExpanded ? LocalizationKeys.accessibilityCollapseCountryDetails
+                .localized(from: .accessibility) : LocalizationKeys.accessibilityExpandCountryDetails
+                .localized(from: .accessibility)
+            )
+            .accessibilityHint(configuration.isExpanded ? LocalizationKeys.accessibilityHideDetailsHint
+                .localized(from: .accessibility) : LocalizationKeys.accessibilityShowDetailsHint.localized(from: .accessibility)
+            )
+            // Add solid background to header to prevent content bleeding through
+            .background(.cardSurface)
+            .zIndex(1) // Ensure header stays on top
 
             if configuration.isExpanded {
                 configuration.content
                     .padding(.top, .xxl)
                     .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .top)),
-                        removal: .opacity.combined(with: .move(edge: .top))
+                        insertion: .opacity.combined(with: .scale(scale: 0.95)).combined(with: .move(edge: .top)),
+                        removal: .opacity.combined(with: .scale(scale: 0.95))
                     ))
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: configuration.isExpanded)
             }
         }
+        .clipped() // Clip overflow to prevent ugly transitions
     }
 }
 
