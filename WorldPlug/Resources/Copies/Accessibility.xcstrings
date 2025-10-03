@@ -9,6 +9,12 @@
             "state" : "translated",
             "value" : "Collapse country details"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprimi dettagli paese"
+          }
         }
       }
     },
@@ -19,6 +25,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compatible plug types"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipi di spine compatibili"
           }
         }
       }
@@ -31,6 +43,12 @@
             "state" : "translated",
             "value" : "Countries section header"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intestazione sezione paesi"
+          }
         }
       }
     },
@@ -41,6 +59,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Countries list"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elenco paesi"
           }
         }
       }
@@ -53,6 +77,12 @@
             "state" : "translated",
             "value" : "Scroll through the list of countries to find plug and voltage information"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scorri l'elenco dei paesi per trovare informazioni su spine e voltaggio"
+          }
         }
       }
     },
@@ -63,6 +93,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d countries available"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d paesi disponibili"
           }
         }
       }
@@ -75,6 +111,12 @@
             "state" : "translated",
             "value" : "Tap to view plug details for %@"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca per visualizzare i dettagli delle spine per %@"
+          }
         }
       }
     },
@@ -85,6 +127,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Country details for %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dettagli paese per %@"
           }
         }
       }
@@ -97,6 +145,12 @@
             "state" : "translated",
             "value" : "No countries found"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese trovato"
+          }
         }
       }
     },
@@ -107,6 +161,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No countries match your search. Try a different search term."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese corrisponde alla tua ricerca. Prova un termine di ricerca diverso."
           }
         }
       }
@@ -119,6 +179,12 @@
             "state" : "translated",
             "value" : "Expand country details"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espandi dettagli paese"
+          }
         }
       }
     },
@@ -129,6 +195,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Frequency"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequenza"
           }
         }
       }
@@ -141,6 +213,12 @@
             "state" : "translated",
             "value" : "Double tap to hide voltage, frequency and plug information"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca due volte per nascondere informazioni su voltaggio, frequenza e spine"
+          }
         }
       }
     },
@@ -151,6 +229,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "WorldPlug - Countries and plug types"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "WorldPlug - Paesi e tipi di spine"
           }
         }
       }
@@ -163,6 +247,12 @@
             "state" : "translated",
             "value" : "Double tap to view details for plug type %@"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca due volte per visualizzare i dettagli del tipo di spina %@"
+          }
         }
       }
     },
@@ -173,6 +263,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Plug type %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo di spina %@"
           }
         }
       }
@@ -185,6 +281,12 @@
             "state" : "translated",
             "value" : "Number of plug types"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numero di tipi di spine"
+          }
         }
       }
     },
@@ -195,6 +297,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search is active"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricerca attiva"
           }
         }
       }
@@ -207,6 +315,12 @@
             "state" : "translated",
             "value" : "Clear search"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancella ricerca"
+          }
         }
       }
     },
@@ -217,6 +331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search countries"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca paesi"
           }
         }
       }
@@ -229,6 +349,12 @@
             "state" : "translated",
             "value" : "Type to search for countries by name"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digita per cercare paesi per nome"
+          }
         }
       }
     },
@@ -239,6 +365,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search results for %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultati di ricerca per %@"
           }
         }
       }
@@ -251,6 +383,12 @@
             "state" : "translated",
             "value" : "Double tap to show voltage, frequency and plug information"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca due volte per mostrare informazioni su voltaggio, frequenza e spine"
+          }
         }
       }
     },
@@ -261,6 +399,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voltage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltaggio"
           }
         }
       }

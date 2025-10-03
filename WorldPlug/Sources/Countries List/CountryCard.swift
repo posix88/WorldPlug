@@ -255,21 +255,126 @@ import SwiftData
     let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
     container.mainContext.insert(country)
     country.plugs = [
-        Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "C", name: "Type C", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "D", name: "Type D", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "E", name: "Type E", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "F", name: "Type F", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "G", name: "Type G", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "H", name: "Type H", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "I", name: "Type I", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "J", name: "Type J", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "K", name: "Type K", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "L", name: "Type L", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "M", name: "Type M", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "N", name: "Type N", shortInfo: "short info", info: "info", images: []),
-        Plug(id: "O", name: "Type O", shortInfo: "short info", info: "info", images: [])
+        Plug(
+            id: "A",
+            name: "Type A",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "B",
+            name: "Type B",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "C",
+            name: "Type C",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "D",
+            name: "Type D",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "E",
+            name: "Type E",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "F",
+            name: "Type F",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "G",
+            name: "Type G",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "H",
+            name: "Type H",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "I",
+            name: "Type I",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "J",
+            name: "Type J",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "K",
+            name: "Type K",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "L",
+            name: "Type L",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "M",
+            name: "Type M",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "N",
+            name: "Type N",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        ),
+        Plug(
+            id: "O",
+            name: "Type O",
+            shortInfo: "short info",
+            info: "info",
+            images: [],
+            specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "AS/NZS 3112")
+        )
     ]
 
     return CountryCard(country: country, selectedPlug: .constant(nil))

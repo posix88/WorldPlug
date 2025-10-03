@@ -3,13 +3,19 @@
         "id": "A",
         "name": "Plug Type A",
         "short_description": "Used in: North and Central America, Japan.",
-        "description": "The Type A electrical plug (or flat blade attachment plug) is an ungrounded plug with two flat parallel pins. Although the American and Japanese plugs appear identical, the neutral pin on the American plug is wider than the live pin, whereas on the Japanese plug both pins are the same size. As a result, Japanese plugs can be used in the US but often not the other way around.\nThe pins on Type A and Type B plugs have a hole near the tip that fits into \u2018bumps\u2019 found on the contact wipers of some sockets, so that the pins are gripped more tightly allowing for better contact and also to prevent the plug from slipping out of the socket. Some sockets have spring-action blades that grip the sides of the pins, making the holes obsolete.",
+        "description": "The Type A electrical plug (or flat blade attachment plug) is an ungrounded plug with two flat parallel pins. Although the American and Japanese plugs appear identical, the neutral pin on the American plug is wider than the live pin, whereas on the Japanese plug both pins are the same size. As a result, Japanese plugs can be used in the US but often not the other way around.\nThe pins on Type A and Type B plugs have a hole near the tip that fits into 'bumps' found on the contact wipers of some sockets, so that the pins are gripped more tightly allowing for better contact and also to prevent the plug from slipping out of the socket. Some sockets have spring-action blades that grip the sides of the pins, making the holes obsolete.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "6.4 mm (flat blade)",
+            "pin_spacing": "12.7 mm",
+            "rated_amperage": "15 A",
+            "also_known_as": "NEMA 1-15, Flat blade attachment plug"
+        }
     },
     {
         "id": "B",
@@ -21,19 +27,31 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/B/B_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/B/B_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/B/B_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "6.4 mm (flat), 4.8 mm (round)",
+            "pin_spacing": "12.7 mm",
+            "rated_amperage": "15 A",
+            "also_known_as": "NEMA 5-15, Grounded flat blade"
+        }
     },
     {
         "id": "C",
         "name": "Plug Type C",
         "short_description": "Used in: Europe, with the exception of the UK, Ireland, Cyprus and Malta.",
-        "description": "The Type C electrical plug (or Europlug) is a two-wire plug that has two round pins. It fits into any socket that accepts 4.0 \u2013 4.8 mm round contacts on 19 mm centres. They are being replaced by E, F, J, K or N sockets which work perfectly with Type C plugs.\nType C plugs are generally limited for use in appliances that require 2.5 amps or less.",
+        "description": "The Type C electrical plug (or Europlug) is a two-wire plug that has two round pins. It fits into any socket that accepts 4.0 – 4.8 mm round contacts on 19 mm centres. They are being replaced by E, F, J, K or N sockets which work perfectly with Type C plugs.\nType C plugs are generally limited for use in appliances that require 2.5 amps or less.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/C/C_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.0 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "2.5 A",
+            "also_known_as": "Europlug, CEE 7/16"
+        }
     },
     {
         "id": "D",
@@ -45,7 +63,13 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/D/D_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/D/D_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/D/D_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "5.1 mm",
+            "pin_spacing": "20.6 mm",
+            "rated_amperage": "5 A",
+            "also_known_as": "BS 546 5A, Indian plug"
+        }
     },
     {
         "id": "E",
@@ -57,7 +81,13 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/E/E_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/E/E_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/E/E_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.8 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "16 A",
+            "also_known_as": "CEE 7/5, French plug"
+        }
     },
     {
         "id": "F",
@@ -69,19 +99,31 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/F/F_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/F/F_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/F/F_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.8 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "16 A",
+            "also_known_as": "Schuko plug, CEE 7/7"
+        }
     },
     {
         "id": "G",
         "name": "Plug Type G",
         "short_description": "Used in: UK, Ireland, Cyprus, Malta, Malaysia, Singapore, Hong Kong.",
-        "description": "The Type G electrical plug has three rectangular blades in a triangular pattern and has an incorporated fuse (usually a 3 amps fuse for smaller appliances such as a computer and a 13 amps one for heavy duty appliances such as heaters). British sockets have shutters on the live and neutral contacts so that foreign objects can\u2019t be introduced into them.",
+        "description": "The Type G electrical plug has three rectangular blades in a triangular pattern and has an incorporated fuse (usually a 3 amps fuse for smaller appliances such as a computer and a 13 amps one for heavy duty appliances such as heaters). British sockets have shutters on the live and neutral contacts so that foreign objects can't be introduced into them.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/G/G_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "6.4 mm (rectangular)",
+            "pin_spacing": "22.2 mm",
+            "rated_amperage": "13 A",
+            "also_known_as": "BS 1363, British plug"
+        }
     },
     {
         "id": "H",
@@ -93,19 +135,31 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/H/H_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/H/H_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/H/H_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.5 mm (flat)",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "16 A",
+            "also_known_as": "SI 32, Israeli plug"
+        }
     },
     {
         "id": "I",
         "name": "Plug Type I",
         "short_description": "Used in: Australia, New Zealand, Papua New Guinea, Argentina.",
-        "description": "The Type I plug has two flat pins in a V-shape as well as a grounding pin. A version of the plug, which only has the two flat pins, exists as well. The Australian plug also works with sockets in China.\nAustralia\u2019s standard plug/socket system is rated 10 amps but a plug/socket configuration rated 15 amps also exists, although the ground pin is wider. A standard 10 amp plug will fit into a 15 amp socket but not the other way around.",
+        "description": "The Type I plug has two flat pins in a V-shape as well as a grounding pin. A version of the plug, which only has the two flat pins, exists as well. The Australian plug also works with sockets in China.\nAustralia's standard plug/socket system is rated 10 amps but a plug/socket configuration rated 15 amps also exists, although the ground pin is wider. A standard 10 amp plug will fit into a 15 amp socket but not the other way around.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/I/I_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "6.4 mm (flat)",
+            "pin_spacing": "13.7 mm",
+            "rated_amperage": "10 A",
+            "also_known_as": "AS/NZS 3112, Australian plug"
+        }
     },
     {
         "id": "J",
@@ -117,7 +171,13 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/J/J_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/J/J_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/J/J_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.0 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "10 A",
+            "also_known_as": "SEV 1011, Swiss plug"
+        }
     },
     {
         "id": "K",
@@ -129,19 +189,31 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/K/K_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/K/K_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/K/K_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4.8 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "13 A",
+            "also_known_as": "Danish plug, DS 60884-2-D1"
+        }
     },
     {
         "id": "L",
         "name": "Plug Type L",
         "short_description": "Used in: Italy.",
-        "description": "There are two variations of the Type L plug, one rated at 10 amps, and one at 16 amps. The 10 amp version has two round pins that are 4 mm thick and spaced 5.5 mm apart, with a grounding pin in the middle. The 16 amp version has two round pins that are 5 mm thick, spaced 8mm apart, as well as a grounding pin. Italy has a kind of \u201cuniversal\u201d socket that comprises a \u201cschuko\u201d socket for C, E, F and L plugs and a \u201cbipasso\u201d socket for L and C plugs.",
+        "description": "There are two variations of the Type L plug, one rated at 10 amps, and one at 16 amps. The 10 amp version has two round pins that are 4 mm thick and spaced 5.5 mm apart, with a grounding pin in the middle. The 16 amp version has two round pins that are 5 mm thick, spaced 8mm apart, as well as a grounding pin. Italy has a kind of \"universal\" socket that comprises a \"schuko\" socket for C, E, F and L plugs and a \"bipasso\" socket for L and C plugs.",
         "plug_images": [
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_3d_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/L/L_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "4 mm / 5 mm",
+            "pin_spacing": "5.5 mm / 8 mm",
+            "rated_amperage": "10 A / 16 A",
+            "also_known_as": "CEI 23-16, Italian plug"
+        }
     },
     {
         "id": "M",
@@ -153,30 +225,12 @@
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/M/M_3d_sock_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/M/M_dia_plug_l.png",
             "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/M/M_dia_sock_l.png"
-        ]
-    },
-    {
-        "id": "N",
-        "name": "Plug Type N",
-        "short_description": "Used in: Brazil.",
-        "description": "There are two variations of the Type N plug, one rated at 10 amps, and one at 20 amps. The 10 amp version has two round pins that are 4 mm thick, and a grounding pin. The 20 amp version, used for heavier appliances, has two round pins 4.8 mm in diameter, and a grounding pin. The Type N socket was designed to work with Type C plugs as well.\nBrazil is one of the few countries that uses two types of voltage. While most states use 127 V, some of them use 220 V. It is therefore important to find out the local voltage before plugging in your appliance (note: wrong voltage can destroy your appliance). Many appliances sold in Brazil are dual voltage.",
-        "plug_images": [
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_plug_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_sock_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_dia_plug_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_dia_sock_l.png"
-        ]
-    },
-    {
-        "id": "O",
-        "name": "Plug Type O",
-        "short_description": "Used in: Thailand.",
-        "description": "The type O socket and plug, rated at 16 amps, are the official standard in Thailand. The plug system was designed in 2006, but its use is not widespread as yet. It is currently gradually being phased in. The standard is described in TIS 166-2549.\nType O consists of two power pins and an earth pin, which are round and have a 4.8 mm diameter. The power pins measure 19 mm in length, they have 10 mm long insulated sleeves and their centers are spaced 19 mm apart.",
-        "plug_images": [
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_plug_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_sock_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_dia_plug_l.png",
-            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_dia_sock_l.png"
-        ]
+        ],
+        "specifications": {
+            "pin_diameter": "7.1 mm",
+            "pin_spacing": "25.4 mm",
+            "rated_amperage": "15 A",
+            "also_known_as": "BS 546 15A, South African plug"
+        }
     }
 ]

@@ -1,9 +1,9 @@
 import Foundation
 import SwiftData
 
-// MARK: - SchemaV2.Country
+// MARK: - SchemaV4.Country
 
-extension SchemaV2 {
+extension SchemaV4 {
     @Model
     public final class Country: Identifiable, Hashable {
         @Attribute(.unique)

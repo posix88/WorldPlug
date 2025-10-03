@@ -56,6 +56,20 @@ enum LocalizationKeys {
     static let plugTypePrefix = "plug.type.prefix"
     static let plugType = "plug.type"
 
+    // MARK: - Plug Detail View
+
+    static let plugOverview = "plug.overview"
+    static let plugSpecifications = "plug.specifications"
+    static let plugImages = "plug.images"
+    static let translateText = "translate.text"
+    static let originalText = "original.text"
+    static let translatedText = "translated.text"
+    static let translationError = "translation.error"
+    static let pinSpacing = "pin.spacing"
+    static let pinDiameter = "pin.diameter"
+    static let ratedAmperage = "rated.amperage"
+    static let alsoKnownAs = "also.known.as"
+
     // MARK: - General
 
     static let loading = "loading"
