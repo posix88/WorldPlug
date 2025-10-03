@@ -28,7 +28,6 @@ public struct CountriesListView: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        // .padding(.horizontal, .xxl)
                         .padding(.top, .md)
                         .padding(.bottom, .lg)
                         .accessibilityElement(children: .combine)
@@ -97,10 +96,58 @@ public struct CountriesListView: View {
         let country = Country(code: "\(i)", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
         container.mainContext.insert(country)
         country.plugs = [
-            Plug(id: "A", name: "Type A", shortInfo: "short info", info: "info", images: []),
-            Plug(id: "B", name: "Type B", shortInfo: "short info", info: "info", images: []),
-            Plug(id: "C", name: "Type B", shortInfo: "short info", info: "info", images: []),
-            Plug(id: "D", name: "Type B", shortInfo: "short info", info: "info", images: [])
+            Plug(
+                id: "A",
+                name: "Type A",
+                shortInfo: "short info",
+                info: "info",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "1.5mm",
+                    pinSpacing: "12.7mm",
+                    ratedAmperage: "10A",
+                    alsoKnownAs: "AS/NZS 3112"
+                )
+            ),
+            Plug(
+                id: "B",
+                name: "Type B",
+                shortInfo: "short info",
+                info: "info",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "1.5mm",
+                    pinSpacing: "12.7mm",
+                    ratedAmperage: "10A",
+                    alsoKnownAs: "AS/NZS 3112"
+                )
+            ),
+            Plug(
+                id: "C",
+                name: "Type B",
+                shortInfo: "short info",
+                info: "info",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "1.5mm",
+                    pinSpacing: "12.7mm",
+                    ratedAmperage: "10A",
+                    alsoKnownAs: "AS/NZS 3112"
+                )
+            ),
+            Plug(
+                id: "D",
+                name: "Type B",
+                shortInfo: "short info",
+                info: "info",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "1.5mm",
+                    pinSpacing: "12.7mm",
+                    ratedAmperage: "10A",
+                    alsoKnownAs: "AS/NZS 3112"
+                )
+            )
         ]
     }
 

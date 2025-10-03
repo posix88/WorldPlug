@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-public typealias Plug = SchemaV2.Plug
-public typealias Country = SchemaV2.Country
+public typealias Plug = SchemaV4.Plug
+public typealias Country = SchemaV4.Country
 
 // MARK: - Repository
 
@@ -54,7 +54,8 @@ public enum Repository {
                     name: plugData.name,
                     shortInfo: plugData.shortInfo,
                     info: plugData.info,
-                    images: plugData.images
+                    images: plugData.images,
+                    specifications: plugData.specifications
                 )
                 plugsDict[plugData.id] = plug
                 sharedModelContainer.mainContext.insert(plug)
