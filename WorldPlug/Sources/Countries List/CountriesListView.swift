@@ -1,20 +1,25 @@
-import ComposableArchitecture
 import Repository
 import SwiftData
 import SwiftUI
 
 // MARK: - CountriesListView
 
-public struct CountriesListView: View {
-    @Bindable var store: StoreOf<CountriesListFeature>
-    @Query(sort: \Country.name) private var countries: [Country]
+struct CountriesListView: View {
+    @State private var viewModel: CountriesListViewModel
+    @State private var path = NavigationPath()
+    @State private var searchQuery: String = ""
 
-    public var body: some View {
-        NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+    init(modelContext: ModelContext) {
+        let viewModel = CountriesListViewModel(modelContext: modelContext)
+        _viewModel = State(initialValue: viewModel)
+    }
+
+    var body: some View {
+        NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack(spacing: .lg) {
                     // Enhanced header section when there are countries
-                    if !store.filteredCountries.isEmpty {
+                    if !viewModel.filteredCountries.isEmpty {
                         HStack {
                             VStack(alignment: .leading, spacing: .xs) {
                                 Text(LocalizationKeys.countriesTitle.localized)
@@ -22,7 +27,7 @@ public struct CountriesListView: View {
                                     .fontWeight(.bold)
                                     .foregroundStyle(.textRegular)
 
-                                Text(LocalizationKeys.countriesAvailable.localized(store.filteredCountries.count))
+                                Text(LocalizationKeys.countriesAvailable.localized(viewModel.filteredCountries.count))
                                     .font(.subheadline)
                                     .foregroundStyle(.textLight)
                             }
@@ -34,28 +39,31 @@ public struct CountriesListView: View {
                         .accessibilityLabel(LocalizationKeys.accessibilityCountriesHeader.localized(from: .accessibility))
                         .accessibilityValue(LocalizationKeys.accessibilityCountryAvailableCount.localized(
                             from: .accessibility,
-                            store.filteredCountries.count
+                            viewModel.filteredCountries.count
                         ))
                     }
 
                     // Countries list
-                    ForEach(store.filteredCountries) { country in
-                        CountryCard(country: country, selectedPlug: $store.selectedPlug.sending(\.openPlugDetail))
+                    ForEach(viewModel.filteredCountries) { country in
+                        CountryCard(country: country)
                     }
 
                     // Empty state
-                    if store.filteredCountries.isEmpty && !store.searchQuery.isEmpty {
-                        ContentUnavailableView.search(text: store.searchQuery)
+                    if viewModel.filteredCountries.isEmpty && !searchQuery.isEmpty {
+                        ContentUnavailableView.search(text: searchQuery)
                             .padding(.top, .special)
                             .accessibilityLabel(LocalizationKeys.accessibilityEmptyState.localized(from: .accessibility))
                             .accessibilityValue(LocalizationKeys.accessibilitySearchResults.localized(
                                 from: .accessibility,
-                                store.searchQuery
+                                searchQuery
                             ))
                             .accessibilityHint(LocalizationKeys.accessibilityEmptyStateDescription
                                 .localized(from: .accessibility)
                             )
                     }
+                }
+                .navigationDestination(for: Plug.self) { plug in
+                    PlugDetailView(plug: plug)
                 }
                 .padding(.horizontal, .xxl)
                 .padding(.bottom, .xxl)
@@ -66,23 +74,19 @@ public struct CountriesListView: View {
             .background(.backgroundSurface)
             .scrollContentBackground(.hidden)
             .searchable(
-                text: $store.searchQuery.sending(\.searchQueryChanged),
+                text: $searchQuery,
                 prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
             )
-            .onAppear {
-                store.send(.viewLoaded(countries: countries))
+            .onChange(of: searchQuery) { oldValue, newValue in
+                guard oldValue != newValue else {
+                    return
+                }
+
+                viewModel.search(query: newValue)
             }
             .navigationTitle(LocalizationKeys.appTitle.localized)
             .navigationBarTitleDisplayMode(.large)
             .accessibilityLabel(LocalizationKeys.accessibilityNavigationTitle.localized(from: .accessibility))
-        } destination: { store in
-            switch store.case {
-            case .countryDetail(let store):
-                CountryDetailView(store: store)
-
-            case .plugDetail(let store):
-                PlugDetailView(store: store)
-            }
         }
     }
 }
@@ -151,11 +155,7 @@ public struct CountriesListView: View {
         ]
     }
 
-    return CountriesListView(
-        store: Store(initialState: CountriesListFeature.State()) {
-            CountriesListFeature()
-        }
-    )
-    .modelContainer(container)
+    return CountriesListView(modelContext: container.mainContext)
+        .modelContainer(container)
 }
 #endif

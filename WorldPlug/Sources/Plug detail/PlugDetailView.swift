@@ -1,12 +1,15 @@
-import ComposableArchitecture
 import Repository
 import SwiftUI
-import Translation
 
 // MARK: - PlugDetailView
 
 struct PlugDetailView: View {
-    @Bindable var store: StoreOf<PlugDetailFeature>
+    @State private var viewModel: PlugDetailViewModel
+
+    init(plug: Plug) {
+        let viewModel = PlugDetailViewModel(plug: plug)
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         ScrollView {
@@ -14,7 +17,7 @@ struct PlugDetailView: View {
                 // Hero section with plug icon and title
                 VStack(spacing: .lg) {
                     // Large plug icon using SF Symbols
-                    SFSymbols.plugSymbol(for: PlugType(rawValue: store.plug.id) ?? .a)
+                    SFSymbols.plugSymbol(for: PlugType(rawValue: viewModel.plug.id) ?? .a)
                         .image
                         .font(.system(size: 80, weight: .light))
                         .foregroundStyle(.textRegular)
@@ -24,7 +27,7 @@ struct PlugDetailView: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
 
                     // Plug name and type
-                    Text(LocalizationKeys.plugTypePrefix.localized(store.plug.id))
+                    Text(LocalizationKeys.plugTypePrefix.localized(viewModel.plug.id))
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.textRegular)
@@ -50,14 +53,12 @@ struct PlugDetailView: View {
                         if Locale.current.language.languageCode?.identifier != "en" {
                             HStack {
                                 Button(action: {
-                                    if store.translatedText != nil {
-                                        store.send(.toggleTranslation)
-                                    } else {
-                                        store.send(.translateTapped)
+                                    if viewModel.translatedText != nil {
+                                        Task { await viewModel.translate() }
                                     }
                                 }) {
                                     HStack(spacing: .xs) {
-                                        if store.isTranslating {
+                                        if viewModel.isTranslating {
                                             ProgressView()
                                                 .scaleEffect(0.8)
                                         } else {
@@ -66,8 +67,9 @@ struct PlugDetailView: View {
                                                 .imageScale(.small)
                                         }
 
-                                        Text(store.translatedText != nil ?
-                                            (store.showTranslation ? LocalizationKeys.originalText.localized : LocalizationKeys
+                                        Text(viewModel.translatedText != nil ?
+                                            (viewModel.showTranslation ? LocalizationKeys.originalText
+                                                .localized : LocalizationKeys
                                                 .translatedText.localized
                                             ) :
                                             LocalizationKeys.translateText.localized
@@ -81,20 +83,20 @@ struct PlugDetailView: View {
                                     .background(.buttonInfoTint.opacity(0.1))
                                     .roundedCorner(radius: 16)
                                 }
-                                .disabled(store.isTranslating)
+                                .disabled(viewModel.isTranslating)
 
                                 Spacer()
                             }
                         }
 
                         // Text content
-                        Text(store.showTranslation ? (store.translatedText ?? store.plug.info) : store.plug.info)
+                        Text(viewModel.showTranslation ? (viewModel.translatedText ?? viewModel.plug.info) : viewModel.plug.info)
                             .font(.body)
                             .foregroundStyle(.textRegular)
                             .lineSpacing(4)
 
                         // Translation error
-                        if let error = store.translationError {
+                        if let error = viewModel.translationError {
                             HStack(spacing: .sm) {
                                 SFSymbols.exclamationMarkTriangle
                                     .image
@@ -133,21 +135,21 @@ struct PlugDetailView: View {
                         SpecificationRow(
                             icon: SFSymbols.powerPlug,
                             title: LocalizationKeys.pinDiameter.localized,
-                            value: store.plug.pinDiameter,
+                            value: viewModel.plug.pinDiameter,
                             color: .voltTint
                         )
 
                         SpecificationRow(
                             icon: SFSymbols.waveform,
                             title: LocalizationKeys.pinSpacing.localized,
-                            value: store.plug.pinSpacing,
+                            value: viewModel.plug.pinSpacing,
                             color: .frequencyTint
                         )
 
                         SpecificationRow(
                             icon: SFSymbols.batteryFull,
                             title: LocalizationKeys.ratedAmperage.localized,
-                            value: store.plug.ratedAmperage,
+                            value: viewModel.plug.ratedAmperage,
                             color: .buttonInfoTint
                         )
 
@@ -158,7 +160,7 @@ struct PlugDetailView: View {
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.textLight)
 
-                            Text(store.plug.alsoKnownAs)
+                            Text(viewModel.plug.alsoKnownAs)
                                 .font(.subheadline)
                                 .foregroundStyle(.textRegular)
                                 .padding(.horizontal, .lg)
@@ -173,7 +175,7 @@ struct PlugDetailView: View {
             .padding(.bottom, .xxxl)
         }
         .background(.backgroundSurface)
-        .navigationTitle(store.plug.name)
+        .navigationTitle(viewModel.plug.name)
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
@@ -185,7 +187,7 @@ extension PlugDetailView {
     /// Not displayed ATM
     @ViewBuilder
     var images: some View {
-        if !store.plug.images.isEmpty {
+        if !viewModel.plug.images.isEmpty {
             Card(shadow: .subtle) {
                 VStack(alignment: .leading, spacing: .lg) {
                     HStack(spacing: .sm) {
@@ -202,7 +204,7 @@ extension PlugDetailView {
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: .lg) {
-                            ForEach(store.plug.images, id: \.self) { url in
+                            ForEach(viewModel.plug.images, id: \.self) { url in
                                 AsyncImage(url: url) { image in
                                     image
                                         .resizable()
@@ -287,13 +289,7 @@ import SwiftData
     )
     container.mainContext.insert(plug)
     return NavigationStack {
-        PlugDetailView(store: Store(
-            initialState:
-            PlugDetailFeature.State(plug: plug),
-            reducer: {
-                PlugDetailFeature()
-            }
-        ))
+        PlugDetailView(plug: plug)
     }
 }
 #endif

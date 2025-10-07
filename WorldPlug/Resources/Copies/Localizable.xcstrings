@@ -223,6 +223,12 @@
             "state" : "translated",
             "value" : "Overview"
           }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panoramica"
+          }
         }
       }
     },

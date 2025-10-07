@@ -1,4 +1,3 @@
-import ComposableArchitecture
 import Repository
 import SwiftData
 import SwiftUI
@@ -7,13 +6,9 @@ import SwiftUI
 struct WorldPlugApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    static let store = Store(initialState: CountriesListFeature.State()) {
-        CountriesListFeature()
-    }
-
     var body: some Scene {
         WindowGroup {
-            CountriesListView(store: WorldPlugApp.store)
+            CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
         }
         .modelContainer(Repository.sharedModelContainer)
     }
