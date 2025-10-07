@@ -12,7 +12,6 @@ import SwiftUI
 
 struct CountryCard: View {
     let country: Country
-    @Binding var selectedPlug: Plug?
 
     var body: some View {
         Card(shadow: .subtle) {
@@ -90,9 +89,7 @@ struct CountryCard: View {
                                 GridItem(.flexible())
                             ], spacing: .md) {
                                 ForEach(country.sortedPlugs) { plug in
-                                    Button {
-                                        selectedPlug = plug
-                                    } label: {
+                                    NavigationLink(value: plug) {
                                         HStack(spacing: .md) {
                                             SFSymbols.plugSymbol(for: plug.plugType)
                                                 .image
@@ -117,7 +114,6 @@ struct CountryCard: View {
                                         .background(.surfaceSecondary)
                                         .roundedCorner(radius: 8)
                                     }
-                                    .buttonStyle(ScaleButtonStyle())
                                     .accessibilityLabel(LocalizationKeys.accessibilityPlugTypeLabel.localized(
                                         from: .accessibility,
                                         plug.id
@@ -377,7 +373,7 @@ import SwiftData
         )
     ]
 
-    return CountryCard(country: country, selectedPlug: .constant(nil))
+    return CountryCard(country: country)
         .padding()
 }
 #endif
