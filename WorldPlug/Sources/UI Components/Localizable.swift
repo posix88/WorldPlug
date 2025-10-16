@@ -61,14 +61,28 @@ enum LocalizationKeys {
     static let plugOverview = "plug.overview"
     static let plugSpecifications = "plug.specifications"
     static let plugImages = "plug.images"
-    static let translateText = "translate.text"
-    static let originalText = "original.text"
-    static let translatedText = "translated.text"
-    static let translationError = "translation.error"
     static let pinSpacing = "pin.spacing"
     static let pinDiameter = "pin.diameter"
     static let ratedAmperage = "rated.amperage"
     static let alsoKnownAs = "also.known.as"
+
+    // MARK: - Plug Type Descriptions
+
+    static let plugTypeADescription = "plug.type.a.description"
+    static let plugTypeBDescription = "plug.type.b.description"
+    static let plugTypeCDescription = "plug.type.c.description"
+    static let plugTypeDDescription = "plug.type.d.description"
+    static let plugTypeEDescription = "plug.type.e.description"
+    static let plugTypeFDescription = "plug.type.f.description"
+    static let plugTypeGDescription = "plug.type.g.description"
+    static let plugTypeHDescription = "plug.type.h.description"
+    static let plugTypeIDescription = "plug.type.i.description"
+    static let plugTypeJDescription = "plug.type.j.description"
+    static let plugTypeKDescription = "plug.type.k.description"
+    static let plugTypeLDescription = "plug.type.l.description"
+    static let plugTypeMDescription = "plug.type.m.description"
+    static let plugTypeNDescription = "plug.type.n.description"
+    static let plugTypeODescription = "plug.type.o.description"
 
     // MARK: - General
 

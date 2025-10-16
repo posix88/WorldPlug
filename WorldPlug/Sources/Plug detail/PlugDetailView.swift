@@ -49,69 +49,11 @@ struct PlugDetailView: View {
                                 .foregroundStyle(.textRegular)
                         }
 
-                        // Translation controls
-                        if Locale.current.language.languageCode?.identifier != "en" {
-                            HStack {
-                                Button(action: {
-                                    if viewModel.translatedText != nil {
-                                        Task { await viewModel.translate() }
-                                    }
-                                }) {
-                                    HStack(spacing: .xs) {
-                                        if viewModel.isTranslating {
-                                            ProgressView()
-                                                .scaleEffect(0.8)
-                                        } else {
-                                            SFSymbols.globeAmericas
-                                                .image
-                                                .imageScale(.small)
-                                        }
-
-                                        Text(viewModel.translatedText != nil ?
-                                            (viewModel.showTranslation ? LocalizationKeys.originalText
-                                                .localized : LocalizationKeys
-                                                .translatedText.localized
-                                            ) :
-                                            LocalizationKeys.translateText.localized
-                                        )
-                                        .font(.caption)
-                                        .fontWeight(.medium)
-                                    }
-                                    .foregroundStyle(.buttonInfoTint)
-                                    .padding(.horizontal, .lg)
-                                    .padding(.vertical, .sm)
-                                    .background(.buttonInfoTint.opacity(0.1))
-                                    .roundedCorner(radius: 16)
-                                }
-                                .disabled(viewModel.isTranslating)
-
-                                Spacer()
-                            }
-                        }
-
                         // Text content
-                        Text(viewModel.showTranslation ? (viewModel.translatedText ?? viewModel.plug.info) : viewModel.plug.info)
+                        Text(viewModel.description)
                             .font(.body)
                             .foregroundStyle(.textRegular)
                             .lineSpacing(4)
-
-                        // Translation error
-                        if let error = viewModel.translationError {
-                            HStack(spacing: .sm) {
-                                SFSymbols.exclamationMarkTriangle
-                                    .image
-                                    .imageScale(.small)
-                                    .foregroundStyle(.red)
-
-                                Text(LocalizationKeys.translationError.localized)
-                                    .font(.caption)
-                                    .foregroundStyle(.red)
-                            }
-                            .padding(.horizontal, .lg)
-                            .padding(.vertical, .sm)
-                            .background(.red.opacity(0.1))
-                            .roundedCorner(radius: 8)
-                        }
                     }
                 }
                 .padding(.horizontal, .xl)
@@ -175,7 +117,6 @@ struct PlugDetailView: View {
             .padding(.bottom, .xxxl)
         }
         .background(.backgroundSurface)
-        .navigationTitle(viewModel.plug.name)
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)

@@ -147,23 +147,6 @@
         }
       }
     },
-    "original.text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Original"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra originale"
-          }
-        }
-      }
-    },
     "pin.diameter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -290,6 +273,261 @@
         }
       }
     },
+    "plug.type.a.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type A electrical plug (or flat blade attachment plug) is an ungrounded plug with two flat parallel pins. Although the American and Japanese plugs appear identical, the neutral pin on the American plug is wider than the live pin, whereas on the Japanese plug both pins are the same size. As a result, Japanese plugs can be used in the US but often not the other way around.\nThe pins on Type A and Type B plugs have a hole near the tip that fits into 'bumps' found on the contact wipers of some sockets, so that the pins are gripped more tightly allowing for better contact and also to prevent the plug from slipping out of the socket. Some sockets have spring-action blades that grip the sides of the pins, making the holes obsolete."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo A (o spina a lama piatta) è una spina non messa a terra con due pin piatti paralleli. Sebbene le spine americane e giapponesi appaiano identiche, il pin neutro sulla spina americana è più largo del pin di fase, mentre sulla spina giapponese entrambi i pin hanno la stessa dimensione. Di conseguenza, le spine giapponesi possono essere utilizzate negli Stati Uniti ma spesso non il contrario.\nI pin delle spine di Tipo A e B hanno un foro vicino alla punta che si inserisce in 'sporgenze' presenti sui contatti di alcune prese, in modo che i pin siano afferrati più saldamente consentendo un migliore contatto e impedendo anche alla spina di scivolare fuori dalla presa. Alcune prese hanno lame ad azione a molla che afferrano i lati dei pin, rendendo i fori obsoleti."
+      }
+    }
+  }
+},
+"plug.type.b.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type B electrical plug has two flat parallel pins and a round grounding (or earth) pin. The earth pin is longer than the other two so that the device is grounded before the power is connected. As with the type A plugs, the American and Japanese versions vary slightly.\nType B plugs are rated at 15 amps."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo B ha due pin piatti paralleli e un pin di messa a terra (o terra) rotondo. Il pin di terra è più lungo degli altri due in modo che il dispositivo sia messo a terra prima che venga collegata l'alimentazione. Come per le spine di tipo A, le versioni americana e giapponese variano leggermente.\nLe spine di Tipo B sono classificate a 15 ampere."
+      }
+    }
+  }
+},
+"plug.type.c.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type C electrical plug (or Europlug) is a two-wire plug that has two round pins. It fits into any socket that accepts 4.0 – 4.8 mm round contacts on 19 mm centres. They are being replaced by E, F, J, K or N sockets which work perfectly with Type C plugs.\nType C plugs are generally limited for use in appliances that require 2.5 amps or less."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo C (o Europlug) è una spina a due fili che ha due pin rotondi. Si inserisce in qualsiasi presa che accetta contatti rotondi da 4,0 – 4,8 mm su centri di 19 mm. Stanno essere sostituite da prese E, F, J, K o N che funzionano perfettamente con le spine di Tipo C.\nLe spine di Tipo C sono generalmente limitate per l'uso in apparecchi che richiedono 2,5 ampere o meno."
+      }
+    }
+  }
+},
+"plug.type.d.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type D electrical plug has three large round pins in a triangular pattern. Type M plugs are often used alongside Type D plugs for larger appliances and as a result, some sockets work with both Type D and Type M plugs.\nType D plugs are rated 5 amps."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo D ha tre pin rotondi grandi in uno schema triangolare. Le spine di Tipo M sono spesso utilizzate insieme alle spine di Tipo D per apparecchi più grandi e di conseguenza, alcune prese funzionano sia con spine di Tipo D che di Tipo M.\nLe spine di Tipo D sono classificate a 5 ampere."
+      }
+    }
+  }
+},
+"plug.type.e.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type E electrical plug has two 4.8 mm round pins spaced 19 mm apart and a hole for the socket's male earthing pin. The Type E plug has a rounded shape and the Type E socket has a round recess. Type E plugs are rated 16 amps.\nNote: The CEE 7/7 plug was developed to work with Type E and Type F sockets with a female contact (to accept the earthing pin of the Type E socket) and has earthing clips on both sides (to work with Type F sockets)."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo E ha due pin rotondi da 4,8 mm distanziati di 19 mm e un foro per il pin di messa a terra maschio della presa. La spina di Tipo E ha una forma arrotondata e la presa di Tipo E ha un incasso rotondo. Le spine di Tipo E sono classificate a 16 ampere.\nNota: La spina CEE 7/7 è stata sviluppata per funzionare con prese di Tipo E e Tipo F con un contatto femmina (per accettare il pin di messa a terra della presa di Tipo E) e ha clip di messa a terra su entrambi i lati (per funzionare con prese di Tipo F)."
+      }
+    }
+  }
+},
+"plug.type.f.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type F electrical plug (also known as a Schuko plug) has two 4.8 mm round pins spaced 19 mm apart. It is similar to the Type E plug but has two earth clips on the side rather than a female earth contact. The CEE 7/7 plug was developed to work with sockets E and F and has grounding clips on both sides (to work with Type F sockets) and a female contact (to accept the grounding pin of the type E socket).\nType F plugs are rated 16 amps."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo F (nota anche come spina Schuko) ha due pin rotondi da 4,8 mm distanziati di 19 mm. È simile alla spina di Tipo E ma ha due clip di terra sul lato piuttosto che un contatto di terra femmina. La spina CEE 7/7 è stata sviluppata per funzionare con prese E e F e ha clip di messa a terra su entrambi i lati (per funzionare con prese di Tipo F) e un contatto femmina (per accettare il pin di messa a terra della presa di tipo E).\nLe spine di Tipo F sono classificate a 16 ampere."
+      }
+    }
+  }
+},
+"plug.type.g.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type G electrical plug has three rectangular blades in a triangular pattern and has an incorporated fuse (usually a 3 amps fuse for smaller appliances such as a computer and a 13 amps one for heavy duty appliances such as heaters). British sockets have shutters on the live and neutral contacts so that foreign objects can't be introduced into them."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo G ha tre lame rettangolari in uno schema triangolare e ha un fusibile incorporato (di solito un fusibile da 3 ampere per apparecchi più piccoli come un computer e uno da 13 ampere per apparecchi pesanti come i riscaldatori). Le prese britanniche hanno otturatori sui contatti di fase e neutro in modo che oggetti estranei non possano essere introdotti in esse."
+      }
+    }
+  }
+},
+"plug.type.h.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type H plug is unique to Israel and has two flat pins in a V-shape as well as a grounding pin. It is however currently being phased out in favour of a round-pinned version. The holes in Type H sockets are wide in the middle so as to accommodate the round-pinned version of the Type H plug as well as Type C plugs."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina di Tipo H è unica di Israele e ha due pin piatti a forma di V oltre a un pin di messa a terra. Tuttavia, attualmente viene gradualmente eliminata a favore di una versione con pin rotondi. I fori nelle prese di Tipo H sono larghi nel mezzo per accogliere la versione con pin rotondi della spina di Tipo H così come le spine di Tipo C."
+      }
+    }
+  }
+},
+"plug.type.i.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type I plug has two flat pins in a V-shape as well as a grounding pin. A version of the plug, which only has the two flat pins, exists as well. The Australian plug also works with sockets in China.\nAustralia's standard plug/socket system is rated 10 amps but a plug/socket configuration rated 15 amps also exists, although the ground pin is wider. A standard 10 amp plug will fit into a 15 amp socket but not the other way around."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina di Tipo I ha due pin piatti a forma di V oltre a un pin di messa a terra. Esiste anche una versione della spina che ha solo i due pin piatti. La spina australiana funziona anche con prese in Cina.\nIl sistema standard spina/presa dell'Australia è classificato a 10 ampere ma esiste anche una configurazione spina/presa classificata a 15 ampere, anche se il pin di terra è più largo. Una spina standard da 10 ampere si inserirà in una presa da 15 ampere ma non il contrario."
+      }
+    }
+  }
+},
+"plug.type.j.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type J plug has two round pins as well as a grounding pin. Although the Type J plug looks a lot like the Brazilian Type N plug it is incompatible with the Type N socket as the earth pin is further away from the centre line than on Type N. However, Type C plugs are perfectly compatible with Type J sockets.\nType J plugs are rated 10 amps."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina di Tipo J ha due pin rotondi oltre a un pin di messa a terra. Sebbene la spina di Tipo J assomigli molto alla spina brasiliana di Tipo N, è incompatibile con la presa di Tipo N poiché il pin di terra è più lontano dalla linea centrale rispetto al Tipo N. Tuttavia, le spine di Tipo C sono perfettamente compatibili con le prese di Tipo J.\nLe spine di Tipo J sono classificate a 10 ampere."
+      }
+    }
+  }
+},
+"plug.type.k.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type K plug has two round pins as well as a grounding pin. It is similar to Type F, the difference being that Type F has grounding clips instead of a grounding pin. Type C plugs are perfectly compatible with Type F sockets. Type E plugs and sockets are also used in Denmark."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina di Tipo K ha due pin rotondi oltre a un pin di messa a terra. È simile al Tipo F, la differenza è che il Tipo F ha clip di messa a terra invece di un pin di messa a terra. Le spine di Tipo C sono perfettamente compatibili con le prese di Tipo F. Anche le spine e prese di Tipo E sono utilizzate in Danimarca."
+      }
+    }
+  }
+},
+"plug.type.l.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "There are two variations of the Type L plug, one rated at 10 amps, and one at 16 amps. The 10 amp version has two round pins that are 4 mm thick and spaced 5.5 mm apart, with a grounding pin in the middle. The 16 amp version has two round pins that are 5 mm thick, spaced 8mm apart, as well as a grounding pin. Italy has a kind of \"universal\" socket that comprises a \"schuko\" socket for C, E, F and L plugs and a \"bipasso\" socket for L and C plugs."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "Ci sono due variazioni della spina di Tipo L, una classificata a 10 ampere e una a 16 ampere. La versione da 10 ampere ha due pin rotondi spessi 4 mm e distanziati 5,5 mm, con un pin di messa a terra al centro. La versione da 16 ampere ha due pin rotondi spessi 5 mm, distanziati 8 mm, oltre a un pin di messa a terra. L'Italia ha un tipo di presa \"universale\" che comprende una presa \"schuko\" per spine C, E, F e L e una presa \"bipasso\" per spine L e C."
+      }
+    }
+  }
+},
+"plug.type.m.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type M plug has three round pins in a triangular pattern and looks similar to the Indian Type D plug, but its pins are much larger. Type M plugs are sometimes used for bigger appliances in countries that make use of Type D plugs, as well as in Israel (Type H). Therefore, sockets in these countries sometimes work with Type M plugs."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina di Tipo M ha tre pin rotondi in uno schema triangolare e assomiglia alla spina indiana di Tipo D, ma i suoi pin sono molto più grandi. Le spine di Tipo M sono talvolta utilizzate per apparecchi più grandi nei paesi che utilizzano spine di Tipo D, così come in Israele (Tipo H). Pertanto, le prese in questi paesi talvolta funzionano con spine di Tipo M."
+      }
+    }
+  }
+},
+"plug.type.n.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type N electrical plug is based on IEC 60906-1 and was adopted by Brazil as the national standard NBR 14136. There are two variations: one rated at 10 amps with 4.0 mm pin diameter, and one at 20 amps with 4.8 mm pin diameter. Both have two round pins and a grounding pin. The 10 amp version is compatible with Type C (Europlug) plugs. The Type N socket was designed to work with Type C plugs as well. This standard became compulsory in Brazil on January 1, 2010, replacing the previous mix of Type A, B, and C plugs used in the country."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo N è basata sullo standard IEC 60906-1 ed è stata adottata dal Brasile come standard nazionale NBR 14136. Esistono due varianti: una classificata a 10 ampere con diametro del pin di 4,0 mm, e una a 20 ampere con diametro del pin di 4,8 mm. Entrambe hanno due pin rotondi e un pin di messa a terra. La versione da 10 ampere è compatibile con le spine di Tipo C (Europlug). La presa di Tipo N è stata progettata per funzionare anche con spine di Tipo C. Questo standard è diventato obbligatorio in Brasile il 1° gennaio 2010, sostituendo la precedente miscela di spine di Tipo A, B e C utilizzate nel paese."
+      }
+    }
+  }
+},
+"plug.type.o.description" : {
+  "extractionState" : "manual",
+  "localizations" : {
+    "en" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "The Type O electrical plug is defined by Thai Industrial Standard TIS 166-2549 and is used exclusively in Thailand. The plug has two round power pins 4.8 mm in diameter and 19 mm in length, insulated for 10 mm and spaced 19 mm apart, with an earthing pin of the same diameter and 21.4 mm in length. The earth pin is located 11.89 mm from the line connecting the two power pins. The standard was designed in 2006 to replace the previous mix of NEMA and European plugs used in Thailand, but its adoption has been gradual. The system is rated at 16 amps and is compatible with Type C (Europlug) plugs."
+      }
+    },
+    "it" : {
+      "stringUnit" : {
+        "state" : "translated",
+        "value" : "La spina elettrica di Tipo O è definita dallo Standard Industriale Tailandese TIS 166-2549 ed è utilizzata esclusivamente in Tailandia. La spina ha due pin di alimentazione rotondi di 4,8 mm di diametro e 19 mm di lunghezza, isolati per 10 mm e distanziati di 19 mm, con un pin di messa a terra dello stesso diametro e 21,4 mm di lunghezza. Il pin di terra si trova a 11,89 mm dalla linea che collega i due pin di alimentazione. Lo standard è stato progettato nel 2006 per sostituire la precedente miscela di spine NEMA ed europee utilizzate in Tailandia, ma la sua adozione è stata graduale. Il sistema è classificato a 16 ampere ed è compatibile con le spine di Tipo C (Europlug)."
+      }
+    }
+  }
+},
     "plug.type.prefix" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -354,57 +592,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerca paesi..."
-          }
-        }
-      }
-    },
-    "translate.text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translate"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Traduci"
-          }
-        }
-      }
-    },
-    "translated.text" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show Translation"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostra traduzione"
-          }
-        }
-      }
-    },
-    "translation.error" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translation failed"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Errore durante la traduzione"
           }
         }
       }
