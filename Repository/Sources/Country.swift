@@ -34,7 +34,6 @@ extension SchemaV4 {
 // MARK: - CountryDecodable
 
 final class CountryDecodable: Decodable {
-    let name: String
     let code: String
     let voltage: String
     let frequency: String
@@ -42,7 +41,6 @@ final class CountryDecodable: Decodable {
     let plugTypes: [String]
 
     enum CodingKeys: String, CodingKey {
-        case name
         case code = "country_code"
         case voltage
         case frequency
@@ -54,7 +52,6 @@ final class CountryDecodable: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let code = try container.decode(String.self, forKey: .code)
         self.code = code
-        self.name = Locale.current.localizedString(forRegionCode: code) ?? ""
         self.voltage = try container.decode(String.self, forKey: .voltage)
         self.frequency = try container.decode(String.self, forKey: .frequency)
         self.flagUnicode = try container.decode(String.self, forKey: .flagUnicode)

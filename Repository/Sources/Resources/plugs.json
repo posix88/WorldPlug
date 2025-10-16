@@ -232,5 +232,41 @@
             "rated_amperage": "15 A",
             "also_known_as": "BS 546 15A, South African plug"
         }
+    },
+    {
+        "id": "N",
+        "name": "Plug Type N",
+        "short_description": "Used in: Brazil.",
+        "description": "The Type N electrical plug is based on IEC 60906-1 and was adopted by Brazil as the national standard NBR 14136. There are two variations: one rated at 10 amps with 4.0 mm pin diameter, and one at 20 amps with 4.8 mm pin diameter. Both have two round pins and a grounding pin. The 10 amp version is compatible with Type C (Europlug) plugs. The Type N socket was designed to work with Type C plugs as well. This standard became compulsory in Brazil on January 1, 2010, replacing the previous mix of Type A, B, and C plugs used in the country.",
+        "plug_images": [
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_plug_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_3d_sock_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_dia_plug_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/N/N_dia_sock_l.png"
+        ],
+        "specifications": {
+            "pin_diameter": "4.0 mm (10A), 4.8 mm (20A)",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "10 A / 20 A",
+            "also_known_as": "NBR 14136, Brazilian plug"
+        }
+    },
+    {
+        "id": "O",
+        "name": "Plug Type O",
+        "short_description": "Used in: Thailand.",
+        "description": "The Type O electrical plug is defined by Thai Industrial Standard TIS 166-2549 and is used exclusively in Thailand. The plug has two round power pins 4.8 mm in diameter and 19 mm in length, insulated for 10 mm and spaced 19 mm apart, with an earthing pin of the same diameter and 21.4 mm in length. The earth pin is located 11.89 mm from the line connecting the two power pins. The standard was designed in 2006 to replace the previous mix of NEMA and European plugs used in Thailand, but its adoption has been gradual. The system is rated at 16 amps and is compatible with Type C (Europlug) plugs.",
+        "plug_images": [
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_plug_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_3d_sock_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_dia_plug_l.png",
+            "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/O/O_dia_sock_l.png"
+        ],
+        "specifications": {
+            "pin_diameter": "4.8 mm",
+            "pin_spacing": "19 mm",
+            "rated_amperage": "16 A",
+            "also_known_as": "TIS 166-2549, Thai plug"
+        }
     }
 ]
