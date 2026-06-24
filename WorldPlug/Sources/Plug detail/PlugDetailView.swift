@@ -124,6 +124,16 @@ struct PlugDetailView: View {
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
         .scrollBounceBehavior(.basedOnSize)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                ShareLink(
+                    item: viewModel.shareText,
+                    subject: Text(LocalizationKeys.plugTypePrefix.localized(viewModel.plug.id))
+                ) {
+                    Label(LocalizationKeys.plugShare.localized, systemImage: "square.and.arrow.up")
+                }
+            }
+        }
     }
 }
 

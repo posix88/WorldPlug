@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF25621B2362A65CA3678A /* WorldPlugTests.swift */; };
+		1A2B3C4D5E6F7A8B9C0D1E2F /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */; };
+		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
 		11670E41260AA88B72E524DA /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC196792BF291EA1890683B /* SFSymbols.swift */; };
 		127B154FCA66F411847C1ABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2599EF9CA6A35B2B799D5C /* LaunchScreen.storyboard */; };
 		20019574114B9F706608440D /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */; };
@@ -48,6 +50,8 @@
 		50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
 		6BC196792BF291EA1890683B /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		72DF25621B2362A65CA3678A /* WorldPlugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugTests.swift; sourceTree = "<group>"; };
+		2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
+		4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModelTests.swift; sourceTree = "<group>"; };
 		76F8067A57E06AFBB0D0AD16 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		82C4510145EA5B067EC84EA2 /* CountryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCardView.swift; sourceTree = "<group>"; };
 		8E5FC2A778148353A171BD33 /* VoltlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltlyApp.swift; sourceTree = "<group>"; };
@@ -191,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				72DF25621B2362A65CA3678A /* WorldPlugTests.swift */,
+				2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */,
+				4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */,
 			);
 			path = WorldPlugTests;
 			sourceTree = "<group>";
@@ -292,6 +298,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */,
+				1A2B3C4D5E6F7A8B9C0D1E2F /* UtilitiesTests.swift in Sources */,
+				3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

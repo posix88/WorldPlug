@@ -7,6 +7,16 @@ final class PlugDetailViewModel {
     @ObservationIgnored let plug: Plug
     let description: String
 
+    var shareText: String {
+        LocalizationKeys.plugShareText.localized(
+            LocalizationKeys.plugTypePrefix.localized(plug.id),
+            plug.shortInfo,
+            plug.pinDiameter,
+            plug.pinSpacing,
+            plug.ratedAmperage
+        )
+    }
+
     init(plug: Plug) {
         self.plug = plug
         self.description = switch plug.plugType {

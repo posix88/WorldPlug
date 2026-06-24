@@ -595,6 +595,57 @@
           }
         }
       }
+    },
+    "plug.share" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi"
+          }
+        }
+      }
+    },
+    "plug.share.tagline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shared via Voltly ⚡"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condiviso tramite Voltly ⚡"
+          }
+        }
+      }
+    },
+    "plug.share.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifications\n• Pin diameter: %3$@\n• Pin spacing: %4$@\n• Rated amperage: %5$@\n\nShared via Voltly ⚡"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifiche\n• Diametro pin: %3$@\n• Distanza pin: %4$@\n• Amperaggio: %5$@\n\nCondiviso tramite Voltly ⚡"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
