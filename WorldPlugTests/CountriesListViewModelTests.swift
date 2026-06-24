@@ -1,10 +1,8 @@
-import Foundation
 import SwiftData
 import Testing
+@testable import WorldPlug
 
-@testable import Repository
-
-// MARK: - CountriesListViewModel Tests
+// MARK: - CountriesListViewModelTests
 
 @Suite("CountriesListViewModel")
 @MainActor
@@ -14,7 +12,10 @@ struct CountriesListViewModelTests {
     private let viewModel: CountriesListViewModel
 
     init() throws {
-        container = try makeContainer()
+        container = try ModelContainer(
+            for: Country.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
         context = container.mainContext
 
         let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")

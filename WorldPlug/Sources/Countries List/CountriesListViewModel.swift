@@ -1,11 +1,12 @@
 import Foundation
 import Observation
+import Repository
 import SwiftData
 
 // MARK: - CountriesListViewModelType
 
 @MainActor
-public protocol CountriesListViewModelType {
+protocol CountriesListViewModelType {
     var filteredCountries: [Country] { get }
 
     func search(query: String)
@@ -15,18 +16,18 @@ public protocol CountriesListViewModelType {
 
 @Observable
 @MainActor
-public final class CountriesListViewModel: CountriesListViewModelType {
+final class CountriesListViewModel: CountriesListViewModelType {
     @ObservationIgnored private var countries: [Country] = []
     @ObservationIgnored private var modelContext: ModelContext
 
-    public var filteredCountries: [Country] = []
+    var filteredCountries: [Country] = []
 
-    public init(modelContext: ModelContext) {
+    init(modelContext: ModelContext) {
         self.modelContext = modelContext
         fetchData()
     }
 
-    public func fetchData() {
+    func fetchData() {
         do {
             let descriptor = FetchDescriptor<Country>(sortBy: [SortDescriptor(\.name)])
             countries = try modelContext.fetch(descriptor)
@@ -36,7 +37,7 @@ public final class CountriesListViewModel: CountriesListViewModelType {
         }
     }
 
-    public func search(query: String) {
+    func search(query: String) {
         guard !query.isEmpty else {
             filteredCountries = countries
             return

@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF25621B2362A65CA3678A /* WorldPlugTests.swift */; };
-		1A2B3C4D5E6F7A8B9C0D1E2F /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */; };
-		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
 		11670E41260AA88B72E524DA /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC196792BF291EA1890683B /* SFSymbols.swift */; };
 		127B154FCA66F411847C1ABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2599EF9CA6A35B2B799D5C /* LaunchScreen.storyboard */; };
 		20019574114B9F706608440D /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */; };
 		35356E7083096BF989D3B72C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */; };
 		3AAF0286B762C5720CA2CB14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */; };
+		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
+		AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */; };
+		CC22DD33EE44FF55AA00BB11 /* CountriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */; };
 		4195FE1A3906F8BF0F89583C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F8067A57E06AFBB0D0AD16 /* Card.swift */; };
 		53A95F68511420C21EF684A9 /* VoltlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FC2A778148353A171BD33 /* VoltlyApp.swift */; };
 		570C7C09077A583F1EE85C1A /* PlugDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */; };
@@ -47,11 +48,12 @@
 		1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		316DCF61AAF64FB76CCD6CFA /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
+		4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModelTests.swift; sourceTree = "<group>"; };
+		BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModelTests.swift; sourceTree = "<group>"; };
+		DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModel.swift; sourceTree = "<group>"; };
 		50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
 		6BC196792BF291EA1890683B /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		72DF25621B2362A65CA3678A /* WorldPlugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugTests.swift; sourceTree = "<group>"; };
-		2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
-		4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModelTests.swift; sourceTree = "<group>"; };
 		76F8067A57E06AFBB0D0AD16 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		82C4510145EA5B067EC84EA2 /* CountryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCardView.swift; sourceTree = "<group>"; };
 		8E5FC2A778148353A171BD33 /* VoltlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltlyApp.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */,
+				DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */,
 				82C4510145EA5B067EC84EA2 /* CountryCardView.swift */,
 			);
 			path = "Countries List";
@@ -195,7 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				72DF25621B2362A65CA3678A /* WorldPlugTests.swift */,
-				2A3B4C5D6E7F8A9B0C1D2E3F /* UtilitiesTests.swift */,
+				BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */,
 				4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */,
 			);
 			path = WorldPlugTests;
@@ -298,7 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */,
-				1A2B3C4D5E6F7A8B9C0D1E2F /* UtilitiesTests.swift in Sources */,
+				AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */,
 				3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +313,7 @@
 				35356E7083096BF989D3B72C /* AppDelegate.swift in Sources */,
 				4195FE1A3906F8BF0F89583C /* Card.swift in Sources */,
 				D4A2DAF9D869B74A851EC3E4 /* CountriesListView.swift in Sources */,
+				CC22DD33EE44FF55AA00BB11 /* CountriesListViewModel.swift in Sources */,
 				C182981736C6CD9D447C6C44 /* CountryCardView.swift in Sources */,
 				A54FB0082743C226A0F8B340 /* Localizable.swift in Sources */,
 				5BED1F5EA5799EDE4BEFCAB6 /* PlugDetailView.swift in Sources */,
@@ -380,7 +384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -468,7 +472,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -486,7 +490,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -525,7 +529,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
