@@ -12,7 +12,12 @@ import SwiftUI
 
 struct CountryCard: View {
     let country: Country
+    @Environment(HomeCountryViewModel.self) private var homeViewModel
     @State private var plugTapTrigger = false
+
+    private var isHomeCountry: Bool { country.code == homeViewModel.homeCountryCode }
+    private var showCompatibility: Bool { !homeViewModel.homeCountryCode.isEmpty && !isHomeCountry }
+    private func isCompatible(plug: Plug) -> Bool { homeViewModel.homePlugTypeIDs.contains(plug.id) }
 
     var body: some View {
         Card(shadow: .subtle) {
@@ -105,6 +110,22 @@ struct CountryCard: View {
 
                                             Spacer()
 
+                                            if showCompatibility {
+                                               if isCompatible(plug: plug) {
+                                                    Label(LocalizationKeys.homeCountryCompatible.localized, systemImage: "checkmark.circle.fill")
+                                                        .font(.caption2)
+                                                        .foregroundStyle(.green)
+                                                        .labelStyle(.iconOnly)
+                                                        .accessibilityLabel(LocalizationKeys.accessibilityPlugCompatible.localized(from: .accessibility))
+                                                } else {
+                                                    Label(LocalizationKeys.homeCountryAdapterNeeded.localized, systemImage: "exclamationmark.triangle.fill")
+                                                        .font(.caption2)
+                                                        .foregroundStyle(.orange)
+                                                        .labelStyle(.iconOnly)
+                                                        .accessibilityLabel(LocalizationKeys.accessibilityPlugAdapterNeeded.localized(from: .accessibility))
+                                                }
+                                            }
+
                                             SFSymbols.chevronRight
                                                 .image
                                                 .imageScale(.small)
@@ -149,17 +170,31 @@ struct CountryCard: View {
                             .roundedCorner(radius: 10)
 
                         VStack(alignment: .leading, spacing: .xs) {
-                            Text(country.name)
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.textRegular)
-                                .lineLimit(2) // Prevent very long country names from breaking layout
-                                .multilineTextAlignment(.leading)
+                                HStack(spacing: .sm) {
+                                    Text(country.name)
+                                        .font(.title3)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.textRegular)
+                                        .lineLimit(2)
+                                        .multilineTextAlignment(.leading)
 
-                            Text(LocalizationKeys.plugType.localized(country.plugs.count))
-                                .font(.subheadline)
-                                .foregroundStyle(.textLight)
-                        }
+                                    if isHomeCountry {
+                                        Text(LocalizationKeys.homeCountryBadge.localized)
+                                            .font(.caption2)
+                                            .fontWeight(.semibold)
+                                            .foregroundStyle(.white)
+                                            .padding(.horizontal, .sm)
+                                            .padding(.vertical, 3)
+                                            .background(.voltTint)
+                                            .roundedCorner(radius: 6)
+                                            .accessibilityLabel(LocalizationKeys.accessibilityHomeCountryBadge.localized(from: .accessibility))
+                                    }
+                                }
+
+                                Text(LocalizationKeys.plugType.localized(country.plugs.count))
+                                    .font(.subheadline)
+                                    .foregroundStyle(.textLight)
+                            }
 
                         Spacer(minLength: .md) // Ensure minimum space before chevron
                     }
@@ -172,6 +207,21 @@ struct CountryCard: View {
             )
             .disclosureGroupStyle(EnhancedDisclosureStyle())
             .tint(.textRegular)
+        }
+        .contextMenu {
+            if isHomeCountry {
+                Button(role: .destructive) {
+                    homeViewModel.clearHome()
+                } label: {
+                    Label(LocalizationKeys.homeCountryRemove.localized, systemImage: "house.fill")
+                }
+            } else {
+                Button {
+                    homeViewModel.setHome(code: country.code)
+                } label: {
+                    Label(LocalizationKeys.homeCountrySet.localized, systemImage: "house.fill")
+                }
+            }
         }
     }
 }
@@ -377,7 +427,11 @@ import SwiftData
         )
     ]
 
+    let homeVM = HomeCountryViewModel(
+        store: UserDefaultsHomeCountryStore(),
+        modelContext: container.mainContext
+    )
     return CountryCard(country: country)
-        .padding()
+        .environment(homeVM)
 }
 #endif

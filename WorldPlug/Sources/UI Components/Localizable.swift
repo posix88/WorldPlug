@@ -88,6 +88,14 @@ enum LocalizationKeys {
     static let plugShareTagline = "plug.share.tagline"
     static let plugShareText = "plug.share.text"
 
+    // MARK: - Home Country
+
+    static let homeCountryBadge = "home.country.badge"
+    static let homeCountrySet = "home.country.set"
+    static let homeCountryRemove = "home.country.remove"
+    static let homeCountryCompatible = "home.country.compatible"
+    static let homeCountryAdapterNeeded = "home.country.adapter.needed"
+
     // MARK: - General
 
     static let loading = "loading"
@@ -96,6 +104,9 @@ enum LocalizationKeys {
 
     // MARK: - Accessibility
 
+    static let accessibilityPlugCompatible = "accessibility.plug.compatible"
+    static let accessibilityPlugAdapterNeeded = "accessibility.plug.adapter.needed"
+    static let accessibilityHomeCountryBadge = "accessibility.home.country.badge"
     static let accessibilityVoltage = "accessibility.voltage"
     static let accessibilityFrequency = "accessibility.frequency"
     static let accessibilityPlugTypesCount = "accessibility.plug.types.count"

@@ -408,6 +408,57 @@
           }
         }
       }
+    },
+    "accessibility.home.country.badge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di casa"
+          }
+        }
+      }
+    },
+    "accessibility.plug.compatible" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatible with your home country plugs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibile con le spine del tuo paese"
+          }
+        }
+      }
+    },
+    "accessibility.plug.adapter.needed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter needed for this plug type"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adattatore necessario per questo tipo di spina"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

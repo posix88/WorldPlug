@@ -155,7 +155,12 @@ struct CountriesListView: View {
         ]
     }
 
+    let homeVM = HomeCountryViewModel(
+        store: UserDefaultsHomeCountryStore(),
+        modelContext: container.mainContext
+    )
     return CountriesListView(modelContext: container.mainContext)
         .modelContainer(container)
+        .environment(homeVM)
 }
 #endif

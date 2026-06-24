@@ -1,5 +1,6 @@
 import SwiftData
 import Testing
+import Repository
 @testable import WorldPlug
 
 // MARK: - PlugDetailViewModelTests
