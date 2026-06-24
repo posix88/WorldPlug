@@ -12,6 +12,7 @@ import SwiftUI
 
 struct CountryCard: View {
     let country: Country
+    @State private var plugTapTrigger = false
 
     var body: some View {
         Card(shadow: .subtle) {
@@ -123,10 +124,12 @@ struct CountryCard: View {
                                         plug.id
                                     ))
                                     .accessibilityAddTraits(.isButton)
+                                    .simultaneousGesture(TapGesture().onEnded { plugTapTrigger.toggle() })
                                 }
                             }
                             .accessibilityElement(children: .contain)
                             .accessibilityLabel(LocalizationKeys.accessibilityCompatiblePlugTypes.localized(from: .accessibility))
+                            .sensoryFeedback(.selection, trigger: plugTapTrigger)
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -184,6 +187,7 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
                     configuration.isExpanded.toggle()
                 }
             } label: {
+
                 HStack {
                     configuration.label
 
@@ -204,6 +208,7 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
                 .contentShape(Rectangle())
             }
             .accessibilityAddTraits(.isButton)
+            .sensoryFeedback(.impact(weight: .light), trigger: configuration.isExpanded)
             .accessibilityLabel(configuration.isExpanded ? LocalizationKeys.accessibilityCollapseCountryDetails
                 .localized(from: .accessibility) : LocalizationKeys.accessibilityExpandCountryDetails
                 .localized(from: .accessibility)
