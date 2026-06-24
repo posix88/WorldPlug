@@ -8,6 +8,30 @@ struct CountriesListView: View {
     @State private var viewModel: CountriesListViewModel
     @State private var path = NavigationPath()
     @State private var searchQuery: String = ""
+    @Environment(\.colorScheme) private var colorScheme
+
+    private var listBackground: some View {
+        Group {
+            if colorScheme == .dark {
+                MeshGradient(
+                    width: 2, height: 3,
+                    points: [
+                        [0.0, 0.0], [1.0, 0.0],
+                        [0.0, 0.5], [1.0, 0.5],
+                        [0.0, 1.0], [1.0, 1.0]
+                    ],
+                    colors: [
+                        .deepViolet, .deepNavy,
+                        .deepSpace,  .deepCosmos,
+                        .deepSpace,  .deepSpace
+                    ]
+                )
+            } else {
+                Color.backgroundSurface
+            }
+        }
+        .ignoresSafeArea()
+    }
 
     init(modelContext: ModelContext) {
         let viewModel = CountriesListViewModel(modelContext: modelContext)
@@ -71,7 +95,7 @@ struct CountriesListView: View {
                 .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
                 .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
             }
-            .background(.backgroundSurface)
+            .background(listBackground)
             .scrollContentBackground(.hidden)
             .searchable(
                 text: $searchQuery,

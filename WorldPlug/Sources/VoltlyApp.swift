@@ -8,11 +8,20 @@ struct VoltlyApp: App {
     @State private var homeCountryViewModel = HomeCountryViewModel(
         modelContext: Repository.sharedModelContainer.mainContext
     )
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
 
     var body: some Scene {
         WindowGroup {
             CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(homeCountryViewModel)
+                .fullScreenCover(isPresented: .constant(!hasSeenOnboarding)) {
+                    OnboardingView(
+                        modelContext: Repository.sharedModelContainer.mainContext
+                    ) {
+                        hasSeenOnboarding = true
+                    }
+                    .environment(homeCountryViewModel)
+                }
         }
         .modelContainer(Repository.sharedModelContainer)
     }
