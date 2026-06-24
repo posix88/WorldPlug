@@ -69,7 +69,7 @@ extension SchemaV4 {
 
 // MARK: - PlugType
 
-public enum PlugType: String, Codable, CaseIterable {
+public enum PlugType: String, Codable, CaseIterable, Sendable {
     case a = "A"
     case b = "B"
     case c = "C"
