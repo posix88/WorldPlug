@@ -14,7 +14,7 @@
 		35356E7083096BF989D3B72C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */; };
 		3AAF0286B762C5720CA2CB14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */; };
 		4195FE1A3906F8BF0F89583C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F8067A57E06AFBB0D0AD16 /* Card.swift */; };
-		53A95F68511420C21EF684A9 /* WorldPlugApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FC2A778148353A171BD33 /* WorldPlugApp.swift */; };
+		53A95F68511420C21EF684A9 /* VoltlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FC2A778148353A171BD33 /* VoltlyApp.swift */; };
 		570C7C09077A583F1EE85C1A /* PlugDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */; };
 		5BED1F5EA5799EDE4BEFCAB6 /* PlugDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC613D38A1FFD737CE5131DD /* PlugDetailView.swift */; };
 		8B6A9B79FFADEC9E8ADAA46C /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = B423EFCB42CC328DC06463FE /* Repository */; };
@@ -50,7 +50,7 @@
 		72DF25621B2362A65CA3678A /* WorldPlugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugTests.swift; sourceTree = "<group>"; };
 		76F8067A57E06AFBB0D0AD16 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		82C4510145EA5B067EC84EA2 /* CountryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCardView.swift; sourceTree = "<group>"; };
-		8E5FC2A778148353A171BD33 /* WorldPlugApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugApp.swift; sourceTree = "<group>"; };
+		8E5FC2A778148353A171BD33 /* VoltlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltlyApp.swift; sourceTree = "<group>"; };
 		9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModel.swift; sourceTree = "<group>"; };
 		BB083BD78B58EFFDD5205039 /* Repository */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Repository; sourceTree = SOURCE_ROOT; };
@@ -125,7 +125,7 @@
 				275BA719A101AB924C482532 /* Plug detail */,
 				9F4FDE2BC607DF6A5938EEA4 /* UI Components */,
 				1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */,
-				8E5FC2A778148353A171BD33 /* WorldPlugApp.swift */,
+				8E5FC2A778148353A171BD33 /* VoltlyApp.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -309,7 +309,7 @@
 				11670E41260AA88B72E524DA /* SFSymbols.swift in Sources */,
 				20019574114B9F706608440D /* Spacing.swift in Sources */,
 				F93124583658E6917CA9BBF0 /* Utilities.swift in Sources */,
-				53A95F68511420C21EF684A9 /* WorldPlugApp.swift in Sources */,
+				53A95F68511420C21EF684A9 /* VoltlyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,7 +401,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.WorldPlug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -484,7 +484,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.WorldPlugTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.VoltlyTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WorldPlug.app/WorldPlug";
@@ -507,7 +507,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.WorldPlug;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -523,7 +523,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.WorldPlugTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.VoltlyTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WorldPlug.app/WorldPlug";

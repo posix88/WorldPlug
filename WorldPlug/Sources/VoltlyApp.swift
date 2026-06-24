@@ -3,7 +3,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct WorldPlugApp: App {
+struct VoltlyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
