@@ -59,8 +59,9 @@ DerivedData/
 /*.gcno
 
 ### Projects ###
-*.xcodeproj
+# Track the XcodeGen-generated project (source of truth: project.yml)
 *.xcworkspace
+xcuserdata/
 
 Tools/Formatter/.build
 Tools/Formatter/.swiftpm
