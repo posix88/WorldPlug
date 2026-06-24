@@ -10,22 +10,22 @@ import Foundation
 extension String {
     /// Returns a localized version of the string
     var localized: String {
-        NSLocalizedString(self, comment: "")
+        String(localized: String.LocalizationValue(self))
     }
 
     /// Returns a localized version of the string with format arguments
     func localized(_ arguments: CVarArg...) -> String {
-        String(format: NSLocalizedString(self, comment: ""), arguments: arguments)
+        String(format: String(localized: String.LocalizationValue(self)), arguments: arguments)
     }
 
     /// Returns a localized version of the string from a specific table
     func localized(from table: StringCatalog) -> String {
-        NSLocalizedString(self, tableName: table.rawValue, comment: "")
+        String(localized: String.LocalizationValue(self), table: table.rawValue)
     }
 
     /// Returns a localized version of the string from a specific table with format arguments
     func localized(from table: StringCatalog, _ arguments: CVarArg...) -> String {
-        String(format: NSLocalizedString(self, tableName: table.rawValue, comment: ""), arguments: arguments)
+        String(format: String(localized: String.LocalizationValue(self), table: table.rawValue), arguments: arguments)
     }
 }
 

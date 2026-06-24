@@ -18,7 +18,7 @@ extension SchemaV4 {
         public var id: String { code }
 
         @Transient
-        public lazy var sortedPlugs: [Plug] = plugs.sorted(by: { $0.id < $1.id })
+        public var sortedPlugs: [Plug] { plugs.sorted { $0.id < $1.id } }
 
         public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
             self.name = Locale.current.localizedString(forRegionCode: code) ?? ""

@@ -1,13 +1,14 @@
 import Repository
-import Translation
 
 @Observable
 @MainActor
 final class PlugDetailViewModel {
     @ObservationIgnored let plug: Plug
+    let description: String
 
-    var description: String {
-        switch plug.plugType {
+    init(plug: Plug) {
+        self.plug = plug
+        self.description = switch plug.plugType {
         case .a: LocalizationKeys.plugTypeADescription.localized
         case .b: LocalizationKeys.plugTypeBDescription.localized
         case .c: LocalizationKeys.plugTypeCDescription.localized
@@ -25,9 +26,5 @@ final class PlugDetailViewModel {
         case .o: LocalizationKeys.plugTypeODescription.localized
         case .unknown: plug.info
         }
-    }
-
-    init(plug: Plug) {
-        self.plug = plug
     }
 }

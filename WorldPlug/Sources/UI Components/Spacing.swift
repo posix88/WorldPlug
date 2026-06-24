@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Consistent spacing values for the app following a design system approach
-public extension CGFloat {
+extension CGFloat {
     /// 2pt - Extra extra small spacing
     static let xxs: CGFloat = 2
     /// 4pt - Extra small spacing

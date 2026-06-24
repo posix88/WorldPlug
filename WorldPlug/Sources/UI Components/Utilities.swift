@@ -8,7 +8,7 @@
 import Repository
 import SwiftUI
 
-public extension View {
+extension View {
     /// Sets a clipping shape with rounded corners for this view.
     /// - Parameters:
     ///   - radius: the corner radius
@@ -35,7 +35,7 @@ public extension View {
     }
 }
 
-public extension View {
+extension View {
     /// A View modifier that allows to retrieve the current view size
     @ViewBuilder
     func viewSizeReader(_ size: Binding<CGSize>) -> some View {
@@ -66,5 +66,6 @@ private struct ViewSizeReaderViewModifier: ViewModifier {
 /// Preference key used to let the view size propagate to the caller
 private struct ViewSizeKey: SwiftUI.PreferenceKey {
     static let defaultValue: CGSize = .zero
-    static func reduce(value: inout Value, nextValue: () -> Value) {}
-}
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = nextValue()
+    }}

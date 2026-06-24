@@ -13,7 +13,7 @@ struct PlugDetailView: View {
 
     var body: some View {
         ScrollView {
-            LazyVStack(spacing: .xxl) {
+            VStack(spacing: .xxl) {
                 // Hero section with plug icon and title
                 VStack(spacing: .lg) {
                     // Large plug icon using SF Symbols
@@ -113,6 +113,9 @@ struct PlugDetailView: View {
                     }
                 }
                 .padding(.horizontal, .xl)
+
+                // Images section
+                images
             }
             .padding(.bottom, .xxxl)
         }
@@ -125,7 +128,6 @@ struct PlugDetailView: View {
 }
 
 extension PlugDetailView {
-    /// Not displayed ATM
     @ViewBuilder
     var images: some View {
         if !viewModel.plug.images.isEmpty {

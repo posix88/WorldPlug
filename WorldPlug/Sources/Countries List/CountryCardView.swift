@@ -196,7 +196,6 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
                             configuration.isExpanded ? .degrees(180) : .degrees(0),
                             anchor: .center
                         )
-                        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: configuration.isExpanded)
                         .padding(.horizontal, .md)
                         .padding(.vertical, .sm)
                         .background(.surfaceSecondary)

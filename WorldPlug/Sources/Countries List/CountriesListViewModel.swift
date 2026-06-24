@@ -14,7 +14,7 @@ protocol CountriesListViewModelType {
 
 @Observable
 @MainActor
-final class CountriesListViewModel {
+final class CountriesListViewModel: CountriesListViewModelType {
     @ObservationIgnored private var countries: [Country] = []
     @ObservationIgnored private var modelContext: ModelContext
 
