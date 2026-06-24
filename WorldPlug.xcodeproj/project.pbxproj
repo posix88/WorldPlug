@@ -8,27 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF25621B2362A65CA3678A /* WorldPlugTests.swift */; };
-		11670E41260AA88B72E524DA /* SFSymbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC196792BF291EA1890683B /* SFSymbols.swift */; };
-		127B154FCA66F411847C1ABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF2599EF9CA6A35B2B799D5C /* LaunchScreen.storyboard */; };
-		20019574114B9F706608440D /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */; };
-		35356E7083096BF989D3B72C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */; };
-		3AAF0286B762C5720CA2CB14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */; };
 		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
-		AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */; };
-		CC22DD33EE44FF55AA00BB11 /* CountriesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */; };
-		4195FE1A3906F8BF0F89583C /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76F8067A57E06AFBB0D0AD16 /* Card.swift */; };
-		53A95F68511420C21EF684A9 /* VoltlyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E5FC2A778148353A171BD33 /* VoltlyApp.swift */; };
-		570C7C09077A583F1EE85C1A /* PlugDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */; };
-		5BED1F5EA5799EDE4BEFCAB6 /* PlugDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC613D38A1FFD737CE5131DD /* PlugDetailView.swift */; };
 		8B6A9B79FFADEC9E8ADAA46C /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = B423EFCB42CC328DC06463FE /* Repository */; };
-		8D6488D7912ABB8DF9E588A2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 16C66C1ADABFE4F968F7565A /* Localizable.xcstrings */; };
-		A54FB0082743C226A0F8B340 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA74A3FB12D6E080B8BC455 /* Localizable.swift */; };
 		A6182C10B0968F70ADF5BF82 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = E4D17D6D811CF8CEEDE7ED8E /* Repository */; };
-		AF03818491F5E68EAF6AC709 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049D66116E8F4AC83DAB4E1C /* Assets.xcassets */; };
-		C182981736C6CD9D447C6C44 /* CountryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82C4510145EA5B067EC84EA2 /* CountryCardView.swift */; };
-		D4A2DAF9D869B74A851EC3E4 /* CountriesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */; };
-		EBC5A607776D31036B6D43C3 /* Accessibility.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 06355C201EA2822E3D5F843E /* Accessibility.xcstrings */; };
-		F93124583658E6917CA9BBF0 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316DCF61AAF64FB76CCD6CFA /* Utilities.swift */; };
+		AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,30 +25,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		049D66116E8F4AC83DAB4E1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		06355C201EA2822E3D5F843E /* Accessibility.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Accessibility.xcstrings; sourceTree = "<group>"; };
-		16C66C1ADABFE4F968F7565A /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
-		1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		316DCF61AAF64FB76CCD6CFA /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spacing.swift; sourceTree = "<group>"; };
 		4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModelTests.swift; sourceTree = "<group>"; };
-		BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModelTests.swift; sourceTree = "<group>"; };
-		DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModel.swift; sourceTree = "<group>"; };
-		50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListView.swift; sourceTree = "<group>"; };
-		6BC196792BF291EA1890683B /* SFSymbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbols.swift; sourceTree = "<group>"; };
 		72DF25621B2362A65CA3678A /* WorldPlugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugTests.swift; sourceTree = "<group>"; };
-		76F8067A57E06AFBB0D0AD16 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
-		82C4510145EA5B067EC84EA2 /* CountryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCardView.swift; sourceTree = "<group>"; };
-		8E5FC2A778148353A171BD33 /* VoltlyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoltlyApp.swift; sourceTree = "<group>"; };
-		9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModel.swift; sourceTree = "<group>"; };
 		BB083BD78B58EFFDD5205039 /* Repository */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Repository; sourceTree = SOURCE_ROOT; };
+		BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModelTests.swift; sourceTree = "<group>"; };
 		BE895993981725173845D8CA /* WorldPlugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFA74A3FB12D6E080B8BC455 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		C88B45CD0740631A00BBE12B /* WorldPlug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldPlug.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		EC613D38A1FFD737CE5131DD /* PlugDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailView.swift; sourceTree = "<group>"; };
-		FF2599EF9CA6A35B2B799D5C /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		4C5862312FEC210000B5718C /* Sources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4C5862452FEC210400B5718C /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		6F7BCE6E3BB27853A1169EA5 /* Frameworks */ = {
@@ -87,25 +66,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		275BA719A101AB924C482532 /* Plug detail */ = {
-			isa = PBXGroup;
-			children = (
-				EC613D38A1FFD737CE5131DD /* PlugDetailView.swift */,
-				B30FB85B91954F7ED76AD02E /* PlugDetailViewModel.swift */,
-			);
-			path = "Plug detail";
-			sourceTree = "<group>";
-		};
-		2C370AE7B29120DA3DCD00BC /* Countries List */ = {
-			isa = PBXGroup;
-			children = (
-				50B831DA0C6D54F5B94006C6 /* CountriesListView.swift */,
-				DD33EE44FF55AA00BB11CC22 /* CountriesListViewModel.swift */,
-				82C4510145EA5B067EC84EA2 /* CountryCardView.swift */,
-			);
-			path = "Countries List";
-			sourceTree = "<group>";
-		};
 		4164BA609669D3A239D6F01D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,47 +85,6 @@
 			);
 			sourceTree = "<group>";
 		};
-		68DEA5D02140104A1D0DCA95 /* Sources */ = {
-			isa = PBXGroup;
-			children = (
-				2C370AE7B29120DA3DCD00BC /* Countries List */,
-				275BA719A101AB924C482532 /* Plug detail */,
-				9F4FDE2BC607DF6A5938EEA4 /* UI Components */,
-				1DFDC080D03CFE4D75BF7A2B /* AppDelegate.swift */,
-				8E5FC2A778148353A171BD33 /* VoltlyApp.swift */,
-			);
-			path = Sources;
-			sourceTree = "<group>";
-		};
-		9F4FDE2BC607DF6A5938EEA4 /* UI Components */ = {
-			isa = PBXGroup;
-			children = (
-				76F8067A57E06AFBB0D0AD16 /* Card.swift */,
-				BFA74A3FB12D6E080B8BC455 /* Localizable.swift */,
-				6BC196792BF291EA1890683B /* SFSymbols.swift */,
-				4C35E8D770DDF1DE5C9E4B68 /* Spacing.swift */,
-				316DCF61AAF64FB76CCD6CFA /* Utilities.swift */,
-			);
-			path = "UI Components";
-			sourceTree = "<group>";
-		};
-		CE816A356EEA6E225C82AEA4 /* Copies */ = {
-			isa = PBXGroup;
-			children = (
-				06355C201EA2822E3D5F843E /* Accessibility.xcstrings */,
-				16C66C1ADABFE4F968F7565A /* Localizable.xcstrings */,
-			);
-			path = Copies;
-			sourceTree = "<group>";
-		};
-		D1A501F42492515D230525B8 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				9CE2E8B284442B1DEAFD7DD9 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		EC4A836C4A7EA4909975461D /* Packages */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,21 +96,10 @@
 		EE5D78E57F7E27A8BE148313 /* WorldPlug */ = {
 			isa = PBXGroup;
 			children = (
-				FDB1DBD504C8BBE030851C1D /* Resources */,
-				68DEA5D02140104A1D0DCA95 /* Sources */,
+				4C5862452FEC210400B5718C /* Resources */,
+				4C5862312FEC210000B5718C /* Sources */,
 			);
 			path = WorldPlug;
-			sourceTree = "<group>";
-		};
-		FDB1DBD504C8BBE030851C1D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				CE816A356EEA6E225C82AEA4 /* Copies */,
-				D1A501F42492515D230525B8 /* Preview Content */,
-				049D66116E8F4AC83DAB4E1C /* Assets.xcassets */,
-				FF2599EF9CA6A35B2B799D5C /* LaunchScreen.storyboard */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		FE2533C686150C6EB74E560F /* WorldPlugTests */ = {
@@ -218,6 +126,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				4C5862312FEC210000B5718C /* Sources */,
+				4C5862452FEC210400B5718C /* Resources */,
 			);
 			name = WorldPlug;
 			packageProductDependencies = (
@@ -285,11 +197,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBC5A607776D31036B6D43C3 /* Accessibility.xcstrings in Resources */,
-				AF03818491F5E68EAF6AC709 /* Assets.xcassets in Resources */,
-				127B154FCA66F411847C1ABA /* LaunchScreen.storyboard in Resources */,
-				8D6488D7912ABB8DF9E588A2 /* Localizable.xcstrings in Resources */,
-				3AAF0286B762C5720CA2CB14 /* Preview Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,18 +217,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35356E7083096BF989D3B72C /* AppDelegate.swift in Sources */,
-				4195FE1A3906F8BF0F89583C /* Card.swift in Sources */,
-				D4A2DAF9D869B74A851EC3E4 /* CountriesListView.swift in Sources */,
-				CC22DD33EE44FF55AA00BB11 /* CountriesListViewModel.swift in Sources */,
-				C182981736C6CD9D447C6C44 /* CountryCardView.swift in Sources */,
-				A54FB0082743C226A0F8B340 /* Localizable.swift in Sources */,
-				5BED1F5EA5799EDE4BEFCAB6 /* PlugDetailView.swift in Sources */,
-				570C7C09077A583F1EE85C1A /* PlugDetailViewModel.swift in Sources */,
-				11670E41260AA88B72E524DA /* SFSymbols.swift in Sources */,
-				20019574114B9F706608440D /* Spacing.swift in Sources */,
-				F93124583658E6917CA9BBF0 /* Utilities.swift in Sources */,
-				53A95F68511420C21EF684A9 /* VoltlyApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
