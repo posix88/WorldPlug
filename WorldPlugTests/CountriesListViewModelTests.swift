@@ -1,10 +1,10 @@
+import Foundation
+import Repository
 import SwiftData
 import Testing
-import Repository
-import Foundation
 @testable import WorldPlug
 
-// MARK: - InMemoryHomeCountryStore (test double)
+// MARK: - InMemoryHomeCountryStore
 
 final class InMemoryHomeCountryStore: HomeCountryStoring {
     var homeCountryCode: String = ""
@@ -20,11 +20,11 @@ struct CountriesListViewModelTests {
     private let viewModel: CountriesListViewModel
 
     init() throws {
-        container = try ModelContainer(
+        self.container = try ModelContainer(
             for: Country.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
-        context = container.mainContext
+        self.context = container.mainContext
         let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
         let japan = Country(code: "JP", voltage: "100V", frequency: "50Hz", flagUnicode: "🇯🇵")
         let usa = Country(code: "US", voltage: "120V", frequency: "60Hz", flagUnicode: "🇺🇸")
@@ -32,7 +32,7 @@ struct CountriesListViewModelTests {
         context.insert(japan)
         context.insert(usa)
         try context.save()
-        viewModel = CountriesListViewModel(modelContext: context)
+        self.viewModel = CountriesListViewModel(modelContext: context)
     }
 
     // MARK: Fetch
@@ -65,7 +65,10 @@ struct CountriesListViewModelTests {
     @Test("search filters correctly (case-insensitive)")
     func searchFiltersCorrectly() {
         let italyName = Locale.current.localizedString(forRegionCode: "IT") ?? ""
-        guard !italyName.isEmpty else { return }
+        guard !italyName.isEmpty else {
+            return
+        }
+
         viewModel.search(query: italyName.lowercased())
         #expect(viewModel.filteredCountries.allSatisfy {
             $0.name.lowercased().contains(italyName.lowercased())
@@ -106,11 +109,22 @@ struct HomeCountryViewModelTests {
         return (vm, store)
     }
 
-    private func makeCountry(code: String, plugIDs: [String] = [], in context: ModelContext) -> Country {
-        let country = Country(code: code, voltage: "230V", frequency: "50Hz", flagUnicode: "🏳️")
+    private func makeCountry(
+        code: String,
+        voltage: String = "230V",
+        plugIDs: [String] = [],
+        in context: ModelContext
+    ) -> Country {
+        let country = Country(code: code, voltage: voltage, frequency: "50Hz", flagUnicode: "🏳️")
         country.plugs = plugIDs.map {
-            let plug = Plug(id: $0, name: "Type \($0)", shortInfo: "", info: "", images: [],
-                 specifications: .init(pinDiameter: "", pinSpacing: "", ratedAmperage: "", alsoKnownAs: ""))
+            let plug = Plug(
+                id: $0,
+                name: "Type \($0)",
+                shortInfo: "",
+                info: "",
+                images: [],
+                specifications: .init(pinDiameter: "", pinSpacing: "", ratedAmperage: "", alsoKnownAs: "")
+            )
             context.insert(plug)
             return plug
         }
@@ -173,11 +187,40 @@ struct HomeCountryViewModelTests {
         #expect(store.homeCountryCode == "DE")
     }
 
+    @Test("setHome normalizes country codes before persisting")
+    func setHomeNormalizesCode() throws {
+        let container = try makeContainer()
+        let (vm, store) = makeVM(container: container)
+        vm.setHome(code: " it\n")
+        #expect(vm.homeCountryCode == "IT")
+        #expect(store.homeCountryCode == "IT")
+    }
+
     @Test("clearHome persists empty string through the store")
     func clearHomePersistsThroughStore() throws {
         let container = try makeContainer()
         let (vm, store) = makeVM(container: container, homeCode: "DE")
         vm.clearHome()
         #expect(store.homeCountryCode.isEmpty)
+    }
+
+    @Test("plugCompatibility returns adapterNeeded when voltage is compatible but plug differs")
+    func plugCompatibilityAdapterNeeded() throws {
+        let container = try makeContainer()
+        _ = makeCountry(code: "IT", voltage: "230V", plugIDs: ["C"], in: container.mainContext)
+        let destination = makeCountry(code: "GB", voltage: "240V", plugIDs: ["G"], in: container.mainContext)
+        try container.mainContext.save()
+        let (vm, _) = makeVM(container: container, homeCode: "IT")
+        #expect(vm.plugCompatibility(for: destination.plugs[0], in: destination) == .adapterNeeded)
+    }
+
+    @Test("plugCompatibility returns converterRequired when voltage differs")
+    func plugCompatibilityConverterRequired() throws {
+        let container = try makeContainer()
+        _ = makeCountry(code: "IT", voltage: "230V", plugIDs: ["C"], in: container.mainContext)
+        let destination = makeCountry(code: "US", voltage: "120V", plugIDs: ["C"], in: container.mainContext)
+        try container.mainContext.save()
+        let (vm, _) = makeVM(container: container, homeCode: "IT")
+        #expect(vm.plugCompatibility(for: destination.plugs[0], in: destination) == .converterRequired)
     }
 }

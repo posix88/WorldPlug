@@ -117,6 +117,8 @@ enum LocalizationKeys {
 
     static let accessibilityPlugCompatible = "accessibility.plug.compatible"
     static let accessibilityPlugAdapterNeeded = "accessibility.plug.adapter.needed"
+    static let accessibilityPlugConverterRequired = "accessibility.plug.converter.required"
+    static let accessibilityCompatibilityLegend = "accessibility.compatibility.legend"
     static let accessibilityHomeCountryBadge = "accessibility.home.country.badge"
     static let accessibilityVoltage = "accessibility.voltage"
     static let accessibilityFrequency = "accessibility.frequency"

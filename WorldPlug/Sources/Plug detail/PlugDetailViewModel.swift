@@ -30,7 +30,7 @@ final class PlugDetailViewModel: PlugDetailViewModelType {
 
     init(plug: Plug) {
         self.plug = plug
-        self.description = switch plug.plugType {
+        self.description = switch PlugType(rawValue: plug.id) ?? .unknown {
         case .a: LocalizationKeys.plugTypeADescription.localized
         case .b: LocalizationKeys.plugTypeBDescription.localized
         case .c: LocalizationKeys.plugTypeCDescription.localized

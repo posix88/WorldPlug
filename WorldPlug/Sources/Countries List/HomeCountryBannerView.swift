@@ -13,7 +13,7 @@ struct HomeCountryBannerView: View {
         HStack(spacing: .lg) {
             Image(systemName: "house.fill")
                 .font(.title3)
-                .foregroundStyle(.yellow)
+                .foregroundStyle(.voltTint)
 
             VStack(alignment: .leading, spacing: .xxs) {
                 Text(LocalizationKeys.homeCountryComparingWith.localized)
@@ -43,7 +43,7 @@ struct HomeCountryBannerView: View {
         .background(.cardSurface, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .strokeBorder(.yellow.opacity(0.45), lineWidth: 1)
+                .strokeBorder(.voltTint.opacity(0.45), lineWidth: 1)
         )
     }
 }
@@ -60,6 +60,6 @@ struct HomeCountryBannerView: View {
     return HomeCountryBannerView(country: country, onClear: {})
         .padding(.xxl)
         .preferredColorScheme(.dark)
-        .background(Color.black)
+        .background(.backgroundSurface)
 }
 #endif

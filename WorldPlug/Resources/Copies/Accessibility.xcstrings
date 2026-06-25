@@ -459,6 +459,40 @@
           }
         }
       }
+    },
+    "accessibility.plug.converter.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltage converter required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convertitore di tensione necessario"
+          }
+        }
+      }
+    },
+    "accessibility.compatibility.legend" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show compatibility legend"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra legenda compatibilità"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

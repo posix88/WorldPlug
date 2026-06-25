@@ -1,6 +1,6 @@
+import Repository
 import SwiftData
 import Testing
-import Repository
 @testable import WorldPlug
 
 // MARK: - PlugDetailViewModelTests
@@ -8,6 +8,10 @@ import Repository
 @Suite("PlugDetailViewModel")
 @MainActor
 struct PlugDetailViewModelTests {
+    private struct PlugFixture {
+        let container: ModelContainer
+        let plug: Plug
+    }
 
     private func makePlug(
         id: String = "A",
@@ -15,7 +19,7 @@ struct PlugDetailViewModelTests {
         pinDiameter: String = "1.5mm",
         pinSpacing: String = "12.7mm",
         ratedAmperage: String = "15A"
-    ) throws -> Plug {
+    ) throws -> PlugFixture {
         let container = try ModelContainer(
             for: Plug.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
@@ -34,57 +38,60 @@ struct PlugDetailViewModelTests {
             )
         )
         container.mainContext.insert(plug)
-        return plug
+        return PlugFixture(container: container, plug: plug)
     }
 
     // MARK: shareText
 
     @Test("shareText contains the plug type name")
     func shareTextContainsPlugTypeName() throws {
-        let plug = try makePlug(id: "A")
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(id: "A")
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("A"))
     }
 
     @Test("shareText contains the plug shortInfo")
     func shareTextContainsShortInfo() throws {
-        let plug = try makePlug(shortInfo: "Two flat parallel pins")
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(shortInfo: "Two flat parallel pins")
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("Two flat parallel pins"))
     }
 
     @Test("shareText contains pin diameter")
     func shareTextContainsPinDiameter() throws {
-        let plug = try makePlug(pinDiameter: "1.5mm")
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(pinDiameter: "1.5mm")
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("1.5mm"))
     }
 
     @Test("shareText contains pin spacing")
     func shareTextContainsPinSpacing() throws {
-        let plug = try makePlug(pinSpacing: "12.7mm")
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(pinSpacing: "12.7mm")
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("12.7mm"))
     }
 
     @Test("shareText contains rated amperage")
     func shareTextContainsRatedAmperage() throws {
-        let plug = try makePlug(ratedAmperage: "15A")
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(ratedAmperage: "15A")
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("15A"))
     }
 
     @Test("shareText contains Voltly branding")
     func shareTextContainsBranding() throws {
-        let plug = try makePlug()
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug()
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(vm.shareText.contains("Voltly"))
     }
 
-    @Test("shareText is non-empty for all plug types", arguments: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O"])
+    @Test(
+        "shareText is non-empty for all plug types",
+        arguments: ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"]
+    )
     func shareTextIsNonEmptyForAllTypes(id: String) throws {
-        let plug = try makePlug(id: id)
-        let vm = PlugDetailViewModel(plug: plug)
+        let fixture = try makePlug(id: id)
+        let vm = PlugDetailViewModel(plug: fixture.plug)
         #expect(!vm.shareText.isEmpty)
     }
 }

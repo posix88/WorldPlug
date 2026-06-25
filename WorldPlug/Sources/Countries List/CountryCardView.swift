@@ -104,6 +104,9 @@ struct CountryCard: View {
                                         CompatibilityLegendView()
                                             .presentationCompactAdaptation(.popover)
                                     }
+                                    .accessibilityLabel(LocalizationKeys.accessibilityCompatibilityLegend.localized(
+                                        from: .accessibility
+                                    ))
                                 }
                             }
 
@@ -201,7 +204,8 @@ struct CountryCard: View {
                                         .background(.voltTint)
                                         .roundedCorner(radius: 6)
                                         .accessibilityLabel(LocalizationKeys.accessibilityHomeCountryBadge
-                                            .localized(from: .accessibility))
+                                            .localized(from: .accessibility)
+                                        )
                                 }
                             }
 
@@ -251,6 +255,7 @@ private struct CompatibilityBadge: View {
             .foregroundStyle(.white)
             .frame(width: 13, height: 13)
             .background(badgeColor, in: Circle())
+            .accessibilityLabel(compatibility.accessibilityLabel)
     }
 
     private var iconName: String {
@@ -283,9 +288,10 @@ private struct CompatibilityLegendView: View {
                     Text(compatibility.legendTitle)
                         .font(.subheadline)
                         .fontWeight(.semibold)
+                        .foregroundStyle(.textRegular)
                     Text(compatibility.legendDescription)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.textLight)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -296,6 +302,7 @@ private struct CompatibilityLegendView: View {
         VStack(alignment: .leading, spacing: .xl) {
             Text(LocalizationKeys.compatibilityLegendTitle.localized)
                 .font(.headline)
+                .foregroundStyle(.textRegular)
 
             VStack(alignment: .leading, spacing: .lg) {
                 LegendRow(compatibility: .compatible)
@@ -324,6 +331,14 @@ private extension PlugCompatibility {
         case .compatible: LocalizationKeys.compatibilityLegendCompatibleDesc.localized
         case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterDesc.localized
         case .converterRequired: LocalizationKeys.compatibilityLegendConverterDesc.localized
+        }
+    }
+
+    var accessibilityLabel: String {
+        switch self {
+        case .compatible: LocalizationKeys.accessibilityPlugCompatible.localized(from: .accessibility)
+        case .adapterNeeded: LocalizationKeys.accessibilityPlugAdapterNeeded.localized(from: .accessibility)
+        case .converterRequired: LocalizationKeys.accessibilityPlugConverterRequired.localized(from: .accessibility)
         }
     }
 }
@@ -382,18 +397,6 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
             }
         }
         .clipped() // Clip overflow to prevent ugly transitions
-    }
-}
-
-// MARK: - ScaleButtonStyle
-
-/// Scale button style for better interaction feedback
-struct ScaleButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
-            .opacity(configuration.isPressed ? 0.8 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
     }
 }
 

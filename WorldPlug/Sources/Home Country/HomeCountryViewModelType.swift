@@ -1,9 +1,34 @@
 import Repository
 import SwiftUI
 
+// MARK: - VoltageCompatibility
+
+enum VoltageCompatibility {
+    static func isCompatible(_ lhs: String, _ rhs: String, tolerance: Int = 20) -> Bool {
+        let lhsVoltages = parseVoltages(lhs)
+        let rhsVoltages = parseVoltages(rhs)
+
+        guard !lhsVoltages.isEmpty, !rhsVoltages.isEmpty else {
+            return true
+        }
+
+        return lhsVoltages.contains { lhsVoltage in
+            rhsVoltages.contains { rhsVoltage in
+                abs(lhsVoltage - rhsVoltage) <= tolerance
+            }
+        }
+    }
+
+    private static func parseVoltages(_ string: String) -> [Int] {
+        string.components(separatedBy: .decimalDigits.inverted)
+            .filter { !$0.isEmpty }
+            .compactMap(Int.init)
+    }
+}
+
 // MARK: - PlugCompatibility
 
-enum PlugCompatibility {
+enum PlugCompatibility: Equatable {
     /// Same voltage range and plug shape — no adapter needed.
     case compatible
     /// Voltage is compatible but plug shape differs — adapter needed.
@@ -72,21 +97,10 @@ final class PreviewHomeCountryViewModel: HomeCountryViewModelType {
             return .compatible
         }
 
-        if !homeVoltage.isEmpty {
-            let homeVoltages = parseVoltages(homeVoltage)
-            let destVoltages = parseVoltages(country.voltage)
-            let voltageOK = homeVoltages.contains { hv in destVoltages.contains { dv in abs(hv - dv) <= 20 } }
-            if !voltageOK {
-                return .converterRequired
-            }
+        if !homeVoltage.isEmpty, !VoltageCompatibility.isCompatible(homeVoltage, country.voltage) {
+            return .converterRequired
         }
         return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
-    }
-
-    private func parseVoltages(_ string: String) -> [Int] {
-        string.components(separatedBy: CharacterSet.decimalDigits.inverted)
-            .filter { !$0.isEmpty }
-            .compactMap(Int.init)
     }
 }
 #endif

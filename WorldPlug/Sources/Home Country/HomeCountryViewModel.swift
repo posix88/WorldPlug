@@ -1,3 +1,4 @@
+import Foundation
 import Observation
 import Repository
 import SwiftData
@@ -15,13 +16,16 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     var homeCountryCode: String
 
     var homeCountry: Country? {
-        guard !homeCountryCode.isEmpty else {
+        let code = homeCountryCode
+        guard !code.isEmpty else {
             return nil
         }
 
-        let descriptor = FetchDescriptor<Country>()
-        let all = (try? modelContext.fetch(descriptor)) ?? []
-        return all.first { $0.code == homeCountryCode }
+        var descriptor = FetchDescriptor<Country>(
+            predicate: #Predicate { $0.code == code }
+        )
+        descriptor.fetchLimit = 1
+        return try? modelContext.fetch(descriptor).first
     }
 
     var homePlugTypeIDs: Set<String> {
@@ -34,12 +38,13 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     ) {
         self.store = store
         self.modelContext = modelContext
-        self.homeCountryCode = store.homeCountryCode
+        self.homeCountryCode = Self.normalizedCountryCode(store.homeCountryCode)
     }
 
     func setHome(code: String) {
-        homeCountryCode = code
-        store.homeCountryCode = code
+        let normalizedCode = Self.normalizedCountryCode(code)
+        homeCountryCode = normalizedCode
+        store.homeCountryCode = normalizedCode
     }
 
     func clearHome() {
@@ -54,23 +59,15 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         guard let home = homeCountry else {
             return .compatible
         }
-
-        let homeVoltages = parseVoltages(home.voltage)
-        let destVoltages = parseVoltages(country.voltage)
-        let voltageCompatible = homeVoltages.contains { hv in
-            destVoltages.contains { dv in abs(hv - dv) <= 20 }
-        }
-
-        guard voltageCompatible else {
+        guard VoltageCompatibility.isCompatible(home.voltage, country.voltage) else {
             return .converterRequired
         }
 
+        let homePlugTypeIDs = Set(home.plugs.map(\.id))
         return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
     }
 
-    private func parseVoltages(_ string: String) -> [Int] {
-        string.components(separatedBy: .decimalDigits.inverted)
-            .filter { !$0.isEmpty }
-            .compactMap(Int.init)
+    private static func normalizedCountryCode(_ code: String) -> String {
+        code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     }
 }
