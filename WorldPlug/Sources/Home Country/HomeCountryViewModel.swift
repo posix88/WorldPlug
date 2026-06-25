@@ -8,7 +8,7 @@ import SwiftData
 /// Owned at the app root and injected via SwiftUI `.environment()`.
 @Observable
 @MainActor
-final class HomeCountryViewModel {
+final class HomeCountryViewModel: HomeCountryViewModelType {
     private var store: any HomeCountryStoring
     private let modelContext: ModelContext
 

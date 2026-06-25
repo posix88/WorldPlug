@@ -4,14 +4,14 @@ import SwiftUI
 
 // MARK: - OnboardingView
 
-struct OnboardingView: View {
-    @State private var viewModel: OnboardingViewModel
+struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
+    @State private var viewModel: ViewModel
     @State private var page: Int = 0
 
     let onComplete: () -> Void
 
-    init(modelContext: ModelContext, onComplete: @escaping () -> Void) {
-        _viewModel = State(initialValue: OnboardingViewModel(modelContext: modelContext))
+    init(viewModel: ViewModel, onComplete: @escaping () -> Void) {
+        _viewModel = State(initialValue: viewModel)
         self.onComplete = onComplete
     }
 
@@ -33,22 +33,20 @@ struct OnboardingView: View {
     }
 }
 
+extension OnboardingView where ViewModel == OnboardingViewModel {
+    init(modelContext: ModelContext, onComplete: @escaping () -> Void) {
+        self.init(viewModel: OnboardingViewModel(modelContext: modelContext), onComplete: onComplete)
+    }
+}
+
 // MARK: - Preview
 
 #if DEBUG
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Country.self, configurations: config)
-    for code in ["IT", "GB", "US", "JP", "DE", "FR", "AU", "BR"] {
-        container.mainContext.insert(
-            Country(code: code, voltage: "230V", frequency: "50Hz", flagUnicode: "🏳️")
-        )
+    let countries = ["IT", "GB", "US", "JP", "DE", "FR", "AU", "BR"].map {
+        Country(code: $0, voltage: "230V", frequency: "50Hz", flagUnicode: "🏳️")
     }
-    let homeVM = HomeCountryViewModel(
-        store: UserDefaultsHomeCountryStore(),
-        modelContext: container.mainContext
-    )
-    return OnboardingView(modelContext: container.mainContext, onComplete: {})
-        .environment(homeVM)
+    return OnboardingView(viewModel: PreviewOnboardingViewModel(countries: countries), onComplete: {})
+        .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel())
 }
 #endif

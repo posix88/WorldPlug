@@ -13,14 +13,14 @@ struct VoltlyApp: App {
     var body: some Scene {
         WindowGroup {
             CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
-                .environment(homeCountryViewModel)
+                .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .fullScreenCover(isPresented: .constant(!hasSeenOnboarding)) {
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext
                     ) {
                         hasSeenOnboarding = true
                     }
-                    .environment(homeCountryViewModel)
+                    .environment(\.homeCountryViewModel, homeCountryViewModel)
                 }
         }
         .modelContainer(Repository.sharedModelContainer)

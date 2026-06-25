@@ -12,7 +12,7 @@ import SwiftUI
 
 struct CountryCard: View {
     let country: Country
-    @Environment(HomeCountryViewModel.self) private var homeViewModel
+    @Environment(\.homeCountryViewModel) private var homeViewModel
     @State private var plugTapTrigger = false
 
     private var isHomeCountry: Bool { country.code == homeViewModel.homeCountryCode }
@@ -435,11 +435,8 @@ import SwiftData
         )
     ]
 
-    let homeVM = HomeCountryViewModel(
-        store: UserDefaultsHomeCountryStore(),
-        modelContext: container.mainContext
-    )
+    let homeVM = PreviewHomeCountryViewModel(homeCountryCode: "GB", plugTypeIDs: ["C", "G"])
     return CountryCard(country: country)
-        .environment(homeVM)
+        .environment(\.homeCountryViewModel, homeVM)
 }
 #endif

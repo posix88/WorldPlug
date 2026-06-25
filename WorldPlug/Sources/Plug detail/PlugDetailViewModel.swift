@@ -1,9 +1,20 @@
 import Observation
 import Repository
 
+// MARK: - PlugDetailViewModelType
+
+@MainActor
+protocol PlugDetailViewModelType: AnyObject, Observable {
+    var plug: Plug { get }
+    var description: String { get }
+    var shareText: String { get }
+}
+
+// MARK: - PlugDetailViewModel
+
 @Observable
 @MainActor
-final class PlugDetailViewModel {
+final class PlugDetailViewModel: PlugDetailViewModelType {
     @ObservationIgnored let plug: Plug
     let description: String
 
@@ -39,3 +50,22 @@ final class PlugDetailViewModel {
         }
     }
 }
+
+#if DEBUG
+
+// MARK: - PreviewPlugDetailViewModel
+
+@Observable
+@MainActor
+final class PreviewPlugDetailViewModel: PlugDetailViewModelType {
+    var plug: Plug
+    var description: String
+    var shareText: String
+
+    init(plug: Plug) {
+        self.plug = plug
+        self.description = plug.shortInfo
+        self.shareText = "\(plug.name): \(plug.shortInfo)"
+    }
+}
+#endif

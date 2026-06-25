@@ -15,7 +15,7 @@ struct OnboardingWelcomeView: View {
             Spacer()
 
             // Bolt + title
-            VStack(spacing: 20) {
+            VStack(spacing: .xxl) {
                 ZStack {
                     Circle()
                         .fill(.yellow.opacity(0.12))
@@ -36,7 +36,7 @@ struct OnboardingWelcomeView: View {
                 .scaleEffect(logoScale)
                 .opacity(logoOpacity)
 
-                VStack(spacing: 8) {
+                VStack(spacing: .md) {
                     Text(String(localized: "Voltly"))
                         .font(.system(size: 48, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
@@ -51,7 +51,7 @@ struct OnboardingWelcomeView: View {
             Spacer()
 
             // Feature rows
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: .xxl) {
                 OnboardingFeatureRow(
                     icon: "globe.europe.africa.fill",
                     title: String(localized: "200+ countries"),
@@ -68,9 +68,9 @@ struct OnboardingWelcomeView: View {
                     subtitle: String(localized: "Know exactly what you need before you pack")
                 )
             }
-            .padding(.horizontal, 32)
+            .padding(.horizontal, .max)
             .opacity(featuresVisible ? 1 : 0)
-            .offset(y: featuresVisible ? 0 : 24)
+            .offset(y: featuresVisible ? 0 : .xxxl)
 
             Spacer()
 
@@ -84,10 +84,10 @@ struct OnboardingWelcomeView: View {
                     .background(.yellow)
                     .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
             }
-            .padding(.horizontal, 24)
+            .padding(.horizontal, .xxxl)
             .padding(.bottom, 52)
             .opacity(ctaVisible ? 1 : 0)
-            .offset(y: ctaVisible ? 0 : 16)
+            .offset(y: ctaVisible ? 0 : .xl)
         }
         .onAppear { animateEntrance() }
     }
@@ -114,13 +114,13 @@ struct OnboardingFeatureRow: View {
     let subtitle: String
 
     var body: some View {
-        HStack(alignment: .top, spacing: 16) {
+        HStack(alignment: .top, spacing: .xl) {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundStyle(.yellow)
                 .frame(width: 36)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: .xxs) {
                 Text(title)
                     .font(.subheadline)
                     .fontWeight(.semibold)

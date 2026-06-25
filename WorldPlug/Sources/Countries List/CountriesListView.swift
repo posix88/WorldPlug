@@ -4,13 +4,12 @@ import SwiftUI
 
 // MARK: - CountriesListView
 
-struct CountriesListView: View {
-    @State private var viewModel: CountriesListViewModel
+struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
+    @State private var viewModel: ViewModel
     @State private var path = NavigationPath()
     @State private var searchQuery: String = ""
 
-    init(modelContext: ModelContext) {
-        let viewModel = CountriesListViewModel(modelContext: modelContext)
+    init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
 
@@ -91,13 +90,19 @@ struct CountriesListView: View {
     }
 }
 
+extension CountriesListView where ViewModel == CountriesListViewModel {
+    init(modelContext: ModelContext) {
+        self.init(viewModel: CountriesListViewModel(modelContext: modelContext))
+    }
+}
+
 #if DEBUG
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Country.self, configurations: config)
 
-    for i in ["AF", "IT", "GB", "FO", "GU"] {
-        let country = Country(code: "\(i)", voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
+    for code in ["AF", "IT", "GB", "FO", "GU"] {
+        let country = Country(code: code, voltage: "230V", frequency: "50Hz", flagUnicode: "🏴‍☠️")
         container.mainContext.insert(country)
         country.plugs = [
             Plug(
@@ -114,21 +119,8 @@ struct CountriesListView: View {
                 )
             ),
             Plug(
-                id: "B",
-                name: "Type B",
-                shortInfo: "short info",
-                info: "info",
-                images: [],
-                specifications: .init(
-                    pinDiameter: "1.5mm",
-                    pinSpacing: "12.7mm",
-                    ratedAmperage: "10A",
-                    alsoKnownAs: "AS/NZS 3112"
-                )
-            ),
-            Plug(
                 id: "C",
-                name: "Type B",
+                name: "Type C",
                 shortInfo: "short info",
                 info: "info",
                 images: [],
@@ -136,31 +128,18 @@ struct CountriesListView: View {
                     pinDiameter: "1.5mm",
                     pinSpacing: "12.7mm",
                     ratedAmperage: "10A",
-                    alsoKnownAs: "AS/NZS 3112"
-                )
-            ),
-            Plug(
-                id: "D",
-                name: "Type B",
-                shortInfo: "short info",
-                info: "info",
-                images: [],
-                specifications: .init(
-                    pinDiameter: "1.5mm",
-                    pinSpacing: "12.7mm",
-                    ratedAmperage: "10A",
-                    alsoKnownAs: "AS/NZS 3112"
+                    alsoKnownAs: "CEE 7/16"
                 )
             )
         ]
     }
 
-    let homeVM = HomeCountryViewModel(
-        store: UserDefaultsHomeCountryStore(),
-        modelContext: container.mainContext
-    )
-    return CountriesListView(modelContext: container.mainContext)
+    let descriptor = FetchDescriptor<Country>(sortBy: [SortDescriptor(\.name)])
+    let countries = (try? container.mainContext.fetch(descriptor)) ?? []
+    let previewVM = PreviewCountriesListViewModel(countries: countries)
+
+    return CountriesListView(viewModel: previewVM)
         .modelContainer(container)
-        .environment(homeVM)
+        .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel(homeCountryCode: "IT", plugTypeIDs: ["A", "C"]))
 }
 #endif

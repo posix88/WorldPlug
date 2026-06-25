@@ -6,9 +6,8 @@ import SwiftData
 // MARK: - CountriesListViewModelType
 
 @MainActor
-protocol CountriesListViewModelType {
+protocol CountriesListViewModelType: AnyObject, Observable {
     var filteredCountries: [Country] { get }
-
     func search(query: String)
 }
 
@@ -46,3 +45,29 @@ final class CountriesListViewModel: CountriesListViewModelType {
         filteredCountries = countries.lazy.filter { $0.name.lowercased().contains(query.lowercased()) }
     }
 }
+
+#if DEBUG
+
+// MARK: - PreviewCountriesListViewModel
+
+@Observable
+@MainActor
+final class PreviewCountriesListViewModel: CountriesListViewModelType {
+    private var allCountries: [Country]
+    var filteredCountries: [Country]
+
+    init(countries: [Country] = []) {
+        self.allCountries = countries
+        self.filteredCountries = countries
+    }
+
+    func search(query: String) {
+        guard !query.isEmpty else {
+            filteredCountries = allCountries
+            return
+        }
+
+        filteredCountries = allCountries.filter { $0.name.localizedCaseInsensitiveContains(query) }
+    }
+}
+#endif
