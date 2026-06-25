@@ -46,4 +46,31 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         homeCountryCode = ""
         store.homeCountryCode = ""
     }
+
+    func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility {
+        guard !homeCountryCode.isEmpty, country.code != homeCountryCode else {
+            return .compatible
+        }
+        guard let home = homeCountry else {
+            return .compatible
+        }
+
+        let homeVoltages = parseVoltages(home.voltage)
+        let destVoltages = parseVoltages(country.voltage)
+        let voltageCompatible = homeVoltages.contains { hv in
+            destVoltages.contains { dv in abs(hv - dv) <= 20 }
+        }
+
+        guard voltageCompatible else {
+            return .converterRequired
+        }
+
+        return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
+    }
+
+    private func parseVoltages(_ string: String) -> [Int] {
+        string.components(separatedBy: .decimalDigits.inverted)
+            .filter { !$0.isEmpty }
+            .compactMap(Int.init)
+    }
 }

@@ -4,6 +4,16 @@
     "%@" : {
       "shouldTranslate" : false
     },
+    "%@  %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@  %2$@"
+          }
+        }
+      }
+    },
     "also.known.as" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -34,6 +44,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Voltly"
+          }
+        }
+      }
+    },
+    "compatibility.legend.adapter.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug shape differs, voltage is compatible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forma della spina diversa, tensione compatibile"
+          }
+        }
+      }
+    },
+    "compatibility.legend.adapter.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter needed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adattatore necessario"
+          }
+        }
+      }
+    },
+    "compatibility.legend.compatible.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Same voltage and plug type — no adapter needed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stessa tensione e tipo di spina — nessun adattatore necessario"
+          }
+        }
+      }
+    },
+    "compatibility.legend.compatible.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatible"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibile"
+          }
+        }
+      }
+    },
+    "compatibility.legend.converter.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltage differs — a step-down converter is needed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tensione diversa — è necessario un convertitore di tensione"
+          }
+        }
+      }
+    },
+    "compatibility.legend.converter.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Converter required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Convertitore necessario"
+          }
+        }
+      }
+    },
+    "compatibility.legend.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibility Legend"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legenda compatibilità"
           }
         }
       }
@@ -160,6 +289,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Casa"
+          }
+        }
+      }
+    },
+    "home.country.comparing.with" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparing plugs with"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confronto prese con"
           }
         }
       }

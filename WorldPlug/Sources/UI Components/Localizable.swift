@@ -95,6 +95,17 @@ enum LocalizationKeys {
     static let homeCountryRemove = "home.country.remove"
     static let homeCountryCompatible = "home.country.compatible"
     static let homeCountryAdapterNeeded = "home.country.adapter.needed"
+    static let homeCountryComparingWith = "home.country.comparing.with"
+
+    // MARK: - Compatibility Legend
+
+    static let compatibilityLegendTitle = "compatibility.legend.title"
+    static let compatibilityLegendCompatibleTitle = "compatibility.legend.compatible.title"
+    static let compatibilityLegendCompatibleDesc = "compatibility.legend.compatible.desc"
+    static let compatibilityLegendAdapterTitle = "compatibility.legend.adapter.title"
+    static let compatibilityLegendAdapterDesc = "compatibility.legend.adapter.desc"
+    static let compatibilityLegendConverterTitle = "compatibility.legend.converter.title"
+    static let compatibilityLegendConverterDesc = "compatibility.legend.converter.desc"
 
     // MARK: - General
 

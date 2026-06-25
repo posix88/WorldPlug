@@ -1,6 +1,17 @@
 import Repository
 import SwiftUI
 
+// MARK: - PlugCompatibility
+
+enum PlugCompatibility {
+    /// Same voltage range and plug shape — no adapter needed.
+    case compatible
+    /// Voltage is compatible but plug shape differs — adapter needed.
+    case adapterNeeded
+    /// Voltage differs significantly — a converter is required.
+    case converterRequired
+}
+
 // MARK: - HomeCountryViewModelType
 
 /// Public API for the home-country feature.
@@ -12,6 +23,7 @@ protocol HomeCountryViewModelType: AnyObject {
     @MainActor var homePlugTypeIDs: Set<String> { get }
     @MainActor func setHome(code: String)
     @MainActor func clearHome()
+    @MainActor func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility
 }
 
 // MARK: - NullHomeCountryViewModel
@@ -25,6 +37,7 @@ final class NullHomeCountryViewModel: HomeCountryViewModelType {
     @MainActor var homePlugTypeIDs: Set<String> { [] }
     @MainActor func setHome(code: String) {}
     @MainActor func clearHome() {}
+    @MainActor func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility { .compatible }
 }
 
 // MARK: - EnvironmentValues
@@ -43,13 +56,37 @@ final class PreviewHomeCountryViewModel: HomeCountryViewModelType {
     var homeCountryCode: String
     var homeCountry: Country?
     var homePlugTypeIDs: Set<String>
+    var homeVoltage: String
 
-    init(homeCountryCode: String = "", plugTypeIDs: Set<String> = []) {
+    init(homeCountryCode: String = "", plugTypeIDs: Set<String> = [], homeVoltage: String = "") {
         self.homeCountryCode = homeCountryCode
         self.homePlugTypeIDs = plugTypeIDs
+        self.homeVoltage = homeVoltage
     }
 
     func setHome(code: String) { homeCountryCode = code }
     func clearHome() { homeCountryCode = "" }
+
+    func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility {
+        guard !homeCountryCode.isEmpty, country.code != homeCountryCode else {
+            return .compatible
+        }
+
+        if !homeVoltage.isEmpty {
+            let homeVoltages = parseVoltages(homeVoltage)
+            let destVoltages = parseVoltages(country.voltage)
+            let voltageOK = homeVoltages.contains { hv in destVoltages.contains { dv in abs(hv - dv) <= 20 } }
+            if !voltageOK {
+                return .converterRequired
+            }
+        }
+        return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
+    }
+
+    private func parseVoltages(_ string: String) -> [Int] {
+        string.components(separatedBy: CharacterSet.decimalDigits.inverted)
+            .filter { !$0.isEmpty }
+            .compactMap(Int.init)
+    }
 }
 #endif

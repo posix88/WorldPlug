@@ -14,10 +14,10 @@ struct CountryCard: View {
     let country: Country
     @Environment(\.homeCountryViewModel) private var homeViewModel
     @State private var plugTapTrigger = false
+    @State private var showLegend = false
 
     private var isHomeCountry: Bool { country.code == homeViewModel.homeCountryCode }
     private var showCompatibility: Bool { !homeViewModel.homeCountryCode.isEmpty && !isHomeCountry }
-    private func isCompatible(plug: Plug) -> Bool { homeViewModel.homePlugTypeIDs.contains(plug.id) }
 
     var body: some View {
         Card(shadow: .subtle) {
@@ -81,13 +81,31 @@ struct CountryCard: View {
 
                         // Enhanced plugs section
                         VStack(alignment: .leading, spacing: .lg) {
-                            Text(LocalizationKeys.compatiblePlugs.localized)
-                                .font(.footnote)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.textLight)
-                                .textCase(.uppercase)
-                                .tracking(0.5)
-                                .accessibilityAddTraits(.isHeader)
+                            HStack {
+                                Text(LocalizationKeys.compatiblePlugs.localized)
+                                    .font(.footnote)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.textLight)
+                                    .textCase(.uppercase)
+                                    .tracking(0.5)
+                                    .accessibilityAddTraits(.isHeader)
+
+                                if showCompatibility {
+                                    Spacer()
+                                    Button {
+                                        showLegend.toggle()
+                                    } label: {
+                                        Image(systemName: "info.circle")
+                                            .font(.footnote)
+                                            .foregroundStyle(.textLighter)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .popover(isPresented: $showLegend, arrowEdge: .top) {
+                                        CompatibilityLegendView()
+                                            .presentationCompactAdaptation(.popover)
+                                    }
+                                }
+                            }
 
                             // Simple plug type titles
                             LazyVGrid(columns: [
@@ -99,9 +117,20 @@ struct CountryCard: View {
                                         HStack(spacing: .md) {
                                             SFSymbols.plugSymbol(for: plug.plugType)
                                                 .image
-                                                .font(.callout)
+                                                .font(.title3)
                                                 .fontWeight(.medium)
                                                 .foregroundStyle(.textRegular)
+                                                .overlay(alignment: .topTrailing) {
+                                                    if showCompatibility {
+                                                        CompatibilityBadge(
+                                                            compatibility: homeViewModel.plugCompatibility(
+                                                                for: plug,
+                                                                in: country
+                                                            )
+                                                        )
+                                                        .offset(x: 6, y: -6)
+                                                    }
+                                                }
 
                                             Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
                                                 .font(.callout)
@@ -109,30 +138,6 @@ struct CountryCard: View {
                                                 .foregroundStyle(.textRegular)
 
                                             Spacer()
-
-                                            if showCompatibility {
-                                                if isCompatible(plug: plug) {
-                                                    Label(
-                                                        LocalizationKeys.homeCountryCompatible.localized,
-                                                        systemImage: "checkmark.circle.fill"
-                                                    )
-                                                    .font(.caption2)
-                                                    .foregroundStyle(.green)
-                                                    .labelStyle(.iconOnly)
-                                                    .accessibilityLabel(LocalizationKeys.accessibilityPlugCompatible
-                                                        .localized(from: .accessibility))
-                                                } else {
-                                                    Label(
-                                                        LocalizationKeys.homeCountryAdapterNeeded.localized,
-                                                        systemImage: "exclamationmark.triangle.fill"
-                                                    )
-                                                    .font(.caption2)
-                                                    .foregroundStyle(.orange)
-                                                    .labelStyle(.iconOnly)
-                                                    .accessibilityLabel(LocalizationKeys.accessibilityPlugAdapterNeeded
-                                                        .localized(from: .accessibility))
-                                                }
-                                            }
 
                                             SFSymbols.chevronRight
                                                 .image
@@ -231,6 +236,94 @@ struct CountryCard: View {
                     Label(LocalizationKeys.homeCountrySet.localized, systemImage: "house.fill")
                 }
             }
+        }
+    }
+}
+
+// MARK: - CompatibilityBadge
+
+private struct CompatibilityBadge: View {
+    let compatibility: PlugCompatibility
+
+    var body: some View {
+        Image(systemName: iconName)
+            .font(.system(size: 7, weight: .bold))
+            .foregroundStyle(.white)
+            .frame(width: 13, height: 13)
+            .background(badgeColor, in: Circle())
+    }
+
+    private var iconName: String {
+        switch compatibility {
+        case .compatible: "checkmark"
+        case .adapterNeeded: "powerplug.fill"
+        case .converterRequired: "exclamationmark"
+        }
+    }
+
+    private var badgeColor: Color {
+        switch compatibility {
+        case .compatible: .green
+        case .adapterNeeded: .orange
+        case .converterRequired: .red
+        }
+    }
+}
+
+// MARK: - CompatibilityLegendView
+
+private struct CompatibilityLegendView: View {
+    private struct LegendRow: View {
+        let compatibility: PlugCompatibility
+        var body: some View {
+            HStack(alignment: .top, spacing: .lg) {
+                CompatibilityBadge(compatibility: compatibility)
+                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: .xxs) {
+                    Text(compatibility.legendTitle)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                    Text(compatibility.legendDescription)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .xl) {
+            Text(LocalizationKeys.compatibilityLegendTitle.localized)
+                .font(.headline)
+
+            VStack(alignment: .leading, spacing: .lg) {
+                LegendRow(compatibility: .compatible)
+                LegendRow(compatibility: .adapterNeeded)
+                LegendRow(compatibility: .converterRequired)
+            }
+        }
+        .padding(.xxl)
+        .frame(minWidth: 260)
+    }
+}
+
+// MARK: - PlugCompatibility + Legend strings
+
+private extension PlugCompatibility {
+    var legendTitle: String {
+        switch self {
+        case .compatible: LocalizationKeys.compatibilityLegendCompatibleTitle.localized
+        case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterTitle.localized
+        case .converterRequired: LocalizationKeys.compatibilityLegendConverterTitle.localized
+        }
+    }
+
+    var legendDescription: String {
+        switch self {
+        case .compatible: LocalizationKeys.compatibilityLegendCompatibleDesc.localized
+        case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterDesc.localized
+        case .converterRequired: LocalizationKeys.compatibilityLegendConverterDesc.localized
         }
     }
 }

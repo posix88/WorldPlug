@@ -8,6 +8,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var viewModel: ViewModel
     @State private var path = NavigationPath()
     @State private var searchQuery: String = ""
+    @Environment(\.homeCountryViewModel) private var homeViewModel
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -33,13 +34,22 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .padding(.top, .md)
-                        .padding(.bottom, .lg)
+                        .padding(.bottom, homeViewModel.homeCountry != nil ? .xs : .lg)
                         .accessibilityElement(children: .combine)
                         .accessibilityLabel(LocalizationKeys.accessibilityCountriesHeader.localized(from: .accessibility))
                         .accessibilityValue(LocalizationKeys.accessibilityCountryAvailableCount.localized(
                             from: .accessibility,
                             viewModel.filteredCountries.count
                         ))
+
+                        // Home country context banner
+                        if let homeCountry = homeViewModel.homeCountry {
+                            HomeCountryBannerView(country: homeCountry) {
+                                homeViewModel.clearHome()
+                            }
+                            .padding(.bottom, .xs)
+                            .transition(.opacity.combined(with: .move(edge: .top)))
+                        }
                     }
 
                     // Countries list
