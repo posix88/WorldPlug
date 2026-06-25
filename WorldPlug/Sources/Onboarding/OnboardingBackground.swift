@@ -12,9 +12,9 @@ struct OnboardingBackground: View {
                 [0.0, 1.0], [0.5, 1.0], [1.0, 1.0]
             ],
             colors: [
-                .deepCosmos, .deepNavy,   .deepCosmos,
-                .deepPurple, .electricPulse, .deepIndigo,
-                .deepSpace,  .deepViolet, .deepSpace
+                .deepCosmos, .deepNavy, .deepCosmos,
+                .deepPurple, .electricPulse.opacity(0.60), .deepIndigo,
+                .deepSpace, .deepViolet, .deepSpace
             ]
         )
     }

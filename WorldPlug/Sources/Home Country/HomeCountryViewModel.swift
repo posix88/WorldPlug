@@ -15,7 +15,10 @@ final class HomeCountryViewModel {
     var homeCountryCode: String
 
     var homeCountry: Country? {
-        guard !homeCountryCode.isEmpty else { return nil }
+        guard !homeCountryCode.isEmpty else {
+            return nil
+        }
+
         let descriptor = FetchDescriptor<Country>()
         let all = (try? modelContext.fetch(descriptor)) ?? []
         return all.first { $0.code == homeCountryCode }

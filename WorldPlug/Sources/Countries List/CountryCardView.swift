@@ -111,18 +111,26 @@ struct CountryCard: View {
                                             Spacer()
 
                                             if showCompatibility {
-                                               if isCompatible(plug: plug) {
-                                                    Label(LocalizationKeys.homeCountryCompatible.localized, systemImage: "checkmark.circle.fill")
-                                                        .font(.caption2)
-                                                        .foregroundStyle(.green)
-                                                        .labelStyle(.iconOnly)
-                                                        .accessibilityLabel(LocalizationKeys.accessibilityPlugCompatible.localized(from: .accessibility))
+                                                if isCompatible(plug: plug) {
+                                                    Label(
+                                                        LocalizationKeys.homeCountryCompatible.localized,
+                                                        systemImage: "checkmark.circle.fill"
+                                                    )
+                                                    .font(.caption2)
+                                                    .foregroundStyle(.green)
+                                                    .labelStyle(.iconOnly)
+                                                    .accessibilityLabel(LocalizationKeys.accessibilityPlugCompatible
+                                                        .localized(from: .accessibility))
                                                 } else {
-                                                    Label(LocalizationKeys.homeCountryAdapterNeeded.localized, systemImage: "exclamationmark.triangle.fill")
-                                                        .font(.caption2)
-                                                        .foregroundStyle(.orange)
-                                                        .labelStyle(.iconOnly)
-                                                        .accessibilityLabel(LocalizationKeys.accessibilityPlugAdapterNeeded.localized(from: .accessibility))
+                                                    Label(
+                                                        LocalizationKeys.homeCountryAdapterNeeded.localized,
+                                                        systemImage: "exclamationmark.triangle.fill"
+                                                    )
+                                                    .font(.caption2)
+                                                    .foregroundStyle(.orange)
+                                                    .labelStyle(.iconOnly)
+                                                    .accessibilityLabel(LocalizationKeys.accessibilityPlugAdapterNeeded
+                                                        .localized(from: .accessibility))
                                                 }
                                             }
 
@@ -170,31 +178,32 @@ struct CountryCard: View {
                             .roundedCorner(radius: 10)
 
                         VStack(alignment: .leading, spacing: .xs) {
-                                HStack(spacing: .sm) {
-                                    Text(country.name)
-                                        .font(.title3)
+                            HStack(spacing: .sm) {
+                                Text(country.name)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.textRegular)
+                                    .lineLimit(2)
+                                    .multilineTextAlignment(.leading)
+
+                                if isHomeCountry {
+                                    Text(LocalizationKeys.homeCountryBadge.localized)
+                                        .font(.caption2)
                                         .fontWeight(.semibold)
-                                        .foregroundStyle(.textRegular)
-                                        .lineLimit(2)
-                                        .multilineTextAlignment(.leading)
-
-                                    if isHomeCountry {
-                                        Text(LocalizationKeys.homeCountryBadge.localized)
-                                            .font(.caption2)
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(.white)
-                                            .padding(.horizontal, .sm)
-                                            .padding(.vertical, 3)
-                                            .background(.voltTint)
-                                            .roundedCorner(radius: 6)
-                                            .accessibilityLabel(LocalizationKeys.accessibilityHomeCountryBadge.localized(from: .accessibility))
-                                    }
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, .sm)
+                                        .padding(.vertical, 3)
+                                        .background(.voltTint)
+                                        .roundedCorner(radius: 6)
+                                        .accessibilityLabel(LocalizationKeys.accessibilityHomeCountryBadge
+                                            .localized(from: .accessibility))
                                 }
-
-                                Text(LocalizationKeys.plugType.localized(country.plugs.count))
-                                    .font(.subheadline)
-                                    .foregroundStyle(.textLight)
                             }
+
+                            Text(LocalizationKeys.plugType.localized(country.plugs.count))
+                                .font(.subheadline)
+                                .foregroundStyle(.textLight)
+                        }
 
                         Spacer(minLength: .md) // Ensure minimum space before chevron
                     }
@@ -237,7 +246,6 @@ struct EnhancedDisclosureStyle: DisclosureGroupStyle {
                     configuration.isExpanded.toggle()
                 }
             } label: {
-
                 HStack {
                     configuration.label
 

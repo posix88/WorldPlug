@@ -13,7 +13,10 @@ final class OnboardingViewModel {
     private(set) var allCountries: [Country] = []
 
     var filteredCountries: [Country] {
-        guard !searchQuery.isEmpty else { return allCountries }
+        guard !searchQuery.isEmpty else {
+            return allCountries
+        }
+
         return allCountries.filter {
             $0.name.localizedCaseInsensitiveContains(searchQuery)
         }
@@ -22,6 +25,6 @@ final class OnboardingViewModel {
     init(modelContext: ModelContext) {
         let descriptor = FetchDescriptor<Country>()
         let all = (try? modelContext.fetch(descriptor)) ?? []
-        allCountries = all.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        self.allCountries = all.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
     }
 }

@@ -52,4 +52,3 @@ struct OnboardingView: View {
         .environment(homeVM)
 }
 #endif
-

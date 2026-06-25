@@ -119,7 +119,7 @@ struct PlugDetailView: View {
             }
             .padding(.bottom, .xxxl)
         }
-        .background(.backgroundSurface)
+        .background { AppMeshBackground() }
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)

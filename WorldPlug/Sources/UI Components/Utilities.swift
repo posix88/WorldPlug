@@ -68,4 +68,5 @@ private struct ViewSizeKey: SwiftUI.PreferenceKey {
     static let defaultValue: CGSize = .zero
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value = nextValue()
-    }}
+    }
+}
