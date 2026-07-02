@@ -2,6 +2,7 @@ import Foundation
 import Observation
 import Repository
 import SwiftData
+import WidgetKit
 
 // MARK: - HomeCountryViewModel
 
@@ -45,11 +46,13 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         let normalizedCode = Self.normalizedCountryCode(code)
         homeCountryCode = normalizedCode
         store.homeCountryCode = normalizedCode
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func clearHome() {
         homeCountryCode = ""
         store.homeCountryCode = ""
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility {

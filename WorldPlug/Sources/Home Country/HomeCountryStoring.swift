@@ -1,4 +1,5 @@
 import Foundation
+import Repository
 
 // MARK: - HomeCountryStoring
 
@@ -13,14 +14,34 @@ protocol HomeCountryStoring {
 
 struct UserDefaultsHomeCountryStore: HomeCountryStoring {
     private let defaults: UserDefaults
-    private let key = "home.country.code"
+    private let legacyDefaults: UserDefaults
+    private let key = AppGroup.homeCountryCodeKey
 
-    init(defaults: UserDefaults = .standard) {
-        self.defaults = defaults
+    init(
+        defaults: UserDefaults? = UserDefaults(suiteName: AppGroup.identifier),
+        legacyDefaults: UserDefaults = .standard
+    ) {
+        self.defaults = defaults ?? legacyDefaults
+        self.legacyDefaults = legacyDefaults
+        migrateLegacyValueIfNeeded()
     }
 
     var homeCountryCode: String {
-        get { defaults.string(forKey: key) ?? "" }
-        nonmutating set { defaults.set(newValue.isEmpty ? nil : newValue, forKey: key) }
+        get { defaults.string(forKey: key) ?? legacyDefaults.string(forKey: key) ?? "" }
+        nonmutating set {
+            let value = newValue.isEmpty ? nil : newValue
+            defaults.set(value, forKey: key)
+            legacyDefaults.set(value, forKey: key)
+        }
+    }
+
+    private func migrateLegacyValueIfNeeded() {
+        guard defaults.string(forKey: key) == nil,
+              let legacyValue = legacyDefaults.string(forKey: key),
+              !legacyValue.isEmpty else {
+            return
+        }
+
+        defaults.set(legacyValue, forKey: key)
     }
 }

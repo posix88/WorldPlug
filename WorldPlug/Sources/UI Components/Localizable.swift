@@ -48,6 +48,9 @@ enum LocalizationKeys {
 
     static let countriesTitle = "countries.title"
     static let countriesAvailable = "countries.available"
+    static let countriesFilterAll = "countries.filter.all"
+    static let countriesFilterEmptyTitle = "countries.filter.empty.title"
+    static let countriesFilterEmptyDescription = "countries.filter.empty.description"
     static let searchCountriesPlaceholder = "search.countries.placeholder"
 
     // MARK: - Country Card
@@ -126,10 +129,6 @@ enum LocalizationKeys {
     static let accessibilityCompatiblePlugTypes = "accessibility.compatible.plug.types"
     static let accessibilityPlugTypeLabel = "accessibility.plug.type.label"
     static let accessibilityPlugTypeHint = "accessibility.plug.type.hint"
-    static let accessibilityCountryDetails = "accessibility.country.details"
-    static let accessibilityCountryCardHint = "accessibility.country.card.hint"
-    static let accessibilityExpandCountryDetails = "accessibility.expand.country.details"
-    static let accessibilityCollapseCountryDetails = "accessibility.collapse.country.details"
     static let accessibilityShowDetailsHint = "accessibility.show.details.hint"
     static let accessibilityHideDetailsHint = "accessibility.hide.details.hint"
 

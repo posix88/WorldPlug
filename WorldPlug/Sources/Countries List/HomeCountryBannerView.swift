@@ -40,11 +40,17 @@ struct HomeCountryBannerView: View {
         }
         .padding(.horizontal, .xl)
         .padding(.vertical, .lg)
-        .background(.cardSurface, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .background {
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(.cardSurface.opacity(0.68))
+                .fill(.thinMaterial)
+        }
         .overlay(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .strokeBorder(.voltTint.opacity(0.45), lineWidth: 1)
         )
+        .shadow(color: .voltTint.opacity(0.16), radius: 14, x: 0, y: 4)
+        .shadow(color: .voltTint.opacity(0.08), radius: 4, x: 0, y: 0)
     }
 }
 
@@ -60,6 +66,5 @@ struct HomeCountryBannerView: View {
     return HomeCountryBannerView(country: country, onClear: {})
         .padding(.xxl)
         .preferredColorScheme(.dark)
-        .background(.backgroundSurface)
 }
 #endif

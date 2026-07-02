@@ -1,23 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "accessibility.collapse.country.details" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collapse country details"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Comprimi dettagli paese"
-          }
-        }
-      }
-    },
     "accessibility.compatible.plug.types" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -103,40 +86,6 @@
         }
       }
     },
-    "accessibility.country.card.hint" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to view plug details for %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tocca per visualizzare i dettagli delle spine per %@"
-          }
-        }
-      }
-    },
-    "accessibility.country.details" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Country details for %@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dettagli paese per %@"
-          }
-        }
-      }
-    },
     "accessibility.empty.state" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -167,23 +116,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nessun paese corrisponde alla tua ricerca. Prova un termine di ricerca diverso."
-          }
-        }
-      }
-    },
-    "accessibility.expand.country.details" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Expand country details"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Espandi dettagli paese"
           }
         }
       }

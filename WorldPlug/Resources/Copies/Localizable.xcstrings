@@ -14,6 +14,9 @@
         }
       }
     },
+    "+%@" : {
+
+    },
     "also.known.as" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -221,6 +224,57 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "countries.filter.all" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutti"
+          }
+        }
+      }
+    },
+    "countries.filter.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change compatibility filter or search query."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambia filtro compatibilità o ricerca."
+          }
+        }
+      }
+    },
+    "countries.filter.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching countries"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese corrispondente"
           }
         }
       }
