@@ -34,6 +34,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5B6C7D8E9F00112233445569 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlugDetailViewModelTests.swift; sourceTree = "<group>"; };
 		5A6B7C8D9E0F112233445567 /* UserDefaultsHomeCountryStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsHomeCountryStoreTests.swift; sourceTree = "<group>"; };
@@ -56,26 +70,17 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		5D6E7F809001122334455668 /* VoltlyWidgets */ = {
+		5D6E7F809001122334455668 /* VoltlyWidgets/Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = VoltlyWidgets/Sources;
 			sourceTree = "<group>";
 		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5B6C7D8E9F00112233445569 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
+		6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VoltlyWidgets/Resources;
+			sourceTree = "<group>";
 		};
-/* End PBXCopyFilesBuildPhase section */
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5D6E7F809001122334455669 /* Frameworks */ = {
@@ -120,7 +125,8 @@
 			children = (
 				EC4A836C4A7EA4909975461D /* Packages */,
 				EE5D78E57F7E27A8BE148313 /* WorldPlug */,
-				5D6E7F809001122334455668 /* VoltlyWidgets */,
+				5D6E7F809001122334455668 /* VoltlyWidgets/Sources */,
+				6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */,
 				FE2533C686150C6EB74E560F /* WorldPlugTests */,
 				4164BA609669D3A239D6F01D /* Products */,
 			);
@@ -170,7 +176,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				5D6E7F809001122334455668 /* VoltlyWidgets */,
+				5D6E7F809001122334455668 /* VoltlyWidgets/Sources */,
+				6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */,
 			);
 			name = VoltlyWidgets;
 			packageProductDependencies = (
@@ -513,29 +520,6 @@
 			};
 			name = Release;
 		};
-		E5D2478C463360607269F77B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
-				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		E1F2A3B4C5D6071829304152 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -557,6 +541,29 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E5D2478C463360607269F77B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
+				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -1,5 +1,6 @@
 import Foundation
 import Repository
+import TipKit
 import UIKit
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -7,7 +8,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        true
+        try? Tips.configure([
+            .displayFrequency(.immediate)
+        ])
+        return true
     }
 
     func application(

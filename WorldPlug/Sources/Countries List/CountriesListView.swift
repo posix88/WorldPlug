@@ -1,6 +1,7 @@
 import Repository
 import SwiftData
 import SwiftUI
+import TipKit
 
 // MARK: - CountriesListView
 
@@ -10,6 +11,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var searchQuery: String = ""
     @State private var selectedFilter: CountryCompatibilityFilter = .all
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    private let compatibilityFilterTip = CompatibilityFilterTip()
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -20,7 +22,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             ScrollView {
                 LazyVStack(spacing: .md) {
                     if !viewModel.filteredCountries.isEmpty {
-                        CountriesHeaderView(countryCount: displayedCountries.count)
+                        // CountriesHeaderView(countryCount: displayedCountries.count)
 
                         if let homeCountry = homeViewModel.homeCountry {
                             HomeCountryBannerView(country: homeCountry) {
@@ -31,8 +33,16 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
 
                             CompatibilityFilterBar(
                                 selectedFilter: $selectedFilter,
-                                counts: filterCounts
+                                counts: filterCounts,
+                                tip: homeViewModel.homeCountryCode.isEmpty ? nil : compatibilityFilterTip
                             )
+                            .onChange(of: selectedFilter) { oldValue, newValue in
+                                guard oldValue != newValue else {
+                                    return
+                                }
+
+                                compatibilityFilterTip.invalidate(reason: .actionPerformed)
+                            }
                             .padding(.horizontal, -.xxl)
                             .padding(.bottom, .xs)
                             .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
@@ -188,6 +198,7 @@ private struct CountriesHeaderView: View {
 private struct CompatibilityFilterBar: View {
     @Binding var selectedFilter: CountryCompatibilityFilter
     let counts: [CountryCompatibilityFilter: Int]
+    let tip: CompatibilityFilterTip?
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -230,7 +241,10 @@ private struct CompatibilityFilterBar: View {
                         }
                         .overlay {
                             Capsule()
-                                .strokeBorder(filter.color.opacity(filter.isSelected(selectedFilter) ? 0.28 : 0.22), lineWidth: 1)
+                                .strokeBorder(
+                                    filter.color.opacity(filter.isSelected(selectedFilter) ? 0.28 : 0.22),
+                                    lineWidth: 1
+                                )
                         }
                         .shadow(
                             color: filter.color.opacity(filter.isSelected(selectedFilter) ? 0.28 : 0.12),
@@ -251,8 +265,25 @@ private struct CompatibilityFilterBar: View {
             .padding(.horizontal, .xxl)
             .padding(.vertical, .xs)
         }
+        .popoverTip(tip, arrowEdge: .top)
         .scrollClipDisabled()
         .accessibilityElement(children: .contain)
+    }
+}
+
+// MARK: - CompatibilityFilterTip
+
+private struct CompatibilityFilterTip: Tip {
+    var title: Text {
+        Text(LocalizationKeys.compatibilityLegendTitle.localized)
+    }
+
+    var message: Text? {
+        Text(LocalizationKeys.countriesFilterTip.localized)
+    }
+
+    var image: Image? {
+        Image(systemName: "line.3.horizontal.decrease.circle")
     }
 }
 

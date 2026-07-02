@@ -279,6 +279,23 @@
         }
       }
     },
+    "countries.filter.tip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use these pills to focus on countries that are already compatible, need an adapter, or require a converter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa queste pill per vedere subito i paesi compatibili, quelli che richiedono un adattatore o un convertitore."
+          }
+        }
+      }
+    },
     "countries.title" : {
       "extractionState" : "manual",
       "localizations" : {

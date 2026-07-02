@@ -107,7 +107,7 @@ struct CountryBrowserRow: View {
 
             VStack(alignment: .trailing, spacing: .sm) {
                 if let compatibility {
-                    CompatibilityStatusPill(summary: compatibility)
+                    CompatibilityStatusIndicator(summary: compatibility)
                 }
 
                 SFSymbols.chevronDown.image
@@ -233,28 +233,23 @@ struct CountryBrowserRow: View {
     }
 }
 
-// MARK: - CompatibilityStatusPill
+// MARK: - CompatibilityStatusIndicator
 
-private struct CompatibilityStatusPill: View {
+private struct CompatibilityStatusIndicator: View {
     let summary: CountryCompatibilitySummary
 
     var body: some View {
-        HStack(spacing: .xs) {
+        ZStack {
+            Circle()
+                .fill(summary.color.opacity(0.14))
+                .frame(width: 30, height: 30)
+
             summary.icon.image
                 .imageScale(.small)
-
-            Text(summary.title)
-                .lineLimit(1)
-                .minimumScaleFactor(0.82)
         }
-        .font(.caption2)
-        .fontWeight(.bold)
         .foregroundStyle(summary.color)
-        .padding(.horizontal, .sm)
-        .padding(.vertical, .xs)
-        .background(summary.color.opacity(0.12))
-        .clipShape(Capsule())
-        .fixedSize(horizontal: true, vertical: false)
+        .accessibilityElement()
+        .accessibilityLabel(summary.title)
     }
 }
 

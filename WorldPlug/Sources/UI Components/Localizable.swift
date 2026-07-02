@@ -51,6 +51,7 @@ enum LocalizationKeys {
     static let countriesFilterAll = "countries.filter.all"
     static let countriesFilterEmptyTitle = "countries.filter.empty.title"
     static let countriesFilterEmptyDescription = "countries.filter.empty.description"
+    static let countriesFilterTip = "countries.filter.tip"
     static let searchCountriesPlaceholder = "search.countries.placeholder"
 
     // MARK: - Country Card
