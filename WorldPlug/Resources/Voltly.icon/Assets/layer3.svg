@@ -1,0 +1,8 @@
+<!-- Layer 3: Live and Neutral Slots -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Deep dark slots to simulate empty depth -->
+  <!-- Left Slot (Neutral): Slightly taller -->
+  <rect x="200" y="210" width="24" height="70" rx="6" fill="#1A1A1A"/>
+  <!-- Right Slot (Live): Slightly shorter, aligned to top -->
+  <rect x="288" y="215" width="24" height="60" rx="6" fill="#1A1A1A"/>
+</svg>

@@ -1,0 +1,12 @@
+<!-- Layer 4: Grounding Hole -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Grounding Hole (D-Shape/Semi-circle over a flat base) -->
+  <path d="M 240,300 
+           A 16,16 0 0,1 272,300 
+           L 272,312 
+           A 4,4 0 0,1 268,316 
+           L 244,316 
+           A 4,4 0 0,1 240,312 
+           Z" 
+        fill="#1A1A1A"/>
+</svg>
