@@ -8,6 +8,8 @@ struct OnboardingCountryRow: View {
     let isSelected: Bool
     let onTap: () -> Void
 
+    @Environment(\.locale) private var locale
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 14) {
@@ -17,7 +19,7 @@ struct OnboardingCountryRow: View {
                     .background(.white.opacity(0.08))
                     .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
-                Text(country.name)
+                Text(country.localizedName(in: locale))
                     .font(.body)
                     .fontWeight(isSelected ? .semibold : .regular)
                     .foregroundStyle(.white)

@@ -11,6 +11,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var searchQuery: String = ""
     @State private var selectedFilter: CountryCompatibilityFilter = .all
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    @Environment(\.locale) private var locale
     private let compatibilityFilterTip = CompatibilityFilterTip()
 
     init(viewModel: ViewModel) {
@@ -87,7 +88,13 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     return
                 }
 
-                viewModel.search(query: newValue)
+                viewModel.search(query: newValue, locale: locale)
+            }
+            .onChange(of: locale.identifier) { _, _ in
+                viewModel.search(query: searchQuery, locale: locale)
+            }
+            .onAppear {
+                viewModel.search(query: searchQuery, locale: locale)
             }
             .onChange(of: homeViewModel.homeCountryCode) { _, newValue in
                 if newValue.isEmpty {

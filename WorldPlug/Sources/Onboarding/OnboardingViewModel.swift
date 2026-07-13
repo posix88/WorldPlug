@@ -1,3 +1,4 @@
+import Foundation
 import Observation
 import Repository
 import SwiftData
@@ -8,7 +9,7 @@ import SwiftData
 protocol OnboardingViewModelType: AnyObject, Observable {
     var searchQuery: String { get set }
     var selectedCountry: Country? { get set }
-    var filteredCountries: [Country] { get }
+    func countries(for locale: Locale) -> [Country]
 }
 
 // MARK: - OnboardingViewModel
@@ -21,24 +22,20 @@ final class OnboardingViewModel: OnboardingViewModelType {
 
     private(set) var allCountries: [Country] = []
 
-    var filteredCountries: [Country] {
-        guard !searchQuery.isEmpty else {
-            return allCountries
-        }
-
-        return allCountries.filter {
-            $0.name.localizedCaseInsensitiveContains(searchQuery)
-        }
-    }
-
     init(modelContext: ModelContext) {
         let descriptor = FetchDescriptor<Country>()
         let all = (try? modelContext.fetch(descriptor)) ?? []
-        self.allCountries = all.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        self.allCountries = all
     }
 
     init(countries: [Country]) {
-        self.allCountries = countries.sorted { $0.name.localizedCompare($1.name) == .orderedAscending }
+        self.allCountries = countries
+    }
+
+    func countries(for locale: Locale) -> [Country] {
+        allCountries
+            .filter { searchQuery.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(searchQuery) }
+            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
     }
 }
 
@@ -52,16 +49,14 @@ final class PreviewOnboardingViewModel: OnboardingViewModelType {
     var selectedCountry: Country?
     private var allCountries: [Country]
 
-    var filteredCountries: [Country] {
-        guard !searchQuery.isEmpty else {
-            return allCountries
-        }
-
-        return allCountries.filter { $0.name.localizedCaseInsensitiveContains(searchQuery) }
-    }
-
     init(countries: [Country] = []) {
         self.allCountries = countries
+    }
+
+    func countries(for locale: Locale) -> [Country] {
+        allCountries
+            .filter { searchQuery.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(searchQuery) }
+            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
     }
 }
 #endif

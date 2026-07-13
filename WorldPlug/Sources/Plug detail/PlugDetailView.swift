@@ -163,23 +163,7 @@ extension PlugDetailView {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: .lg) {
                             ForEach(viewModel.plug.images, id: \.self) { url in
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 120, height: 120)
-                                        .background(.surfaceSecondary)
-                                        .roundedCorner(radius: 12)
-                                } placeholder: {
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(.surfaceSecondary)
-                                        .frame(width: 120, height: 120)
-                                        .overlay {
-                                            SFSymbols.photo.image
-                                                .foregroundStyle(.textLighter)
-                                                .imageScale(.large)
-                                        }
-                                }
+                                PlugReferenceImage(url: url)
                             }
                         }
                         .padding(.horizontal, .lg)
@@ -188,6 +172,52 @@ extension PlugDetailView {
             }
             .padding(.horizontal, .xl)
         }
+    }
+}
+
+// MARK: - PlugReferenceImage
+
+private struct PlugReferenceImage: View {
+    let url: URL
+
+    @State private var reloadID = 0
+
+    var body: some View {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .success(let image):
+                image
+                    .resizable()
+                    .scaledToFit()
+
+            case .failure:
+                Button {
+                    reloadID += 1
+                } label: {
+                    VStack(spacing: .xs) {
+                        SFSymbols.photo.image
+                            .imageScale(.large)
+
+                        Image(systemName: "arrow.clockwise")
+                            .font(.caption.weight(.semibold))
+                    }
+                    .foregroundStyle(.textLighter)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(LocalizationKeys.retry.localized)
+
+            case .empty:
+                ProgressView()
+                    .tint(.textLighter)
+
+            @unknown default:
+                EmptyView()
+            }
+        }
+        .id(reloadID)
+        .frame(width: 120, height: 120)
+        .background(.surfaceSecondary)
+        .roundedCorner(radius: 12)
     }
 }
 

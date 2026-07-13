@@ -14,7 +14,7 @@ struct VoltlyApp: App {
         WindowGroup {
             CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
-                .fullScreenCover(isPresented: .constant(!hasSeenOnboarding)) {
+                .fullScreenCover(isPresented: onboardingPresentationBinding) {
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext
                     ) {
@@ -24,5 +24,16 @@ struct VoltlyApp: App {
                 }
         }
         .modelContainer(Repository.sharedModelContainer)
+    }
+
+    private var onboardingPresentationBinding: Binding<Bool> {
+        Binding(
+            get: { !hasSeenOnboarding },
+            set: { isPresented in
+                if !isPresented {
+                    hasSeenOnboarding = true
+                }
+            }
+        )
     }
 }

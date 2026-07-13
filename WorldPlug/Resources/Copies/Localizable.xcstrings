@@ -44,6 +44,9 @@
         }
       }
     },
+    "Always travel plug‑ready." : {
+
+    },
     "app.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -495,6 +498,9 @@
           }
         }
       }
+    },
+    "Get Started" : {
+
     },
     "home.country.adapter.needed" : {
       "extractionState" : "manual",
@@ -1098,6 +1104,9 @@
         }
       }
     },
+    "Search country…" : {
+
+    },
     "search.countries.placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1114,6 +1123,18 @@
           }
         }
       }
+    },
+    "Select a country above" : {
+
+    },
+    "Voltly" : {
+
+    },
+    "We'll show plug compatibility\nfor every country you visit." : {
+
+    },
+    "Where's home?" : {
+
     }
   },
   "version" : "1.0"

@@ -9,6 +9,8 @@ struct HomeCountryBannerView: View {
     let country: Country
     let onClear: () -> Void
 
+    @Environment(\.locale) private var locale
+
     var body: some View {
         HStack(spacing: .lg) {
             Image(systemName: "house.fill")
@@ -20,7 +22,7 @@ struct HomeCountryBannerView: View {
                     .font(.caption)
                     .foregroundStyle(.textLight)
 
-                Text("\(country.flagUnicode)  \(country.name)")
+                Text("\(country.flagUnicode)  \(country.localizedName(in: locale))")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(.textRegular)

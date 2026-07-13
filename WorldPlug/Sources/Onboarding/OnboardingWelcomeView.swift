@@ -9,6 +9,8 @@ struct OnboardingWelcomeView: View {
     @State private var logoOpacity: Double = 0
     @State private var featuresVisible = false
     @State private var ctaVisible = false
+    @ScaledMetric(relativeTo: .largeTitle) private var logoSize: CGFloat = 130
+    @ScaledMetric(relativeTo: .largeTitle) private var boltSize: CGFloat = 72
 
     var body: some View {
         VStack(spacing: 0) {
@@ -19,11 +21,11 @@ struct OnboardingWelcomeView: View {
                 ZStack {
                     Circle()
                         .fill(.yellow.opacity(0.12))
-                        .frame(width: 130, height: 130)
+                        .frame(width: logoSize, height: logoSize)
                         .blur(radius: 20)
 
                     Image(systemName: "bolt.fill")
-                        .font(.system(size: 72, weight: .heavy))
+                        .font(.system(size: boltSize, weight: .heavy))
                         .foregroundStyle(
                             LinearGradient(
                                 colors: [.boltTop, .boltBottom],
@@ -37,11 +39,11 @@ struct OnboardingWelcomeView: View {
                 .opacity(logoOpacity)
 
                 VStack(spacing: .md) {
-                    Text(String(localized: "Voltly"))
-                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                    Text("Voltly")
+                        .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text(String(localized: "Always travel plug‑ready."))
+                    Text("Always travel plug‑ready.")
                         .font(.title3)
                         .foregroundStyle(.white.opacity(0.65))
                 }
@@ -54,18 +56,18 @@ struct OnboardingWelcomeView: View {
             VStack(alignment: .leading, spacing: .xxl) {
                 OnboardingFeatureRow(
                     icon: "globe.europe.africa.fill",
-                    title: String(localized: "200+ countries"),
-                    subtitle: String(localized: "Plug standards, voltage & frequency covered")
+                    title: "200+ countries",
+                    subtitle: "Plug standards, voltage & frequency covered"
                 )
                 OnboardingFeatureRow(
                     icon: "house.fill",
-                    title: String(localized: "Home country"),
-                    subtitle: String(localized: "Instant compatibility checks when you travel")
+                    title: "Home country",
+                    subtitle: "Instant compatibility checks when you travel"
                 )
                 OnboardingFeatureRow(
                     icon: "bolt.shield.fill",
-                    title: String(localized: "Adapter info"),
-                    subtitle: String(localized: "Know exactly what you need before you pack")
+                    title: "Adapter info",
+                    subtitle: "Know exactly what you need before you pack"
                 )
             }
             .padding(.horizontal, .max)
@@ -76,7 +78,7 @@ struct OnboardingWelcomeView: View {
 
             // CTA
             Button(action: onGetStarted) {
-                Text(String(localized: "Get Started"))
+                Text("Get Started")
                     .font(.headline)
                     .foregroundStyle(Color.deepNavy)
                     .frame(maxWidth: .infinity)
@@ -110,8 +112,8 @@ struct OnboardingWelcomeView: View {
 
 struct OnboardingFeatureRow: View {
     let icon: String
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
 
     var body: some View {
         HStack(alignment: .top, spacing: .xl) {

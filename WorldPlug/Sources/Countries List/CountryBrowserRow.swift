@@ -8,6 +8,7 @@ struct CountryBrowserRow: View {
     let compatibility: CountryCompatibilitySummary?
 
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    @Environment(\.locale) private var locale
 
     private var isHomeCountry: Bool {
         country.code == homeViewModel.homeCountryCode
@@ -47,7 +48,7 @@ struct CountryBrowserRow: View {
 
             VStack(alignment: .leading, spacing: .xs) {
                 HStack(spacing: .sm) {
-                    Text(country.name)
+                    Text(country.localizedName(in: locale))
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundStyle(.textRegular)

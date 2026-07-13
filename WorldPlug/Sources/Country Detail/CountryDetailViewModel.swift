@@ -245,7 +245,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 
 struct CountryHeaderDetent: CustomPresentationDetent {
     static func height(in context: Context) -> CGFloat? {
-        min(120, max(108, context.maxDetentValue * 0.16))
+        min(104, max(96, context.maxDetentValue * 0.14))
     }
 }
 

@@ -7,8 +7,10 @@ import SwiftUI
 struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
+    @Environment(\.locale) private var locale
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
+    @State private var pendingSelectedPlug: Plug?
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -17,14 +19,14 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     var body: some View {
         Map(position: mapPositionBinding, interactionModes: [.pan, .zoom]) {
             if let mapFocus = viewModel.mapFocus {
-                Annotation(viewModel.country.name, coordinate: mapFocus.coordinate, anchor: .center) {
+                Annotation(countryName, coordinate: mapFocus.coordinate, anchor: .center) {
                     CountryMapFocusPin()
                 }
             }
         }
         .mapStyle(.standard(elevation: .realistic))
         .ignoresSafeArea(edges: .bottom)
-        .navigationTitle(viewModel.country.name)
+        .navigationTitle(countryName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -68,7 +70,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .navigationDestination(item: $selectedPlug) { plug in
             PlugDetailView(plug: plug)
         }
-        .sheet(isPresented: isInfoSheetPresentedBinding) {
+        .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: presentPendingPlug) {
             countryInfoSheet
                 .presentationDetents(
                     [
@@ -98,6 +100,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             get: { viewModel.mapPosition },
             set: { viewModel.mapPosition = $0 }
         )
+    }
+
+    private var countryName: String {
+        viewModel.country.localizedName(in: locale)
     }
 
     private var isInfoSheetPresentedBinding: Binding<Bool> {
@@ -147,7 +153,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         VStack(alignment: .leading, spacing: .md) {
             HStack(alignment: .center, spacing: .md) {
                 HStack(spacing: .sm) {
-                    Text("\(viewModel.country.flagUnicode) \(viewModel.country.name)")
+                    Text("\(viewModel.country.flagUnicode) \(countryName)")
                         .font(.title3.weight(.semibold))
                         .foregroundStyle(.textRegular)
                         .lineLimit(1)
@@ -165,11 +171,18 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 
             }
             
-            HStack(spacing: .xs) {
-                electricalSetupPills
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                compatibilityPill
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: .xs) {
+                    electricalSetupPills
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    compatibilityPill
+                }
+
+                VStack(alignment: .leading, spacing: .sm) {
+                    electricalSetupPills
+                    compatibilityPill
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -223,6 +236,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                             .buttonStyle(.plain)
                         }
                     }
+                    .padding(.vertical, .xs)
                 }
                 .scrollClipDisabled()
             }
@@ -233,7 +247,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: .xl) {
                 detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
-                    HStack(spacing: .md) {
+                    LazyVGrid(
+                        columns: [GridItem(.adaptive(minimum: 132), spacing: .md)],
+                        spacing: .md
+                    ) {
                         CountryInfoMetricCard(
                             icon: .boltCircleFill,
                             title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
@@ -252,7 +269,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
                 if viewModel.showsCompatibilityOverview {
                     detailSection(title: LocalizationKeys.countryDetailCompatibilityOverview.localized) {
-                        HStack(spacing: .md) {
+                        LazyVGrid(
+                            columns: [GridItem(.adaptive(minimum: 104), spacing: .md)],
+                            spacing: .md
+                        ) {
                             CompatibilityCountCard(
                                 title: LocalizationKeys.compatibilityLegendCompatibleTitle.localized,
                                 count: viewModel.compatiblePlugs.count,
@@ -305,8 +325,13 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     }
 
     private func openPlugDetail(_ plug: Plug) {
+        pendingSelectedPlug = plug
         viewModel.isInfoSheetPresented = false
-        selectedPlug = plug
+    }
+
+    private func presentPendingPlug() {
+        selectedPlug = pendingSelectedPlug
+        pendingSelectedPlug = nil
     }
 
     private func handleBackNavigation() {
@@ -343,7 +368,6 @@ private struct CountryCompatibilityPill: View {
         .padding(.vertical, .sm)
         .background(summary.color.opacity(0.12))
         .clipShape(Capsule())
-        .fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -436,6 +460,17 @@ private struct CountryDetailPlugRow: View {
     let compatibility: PlugCompatibility?
 
     var body: some View {
+        ViewThatFits(in: .horizontal) {
+            rowContent(showsCompatibilityTitle: true)
+            rowContent(showsCompatibilityTitle: false)
+        }
+        .padding(.horizontal, .lg)
+        .padding(.vertical, .md)
+        .background(.surfaceSecondary)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private func rowContent(showsCompatibilityTitle: Bool) -> some View {
         HStack(spacing: .md) {
             SFSymbols.plugSymbol(for: plug.plugType)
                 .image
@@ -456,17 +491,16 @@ private struct CountryDetailPlugRow: View {
             Spacer(minLength: .md)
 
             if let compatibility {
-                CountryDetailCompatibilityBadge(compatibility: compatibility)
+                CountryDetailCompatibilityBadge(
+                    compatibility: compatibility,
+                    showsTitle: showsCompatibilityTitle
+                )
             }
 
             SFSymbols.chevronRight.image
                 .foregroundStyle(.textLighter)
                 .imageScale(.small)
         }
-        .padding(.horizontal, .lg)
-        .padding(.vertical, .md)
-        .background(.surfaceSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }
 
@@ -474,15 +508,18 @@ private struct CountryDetailPlugRow: View {
 
 private struct CountryDetailCompatibilityBadge: View {
     let compatibility: PlugCompatibility
+    let showsTitle: Bool
 
     var body: some View {
         HStack(spacing: .xs) {
             Image(systemName: iconName)
                 .font(.caption2.weight(.bold))
 
-            Text(title)
-                .font(.caption.weight(.bold))
-                .lineLimit(1)
+            if showsTitle {
+                Text(title)
+                    .font(.caption.weight(.bold))
+                    .lineLimit(1)
+            }
         }
         .foregroundStyle(color)
         .padding(.horizontal, .md)

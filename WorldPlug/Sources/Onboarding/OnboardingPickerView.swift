@@ -5,27 +5,31 @@ import SwiftUI
 
 struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    @Environment(\.locale) private var locale
     @Bindable var viewModel: ViewModel
     @FocusState private var searchFocused: Bool
     @State private var isSearching: Bool = false
+    @ScaledMetric(relativeTo: .title) private var homeIconSize: CGFloat = 36
     let onComplete: () -> Void
 
     var body: some View {
+        let countries = viewModel.countries(for: locale)
+
         VStack(spacing: 0) {
             // Header — collapses when keyboard is active to free up space
             if !isSearching {
                 VStack(spacing: 10) {
                     Image(systemName: "house.fill")
-                        .font(.system(size: 36, weight: .bold))
+                        .font(.system(size: homeIconSize, weight: .bold))
                         .foregroundStyle(.yellow)
                         .padding(.top, .special)
                         .symbolEffect(.bounce, options: .nonRepeating)
 
-                    Text(String(localized: "Where's home?"))
-                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                    Text("Where's home?")
+                        .font(.title.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text(String(localized: "We'll show plug compatibility\nfor every country you visit."))
+                    Text("We'll show plug compatibility\nfor every country you visit.")
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.60))
                         .multilineTextAlignment(.center)
@@ -42,7 +46,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
 
                 TextField(
                     text: $viewModel.searchQuery,
-                    prompt: Text(String(localized: "Search country…")).foregroundStyle(.white.opacity(0.45))
+                    prompt: Text("Search country…").foregroundStyle(.white.opacity(0.45))
                 ) { EmptyView() }
                     .foregroundStyle(.white)
                     .tint(.yellow)
@@ -68,7 +72,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
             // Country list — only this region scrolls
             ScrollView {
                 LazyVStack(spacing: .sm) {
-                    ForEach(viewModel.filteredCountries) { country in
+                    ForEach(countries) { country in
                         OnboardingCountryRow(
                             country: country,
                             isSelected: viewModel.selectedCountry?.code == country.code
@@ -108,12 +112,12 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                 Group {
                     if let selected = viewModel.selectedCountry {
                         Label(
-                            "\(selected.flagUnicode)  \(selected.name)",
+                            "\(selected.flagUnicode)  \(selected.localizedName(in: locale))",
                             systemImage: "arrow.right"
                         )
                         .labelStyle(TrailingIconLabelStyle())
                     } else {
-                        Text(String(localized: "Select a country above"))
+                        Text("Select a country above")
                     }
                 }
                 .font(.headline)
