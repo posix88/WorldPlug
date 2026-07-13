@@ -56,14 +56,7 @@ struct CountryBrowserRow: View {
                         .multilineTextAlignment(.leading)
 
                     if isHomeCountry {
-                        Text(LocalizationKeys.homeCountryBadge.localized)
-                            .font(.caption2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, .sm)
-                            .padding(.vertical, 3)
-                            .background(.voltTint)
-                            .roundedCorner(radius: 6)
+                        HomeCountryIndicator()
                     }
                 }
 

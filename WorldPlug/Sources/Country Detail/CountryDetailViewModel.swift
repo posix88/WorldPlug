@@ -19,6 +19,7 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var adapterPlugs: [Plug] { get }
     var converterPlugs: [Plug] { get }
     var isLargeDetent: Bool { get }
+    var isHeaderDetent: Bool { get }
     var isExpandedDetent: Bool { get }
     var showsPlugStrip: Bool { get }
     var showsCompatibilityOverview: Bool { get }
@@ -55,12 +56,16 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent == .large
     }
 
+    var isHeaderDetent: Bool {
+        selectedDetent == .custom(CountryHeaderDetent.self)
+    }
+
     var isExpandedDetent: Bool {
         selectedDetent == .medium || selectedDetent == .large
     }
 
     var showsPlugStrip: Bool {
-        selectedDetent != .custom(CountryHeaderDetent.self)
+        !isHeaderDetent
     }
 
     var showsCompatibilityOverview: Bool {
@@ -91,7 +96,6 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     }
 
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType) {
-        isInfoSheetPresented = true
         hasHomeCountry = !homeCountryViewModel.homeCountryCode.isEmpty
         isHomeCountry = homeCountryViewModel.homeCountryCode == country.code
 
@@ -113,8 +117,6 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
         } else {
             homeCountryViewModel.setHome(code: country.code)
         }
-
-        syncHomeCountry(with: homeCountryViewModel)
     }
 
     func toggleSheetExpansion() {
@@ -194,12 +196,16 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent == .large
     }
 
+    var isHeaderDetent: Bool {
+        selectedDetent == .custom(CountryHeaderDetent.self)
+    }
+
     var isExpandedDetent: Bool {
         selectedDetent == .medium || selectedDetent == .large
     }
 
     var showsPlugStrip: Bool {
-        selectedDetent != .custom(CountryHeaderDetent.self)
+        !isHeaderDetent
     }
 
     var showsCompatibilityOverview: Bool { false }
@@ -245,7 +251,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 
 struct CountryHeaderDetent: CustomPresentationDetent {
     static func height(in context: Context) -> CGFloat? {
-        min(104, max(96, context.maxDetentValue * 0.14))
+        min(88, max(80, context.maxDetentValue * 0.12))
     }
 }
 

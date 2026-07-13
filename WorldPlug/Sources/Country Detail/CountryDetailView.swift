@@ -82,14 +82,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     selection: selectedDetentBinding
                 )
                 .presentationDragIndicator(.visible)
-                .presentationBackground {
-                    CountryDetailSheetBackground(
-                        opacity: viewModel.sheetBackgroundOpacity,
-                        showsMaterial: !viewModel.isLargeDetent
-                    )
-                }
                 .presentationBackgroundInteraction(.enabled)
-                .presentationContentInteraction(.scrolls)
+                .presentationContentInteraction(
+                    viewModel.isLargeDetent ? .scrolls : .resizes
+                )
                 .interactiveDismissDisabled()
                 .ignoresSafeArea(edges: .bottom)
         }
@@ -121,78 +117,71 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     }
 
     private var countryInfoSheet: some View {
-        VStack(alignment: .leading, spacing: .lg) {
+        ZStack {
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: .lg) {
+                    sheetHeader
+                        .hidden()
+                        .padding(.top, .xxl)
+
+                    if viewModel.showsPlugStrip {
+                        collapsedPlugStrip
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                                    removal: .move(edge: .bottom).combined(with: .opacity)
+                                )
+                            )
+                    }
+
+                    if viewModel.isExpandedDetent {
+                        expandedContent
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                                    removal: .move(edge: .bottom).combined(with: .opacity)
+                                )
+                            )
+                    }
+                }
+                .padding(.horizontal, .xxl)
+                .padding(.bottom, .xxl)
+                .frame(maxWidth: .infinity, alignment: .topLeading)
+            }
+            .scrollDisabled(!viewModel.isLargeDetent)
+            .scrollBounceBehavior(.basedOnSize)
+
             sheetHeader
-
-            if viewModel.showsPlugStrip {
-                collapsedPlugStrip
-                    .transition(
-                        .asymmetric(
-                            insertion: .move(edge: .bottom).combined(with: .opacity),
-                            removal: .move(edge: .bottom).combined(with: .opacity)
-                        )
-                    )
-            }
-
-            if viewModel.isExpandedDetent {
-                expandedContent
-                    .transition(
-                        .asymmetric(
-                            insertion: .move(edge: .bottom).combined(with: .opacity),
-                            removal: .move(edge: .bottom).combined(with: .opacity)
-                        )
-                    )
-            }
+                .padding(.horizontal, .xxl)
+                .padding(.top, viewModel.isHeaderDetent ? 0 : .xxl)
+                .frame(
+                    maxWidth: .infinity,
+                    maxHeight: .infinity,
+                    alignment: viewModel.isHeaderDetent ? .center : .top
+                )
         }
-        .padding(.horizontal, .xxl)
-        .frame(maxWidth: .infinity, alignment: .topLeading)
         .animation(.smooth(duration: 0.28, extraBounce: 0), value: viewModel.selectedDetent)
     }
 
     private var sheetHeader: some View {
-        VStack(alignment: .leading, spacing: .md) {
-            HStack(alignment: .center, spacing: .md) {
-                HStack(spacing: .sm) {
-                    Text("\(viewModel.country.flagUnicode) \(countryName)")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(.textRegular)
-                        .lineLimit(1)
+        HStack(alignment: .center, spacing: .md) {
+            Text("\(viewModel.country.flagUnicode) \(countryName)")
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.textRegular)
+                .lineLimit(1)
 
-                    if viewModel.isHomeCountry {
-                        Text(LocalizationKeys.homeCountryBadge.localized)
-                            .font(.caption2.weight(.bold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, .sm)
-                            .padding(.vertical, .xs)
-                            .background(.voltTint)
-                            .clipShape(Capsule())
-                    }
-                }
-                
+            if viewModel.isHomeCountry {
+                HomeCountryIndicator()
             }
-            
-            ViewThatFits(in: .horizontal) {
-                HStack(spacing: .xs) {
-                    electricalSetupPills
-                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                    compatibilityPill
-                }
-
-                VStack(alignment: .leading, spacing: .sm) {
-                    electricalSetupPills
-                    compatibilityPill
-                }
+            if let compatibility = viewModel.compatibility, !viewModel.isHomeCountry {
+                CountryCompatibilityPill(summary: compatibility)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    @ViewBuilder
-    private var compatibilityPill: some View {
-        if let compatibility = viewModel.compatibility, !viewModel.isHomeCountry {
-            CountryCompatibilityPill(summary: compatibility)
-        }
+        .frame(
+            maxWidth: .infinity,
+            alignment: viewModel.isHeaderDetent ? .center : .leading
+        )
     }
 
     private var electricalSetupPills: some View {
@@ -244,70 +233,68 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     }
 
     private var expandedContent: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(alignment: .leading, spacing: .xl) {
-                detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
+        VStack(alignment: .leading, spacing: .xl) {
+            detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
+                LazyVGrid(
+                    columns: [GridItem(.adaptive(minimum: 132), spacing: .md)],
+                    spacing: .md
+                ) {
+                    CountryInfoMetricCard(
+                        icon: .boltCircleFill,
+                        title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                        value: viewModel.country.voltage,
+                        color: .voltTint
+                    )
+
+                    CountryInfoMetricCard(
+                        icon: .waveform,
+                        title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                        value: viewModel.country.frequency,
+                        color: .frequencyTint
+                    )
+                }
+            }
+
+            if viewModel.showsCompatibilityOverview {
+                detailSection(title: LocalizationKeys.countryDetailCompatibilityOverview.localized) {
                     LazyVGrid(
-                        columns: [GridItem(.adaptive(minimum: 132), spacing: .md)],
+                        columns: [GridItem(.adaptive(minimum: 104), spacing: .md)],
                         spacing: .md
                     ) {
-                        CountryInfoMetricCard(
-                            icon: .boltCircleFill,
-                            title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
-                            value: viewModel.country.voltage,
-                            color: .voltTint
+                        CompatibilityCountCard(
+                            title: LocalizationKeys.compatibilityLegendCompatibleTitle.localized,
+                            count: viewModel.compatiblePlugs.count,
+                            color: .green,
+                            symbol: .checkmarkCircleFill
                         )
-
-                        CountryInfoMetricCard(
-                            icon: .waveform,
-                            title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
-                            value: viewModel.country.frequency,
-                            color: .frequencyTint
+                        CompatibilityCountCard(
+                            title: LocalizationKeys.compatibilityLegendAdapterTitle.localized,
+                            count: viewModel.adapterPlugs.count,
+                            color: .orange,
+                            symbol: .powerPlugFill
+                        )
+                        CompatibilityCountCard(
+                            title: LocalizationKeys.compatibilityLegendConverterTitle.localized,
+                            count: viewModel.converterPlugs.count,
+                            color: .red,
+                            symbol: .exclamationMarkTriangle
                         )
                     }
                 }
+            }
 
-                if viewModel.showsCompatibilityOverview {
-                    detailSection(title: LocalizationKeys.countryDetailCompatibilityOverview.localized) {
-                        LazyVGrid(
-                            columns: [GridItem(.adaptive(minimum: 104), spacing: .md)],
-                            spacing: .md
-                        ) {
-                            CompatibilityCountCard(
-                                title: LocalizationKeys.compatibilityLegendCompatibleTitle.localized,
-                                count: viewModel.compatiblePlugs.count,
-                                color: .green,
-                                symbol: .checkmarkCircleFill
-                            )
-                            CompatibilityCountCard(
-                                title: LocalizationKeys.compatibilityLegendAdapterTitle.localized,
-                                count: viewModel.adapterPlugs.count,
-                                color: .orange,
-                                symbol: .powerPlugFill
-                            )
-                            CompatibilityCountCard(
-                                title: LocalizationKeys.compatibilityLegendConverterTitle.localized,
-                                count: viewModel.converterPlugs.count,
-                                color: .red,
-                                symbol: .exclamationMarkTriangle
+            detailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
+                VStack(spacing: .md) {
+                    ForEach(viewModel.country.sortedPlugs) { plug in
+                        Button {
+                            openPlugDetail(plug)
+                        } label: {
+                            CountryDetailPlugRow(
+                                plug: plug,
+                                compatibility: viewModel.plugCompatibility(for: plug)
                             )
                         }
-                    }
-                }
-
-                detailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
-                    VStack(spacing: .md) {
-                        ForEach(viewModel.country.sortedPlugs) { plug in
-                            Button {
-                                openPlugDetail(plug)
-                            } label: {
-                                CountryDetailPlugRow(
-                                    plug: plug,
-                                    compatibility: viewModel.plugCompatibility(for: plug)
-                                )
-                            }
-                            .buttonStyle(.plain)
-                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -553,21 +540,7 @@ private struct CountryDetailCompatibilityBadge: View {
     }
 }
 
-private struct CountryDetailSheetBackground: View {
-    let opacity: CGFloat
-    let showsMaterial: Bool
-
-    var body: some View {
-        Rectangle()
-            .fill(.backgroundSurface.opacity(opacity))
-            .overlay {
-                if showsMaterial {
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                }
-            }
-    }
-}
+// MARK: - CountryMapFocusPin
 
 private struct CountryMapFocusPin: View {
     var body: some View {
