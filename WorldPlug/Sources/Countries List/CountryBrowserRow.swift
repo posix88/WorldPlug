@@ -67,13 +67,13 @@ struct CountryBrowserRow: View {
                 }
 
                 HStack(spacing: .xs) {
-                    specTag(
+                    ElectricalSpecificationPill(
                         icon: .boltCircleFill,
                         label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
                         value: country.voltage,
                         color: .voltTint
                     )
-                    specTag(
+                    ElectricalSpecificationPill(
                         icon: .waveform,
                         label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
                         value: country.frequency,
@@ -127,24 +127,6 @@ struct CountryBrowserRow: View {
         }
     }
 
-    private func specTag(icon: SFSymbols, label: String, value: String, color: Color) -> some View {
-        HStack(spacing: 3) {
-            icon.image
-                .imageScale(.small)
-
-            Text(value)
-                .lineLimit(1)
-        }
-        .font(.caption2)
-        .fontWeight(.semibold)
-        .foregroundStyle(color)
-        .padding(.horizontal, .xs)
-        .padding(.vertical, 2)
-        .background(color.opacity(0.1))
-        .roundedCorner(radius: 5)
-        .accessibilityLabel(label)
-        .accessibilityValue(value)
-    }
 }
 
 // MARK: - CompatibilityStatusIndicator

@@ -32,7 +32,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
             countries = try modelContext.fetch(descriptor)
             filteredCountries = countries
         } catch {
-            print("Fetch failed")
+            assertionFailure("Unable to fetch countries: \(error.localizedDescription)")
         }
     }
 
@@ -42,7 +42,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
             return
         }
 
-        filteredCountries = countries.lazy.filter { $0.name.lowercased().contains(query.lowercased()) }
+        filteredCountries = countries.filter { $0.name.localizedCaseInsensitiveContains(query) }
     }
 }
 

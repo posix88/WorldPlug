@@ -32,19 +32,10 @@ struct MediumWidget: View {
                         }
 
                         WidgetChips(country: country)
-                        
+
                         WidgetPlugs(country: country, limit: 6, type: .large)
                     } else {
-                        VStack(alignment: .leading, spacing: 8) {
-                            WidgetStrings.text("widget.set.home.country")
-                                .font(.headline.weight(.semibold))
-                                .foregroundStyle(WidgetPalette.primaryText)
-
-                            WidgetStrings.text("widget.empty.description")
-                                .font(.caption)
-                                .foregroundStyle(WidgetPalette.secondaryText)
-                                .lineLimit(4)
-                        }
+                        WidgetEmptyState()
                     }
                 }
 
@@ -57,7 +48,6 @@ struct MediumWidget: View {
         }
     }
 }
-
 
 #if DEBUG
 #Preview(as: .systemMedium) {

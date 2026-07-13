@@ -15,23 +15,8 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     private let modelContext: ModelContext
 
     var homeCountryCode: String
-
-    var homeCountry: Country? {
-        let code = homeCountryCode
-        guard !code.isEmpty else {
-            return nil
-        }
-
-        var descriptor = FetchDescriptor<Country>(
-            predicate: #Predicate { $0.code == code }
-        )
-        descriptor.fetchLimit = 1
-        return try? modelContext.fetch(descriptor).first
-    }
-
-    var homePlugTypeIDs: Set<String> {
-        Set(homeCountry?.plugs.map(\.id) ?? [])
-    }
+    private(set) var homeCountry: Country?
+    private(set) var homePlugTypeIDs: Set<String>
 
     init(
         store: some HomeCountryStoring = UserDefaultsHomeCountryStore(),
@@ -39,18 +24,26 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     ) {
         self.store = store
         self.modelContext = modelContext
-        self.homeCountryCode = Self.normalizedCountryCode(store.homeCountryCode)
+        let countryCode = Self.normalizedCountryCode(store.homeCountryCode)
+        let country = Self.country(for: countryCode, in: modelContext)
+        self.homeCountryCode = countryCode
+        self.homeCountry = country
+        self.homePlugTypeIDs = Set(country?.plugs.map(\.id) ?? [])
     }
 
     func setHome(code: String) {
         let normalizedCode = Self.normalizedCountryCode(code)
         homeCountryCode = normalizedCode
+        homeCountry = Self.country(for: normalizedCode, in: modelContext)
+        homePlugTypeIDs = Set(homeCountry?.plugs.map(\.id) ?? [])
         store.homeCountryCode = normalizedCode
         WidgetCenter.shared.reloadAllTimelines()
     }
 
     func clearHome() {
         homeCountryCode = ""
+        homeCountry = nil
+        homePlugTypeIDs = []
         store.homeCountryCode = ""
         WidgetCenter.shared.reloadAllTimelines()
     }
@@ -66,8 +59,19 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
             return .converterRequired
         }
 
-        let homePlugTypeIDs = Set(home.plugs.map(\.id))
         return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
+    }
+
+    private static func country(for code: String, in modelContext: ModelContext) -> Country? {
+        guard !code.isEmpty else {
+            return nil
+        }
+
+        var descriptor = FetchDescriptor<Country>(
+            predicate: #Predicate { $0.code == code }
+        )
+        descriptor.fetchLimit = 1
+        return try? modelContext.fetch(descriptor).first
     }
 
     private static func normalizedCountryCode(_ code: String) -> String {

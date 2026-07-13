@@ -9,17 +9,21 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
-    @State private var pendingSelectedPlug: Plug?
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
 
     var body: some View {
-        ZStack {
-            mapHero(position: mapPositionBinding)
+        Map(position: mapPositionBinding, interactionModes: [.pan, .zoom]) {
+            if let mapFocus = viewModel.mapFocus {
+                Annotation(viewModel.country.name, coordinate: mapFocus.coordinate, anchor: .center) {
+                    CountryMapFocusPin()
+                }
+            }
         }
-        .background(.backgroundSurface)
+        .mapStyle(.standard(elevation: .realistic))
+        .ignoresSafeArea(edges: .bottom)
         .navigationTitle(viewModel.country.name)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -49,22 +53,14 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             }
         }
         .task(id: viewModel.country.code) {
-            viewModel.syncHomeCountry(with: homeCountryViewModel)
             await viewModel.loadMapFocus()
         }
         .onAppear {
+            viewModel.isInfoSheetPresented = true
             viewModel.syncHomeCountry(with: homeCountryViewModel)
         }
         .onDisappear {
             viewModel.isInfoSheetPresented = false
-        }
-        .onChange(of: viewModel.isInfoSheetPresented) { _, isPresented in
-            guard !isPresented, let pendingSelectedPlug else {
-                return
-            }
-
-            selectedPlug = pendingSelectedPlug
-            self.pendingSelectedPlug = nil
         }
         .onChange(of: homeCountryViewModel.homeCountryCode) { _, _ in
             viewModel.syncHomeCountry(with: homeCountryViewModel)
@@ -76,6 +72,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             countryInfoSheet
                 .presentationDetents(
                     [
+                        .custom(CountryHeaderDetent.self),
                         .custom(CountrySummaryDetent.self),
                         .medium,
                         .large
@@ -83,7 +80,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     selection: selectedDetentBinding
                 )
                 .presentationDragIndicator(.visible)
-                .presentationCornerRadius(28)
                 .presentationBackground {
                     CountryDetailSheetBackground(
                         opacity: viewModel.sheetBackgroundOpacity,
@@ -118,22 +114,19 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         )
     }
 
-    private func mapHero(position: Binding<MapCameraPosition>) -> some View {
-        Map(position: position, interactionModes: [.pan, .zoom]) {
-            if let mapFocus = viewModel.mapFocus {
-                Annotation(viewModel.country.name, coordinate: mapFocus.coordinate, anchor: .center) {
-                    CountryMapFocusPin()
-                }
-            }
-        }
-        .mapStyle(.standard(elevation: .realistic))
-        .ignoresSafeArea(edges: .bottom)
-    }
-
     private var countryInfoSheet: some View {
         VStack(alignment: .leading, spacing: .lg) {
             sheetHeader
-            collapsedPlugStrip
+
+            if viewModel.showsPlugStrip {
+                collapsedPlugStrip
+                    .transition(
+                        .asymmetric(
+                            insertion: .move(edge: .bottom).combined(with: .opacity),
+                            removal: .move(edge: .bottom).combined(with: .opacity)
+                        )
+                    )
+            }
 
             if viewModel.isExpandedDetent {
                 expandedContent
@@ -145,20 +138,19 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     )
             }
         }
-        .padding(.horizontal, .xl)
-        .padding(.top, .xxl)
-        .padding(.bottom, .max)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .padding(.horizontal, .xxl)
+        .frame(maxWidth: .infinity, alignment: .topLeading)
         .animation(.smooth(duration: 0.28, extraBounce: 0), value: viewModel.selectedDetent)
     }
 
     private var sheetHeader: some View {
-        HStack(alignment: .top, spacing: .md) {
-            VStack(alignment: .leading, spacing: .xs) {
+        VStack(alignment: .leading, spacing: .md) {
+            HStack(alignment: .center, spacing: .md) {
                 HStack(spacing: .sm) {
                     Text("\(viewModel.country.flagUnicode) \(viewModel.country.name)")
                         .font(.title3.weight(.semibold))
                         .foregroundStyle(.textRegular)
+                        .lineLimit(1)
 
                     if viewModel.isHomeCountry {
                         Text(LocalizationKeys.homeCountryBadge.localized)
@@ -170,35 +162,42 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                             .clipShape(Capsule())
                     }
                 }
-
-                Text("\(viewModel.country.voltage) • \(viewModel.country.frequency)")
-                    .font(.subheadline)
-                    .foregroundStyle(.textLight)
-
-                if let compatibility = viewModel.compatibility, !viewModel.isHomeCountry {
-                    CountryCompatibilityPill(summary: compatibility)
-                }
+                
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-
-            Button {
-                viewModel.toggleSheetExpansion()
-            } label: {
-                Image(systemName: viewModel.isExpandedDetent ? SFSymbols.chevronDown.rawValue : SFSymbols.chevronUp.rawValue)
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(.textRegular)
-                    .frame(width: 32, height: 32)
-                    .background(.surfaceSecondary)
-                    .clipShape(Circle())
+            
+            HStack(spacing: .xs) {
+                electricalSetupPills
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                
+                compatibilityPill
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel(
-                viewModel.isExpandedDetent
-                    ? LocalizationKeys.countryDetailCollapse.localized
-                    : LocalizationKeys.countryDetailExpand.localized
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    @ViewBuilder
+    private var compatibilityPill: some View {
+        if let compatibility = viewModel.compatibility, !viewModel.isHomeCountry {
+            CountryCompatibilityPill(summary: compatibility)
+        }
+    }
+
+    private var electricalSetupPills: some View {
+        HStack(spacing: .xs) {
+            ElectricalSpecificationPill(
+                icon: .boltCircleFill,
+                label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                value: viewModel.country.voltage,
+                color: .voltTint
+            )
+
+            ElectricalSpecificationPill(
+                icon: .waveform,
+                label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                value: viewModel.country.frequency,
+                color: .frequencyTint
             )
         }
-        .padding(.top)
     }
 
     private var collapsedPlugStrip: some View {
@@ -224,7 +223,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                             .buttonStyle(.plain)
                         }
                     }
-                    .padding(.vertical, .xs)
                 }
                 .scrollClipDisabled()
             }
@@ -293,7 +291,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     }
                 }
             }
-            .padding(.bottom, .special)
         }
     }
 
@@ -308,14 +305,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     }
 
     private func openPlugDetail(_ plug: Plug) {
-        pendingSelectedPlug = plug
-
-        if viewModel.isInfoSheetPresented {
-            viewModel.isInfoSheetPresented = false
-        } else {
-            selectedPlug = plug
-            pendingSelectedPlug = nil
-        }
+        viewModel.isInfoSheetPresented = false
+        selectedPlug = plug
     }
 
     private func handleBackNavigation() {
@@ -352,6 +343,7 @@ private struct CountryCompatibilityPill: View {
         .padding(.vertical, .sm)
         .background(summary.color.opacity(0.12))
         .clipShape(Capsule())
+        .fixedSize(horizontal: true, vertical: false)
     }
 }
 
@@ -370,11 +362,6 @@ private struct CountryDetailPlugChip: View {
             Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
                 .font(.callout.weight(.semibold))
                 .foregroundStyle(.textRegular)
-
-            Text(plug.shortInfo)
-                .font(.caption)
-                .foregroundStyle(.textLight)
-                .lineLimit(2)
         }
         .frame(width: 148, alignment: .leading)
         .padding(.lg)
@@ -627,7 +614,7 @@ private struct CountryMapFocusPin: View {
         compatibility: .adapterNeeded
     )
     viewModel.isInfoSheetPresented = true
-    viewModel.selectedDetent = .custom(CountrySummaryDetent.self)
+    viewModel.selectedDetent = .custom(CountryHeaderDetent.self)
     viewModel.mapFocus = CountryMapFocus(
         coordinate: .init(latitude: 41.9028, longitude: 12.4964),
         region: MKCoordinateRegion(

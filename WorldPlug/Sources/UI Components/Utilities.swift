@@ -5,7 +5,6 @@
 //  Created by Antonino Musolino on 10/04/24.
 //
 
-import Repository
 import SwiftUI
 
 extension View {
@@ -13,60 +12,6 @@ extension View {
     /// - Parameters:
     ///   - radius: the corner radius
     func roundedCorner(radius: CGFloat) -> some View {
-        clipped()
-            .clipShape(RoundedRectangle(cornerRadius: radius))
-    }
-
-    /// Sets a clipping shape with rounded corners for this view, tracing the outline of this shape with a color.
-    /// - Parameters:
-    ///   - radius: the corner radius
-    ///   - lineWidth: the outline width
-    ///   - borderColor: the outline color
-    func roundedCornerWithBorder(
-        radius: CGFloat,
-        lineWidth: CGFloat = .zero,
-        borderColor: Color = .clear
-    ) -> some View {
-        roundedCorner(radius: radius)
-            .overlay(
-                RoundedRectangle(cornerRadius: radius)
-                    .stroke(borderColor, lineWidth: lineWidth)
-            )
-    }
-}
-
-extension View {
-    /// A View modifier that allows to retrieve the current view size
-    @ViewBuilder
-    func viewSizeReader(_ size: Binding<CGSize>) -> some View {
-        modifier(ViewSizeReaderViewModifier(viewSize: size))
-    }
-}
-
-// MARK: - ViewSizeReaderViewModifier
-
-private struct ViewSizeReaderViewModifier: ViewModifier {
-    @Binding var viewSize: CGSize
-
-    func body(content: Content) -> some View {
-        content
-            .background(
-                GeometryReader {
-                    Color.clear.preference(key: ViewSizeKey.self, value: $0.frame(in: .local).size)
-                }
-            )
-            .onPreferenceChange(ViewSizeKey.self) {
-                viewSize = $0
-            }
-    }
-}
-
-// MARK: - ViewSizeKey
-
-/// Preference key used to let the view size propagate to the caller
-private struct ViewSizeKey: SwiftUI.PreferenceKey {
-    static let defaultValue: CGSize = .zero
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value = nextValue()
+        clipShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
     }
 }

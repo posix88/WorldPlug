@@ -14,21 +14,12 @@ struct SmallWidget: View {
                 if let country = entry.country {
                     Text(country.flagUnicode)
                         .font(.system(size: 30))
-                    
+
                     WidgetChips(country: country)
-                    
+
                     WidgetPlugs(country: country, limit: 4, type: .small)
                 } else {
-                    VStack(alignment: .leading, spacing: 8) {
-                        WidgetStrings.text("widget.set.home.country")
-                            .font(.headline.weight(.semibold))
-                            .foregroundStyle(WidgetPalette.primaryText)
-
-                        WidgetStrings.text("widget.empty.description")
-                            .font(.caption)
-                            .foregroundStyle(WidgetPalette.secondaryText)
-                            .lineLimit(4)
-                    }
+                    WidgetEmptyState()
                 }
             }
             .padding(16)
@@ -38,7 +29,6 @@ struct SmallWidget: View {
         }
     }
 }
-
 
 #if DEBUG
 #Preview(as: .systemSmall) {

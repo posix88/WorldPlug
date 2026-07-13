@@ -18,12 +18,13 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     }
 
     var body: some View {
+        let compatibilitySummaries = self.compatibilitySummaries
+        let countries = displayedCountries(using: compatibilitySummaries)
+
         NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack(spacing: .md) {
                     if !viewModel.filteredCountries.isEmpty {
-                        // CountriesHeaderView(countryCount: displayedCountries.count)
-
                         if let homeCountry = homeViewModel.homeCountry {
                             HomeCountryBannerView(country: homeCountry) {
                                 homeViewModel.clearHome()
@@ -33,7 +34,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
 
                             CompatibilityFilterBar(
                                 selectedFilter: $selectedFilter,
-                                counts: filterCounts,
+                                counts: filterCounts(using: compatibilitySummaries),
                                 tip: homeViewModel.homeCountryCode.isEmpty ? nil : compatibilityFilterTip
                             )
                             .onChange(of: selectedFilter) { oldValue, newValue in
@@ -49,14 +50,14 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                         }
                     }
 
-                    ForEach(displayedCountries) { country in
+                    ForEach(countries) { country in
                         CountryBrowserRow(
                             country: country,
-                            compatibility: compatibilitySummary(for: country)
+                            compatibility: compatibilitySummaries[country.code]
                         )
                     }
 
-                    if displayedCountries.isEmpty {
+                    if countries.isEmpty {
                         emptyState
                     }
                 }
@@ -66,7 +67,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .navigationDestination(for: Country.self) { country in
                     CountryDetailView(
                         country: country,
-                        compatibility: compatibilitySummary(for: country)
+                        compatibility: compatibilitySummaries[country.code]
                     )
                 }
                 .padding(.horizontal, .xxl)
@@ -99,25 +100,33 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         }
     }
 
-    private var displayedCountries: [Country] {
+    private var compatibilitySummaries: [String: CountryCompatibilitySummary] {
+        Dictionary(
+            uniqueKeysWithValues: viewModel.filteredCountries.compactMap { country in
+                compatibilitySummary(for: country).map { (country.code, $0) }
+            }
+        )
+    }
+
+    private func displayedCountries(
+        using compatibilitySummaries: [String: CountryCompatibilitySummary]
+    ) -> [Country] {
         guard selectedFilter != .all, !homeViewModel.homeCountryCode.isEmpty else {
             return viewModel.filteredCountries
         }
 
         return viewModel.filteredCountries.filter { country in
-            compatibilitySummary(for: country)?.filter == selectedFilter
+            compatibilitySummaries[country.code]?.filter == selectedFilter
         }
     }
 
-    private var filterCounts: [CountryCompatibilityFilter: Int] {
+    private func filterCounts(
+        using compatibilitySummaries: [String: CountryCompatibilitySummary]
+    ) -> [CountryCompatibilityFilter: Int] {
         var counts = Dictionary(uniqueKeysWithValues: CountryCompatibilityFilter.allCases.map { ($0, 0) })
         counts[.all] = viewModel.filteredCountries.count
 
-        for country in viewModel.filteredCountries {
-            guard let filter = compatibilitySummary(for: country)?.filter else {
-                continue
-            }
-
+        for filter in compatibilitySummaries.values.map(\.filter) {
             counts[filter, default: 0] += 1
         }
 
@@ -168,34 +177,6 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         }
 
         return .compatible
-    }
-}
-
-// MARK: - CountriesHeaderView
-
-private struct CountriesHeaderView: View {
-    let countryCount: Int
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: .xs) {
-            Text(LocalizationKeys.countriesTitle.localized)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundStyle(.textRegular)
-
-            Text(LocalizationKeys.countriesAvailable.localized(countryCount))
-                .font(.subheadline)
-                .foregroundStyle(.textLight)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.top, .md)
-        .padding(.bottom, .xs)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(LocalizationKeys.accessibilityCountriesHeader.localized(from: .accessibility))
-        .accessibilityValue(LocalizationKeys.accessibilityCountryAvailableCount.localized(
-            from: .accessibility,
-            countryCount
-        ))
     }
 }
 
