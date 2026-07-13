@@ -119,7 +119,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     private var countryInfoSheet: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
-                VStack(alignment: .leading, spacing: .lg) {
+                VStack(alignment: .leading, spacing: .xl) {
                     sheetHeader
                         .hidden()
                         .padding(.top, .xxl)
@@ -145,7 +145,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     }
                 }
                 .padding(.horizontal, .xxl)
-                .padding(.bottom, .xxl)
+                .padding(.bottom, viewModel.isExpandedDetent ? .xxl : .lg)
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
             .scrollDisabled(!viewModel.isLargeDetent)
@@ -182,24 +182,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             maxWidth: .infinity,
             alignment: viewModel.isHeaderDetent ? .center : .leading
         )
-    }
-
-    private var electricalSetupPills: some View {
-        HStack(spacing: .xs) {
-            ElectricalSpecificationPill(
-                icon: .boltCircleFill,
-                label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
-                value: viewModel.country.voltage,
-                color: .voltTint
-            )
-
-            ElectricalSpecificationPill(
-                icon: .waveform,
-                label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
-                value: viewModel.country.frequency,
-                color: .frequencyTint
-            )
-        }
     }
 
     private var collapsedPlugStrip: some View {
@@ -447,17 +429,6 @@ private struct CountryDetailPlugRow: View {
     let compatibility: PlugCompatibility?
 
     var body: some View {
-        ViewThatFits(in: .horizontal) {
-            rowContent(showsCompatibilityTitle: true)
-            rowContent(showsCompatibilityTitle: false)
-        }
-        .padding(.horizontal, .lg)
-        .padding(.vertical, .md)
-        .background(.surfaceSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-    }
-
-    private func rowContent(showsCompatibilityTitle: Bool) -> some View {
         HStack(spacing: .md) {
             SFSymbols.plugSymbol(for: plug.plugType)
                 .image
@@ -469,7 +440,7 @@ private struct CountryDetailPlugRow: View {
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.textRegular)
 
-                Text(plug.shortInfo)
+                Text(plug.plugType.shortInfoResource)
                     .font(.caption)
                     .foregroundStyle(.textLight)
                     .lineLimit(2)
@@ -479,8 +450,7 @@ private struct CountryDetailPlugRow: View {
 
             if let compatibility {
                 CountryDetailCompatibilityBadge(
-                    compatibility: compatibility,
-                    showsTitle: showsCompatibilityTitle
+                    compatibility: compatibility
                 )
             }
 
@@ -488,6 +458,10 @@ private struct CountryDetailPlugRow: View {
                 .foregroundStyle(.textLighter)
                 .imageScale(.small)
         }
+        .padding(.horizontal, .lg)
+        .padding(.vertical, .md)
+        .background(.surfaceSecondary)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
     }
 }
 
@@ -495,24 +469,15 @@ private struct CountryDetailPlugRow: View {
 
 private struct CountryDetailCompatibilityBadge: View {
     let compatibility: PlugCompatibility
-    let showsTitle: Bool
-
+    
     var body: some View {
-        HStack(spacing: .xs) {
-            Image(systemName: iconName)
-                .font(.caption2.weight(.bold))
-
-            if showsTitle {
-                Text(title)
-                    .font(.caption.weight(.bold))
-                    .lineLimit(1)
-            }
-        }
-        .foregroundStyle(color)
-        .padding(.horizontal, .md)
-        .padding(.vertical, .sm)
-        .background(color.opacity(0.12))
-        .clipShape(Capsule())
+        Image(systemName: iconName)
+            .font(.caption2.weight(.bold))
+            .foregroundStyle(color)
+            .padding(.horizontal, .md)
+            .padding(.vertical, .sm)
+            .background(color.opacity(0.12))
+            .clipShape(Capsule())
     }
 
     private var iconName: String {
@@ -520,14 +485,6 @@ private struct CountryDetailCompatibilityBadge: View {
         case .compatible: "checkmark.circle.fill"
         case .adapterNeeded: "powerplug.fill"
         case .converterRequired: "exclamationmark.triangle.fill"
-        }
-    }
-
-    private var title: String {
-        switch compatibility {
-        case .compatible: LocalizationKeys.compatibilityLegendCompatibleTitle.localized
-        case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterTitle.localized
-        case .converterRequired: LocalizationKeys.compatibilityLegendConverterTitle.localized
         }
     }
 
@@ -568,91 +525,133 @@ private struct CountryMapFocusPin: View {
 }
 
 #if DEBUG
-#Preview {
-    let typeC = Plug(
-        id: "C",
-        name: "Type C",
-        shortInfo: "Two round pins",
-        info: "Common across much of Europe for low-power devices.",
-        images: [],
-        specifications: .init(
-            pinDiameter: "4.0 mm",
-            pinSpacing: "19 mm",
-            ratedAmperage: "2.5 A / 16 A",
-            alsoKnownAs: "Europlug"
+private enum CountryDetailPreviewFixtures {
+    static func makeCountry() -> Country {
+        let plugs = [
+            Plug(
+                id: "C",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "4.0 mm",
+                    pinSpacing: "19 mm",
+                    ratedAmperage: "2.5 A / 16 A",
+                    alsoKnownAs: "Europlug"
+                )
+            ),
+            Plug(
+                id: "F",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "4.8 mm",
+                    pinSpacing: "19 mm",
+                    ratedAmperage: "16 A",
+                    alsoKnownAs: "Schuko"
+                )
+            ),
+            Plug(
+                id: "L",
+                images: [],
+                specifications: .init(
+                    pinDiameter: "4.0 mm / 5.0 mm",
+                    pinSpacing: "19 mm / 26 mm",
+                    ratedAmperage: "10 A / 16 A",
+                    alsoKnownAs: "CEI 23-50"
+                )
+            )
+        ]
+
+        return Country(
+            code: "IT",
+            voltage: "230 V",
+            frequency: "50 Hz",
+            flagUnicode: "🇮🇹",
+            plugs: plugs
         )
-    )
-
-    let typeF = Plug(
-        id: "F",
-        name: "Type F",
-        shortInfo: "Grounded side clips",
-        info: "Used for higher power appliances in continental Europe.",
-        images: [],
-        specifications: .init(
-            pinDiameter: "4.8 mm",
-            pinSpacing: "19 mm",
-            ratedAmperage: "16 A",
-            alsoKnownAs: "Schuko"
-        )
-    )
-
-    let typeL = Plug(
-        id: "L",
-        name: "Type L",
-        shortInfo: "Three inline round pins",
-        info: "Standard plug configuration used in Italy.",
-        images: [],
-        specifications: .init(
-            pinDiameter: "4.0 mm / 5.0 mm",
-            pinSpacing: "19 mm / 26 mm",
-            ratedAmperage: "10 A / 16 A",
-            alsoKnownAs: "CEI 23-50"
-        )
-    )
-
-    let country = Country(
-        code: "IT",
-        voltage: "230 V",
-        frequency: "50 Hz",
-        flagUnicode: "🇮🇹",
-        plugs: [typeC, typeF, typeL]
-    )
-
-    let viewModel = PreviewCountryDetailViewModel(
-        country: country,
-        compatibility: .adapterNeeded
-    )
-    viewModel.isInfoSheetPresented = true
-    viewModel.selectedDetent = .custom(CountryHeaderDetent.self)
-    viewModel.mapFocus = CountryMapFocus(
-        coordinate: .init(latitude: 41.9028, longitude: 12.4964),
-        region: MKCoordinateRegion(
-            center: .init(latitude: 41.9028, longitude: 12.4964),
-            latitudinalMeters: 900_000,
-            longitudinalMeters: 900_000
-        ),
-        cameraDistance: 1_400_000
-    )
-    viewModel.mapPosition = .camera(
-        MapCamera(
-            centerCoordinate: .init(latitude: 41.9028, longitude: 12.4964),
-            distance: 1_400_000,
-            heading: 0,
-            pitch: 8
-        )
-    )
-
-    return NavigationStack {
-        CountryDetailView(viewModel: viewModel)
     }
-    .environment(
-        \.homeCountryViewModel,
-        PreviewHomeCountryViewModel(
-            homeCountryCode: "US",
+
+    static func makeMapFocus() -> CountryMapFocus {
+        CountryMapFocus(
+            coordinate: .init(latitude: 41.9028, longitude: 12.4964),
+            region: MKCoordinateRegion(
+                center: .init(latitude: 41.9028, longitude: 12.4964),
+                latitudinalMeters: 900_000,
+                longitudinalMeters: 900_000
+            ),
+            cameraDistance: 1_400_000
+        )
+    }
+}
+
+private struct CountryDetailPreview: View {
+    @State private var viewModel: PreviewCountryDetailViewModel
+    private let homeCountryViewModel: PreviewHomeCountryViewModel
+
+    init(
+        detent: PresentationDetent,
+        compatibility: CountryCompatibilitySummary? = .adapterNeeded,
+        isHomeCountry: Bool = false,
+        showsCompatibilityOverview: Bool = false
+    ) {
+        let country = CountryDetailPreviewFixtures.makeCountry()
+        let viewModel = PreviewCountryDetailViewModel(
+            country: country,
+            compatibility: compatibility,
+            isHomeCountry: isHomeCountry,
+            showsCompatibilityOverview: showsCompatibilityOverview
+        )
+        viewModel.selectedDetent = detent
+        let mapFocus = CountryDetailPreviewFixtures.makeMapFocus()
+        viewModel.mapFocus = mapFocus
+        viewModel.mapPosition = .camera(
+            MapCamera(
+                centerCoordinate: mapFocus.coordinate,
+                distance: mapFocus.cameraDistance,
+                heading: 0,
+                pitch: 8
+            )
+        )
+
+        _viewModel = State(initialValue: viewModel)
+        self.homeCountryViewModel = PreviewHomeCountryViewModel(
+            homeCountryCode: isHomeCountry ? country.code : "US",
             plugTypeIDs: ["A", "B", "C"],
             homeVoltage: "120 V"
         )
+    }
+
+    var body: some View {
+        NavigationStack {
+            CountryDetailView(viewModel: viewModel)
+        }
+        .environment(\.homeCountryViewModel, homeCountryViewModel)
+    }
+}
+
+#Preview("Compact") {
+    CountryDetailPreview(detent: .custom(CountryHeaderDetent.self))
+}
+
+#Preview("Summary") {
+    CountryDetailPreview(detent: .custom(CountrySummaryDetent.self))
+}
+
+#Preview("Medium Compatibility") {
+    CountryDetailPreview(
+        detent: .medium,
+        compatibility: .converterRequired,
+        showsCompatibilityOverview: true
+    )
+}
+
+#Preview("Large") {
+    CountryDetailPreview(detent: .large, showsCompatibilityOverview: true)
+}
+
+#Preview("Home Country") {
+    CountryDetailPreview(
+        detent: .custom(CountrySummaryDetent.self),
+        compatibility: nil,
+        isHomeCountry: true
     )
 }
 #endif

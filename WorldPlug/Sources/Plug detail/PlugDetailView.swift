@@ -260,9 +260,6 @@ private struct SpecificationRow: View {
 #Preview {
     let plug = Plug(
         id: "A",
-        name: "Type A",
-        shortInfo: "short info",
-        info: "Est ea non incididunt amet proident aliqua mollit sint voluptate. Voluptate dolor ex est minim nulla qui.",
         images: [
             URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_3d_sock_l.png")!,
             URL(string: "https://www.iec.ch/themes/custom/iec/images/world-plugs/types/A/A_dia_plug_l.png")!

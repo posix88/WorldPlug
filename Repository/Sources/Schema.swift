@@ -7,11 +7,18 @@ public enum SchemaV4: VersionedSchema {
     public static let models: [any PersistentModel.Type] = [Country.self, Plug.self]
 }
 
+// MARK: - SchemaV5
+
+public enum SchemaV5: VersionedSchema {
+    public static let versionIdentifier = Schema.Version(5, 0, 0)
+    public static let models: [any PersistentModel.Type] = [Country.self, Plug.self]
+}
+
 // MARK: - MigrationPlan
 
 enum MigrationPlan: SchemaMigrationPlan {
     static var schemas: [any VersionedSchema.Type] {
-        [SchemaV4.self]
+        [SchemaV4.self, SchemaV5.self]
     }
 
 //    static var migrateV2toV3: MigrationStage {
@@ -29,6 +36,6 @@ enum MigrationPlan: SchemaMigrationPlan {
 //    }
 
     static var stages: [MigrationStage] {
-        []
+        [.lightweight(fromVersion: SchemaV4.self, toVersion: SchemaV5.self)]
     }
 }

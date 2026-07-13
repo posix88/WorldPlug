@@ -55,9 +55,6 @@ struct PlugTests {
         ]
         let plug = Plug(
             id: "A",
-            name: "Type A",
-            shortInfo: "short",
-            info: "info",
             images: urls,
             specifications: makeSpecs()
         )
@@ -68,7 +65,7 @@ struct PlugTests {
     @Test("Specification fields are flattened onto the model")
     func specsFlattened() {
         let specs = makeSpecs(pinDiameter: "4.8mm", pinSpacing: "19mm", ratedAmperage: "13A", alsoKnownAs: "BS 1363")
-        let plug = Plug(id: "G", name: "Type G", shortInfo: "", info: "", images: [], specifications: specs)
+        let plug = Plug(id: "G", images: [], specifications: specs)
         context.insert(plug)
 
         #expect(plug.pinDiameter == "4.8mm")

@@ -28,18 +28,16 @@ struct CountryTests {
         #expect(country.id == country.code)
     }
 
-    @Test("name is derived from Locale for a known country code")
+    @Test("localized name is derived from a known country code")
     func nameIsLocalised() {
         let country = makeCountry(code: "IT", context: context)
-        #expect(country.name.isEmpty == false)
+        #expect(country.localizedName(in: Locale(identifier: "en_US")).isEmpty == false)
     }
 
-    @Test("name for an unknown country code is non-nil — Locale provides a fallback string")
+    @Test("unknown country code has a display fallback")
     func unknownCodeProducesFallbackName() {
         let country = makeCountry(code: "ZZ", context: context)
-        // Locale.localizedString(forRegionCode:) returns a platform fallback (e.g. "Unknown Region")
-        // rather than nil for codes it doesn't recognise.
-        #expect(country.name.isEmpty == false)
+        #expect(country.localizedName(in: Locale(identifier: "en_US")).isEmpty == false)
     }
 
     @Test("voltage and frequency are stored as provided")

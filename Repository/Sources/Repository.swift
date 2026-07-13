@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-public typealias Plug = SchemaV4.Plug
-public typealias Country = SchemaV4.Country
+public typealias Plug = SchemaV5.Plug
+public typealias Country = SchemaV5.Country
 
 // MARK: - Repository
 
@@ -51,9 +51,6 @@ public enum Repository {
             for plugData in plugsData {
                 let plug = Plug(
                     id: plugData.id,
-                    name: plugData.name,
-                    shortInfo: plugData.shortInfo,
-                    info: plugData.info,
                     images: plugData.images,
                     specifications: plugData.specifications
                 )

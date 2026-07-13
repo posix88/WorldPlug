@@ -1070,6 +1070,182 @@
         }
       }
     },
+    "plug.type.a.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in North and Central America, Japan." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Nord e Centro America, Giappone." }
+        }
+      }
+    },
+    "plug.type.b.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in North and Central America, Japan." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Nord e Centro America, Giappone." }
+        }
+      }
+    },
+    "plug.type.c.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Europe, except the United Kingdom, Ireland, Cyprus and Malta." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Europa, eccetto Regno Unito, Irlanda, Cipro e Malta." }
+        }
+      }
+    },
+    "plug.type.d.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in India, Sri Lanka, Nepal and Namibia." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in India, Sri Lanka, Nepal e Namibia." }
+        }
+      }
+    },
+    "plug.type.e.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in France, Belgium, Slovakia and Tunisia, among others." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Francia, Belgio, Slovacchia e Tunisia, tra gli altri." }
+        }
+      }
+    },
+    "plug.type.f.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Germany, Austria, the Netherlands and Spain, among others." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Germania, Austria, Paesi Bassi e Spagna, tra gli altri." }
+        }
+      }
+    },
+    "plug.type.g.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in the United Kingdom, Ireland, Cyprus, Malta, Malaysia, Singapore and Hong Kong." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata nel Regno Unito, Irlanda, Cipro, Malta, Malesia, Singapore e Hong Kong." }
+        }
+      }
+    },
+    "plug.type.h.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Israel." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Israele." }
+        }
+      }
+    },
+    "plug.type.i.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Australia, New Zealand, Papua New Guinea and Argentina." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Australia, Nuova Zelanda, Papua Nuova Guinea e Argentina." }
+        }
+      }
+    },
+    "plug.type.j.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Switzerland and Liechtenstein." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Svizzera e Liechtenstein." }
+        }
+      }
+    },
+    "plug.type.k.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Denmark and Greenland." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Danimarca e Groenlandia." }
+        }
+      }
+    },
+    "plug.type.l.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Italy." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Italia." }
+        }
+      }
+    },
+    "plug.type.m.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in South Africa, Eswatini and Lesotho." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Sudafrica, Eswatini e Lesotho." }
+        }
+      }
+    },
+    "plug.type.n.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Brazil." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Brasile." }
+        }
+      }
+    },
+    "plug.type.o.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Used in Thailand." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "Usata in Thailandia." }
+        }
+      }
+    },
+    "plug.type.unknown.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Regional use varies." }
+        },
+        "it" : {
+          "stringUnit" : { "state" : "translated", "value" : "L'uso varia in base alla regione." }
+        }
+      }
+    },
     "rated.amperage" : {
       "extractionState" : "manual",
       "localizations" : {

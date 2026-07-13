@@ -154,17 +154,11 @@ import SwiftData
     country.plugs = [
         Plug(
             id: "C",
-            name: "Type C",
-            shortInfo: "short info",
-            info: "info",
             images: [],
             specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "CEE 7/16")
         ),
         Plug(
             id: "F",
-            name: "Type F",
-            shortInfo: "short info",
-            info: "info",
             images: [],
             specifications: .init(pinDiameter: "1.5mm", pinSpacing: "12.7mm", ratedAmperage: "10A", alsoKnownAs: "CEE 7/4")
         )

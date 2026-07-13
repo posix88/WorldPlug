@@ -1,3 +1,4 @@
+import Foundation
 import Observation
 import Repository
 
@@ -21,7 +22,7 @@ final class PlugDetailViewModel: PlugDetailViewModelType {
     var shareText: String {
         LocalizationKeys.plugShareText.localized(
             LocalizationKeys.plugTypePrefix.localized(plug.id),
-            plug.shortInfo,
+            String(localized: plug.plugType.shortInfoResource),
             plug.pinDiameter,
             plug.pinSpacing,
             plug.ratedAmperage
@@ -46,7 +47,7 @@ final class PlugDetailViewModel: PlugDetailViewModelType {
         case .m: LocalizationKeys.plugTypeMDescription.localized
         case .n: LocalizationKeys.plugTypeNDescription.localized
         case .o: LocalizationKeys.plugTypeODescription.localized
-        case .unknown: plug.info
+        case .unknown: LocalizationKeys.plugTypeUnknownShortInfo.localized
         }
     }
 }
@@ -64,8 +65,8 @@ final class PreviewPlugDetailViewModel: PlugDetailViewModelType {
 
     init(plug: Plug) {
         self.plug = plug
-        self.description = plug.shortInfo
-        self.shareText = "\(plug.name): \(plug.shortInfo)"
+        self.description = String(localized: plug.plugType.shortInfoResource)
+        self.shareText = "\(plug.id): \(String(localized: plug.plugType.shortInfoResource))"
     }
 }
 #endif

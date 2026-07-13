@@ -96,6 +96,7 @@ enum LocalizationKeys {
     static let plugTypeMDescription = "plug.type.m.description"
     static let plugTypeNDescription = "plug.type.n.description"
     static let plugTypeODescription = "plug.type.o.description"
+    static let plugTypeUnknownShortInfo = "plug.type.unknown.short.info"
 
     static let plugShare = "plug.share"
     static let plugShareTagline = "plug.share.tagline"

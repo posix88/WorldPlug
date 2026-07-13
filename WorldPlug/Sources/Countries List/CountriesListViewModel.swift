@@ -29,9 +29,8 @@ final class CountriesListViewModel: CountriesListViewModelType {
 
     func fetchData() {
         do {
-            let descriptor = FetchDescriptor<Country>(sortBy: [SortDescriptor(\.name)])
-            countries = try modelContext.fetch(descriptor)
-            filteredCountries = countries
+            countries = try modelContext.fetch(FetchDescriptor<Country>())
+            search(query: "", locale: .current)
         } catch {
             assertionFailure("Unable to fetch countries: \(error.localizedDescription)")
         }

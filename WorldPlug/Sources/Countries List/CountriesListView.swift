@@ -360,9 +360,6 @@ extension CountriesListView where ViewModel == CountriesListViewModel {
         country.plugs = [
             Plug(
                 id: "A",
-                name: "Type A",
-                shortInfo: "short info",
-                info: "info",
                 images: [],
                 specifications: .init(
                     pinDiameter: "1.5mm",
@@ -373,9 +370,6 @@ extension CountriesListView where ViewModel == CountriesListViewModel {
             ),
             Plug(
                 id: "C",
-                name: "Type C",
-                shortInfo: "short info",
-                info: "info",
                 images: [],
                 specifications: .init(
                     pinDiameter: "1.5mm",
@@ -387,7 +381,7 @@ extension CountriesListView where ViewModel == CountriesListViewModel {
         ]
     }
 
-    let descriptor = FetchDescriptor<Country>(sortBy: [SortDescriptor(\.name)])
+    let descriptor = FetchDescriptor<Country>()
     let countries = (try? container.mainContext.fetch(descriptor)) ?? []
     let previewVM = PreviewCountriesListViewModel(countries: countries)
 

@@ -32,14 +32,10 @@ func makeSpecs(
 @MainActor
 func makePlug(
     id: String,
-    name: String? = nil,
     context: ModelContext
 ) -> Plug {
     let plug = Plug(
         id: id,
-        name: name ?? "Type \(id)",
-        shortInfo: "Short description",
-        info: "Full description for type \(id)",
         images: [],
         specifications: makeSpecs()
     )

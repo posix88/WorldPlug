@@ -191,6 +191,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var compatiblePlugs: [Plug]
     var adapterPlugs: [Plug] = []
     var converterPlugs: [Plug] = []
+    var shouldShowCompatibilityOverview = false
 
     var isLargeDetent: Bool {
         selectedDetent == .large
@@ -208,7 +209,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
         !isHeaderDetent
     }
 
-    var showsCompatibilityOverview: Bool { false }
+    var showsCompatibilityOverview: Bool { shouldShowCompatibilityOverview }
 
     var primaryPlugsTitle: String {
         LocalizationKeys.countryDetailPlugsInUse.localized
@@ -231,10 +232,19 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
             : "\(country.voltage) • \(country.frequency)"
     }
 
-    init(country: Country, compatibility: CountryCompatibilitySummary?) {
+    init(
+        country: Country,
+        compatibility: CountryCompatibilitySummary?,
+        isHomeCountry: Bool = false,
+        showsCompatibilityOverview: Bool = false
+    ) {
         self.country = country
         self.compatibility = compatibility
-        self.compatiblePlugs = country.sortedPlugs
+        self.isHomeCountry = isHomeCountry
+        self.shouldShowCompatibilityOverview = showsCompatibilityOverview
+        self.compatiblePlugs = Array(country.sortedPlugs.prefix(1))
+        self.adapterPlugs = Array(country.sortedPlugs.dropFirst().prefix(1))
+        self.converterPlugs = Array(country.sortedPlugs.dropFirst(2))
     }
 
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType) {}
@@ -244,7 +254,18 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large
     }
 
-    func plugCompatibility(for plug: Plug) -> PlugCompatibility? { nil }
+    func plugCompatibility(for plug: Plug) -> PlugCompatibility? {
+        if compatiblePlugs.contains(where: { $0.id == plug.id }) {
+            return .compatible
+        }
+        if adapterPlugs.contains(where: { $0.id == plug.id }) {
+            return .adapterNeeded
+        }
+        if converterPlugs.contains(where: { $0.id == plug.id }) {
+            return .converterRequired
+        }
+        return nil
+    }
     func loadMapFocus() async {}
 }
 #endif
@@ -257,6 +278,6 @@ struct CountryHeaderDetent: CustomPresentationDetent {
 
 struct CountrySummaryDetent: CustomPresentationDetent {
     static func height(in context: Context) -> CGFloat? {
-        min(264, max(220, context.maxDetentValue * 0.29))
+        min(208, max(196, context.maxDetentValue * 0.24))
     }
 }
