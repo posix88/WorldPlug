@@ -63,6 +63,12 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .navigationDestination(for: Plug.self) { plug in
                     PlugDetailView(plug: plug)
                 }
+                .navigationDestination(for: Country.self) { country in
+                    CountryDetailView(
+                        country: country,
+                        compatibility: compatibilitySummary(for: country)
+                    )
+                }
                 .padding(.horizontal, .xxl)
                 .padding(.bottom, .xxl)
                 .accessibilityElement(children: .contain)

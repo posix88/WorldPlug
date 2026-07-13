@@ -8,36 +8,18 @@ struct CountryBrowserRow: View {
     let compatibility: CountryCompatibilitySummary?
 
     @Environment(\.homeCountryViewModel) private var homeViewModel
-    @State private var isExpanded = false
-    @State private var plugTapTrigger = false
 
     private var isHomeCountry: Bool {
         country.code == homeViewModel.homeCountryCode
     }
 
     var body: some View {
-        Card(insets: .init(top: .md, leading: .lg, bottom: .md, trailing: .lg), shadow: .subtle) {
-            VStack(alignment: .leading, spacing: .lg) {
-                Button {
-                    withAnimation(.snappy) {
-                        isExpanded.toggle()
-                    }
-                } label: {
-                    summary
-                }
-                .buttonStyle(.plain)
-                .frame(minHeight: 56)
-                .accessibilityHint(isExpanded ? LocalizationKeys.accessibilityHideDetailsHint
-                    .localized(from: .accessibility) : LocalizationKeys.accessibilityShowDetailsHint
-                    .localized(from: .accessibility)
-                )
-
-                if isExpanded {
-                    details
-                        .transition(.opacity.combined(with: .move(edge: .top)))
-                }
+        NavigationLink(value: country) {
+            Card(insets: .init(top: .md, leading: .lg, bottom: .md, trailing: .lg), shadow: .subtle) {
+                summary
             }
         }
+        .buttonStyle(.plain)
         .contextMenu {
             if isHomeCountry {
                 Button(role: .destructive) {
@@ -110,76 +92,16 @@ struct CountryBrowserRow: View {
                     CompatibilityStatusIndicator(summary: compatibility)
                 }
 
-                SFSymbols.chevronDown.image
+                SFSymbols.chevronRight.image
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.textLighter)
-                    .rotationEffect(isExpanded ? .degrees(180) : .zero)
             }
             .frame(width: 116, alignment: .trailing)
             .layoutPriority(2)
         }
+        .frame(minHeight: 56)
         .contentShape(Rectangle())
-    }
-
-    private var details: some View {
-        VStack(alignment: .leading, spacing: .lg) {
-            Divider()
-
-            Text(LocalizationKeys.compatiblePlugs.localized)
-                .font(.footnote)
-                .fontWeight(.semibold)
-                .foregroundStyle(.textLight)
-                .textCase(.uppercase)
-                .tracking(0.5)
-
-            LazyVGrid(columns: [
-                GridItem(.flexible()),
-                GridItem(.flexible())
-            ], spacing: .md) {
-                ForEach(country.sortedPlugs) { plug in
-                    NavigationLink(value: plug) {
-                        HStack(spacing: .md) {
-                            SFSymbols.plugSymbol(for: plug.plugType)
-                                .image
-                                .font(.title3)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.textRegular)
-
-                            Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
-                                .font(.callout)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.textRegular)
-
-                            Spacer()
-
-                            if let plugCompatibility = plugCompatibility(for: plug) {
-                                SmallCompatibilityBadge(compatibility: plugCompatibility)
-                            }
-
-                            SFSymbols.chevronRight.image
-                                .imageScale(.small)
-                                .foregroundStyle(.textLighter)
-                        }
-                        .padding(.horizontal, .lg)
-                        .padding(.vertical, .md)
-                        .background(.surfaceSecondary)
-                        .roundedCorner(radius: 8)
-                    }
-                    .accessibilityLabel(LocalizationKeys.accessibilityPlugTypeLabel.localized(
-                        from: .accessibility,
-                        plug.id
-                    ))
-                    .accessibilityHint(LocalizationKeys.accessibilityPlugTypeHint.localized(
-                        from: .accessibility,
-                        plug.id
-                    ))
-                    .accessibilityAddTraits(.isButton)
-                    .simultaneousGesture(TapGesture().onEnded { plugTapTrigger.toggle() })
-                }
-            }
-            .sensoryFeedback(.selection, trigger: plugTapTrigger)
-        }
     }
 
     private var plugTypeTags: some View {
@@ -223,14 +145,6 @@ struct CountryBrowserRow: View {
         .accessibilityLabel(label)
         .accessibilityValue(value)
     }
-
-    private func plugCompatibility(for plug: Plug) -> PlugCompatibility? {
-        guard !homeViewModel.homeCountryCode.isEmpty, !isHomeCountry else {
-            return nil
-        }
-
-        return homeViewModel.plugCompatibility(for: plug, in: country)
-    }
 }
 
 // MARK: - CompatibilityStatusIndicator
@@ -250,45 +164,6 @@ private struct CompatibilityStatusIndicator: View {
         .foregroundStyle(summary.color)
         .accessibilityElement()
         .accessibilityLabel(summary.title)
-    }
-}
-
-// MARK: - SmallCompatibilityBadge
-
-private struct SmallCompatibilityBadge: View {
-    let compatibility: PlugCompatibility
-
-    var body: some View {
-        Image(systemName: iconName)
-            .font(.system(size: 7, weight: .bold))
-            .foregroundStyle(.white)
-            .frame(width: 13, height: 13)
-            .background(color, in: Circle())
-            .accessibilityLabel(accessibilityLabel)
-    }
-
-    private var iconName: String {
-        switch compatibility {
-        case .compatible: "checkmark"
-        case .adapterNeeded: "powerplug.fill"
-        case .converterRequired: "exclamationmark"
-        }
-    }
-
-    private var color: Color {
-        switch compatibility {
-        case .compatible: .green
-        case .adapterNeeded: .orange
-        case .converterRequired: .red
-        }
-    }
-
-    private var accessibilityLabel: String {
-        switch compatibility {
-        case .compatible: LocalizationKeys.accessibilityPlugCompatible.localized(from: .accessibility)
-        case .adapterNeeded: LocalizationKeys.accessibilityPlugAdapterNeeded.localized(from: .accessibility)
-        case .converterRequired: LocalizationKeys.accessibilityPlugConverterRequired.localized(from: .accessibility)
-        }
     }
 }
 
@@ -319,9 +194,11 @@ import SwiftData
         )
     ]
 
-    return CountryBrowserRow(country: country, compatibility: .compatible)
-        .padding(.xxl)
-        .modelContainer(container)
-        .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel(homeCountryCode: "GB", plugTypeIDs: ["G"]))
+    return NavigationStack {
+        CountryBrowserRow(country: country, compatibility: .compatible)
+            .padding(.xxl)
+            .modelContainer(container)
+            .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel(homeCountryCode: "GB", plugTypeIDs: ["G"]))
+    }
 }
 #endif

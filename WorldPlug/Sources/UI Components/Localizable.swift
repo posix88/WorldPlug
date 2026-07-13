@@ -52,6 +52,15 @@ enum LocalizationKeys {
     static let countriesFilterEmptyTitle = "countries.filter.empty.title"
     static let countriesFilterEmptyDescription = "countries.filter.empty.description"
     static let countriesFilterTip = "countries.filter.tip"
+    static let countryDetailPlugsInUse = "country.detail.plugs.in.use"
+    static let countryDetailDirectlyCompatible = "country.detail.directly.compatible"
+    static let countryDetailNoCompatiblePlugs = "country.detail.no.compatible.plugs"
+    static let countryDetailElectricalSetup = "country.detail.electrical.setup"
+    static let countryDetailCompatibilityOverview = "country.detail.compatibility.overview"
+    static let countryDetailAllPlugs = "country.detail.all.plugs"
+    static let countryDetailMapLocating = "country.detail.map.locating"
+    static let countryDetailExpand = "country.detail.expand"
+    static let countryDetailCollapse = "country.detail.collapse"
     static let searchCountriesPlaceholder = "search.countries.placeholder"
 
     // MARK: - Country Card
