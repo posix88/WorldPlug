@@ -8,6 +8,7 @@ struct VoltlyApp: App {
     @State private var homeCountryViewModel = HomeCountryViewModel(
         modelContext: Repository.sharedModelContainer.mainContext
     )
+    @State private var premiumEntitlement = DevelopmentPremiumEntitlement()
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
 
@@ -15,6 +16,7 @@ struct VoltlyApp: App {
         WindowGroup {
             CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
+                .environment(\.premiumEntitlement, premiumEntitlement)
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         homeCountryViewModel.refreshHomeCountry()
@@ -27,6 +29,7 @@ struct VoltlyApp: App {
                         hasSeenOnboarding = true
                     }
                     .environment(\.homeCountryViewModel, homeCountryViewModel)
+                    .environment(\.premiumEntitlement, premiumEntitlement)
                 }
         }
         .modelContainer(Repository.sharedModelContainer)
