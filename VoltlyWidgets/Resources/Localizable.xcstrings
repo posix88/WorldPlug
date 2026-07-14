@@ -554,6 +554,23 @@
         }
       }
     },
+    "widget.next.trip.enjoy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoy your vacation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goditi la vacanza"
+          }
+        }
+      }
+    },
     "widget.next.trip.label" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -618,6 +635,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Oggi"
+          }
+        }
+      }
+    },
+    "widget.next.trip.vacation.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On vacation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In vacanza"
           }
         }
       }

@@ -6,8 +6,11 @@ struct NextTripMediumWidget: View {
     let homeCountry: CountrySnapshot?
     let country: CountrySnapshot
     let departureDate: Date
+    let returnDate: Date
 
-    private var countdown: NextTripCountdown { NextTripCountdown(departureDate: departureDate) }
+    private var countdown: NextTripCountdown {
+        NextTripCountdown(departureDate: departureDate, returnDate: returnDate)
+    }
     private var compatibility: NextTripCompatibility {
         NextTripCompatibility(homeCountry: homeCountry, destination: country)
     }
@@ -17,7 +20,7 @@ struct NextTripMediumWidget: View {
             WidgetBackground()
             VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
                 HStack(alignment: .top) {
-                    Label(WidgetStrings.string("widget.next.trip.label"), systemImage: "airplane.departure")
+                    Label(WidgetStrings.string(countdown.titleKey), systemImage: countdown.symbolName)
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(WidgetPalette.accent)
 
@@ -41,6 +44,6 @@ struct NextTripMediumWidget: View {
 #Preview(as: .systemMedium) {
     NextTripWidget()
 } timeline: {
-    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), isPremium: true)
+    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), returnDate: .now.addingTimeInterval(20 * 86_400), isPremium: true)
 }
 #endif

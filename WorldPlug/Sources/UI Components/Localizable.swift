@@ -83,11 +83,15 @@ enum LocalizationKeys {
     static let nextTripSave = "next.trip.save"
     static let nextTripRemove = "next.trip.remove"
     static let nextTripSearchDestination = "next.trip.search.destination"
+    static let nextTripTipTitle = "next.trip.tip.title"
+    static let nextTripTipMessage = "next.trip.tip.message"
 
     // MARK: - Favorite Widget
 
     static let favoriteWidgetTitle = "favorite.widget.title"
     static let favoriteWidgetNoSelection = "favorite.widget.no.selection"
+    static let favoriteWidgetTipTitle = "favorite.widget.tip.title"
+    static let favoriteWidgetTipMessage = "favorite.widget.tip.message"
 
     // MARK: - Countries List View
 

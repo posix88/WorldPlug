@@ -102,6 +102,20 @@
         }
       }
     },
+    "favorite.widget.tip.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose a saved country to show in your Favorite Country widget." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli un paese salvato da mostrare nel widget Paese preferito." } }
+      }
+    },
+    "favorite.widget.tip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose your widget country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli il paese del widget" } }
+      }
+    },
     "Back" : {
 
     },
@@ -738,6 +752,20 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Next trip" } },
         "it" : { "stringUnit" : { "state" : "translated", "value" : "Prossimo viaggio" } }
+      }
+    },
+    "next.trip.tip.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add a destination and dates to get a travel countdown and compatibility check." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Aggiungi una destinazione e le date per avere il conto alla rovescia e il controllo di compatibilità." } }
+      }
+    },
+    "next.trip.tip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan your next trip" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Pianifica il prossimo viaggio" } }
       }
     },
     "onboarding.adapter.info.subtitle" : {

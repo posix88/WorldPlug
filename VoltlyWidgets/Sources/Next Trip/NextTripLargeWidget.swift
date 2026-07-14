@@ -6,8 +6,11 @@ struct NextTripLargeWidget: View {
     let homeCountry: CountrySnapshot?
     let country: CountrySnapshot
     let departureDate: Date
+    let returnDate: Date
 
-    private var countdown: NextTripCountdown { NextTripCountdown(departureDate: departureDate) }
+    private var countdown: NextTripCountdown {
+        NextTripCountdown(departureDate: departureDate, returnDate: returnDate)
+    }
     private var compatibility: NextTripCompatibility {
         NextTripCompatibility(homeCountry: homeCountry, destination: country)
     }
@@ -18,7 +21,7 @@ struct NextTripLargeWidget: View {
 
             VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
                 HStack(alignment: .top) {
-                    Label(WidgetStrings.string("widget.next.trip.label"), systemImage: "airplane.departure")
+                    Label(WidgetStrings.string(countdown.titleKey), systemImage: countdown.symbolName)
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(WidgetPalette.accent)
 
@@ -28,9 +31,11 @@ struct NextTripLargeWidget: View {
                         Text(countdown.displayText)
                             .font(.headline.weight(.bold))
                             .foregroundStyle(WidgetPalette.frequency)
-                        Text(departureDate, format: .dateTime.day().month(.wide).year())
-                            .font(.caption2)
-                            .foregroundStyle(WidgetPalette.secondaryText)
+                        if !countdown.isOnVacation {
+                            Text(departureDate, format: .dateTime.day().month(.wide).year())
+                                .font(.caption2)
+                                .foregroundStyle(WidgetPalette.secondaryText)
+                        }
                     }
                 }
 
@@ -70,6 +75,7 @@ struct NextTripLargeWidget: View {
         homeCountry: .preview,
         country: .preview,
         departureDate: .now.addingTimeInterval(12 * 86_400),
+        returnDate: .now.addingTimeInterval(20 * 86_400),
         isPremium: true
     )
 }

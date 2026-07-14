@@ -8,6 +8,7 @@ struct NextTripEntry: TimelineEntry {
     let homeCountry: CountrySnapshot?
     let country: CountrySnapshot?
     let departureDate: Date?
+    let returnDate: Date
     let isPremium: Bool
 }
 
@@ -18,6 +19,7 @@ struct NextTripTimelineProvider: TimelineProvider {
             homeCountry: .preview,
             country: .preview,
             departureDate: Calendar.current.date(byAdding: .day, value: 12, to: .now),
+            returnDate: .now.addingTimeInterval(20 * 86_400),
             isPremium: true
         )
     }
@@ -41,6 +43,7 @@ struct NextTripTimelineProvider: TimelineProvider {
             homeCountry: try? CountrySnapshotRepository.country(code: homeCountryCode),
             country: try? CountrySnapshotRepository.country(code: countryCode),
             departureDate: defaults?.object(forKey: AppGroup.nextTripDepartureDateKey) as? Date,
+            returnDate: defaults?.object(forKey: AppGroup.nextTripReturnDateKey) as? Date ?? .distantPast,
             isPremium: defaults?.bool(forKey: AppGroup.premiumAccessKey) ?? false
         )
     }

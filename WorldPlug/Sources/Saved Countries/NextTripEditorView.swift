@@ -7,7 +7,6 @@ struct NextTripEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
     @State private var trip: NextTrip
-    @State private var includesReturnDate: Bool
     @State private var returnDate: Date
 
     let countries: [Country]
@@ -23,12 +22,12 @@ struct NextTripEditorView: View {
     ) {
         let initialTrip = trip ?? NextTrip(
             countryCode: countries.first?.code ?? "",
-            departureDate: .now
+            departureDate: .now,
+            returnDate: .now
         )
 
         _trip = State(initialValue: initialTrip)
-        _includesReturnDate = State(initialValue: initialTrip.returnDate != nil)
-        _returnDate = State(initialValue: initialTrip.returnDate ?? initialTrip.departureDate)
+        _returnDate = State(initialValue: initialTrip.returnDate)
         self.countries = countries
         self.onSave = onSave
         self.onDelete = onDelete
@@ -60,16 +59,12 @@ struct NextTripEditorView: View {
                         displayedComponents: .date
                     )
 
-                    Toggle(LocalizationKeys.nextTripReturnDate.localized, isOn: $includesReturnDate)
-
-                    if includesReturnDate {
-                        DatePicker(
-                            LocalizationKeys.nextTripReturnDate.localized,
-                            selection: $returnDate,
-                            in: trip.departureDate...,
-                            displayedComponents: .date
-                        )
-                    }
+                    DatePicker(
+                        LocalizationKeys.nextTripReturnDate.localized,
+                        selection: $returnDate,
+                        in: trip.departureDate...,
+                        displayedComponents: .date
+                    )
                 }
 
                 Section(LocalizationKeys.nextTripName.localized) {
@@ -88,6 +83,11 @@ struct NextTripEditorView: View {
                     }
                 }
             }
+            .onChange(of: trip.departureDate) { _, departureDate in
+                if returnDate < departureDate {
+                    returnDate = departureDate
+                }
+            }
             .navigationTitle(LocalizationKeys.nextTripTitle.localized)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -101,7 +101,7 @@ struct NextTripEditorView: View {
 
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        trip.returnDate = includesReturnDate ? returnDate : nil
+                        trip.returnDate = returnDate
                         trip.name = normalizedName
                         onSave(trip)
                         dismiss()

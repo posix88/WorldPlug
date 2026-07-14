@@ -43,13 +43,19 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         self.iCloudStore = iCloudStore
         self.appGroupDefaults = appGroupDefaults ?? .standard
         iCloudStore.synchronize()
-        preferences = Self.loadPreferences(from: iCloudStore)
-        mirrorWidgetValues()
+        let loadedPreferences = Self.loadPreferences(from: iCloudStore)
+        preferences = Self.removingExpiredTrip(from: loadedPreferences)
+
+        if preferences != loadedPreferences {
+            persist()
+        } else {
+            mirrorWidgetValues()
+        }
     }
 
     func reloadFromICloud() {
         iCloudStore.synchronize()
-        preferences = Self.loadPreferences(from: iCloudStore)
+        preferences = Self.removingExpiredTrip(from: Self.loadPreferences(from: iCloudStore))
     }
 
     func toggleSavedCountry(code: String) {
@@ -79,7 +85,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     func setNextTrip(_ trip: NextTrip?) {
         var updatedPreferences = preferences
         updatedPreferences.nextTrip = trip
-        preferences = updatedPreferences
+        preferences = Self.removingExpiredTrip(from: updatedPreferences)
     }
 
     func setFavoriteWidgetCountry(code: String?) {
@@ -114,6 +120,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         appGroupDefaults.set(preferences.favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
         appGroupDefaults.set(preferences.nextTrip?.countryCode, forKey: AppGroup.nextTripCountryCodeKey)
         appGroupDefaults.set(preferences.nextTrip?.departureDate, forKey: AppGroup.nextTripDepartureDateKey)
+        appGroupDefaults.set(preferences.nextTrip?.returnDate, forKey: AppGroup.nextTripReturnDateKey)
         WidgetCenter.shared.reloadAllTimelines()
     }
 
@@ -130,6 +137,21 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
     private static func normalizedCountryCode(_ code: String) -> String {
         code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    }
+
+    private static func removingExpiredTrip(
+        from preferences: TravelPreferences,
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> TravelPreferences {
+        guard let returnDate = preferences.nextTrip?.returnDate,
+              calendar.startOfDay(for: now) > calendar.startOfDay(for: returnDate) else {
+            return preferences
+        }
+
+        var updatedPreferences = preferences
+        updatedPreferences.nextTrip = nil
+        return updatedPreferences
     }
 }
 

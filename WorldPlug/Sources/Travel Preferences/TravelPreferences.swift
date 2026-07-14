@@ -43,14 +43,14 @@ struct NextTrip: Codable, Equatable, Identifiable, Sendable {
     let id: UUID
     var countryCode: String
     var departureDate: Date
-    var returnDate: Date?
+    var returnDate: Date
     var name: String?
 
     init(
         id: UUID = UUID(),
         countryCode: String,
         departureDate: Date,
-        returnDate: Date? = nil,
+        returnDate: Date,
         name: String? = nil
     ) {
         self.id = id
@@ -59,4 +59,5 @@ struct NextTrip: Codable, Equatable, Identifiable, Sendable {
         self.returnDate = returnDate
         self.name = name
     }
+
 }

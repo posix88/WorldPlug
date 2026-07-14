@@ -285,6 +285,7 @@ private struct CompatibilityFilterBar: View {
             .padding(.vertical, .xs)
         }
         .popoverTip(tip, arrowEdge: .top)
+        .appTipIconTint()
         .scrollClipDisabled()
         .accessibilityElement(children: .contain)
     }

@@ -5,14 +5,17 @@ import WidgetKit
 struct NextTripSmallWidget: View {
     let country: CountrySnapshot
     let departureDate: Date
+    let returnDate: Date
 
-    private var countdown: NextTripCountdown { NextTripCountdown(departureDate: departureDate) }
+    private var countdown: NextTripCountdown {
+        NextTripCountdown(departureDate: departureDate, returnDate: returnDate)
+    }
 
     var body: some View {
         ZStack {
             WidgetBackground()
             VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                Image(systemName: "airplane.departure")
+                Image(systemName: countdown.symbolName)
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(WidgetPalette.accent)
 
@@ -23,9 +26,11 @@ struct NextTripSmallWidget: View {
                     .font(.title3.weight(.bold))
                     .foregroundStyle(WidgetPalette.primaryText)
 
-                Text(departureDate, format: .dateTime.day().month(.abbreviated))
-                    .font(.caption)
-                    .foregroundStyle(WidgetPalette.secondaryText)
+                if !countdown.isOnVacation {
+                    Text(departureDate, format: .dateTime.day().month(.abbreviated))
+                        .font(.caption)
+                        .foregroundStyle(WidgetPalette.secondaryText)
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(WidgetLayout.compactPadding)
@@ -38,6 +43,6 @@ struct NextTripSmallWidget: View {
 #Preview(as: .systemSmall) {
     NextTripWidget()
 } timeline: {
-    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), isPremium: true)
+    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), returnDate: .now.addingTimeInterval(20 * 86_400), isPremium: true)
 }
 #endif

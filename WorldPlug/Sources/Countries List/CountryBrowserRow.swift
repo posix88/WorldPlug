@@ -6,18 +6,37 @@ import SwiftUI
 struct CountryBrowserRow: View {
     let country: Country
     let compatibility: CountryCompatibilitySummary?
+    private let selection: Binding<Country?>?
 
     @Environment(\.homeCountryViewModel) private var homeViewModel
     @Environment(\.locale) private var locale
+
+    init(
+        country: Country,
+        compatibility: CountryCompatibilitySummary?,
+        selection: Binding<Country?>? = nil
+    ) {
+        self.country = country
+        self.compatibility = compatibility
+        self.selection = selection
+    }
 
     private var isHomeCountry: Bool {
         country.code == homeViewModel.homeCountryCode
     }
 
     var body: some View {
-        NavigationLink(value: country) {
-            Card(insets: .init(top: .md, leading: .lg, bottom: .md, trailing: .lg), shadow: .subtle) {
-                summary
+        Group {
+            if let selection {
+                Button {
+                    selection.wrappedValue = country
+                } label: {
+                    card
+                }
+            } else {
+                NavigationLink(value: country) {
+                    card
+                }
             }
         }
         .buttonStyle(.plain)
@@ -35,6 +54,12 @@ struct CountryBrowserRow: View {
                     Label(LocalizationKeys.homeCountrySet.localized, systemImage: "house.fill")
                 }
             }
+        }
+    }
+
+    private var card: some View {
+        Card(insets: .init(top: .md, leading: .lg, bottom: .md, trailing: .lg), shadow: .subtle) {
+            summary
         }
     }
 
