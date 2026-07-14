@@ -12,6 +12,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
     @State private var pendingSelectedPlug: Plug?
+    @State private var dismissAfterSheet = false
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -71,7 +72,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .navigationDestination(item: $selectedPlug) { plug in
             PlugDetailView(plug: plug)
         }
-        .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: presentPendingPlug) {
+        .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: handleInfoSheetDismissed) {
             countryInfoSheet
                 .presentationDetents(
                     [
@@ -271,20 +272,34 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             content()
         }
     }
+}
 
-    private func openPlugDetail(_ plug: Plug) {
+// MARK: - Navigation
+
+private extension CountryDetailView {
+    func openPlugDetail(_ plug: Plug) {
         pendingSelectedPlug = plug
         viewModel.isInfoSheetPresented = false
     }
 
-    private func presentPendingPlug() {
+    func presentPendingPlug() {
         selectedPlug = pendingSelectedPlug
         pendingSelectedPlug = nil
     }
 
-    private func handleBackNavigation() {
+    func handleInfoSheetDismissed() {
+        if dismissAfterSheet {
+            dismissAfterSheet = false
+            dismiss()
+            return
+        }
+
+        presentPendingPlug()
+    }
+
+    func handleBackNavigation() {
+        dismissAfterSheet = true
         viewModel.isInfoSheetPresented = false
-        dismiss()
     }
 }
 
