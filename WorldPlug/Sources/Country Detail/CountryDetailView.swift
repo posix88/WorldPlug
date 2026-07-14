@@ -124,8 +124,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                         .hidden()
                         .padding(.top, .xxl)
 
-                    if viewModel.showsPlugStrip {
-                        collapsedPlugStrip
+                    if !viewModel.isHeaderDetent {
+                        electricalSection
                             .transition(
                                 .asymmetric(
                                     insertion: .move(edge: .bottom).combined(with: .opacity),
@@ -174,9 +174,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 HomeCountryIndicator()
             }
 
-            if let compatibility = viewModel.compatibility, !viewModel.isHomeCountry {
-                CountryCompatibilityPill(summary: compatibility)
-            }
         }
         .frame(
             maxWidth: .infinity,
@@ -184,101 +181,79 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         )
     }
 
-    private var collapsedPlugStrip: some View {
-        VStack(alignment: .leading, spacing: .md) {
-            Text(viewModel.primaryPlugsTitle)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.textLight)
-                .textCase(.uppercase)
-
-            if viewModel.compatiblePlugs.isEmpty {
-                Text(LocalizationKeys.countryDetailNoCompatiblePlugs.localized)
-                    .font(.subheadline)
-                    .foregroundStyle(.textLight)
-            } else {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: .md) {
-                        ForEach(viewModel.compatiblePlugs) { plug in
-                            Button {
-                                openPlugDetail(plug)
-                            } label: {
-                                CountryDetailPlugChip(plug: plug)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.vertical, .xs)
-                }
-                .scrollClipDisabled()
+    private var expandedContent: some View {
+        VStack(alignment: .leading, spacing: .xl) {
+            detailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
+                plugContent
             }
         }
     }
 
-    private var expandedContent: some View {
-        VStack(alignment: .leading, spacing: .xl) {
-            detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
-                LazyVGrid(
-                    columns: [GridItem(.adaptive(minimum: 132), spacing: .md)],
-                    spacing: .md
-                ) {
-                    CountryInfoMetricCard(
-                        icon: .boltCircleFill,
-                        title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
-                        value: viewModel.country.voltage,
-                        color: .voltTint
-                    )
+    private var electricalSection: some View {
+        detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
+            electricalSetup
+        }
+    }
 
-                    CountryInfoMetricCard(
-                        icon: .waveform,
-                        title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
-                        value: viewModel.country.frequency,
-                        color: .frequencyTint
-                    )
-                }
+    private var electricalSetup: some View {
+        Grid(horizontalSpacing: .md, verticalSpacing: .md) {
+            GridRow {
+                CountryInfoMetricCard(
+                    icon: .boltCircleFill,
+                    title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                    value: viewModel.country.voltage,
+                    color: .voltTint
+                )
+
+                CountryInfoMetricCard(
+                    icon: .waveform,
+                    title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                    value: viewModel.country.frequency,
+                    color: .frequencyTint
+                )
             }
+        }
+    }
 
-            if viewModel.showsCompatibilityOverview {
-                detailSection(title: LocalizationKeys.countryDetailCompatibilityOverview.localized) {
-                    LazyVGrid(
-                        columns: [GridItem(.adaptive(minimum: 104), spacing: .md)],
-                        spacing: .md
-                    ) {
-                        CompatibilityCountCard(
-                            title: LocalizationKeys.compatibilityLegendCompatibleTitle.localized,
-                            count: viewModel.compatiblePlugs.count,
-                            color: .green,
-                            symbol: .checkmarkCircleFill
-                        )
-                        CompatibilityCountCard(
-                            title: LocalizationKeys.compatibilityLegendAdapterTitle.localized,
-                            count: viewModel.adapterPlugs.count,
-                            color: .orange,
-                            symbol: .powerPlugFill
-                        )
-                        CompatibilityCountCard(
-                            title: LocalizationKeys.compatibilityLegendConverterTitle.localized,
-                            count: viewModel.converterPlugs.count,
-                            color: .red,
-                            symbol: .exclamationMarkTriangle
-                        )
-                    }
-                }
+    @ViewBuilder
+    private var plugContent: some View {
+        if viewModel.showsCompatibilityOverview {
+            VStack(alignment: .leading, spacing: .lg) {
+                compatibilityGroup(.compatible, plugs: viewModel.compatiblePlugs)
+                compatibilityGroup(.adapterNeeded, plugs: viewModel.adapterPlugs)
+                compatibilityGroup(.converterRequired, plugs: viewModel.converterPlugs)
             }
+        } else {
+            plugRows(viewModel.country.sortedPlugs)
+        }
+    }
 
-            detailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
-                VStack(spacing: .md) {
-                    ForEach(viewModel.country.sortedPlugs) { plug in
-                        Button {
-                            openPlugDetail(plug)
-                        } label: {
-                            CountryDetailPlugRow(
-                                plug: plug,
-                                compatibility: viewModel.plugCompatibility(for: plug)
-                            )
-                        }
-                        .buttonStyle(.plain)
-                    }
+    @ViewBuilder
+    private func compatibilityGroup(_ compatibility: PlugCompatibility, plugs: [Plug]) -> some View {
+        if !plugs.isEmpty {
+            VStack(alignment: .leading, spacing: .sm) {
+                Label {
+                    Text("\(compatibility.title) (\(plugs.count))")
+                        .font(.subheadline.weight(.semibold))
+                } icon: {
+                    Image(systemName: compatibility.symbolName)
                 }
+                .foregroundStyle(compatibility.color)
+
+                plugRows(plugs)
+            }
+        }
+    }
+
+    private func plugRows(_ plugs: [Plug]) -> some View {
+        VStack(spacing: .md) {
+            ForEach(plugs) { plug in
+                Button {
+                    openPlugDetail(plug)
+                } label: {
+                    CountryDetailPlugRow(plug: plug)
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -310,56 +285,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 }
 
 extension CountryDetailView where ViewModel == CountryDetailViewModel {
-    init(
-        country: Country,
-        compatibility: CountryCompatibilitySummary?
-    ) {
-        self.init(viewModel: CountryDetailViewModel(country: country, compatibility: compatibility))
-    }
-}
-
-// MARK: - CountryCompatibilityPill
-
-private struct CountryCompatibilityPill: View {
-    let summary: CountryCompatibilitySummary
-
-    var body: some View {
-        HStack(spacing: .xs) {
-            summary.icon.image
-                .imageScale(.small)
-
-            Text(summary.title)
-                .lineLimit(1)
-        }
-        .font(.caption.weight(.bold))
-        .foregroundStyle(summary.color)
-        .padding(.horizontal, .md)
-        .padding(.vertical, .sm)
-        .background(summary.color.opacity(0.12))
-        .clipShape(Capsule())
-    }
-}
-
-// MARK: - CountryDetailPlugChip
-
-private struct CountryDetailPlugChip: View {
-    let plug: Plug
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: .sm) {
-            SFSymbols.plugSymbol(for: plug.plugType)
-                .image
-                .font(.title3)
-                .foregroundStyle(.textRegular)
-
-            Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
-                .font(.callout.weight(.semibold))
-                .foregroundStyle(.textRegular)
-        }
-        .frame(width: 148, alignment: .leading)
-        .padding(.lg)
-        .background(.surfaceSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+    init(country: Country) {
+        self.init(viewModel: CountryDetailViewModel(country: country))
     }
 }
 
@@ -392,41 +319,10 @@ private struct CountryInfoMetricCard: View {
     }
 }
 
-// MARK: - CompatibilityCountCard
-
-private struct CompatibilityCountCard: View {
-    let title: String
-    let count: Int
-    let color: Color
-    let symbol: SFSymbols
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: .sm) {
-            symbol.image
-                .foregroundStyle(color)
-                .font(.body)
-
-            Text("\(count)")
-                .font(.title3.weight(.bold))
-                .foregroundStyle(.textRegular)
-
-            Text(title)
-                .font(.caption)
-                .foregroundStyle(.textLight)
-                .lineLimit(2, reservesSpace: true)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.lg)
-        .background(.surfaceSecondary)
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-    }
-}
-
 // MARK: - CountryDetailPlugRow
 
 private struct CountryDetailPlugRow: View {
     let plug: Plug
-    let compatibility: PlugCompatibility?
 
     var body: some View {
         HStack(spacing: .md) {
@@ -448,12 +344,6 @@ private struct CountryDetailPlugRow: View {
 
             Spacer(minLength: .md)
 
-            if let compatibility {
-                CountryDetailCompatibilityBadge(
-                    compatibility: compatibility
-                )
-            }
-
             SFSymbols.chevronRight.image
                 .foregroundStyle(.textLighter)
                 .imageScale(.small)
@@ -465,31 +355,28 @@ private struct CountryDetailPlugRow: View {
     }
 }
 
-// MARK: - CountryDetailCompatibilityBadge
-
-private struct CountryDetailCompatibilityBadge: View {
-    let compatibility: PlugCompatibility
-    
-    var body: some View {
-        Image(systemName: iconName)
-            .font(.caption2.weight(.bold))
-            .foregroundStyle(color)
-            .padding(.horizontal, .md)
-            .padding(.vertical, .sm)
-            .background(color.opacity(0.12))
-            .clipShape(Capsule())
+private extension PlugCompatibility {
+    var title: String {
+        switch self {
+        case .compatible:
+            LocalizationKeys.compatibilityLegendCompatibleTitle.localized
+        case .adapterNeeded:
+            LocalizationKeys.compatibilityLegendAdapterTitle.localized
+        case .converterRequired:
+            LocalizationKeys.compatibilityLegendConverterTitle.localized
+        }
     }
 
-    private var iconName: String {
-        switch compatibility {
+    var symbolName: String {
+        switch self {
         case .compatible: "checkmark.circle.fill"
         case .adapterNeeded: "powerplug.fill"
         case .converterRequired: "exclamationmark.triangle.fill"
         }
     }
 
-    private var color: Color {
-        switch compatibility {
+    var color: Color {
+        switch self {
         case .compatible: .green
         case .adapterNeeded: .orange
         case .converterRequired: .red
@@ -588,14 +475,12 @@ private struct CountryDetailPreview: View {
 
     init(
         detent: PresentationDetent,
-        compatibility: CountryCompatibilitySummary? = .adapterNeeded,
         isHomeCountry: Bool = false,
         showsCompatibilityOverview: Bool = false
     ) {
         let country = CountryDetailPreviewFixtures.makeCountry()
         let viewModel = PreviewCountryDetailViewModel(
             country: country,
-            compatibility: compatibility,
             isHomeCountry: isHomeCountry,
             showsCompatibilityOverview: showsCompatibilityOverview
         )
@@ -638,7 +523,6 @@ private struct CountryDetailPreview: View {
 #Preview("Medium Compatibility") {
     CountryDetailPreview(
         detent: .medium,
-        compatibility: .converterRequired,
         showsCompatibilityOverview: true
     )
 }
@@ -650,7 +534,6 @@ private struct CountryDetailPreview: View {
 #Preview("Home Country") {
     CountryDetailPreview(
         detent: .custom(CountrySummaryDetent.self),
-        compatibility: nil,
         isHomeCountry: true
     )
 }

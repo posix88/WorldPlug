@@ -9,7 +9,6 @@ import SwiftUI
 @MainActor
 protocol CountryDetailViewModelType: AnyObject, Observable {
     var country: Country { get }
-    var compatibility: CountryCompatibilitySummary? { get }
     var mapPosition: MapCameraPosition { get set }
     var mapFocus: CountryMapFocus? { get }
     var isInfoSheetPresented: Bool { get set }
@@ -21,15 +20,11 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var isLargeDetent: Bool { get }
     var isHeaderDetent: Bool { get }
     var isExpandedDetent: Bool { get }
-    var showsPlugStrip: Bool { get }
     var showsCompatibilityOverview: Bool { get }
-    var primaryPlugsTitle: String { get }
-    var sheetBackgroundOpacity: CGFloat { get }
 
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType)
     func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType)
     func toggleSheetExpansion()
-    func plugCompatibility(for plug: Plug) -> PlugCompatibility?
     func loadMapFocus() async
 }
 
@@ -39,7 +34,6 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
 @MainActor
 final class CountryDetailViewModel: CountryDetailViewModelType {
     @ObservationIgnored let country: Country
-    @ObservationIgnored let compatibility: CountryCompatibilitySummary?
 
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
@@ -64,34 +58,12 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent == .medium || selectedDetent == .large
     }
 
-    var showsPlugStrip: Bool {
-        !isHeaderDetent
-    }
-
     var showsCompatibilityOverview: Bool {
         hasHomeCountry && !isHomeCountry
     }
 
-    var primaryPlugsTitle: String {
-        hasHomeCountry
-            ? LocalizationKeys.countryDetailDirectlyCompatible.localized
-            : LocalizationKeys.countryDetailPlugsInUse.localized
-    }
-
-    var sheetBackgroundOpacity: CGFloat {
-        switch selectedDetent {
-        case .large:
-            1
-        case .medium:
-            0.82
-        default:
-            0.56
-        }
-    }
-
-    init(country: Country, compatibility: CountryCompatibilitySummary?) {
+    init(country: Country) {
         self.country = country
-        self.compatibility = compatibility
         self.compatiblePlugs = country.sortedPlugs
     }
 
@@ -123,26 +95,6 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
         withAnimation(.smooth(duration: 0.36, extraBounce: 0)) {
             selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large
         }
-    }
-
-    func plugCompatibility(for plug: Plug) -> PlugCompatibility? {
-        guard hasHomeCountry, !isHomeCountry else {
-            return nil
-        }
-
-        if compatiblePlugs.contains(where: { $0.id == plug.id }) {
-            return .compatible
-        }
-
-        if adapterPlugs.contains(where: { $0.id == plug.id }) {
-            return .adapterNeeded
-        }
-
-        if converterPlugs.contains(where: { $0.id == plug.id }) {
-            return .converterRequired
-        }
-
-        return nil
     }
 
     func loadMapFocus() async {
@@ -182,7 +134,6 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
 @MainActor
 final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var country: Country
-    var compatibility: CountryCompatibilitySummary?
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
     var isInfoSheetPresented = true
@@ -205,15 +156,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent == .medium || selectedDetent == .large
     }
 
-    var showsPlugStrip: Bool {
-        !isHeaderDetent
-    }
-
     var showsCompatibilityOverview: Bool { shouldShowCompatibilityOverview }
-
-    var primaryPlugsTitle: String {
-        LocalizationKeys.countryDetailPlugsInUse.localized
-    }
 
     var sheetBackgroundOpacity: CGFloat {
         switch selectedDetent {
@@ -234,12 +177,10 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 
     init(
         country: Country,
-        compatibility: CountryCompatibilitySummary?,
         isHomeCountry: Bool = false,
         showsCompatibilityOverview: Bool = false
     ) {
         self.country = country
-        self.compatibility = compatibility
         self.isHomeCountry = isHomeCountry
         self.shouldShowCompatibilityOverview = showsCompatibilityOverview
         self.compatiblePlugs = Array(country.sortedPlugs.prefix(1))
@@ -254,18 +195,6 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
         selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large
     }
 
-    func plugCompatibility(for plug: Plug) -> PlugCompatibility? {
-        if compatiblePlugs.contains(where: { $0.id == plug.id }) {
-            return .compatible
-        }
-        if adapterPlugs.contains(where: { $0.id == plug.id }) {
-            return .adapterNeeded
-        }
-        if converterPlugs.contains(where: { $0.id == plug.id }) {
-            return .converterRequired
-        }
-        return nil
-    }
     func loadMapFocus() async {}
 }
 #endif

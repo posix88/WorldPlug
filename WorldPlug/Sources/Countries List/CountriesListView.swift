@@ -66,10 +66,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     PlugDetailView(plug: plug)
                 }
                 .navigationDestination(for: Country.self) { country in
-                    CountryDetailView(
-                        country: country,
-                        compatibility: compatibilitySummaries[country.code]
-                    )
+                    CountryDetailView(country: country)
                 }
                 .padding(.horizontal, .xxl)
                 .padding(.bottom, .xxl)

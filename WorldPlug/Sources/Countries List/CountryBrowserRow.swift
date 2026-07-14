@@ -46,7 +46,7 @@ struct CountryBrowserRow: View {
                 .background(.flagBackground)
                 .roundedCorner(radius: 10)
 
-            VStack(alignment: .leading, spacing: .xs) {
+            VStack(alignment: .leading, spacing: .md) {
                 HStack(spacing: .sm) {
                     Text(country.localizedName(in: locale))
                         .font(.headline)
@@ -74,12 +74,8 @@ struct CountryBrowserRow: View {
                         color: .frequencyTint
                     )
                 }
-
-                plugTypeTags
             }
-            .layoutPriority(1)
-
-            Spacer(minLength: .sm)
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .trailing, spacing: .sm) {
                 if let compatibility {
@@ -97,30 +93,6 @@ struct CountryBrowserRow: View {
         .frame(minHeight: 56)
         .contentShape(Rectangle())
     }
-
-    private var plugTypeTags: some View {
-        HStack(spacing: .xs) {
-            ForEach(country.sortedPlugs.prefix(5)) { plug in
-                Text(plug.id)
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.textRegular)
-                    .frame(minWidth: 18)
-                    .padding(.horizontal, .xs)
-                    .padding(.vertical, 2)
-                    .background(.surfaceSecondary)
-                    .roundedCorner(radius: 5)
-            }
-
-            if country.sortedPlugs.count > 5 {
-                Text("+\(country.sortedPlugs.count - 5)")
-                    .font(.caption2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(.textLight)
-            }
-        }
-    }
-
 }
 
 // MARK: - CompatibilityStatusIndicator
