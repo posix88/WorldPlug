@@ -826,6 +826,13 @@
         }
       }
     },
+    "saved.countries.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paese" } }
+      }
+    },
     "saved.countries.empty.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -852,6 +859,13 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved countries is Premium" } },
         "it" : { "stringUnit" : { "state" : "translated", "value" : "Paesi salvati è una funzione Premium" } }
+      }
+    },
+    "saved.countries.remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove saved country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi paese salvato" } }
       }
     },
     "saved.countries.title" : {

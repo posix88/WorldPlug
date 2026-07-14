@@ -66,6 +66,8 @@ enum LocalizationKeys {
     static let savedCountriesEmptyDescription = "saved.countries.empty.description"
     static let savedCountriesPremiumTitle = "saved.countries.premium.title"
     static let savedCountriesPremiumDescription = "saved.countries.premium.description"
+    static let savedCountriesAdd = "saved.countries.add"
+    static let savedCountriesRemove = "saved.countries.remove"
 
     // MARK: - Countries List View
 

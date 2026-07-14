@@ -9,6 +9,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @Environment(\.locale) private var locale
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.premiumEntitlement) private var premiumEntitlement
+    @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
     @State private var pendingSelectedPlug: Plug?
@@ -54,6 +56,26 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                         ? LocalizationKeys.homeCountryRemove.localized
                         : LocalizationKeys.homeCountrySet.localized
                 )
+            }
+
+            if premiumEntitlement.isPremium {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        travelPreferencesStore.toggleSavedCountry(code: viewModel.country.code)
+                    } label: {
+                        Image(
+                            systemName: travelPreferencesStore.isSavedCountry(code: viewModel.country.code)
+                                ? "star.fill"
+                                : "star"
+                        )
+                        .imageScale(.medium)
+                    }
+                    .accessibilityLabel(
+                        travelPreferencesStore.isSavedCountry(code: viewModel.country.code)
+                            ? LocalizationKeys.savedCountriesRemove.localized
+                            : LocalizationKeys.savedCountriesAdd.localized
+                    )
+                }
             }
         }
         .task(id: viewModel.country.code) {

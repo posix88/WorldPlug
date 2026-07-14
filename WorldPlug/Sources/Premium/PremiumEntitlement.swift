@@ -14,7 +14,7 @@ protocol PremiumEntitlementProviding: AnyObject {
 @Observable
 @MainActor
 final class DevelopmentPremiumEntitlement: PremiumEntitlementProviding {
-    private(set) var isPremium = false
+    private(set) var isPremium = true
 }
 
 // MARK: - NullPremiumEntitlement

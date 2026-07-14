@@ -1,4 +1,6 @@
 import Foundation
+import Observation
+import SwiftUI
 
 // MARK: - TravelPreferencesStoring
 
@@ -8,12 +10,15 @@ protocol TravelPreferencesStoring: AnyObject {
 
     /// Reloads values that arrived from another device through iCloud.
     func reloadFromICloud()
+    func toggleSavedCountry(code: String)
+    func isSavedCountry(code: String) -> Bool
 }
 
 // MARK: - ICloudTravelPreferencesStore
 
 /// Persists the small amount of user-owned travel data through iCloud key-value storage.
 /// Widget-facing values are mirrored to the App Group when their UI is introduced.
+@Observable
 @MainActor
 final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private static let preferencesKey = "travel.preferences.v1"
@@ -37,6 +42,30 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         preferences = Self.loadPreferences(from: iCloudStore)
     }
 
+    func toggleSavedCountry(code: String) {
+        let countryCode = Self.normalizedCountryCode(code)
+        guard !countryCode.isEmpty else {
+            return
+        }
+
+        var updatedPreferences = preferences
+        if let index = updatedPreferences.savedCountryCodes.firstIndex(of: countryCode) {
+            updatedPreferences.savedCountryCodes.remove(at: index)
+
+            if updatedPreferences.favoriteWidgetCountryCode == countryCode {
+                updatedPreferences.favoriteWidgetCountryCode = nil
+            }
+        } else {
+            updatedPreferences.savedCountryCodes.append(countryCode)
+        }
+
+        preferences = updatedPreferences
+    }
+
+    func isSavedCountry(code: String) -> Bool {
+        preferences.savedCountryCodes.contains(Self.normalizedCountryCode(code))
+    }
+
     private func persist() {
         guard let data = try? JSONEncoder().encode(preferences) else {
             return
@@ -56,4 +85,22 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
         return preferences
     }
+
+    private static func normalizedCountryCode(_ code: String) -> String {
+        code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+    }
+}
+
+// MARK: - NullTravelPreferencesStore
+
+final class NullTravelPreferencesStore: TravelPreferencesStoring {
+    @MainActor var preferences = TravelPreferences()
+
+    @MainActor func reloadFromICloud() {}
+    @MainActor func toggleSavedCountry(code: String) {}
+    @MainActor func isSavedCountry(code: String) -> Bool { false }
+}
+
+extension EnvironmentValues {
+    @Entry var travelPreferencesStore: any TravelPreferencesStoring = NullTravelPreferencesStore()
 }

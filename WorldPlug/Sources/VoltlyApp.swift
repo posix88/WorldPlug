@@ -5,17 +5,29 @@ import SwiftUI
 @main
 struct VoltlyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State private var homeCountryViewModel = HomeCountryViewModel(
-        modelContext: Repository.sharedModelContainer.mainContext
-    )
-    @State private var premiumEntitlement = DevelopmentPremiumEntitlement()
+    @State private var travelPreferencesStore: ICloudTravelPreferencesStore
+    @State private var homeCountryViewModel: HomeCountryViewModel
+    @State private var premiumEntitlement: DevelopmentPremiumEntitlement
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        let travelPreferencesStore = ICloudTravelPreferencesStore()
+        _travelPreferencesStore = State(initialValue: travelPreferencesStore)
+        _homeCountryViewModel = State(
+            initialValue: HomeCountryViewModel(
+                travelPreferencesStore: travelPreferencesStore,
+                modelContext: Repository.sharedModelContainer.mainContext
+            )
+        )
+        _premiumEntitlement = State(initialValue: DevelopmentPremiumEntitlement())
+    }
 
     var body: some Scene {
         WindowGroup {
             RootTabView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
+                .environment(\.travelPreferencesStore, travelPreferencesStore)
                 .environment(\.premiumEntitlement, premiumEntitlement)
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
@@ -29,6 +41,7 @@ struct VoltlyApp: App {
                         hasSeenOnboarding = true
                     }
                     .environment(\.homeCountryViewModel, homeCountryViewModel)
+                    .environment(\.travelPreferencesStore, travelPreferencesStore)
                     .environment(\.premiumEntitlement, premiumEntitlement)
                 }
         }
