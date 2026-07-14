@@ -12,6 +12,7 @@ import WidgetKit
 @MainActor
 final class HomeCountryViewModel: HomeCountryViewModelType {
     private var store: any HomeCountryStoring
+    private var travelPreferencesStore: any TravelPreferencesStoring
     private let modelContext: ModelContext
 
     var homeCountryCode: String
@@ -20,11 +21,16 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
 
     init(
         store: some HomeCountryStoring = UserDefaultsHomeCountryStore(),
+        travelPreferencesStore: some TravelPreferencesStoring = ICloudTravelPreferencesStore(),
         modelContext: ModelContext
     ) {
         self.store = store
+        self.travelPreferencesStore = travelPreferencesStore
         self.modelContext = modelContext
-        let countryCode = Self.normalizedCountryCode(store.homeCountryCode)
+        let countryCode = Self.initialHomeCountryCode(
+            from: store,
+            travelPreferencesStore: travelPreferencesStore
+        )
         let country = Self.country(for: countryCode, in: modelContext)
         self.homeCountryCode = countryCode
         self.homeCountry = country
@@ -33,19 +39,21 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
 
     func setHome(code: String) {
         let normalizedCode = Self.normalizedCountryCode(code)
-        homeCountryCode = normalizedCode
-        homeCountry = Self.country(for: normalizedCode, in: modelContext)
-        homePlugTypeIDs = Set(homeCountry?.plugs.map(\.id) ?? [])
-        store.homeCountryCode = normalizedCode
-        WidgetCenter.shared.reloadAllTimelines()
+        updateHomeCountry(with: normalizedCode)
     }
 
     func clearHome() {
-        homeCountryCode = ""
-        homeCountry = nil
-        homePlugTypeIDs = []
-        store.homeCountryCode = ""
-        WidgetCenter.shared.reloadAllTimelines()
+        updateHomeCountry(with: "")
+    }
+
+    func refreshHomeCountry() {
+        travelPreferencesStore.reloadFromICloud()
+        let countryCode = Self.normalizedCountryCode(travelPreferencesStore.preferences.homeCountryCode)
+        guard countryCode != homeCountryCode else {
+            return
+        }
+
+        updateHomeCountry(with: countryCode)
     }
 
     func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility {
@@ -62,7 +70,44 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         return homePlugTypeIDs.contains(plug.id) ? .compatible : .adapterNeeded
     }
 
-    private static func country(for code: String, in modelContext: ModelContext) -> Country? {
+    private func updateHomeCountry(with countryCode: String) {
+        homeCountryCode = countryCode
+        homeCountry = Self.country(for: countryCode, in: modelContext)
+        homePlugTypeIDs = Set(homeCountry?.plugs.map(\.id) ?? [])
+        store.homeCountryCode = countryCode
+
+        var preferences = travelPreferencesStore.preferences
+        preferences.homeCountryCode = countryCode
+        travelPreferencesStore.preferences = preferences
+
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private static func initialHomeCountryCode(
+        from store: some HomeCountryStoring,
+        travelPreferencesStore: some TravelPreferencesStoring
+    ) -> String {
+        var preferences = travelPreferencesStore.preferences
+        let iCloudCountryCode = Self.normalizedCountryCode(preferences.homeCountryCode)
+
+        if !iCloudCountryCode.isEmpty {
+            store.homeCountryCode = iCloudCountryCode
+            return iCloudCountryCode
+        }
+
+        let legacyCountryCode = Self.normalizedCountryCode(store.homeCountryCode)
+        guard !legacyCountryCode.isEmpty else {
+            return ""
+        }
+
+        preferences.homeCountryCode = legacyCountryCode
+        travelPreferencesStore.preferences = preferences
+        return legacyCountryCode
+    }
+}
+
+private extension HomeCountryViewModel {
+    static func country(for code: String, in modelContext: ModelContext) -> Country? {
         guard !code.isEmpty else {
             return nil
         }
@@ -74,7 +119,7 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         return try? modelContext.fetch(descriptor).first
     }
 
-    private static func normalizedCountryCode(_ code: String) -> String {
+    static func normalizedCountryCode(_ code: String) -> String {
         code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     }
 }

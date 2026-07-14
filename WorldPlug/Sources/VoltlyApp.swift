@@ -9,11 +9,17 @@ struct VoltlyApp: App {
         modelContext: Repository.sharedModelContainer.mainContext
     )
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
+                .onChange(of: scenePhase) { _, phase in
+                    if phase == .active {
+                        homeCountryViewModel.refreshHomeCountry()
+                    }
+                }
                 .fullScreenCover(isPresented: onboardingPresentationBinding) {
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext

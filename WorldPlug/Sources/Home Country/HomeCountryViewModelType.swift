@@ -48,6 +48,7 @@ protocol HomeCountryViewModelType: AnyObject {
     @MainActor var homePlugTypeIDs: Set<String> { get }
     @MainActor func setHome(code: String)
     @MainActor func clearHome()
+    @MainActor func refreshHomeCountry()
     @MainActor func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility
 }
 
@@ -62,6 +63,7 @@ final class NullHomeCountryViewModel: HomeCountryViewModelType {
     @MainActor var homePlugTypeIDs: Set<String> { [] }
     @MainActor func setHome(code: String) {}
     @MainActor func clearHome() {}
+    @MainActor func refreshHomeCountry() {}
     @MainActor func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility { .compatible }
 }
 
@@ -91,6 +93,7 @@ final class PreviewHomeCountryViewModel: HomeCountryViewModelType {
 
     func setHome(code: String) { homeCountryCode = code }
     func clearHome() { homeCountryCode = "" }
+    func refreshHomeCountry() {}
 
     func plugCompatibility(for plug: Plug, in country: Country) -> PlugCompatibility {
         guard !homeCountryCode.isEmpty, country.code != homeCountryCode else {

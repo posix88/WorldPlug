@@ -4,9 +4,37 @@ import Foundation
 
 /// The user-owned data that syncs between devices. Country and plug catalogue data stays local.
 struct TravelPreferences: Codable, Equatable, Sendable {
-    var savedCountryCodes: [String] = []
+    var homeCountryCode: String
+    var savedCountryCodes: [String]
     var nextTrip: NextTrip?
     var favoriteWidgetCountryCode: String?
+
+    init(
+        homeCountryCode: String = "",
+        savedCountryCodes: [String] = [],
+        nextTrip: NextTrip? = nil,
+        favoriteWidgetCountryCode: String? = nil
+    ) {
+        self.homeCountryCode = homeCountryCode
+        self.savedCountryCodes = savedCountryCodes
+        self.nextTrip = nextTrip
+        self.favoriteWidgetCountryCode = favoriteWidgetCountryCode
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case homeCountryCode
+        case savedCountryCodes
+        case nextTrip
+        case favoriteWidgetCountryCode
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        homeCountryCode = try container.decodeIfPresent(String.self, forKey: .homeCountryCode) ?? ""
+        savedCountryCodes = try container.decodeIfPresent([String].self, forKey: .savedCountryCodes) ?? []
+        nextTrip = try container.decodeIfPresent(NextTrip.self, forKey: .nextTrip)
+        favoriteWidgetCountryCode = try container.decodeIfPresent(String.self, forKey: .favoriteWidgetCountryCode)
+    }
 }
 
 // MARK: - NextTrip
