@@ -68,6 +68,40 @@
         }
       }
     },
+    "favorite.widget.no.selection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No country selected"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese selezionato"
+          }
+        }
+      }
+    },
+    "favorite.widget.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite widget"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget preferito"
+          }
+        }
+      }
+    },
     "Back" : {
 
     },

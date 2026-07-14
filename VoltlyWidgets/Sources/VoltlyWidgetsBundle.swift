@@ -5,5 +5,6 @@ import WidgetKit
 struct VoltlyWidgetsBundle: WidgetBundle {
     var body: some Widget {
         HomeCountryWidget()
+        FavoriteCountryWidget()
     }
 }

@@ -32,7 +32,7 @@ struct HomeCountryWidget: Widget {
 
 // MARK: - HomeCountryWidgetView
 
-private struct HomeCountryWidgetView: View {
+struct HomeCountryWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: HomeCountryEntry
 

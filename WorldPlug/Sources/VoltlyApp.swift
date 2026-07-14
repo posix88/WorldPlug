@@ -1,6 +1,7 @@
 import Repository
 import SwiftData
 import SwiftUI
+import WidgetKit
 
 @main
 struct VoltlyApp: App {
@@ -34,6 +35,10 @@ struct VoltlyApp: App {
                         homeCountryViewModel.refreshHomeCountry()
                     }
                 }
+                .onAppear(perform: syncPremiumWidgetAccess)
+                .onChange(of: premiumEntitlement.isPremium) { _, _ in
+                    syncPremiumWidgetAccess()
+                }
                 .fullScreenCover(isPresented: onboardingPresentationBinding) {
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext
@@ -57,5 +62,11 @@ struct VoltlyApp: App {
                 }
             }
         )
+    }
+
+    private func syncPremiumWidgetAccess() {
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        defaults?.set(premiumEntitlement.isPremium, forKey: AppGroup.premiumAccessKey)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 }

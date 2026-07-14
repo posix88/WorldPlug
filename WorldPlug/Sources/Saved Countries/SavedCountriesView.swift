@@ -18,6 +18,7 @@ struct SavedCountriesView: View {
                     ScrollView {
                         LazyVStack(spacing: .md) {
                             nextTripCard
+                            favoriteWidgetCard
 
                             if savedCountries.isEmpty {
                                 ContentUnavailableView(
@@ -108,6 +109,56 @@ struct SavedCountriesView: View {
             }
             .buttonStyle(.plain)
         }
+    }
+
+    private var favoriteWidgetCard: some View {
+        Menu {
+            Button(LocalizationKeys.favoriteWidgetNoSelection.localized) {
+                travelPreferencesStore.setFavoriteWidgetCountry(code: nil)
+            }
+
+            ForEach(savedCountries) { country in
+                Button("\(country.flagUnicode) \(country.localizedName(in: locale))") {
+                    travelPreferencesStore.setFavoriteWidgetCountry(code: country.code)
+                }
+            }
+        } label: {
+            HStack(spacing: .md) {
+                Image(systemName: "rectangle.on.rectangle")
+                    .foregroundStyle(.yellow)
+
+                VStack(alignment: .leading, spacing: .xxs) {
+                    Text(LocalizationKeys.favoriteWidgetTitle.localized)
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(.textRegular)
+
+                    Text(favoriteWidgetCountryName)
+                        .font(.caption)
+                        .foregroundStyle(.textLight)
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.up.chevron.down")
+                    .foregroundStyle(.textLighter)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.lg)
+            .background(.surfaceSecondary)
+            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        }
+        .disabled(savedCountries.isEmpty)
+        .accessibilityLabel(LocalizationKeys.favoriteWidgetTitle.localized)
+        .accessibilityValue(favoriteWidgetCountryName)
+    }
+
+    private var favoriteWidgetCountryName: String {
+        guard let countryCode = travelPreferencesStore.preferences.favoriteWidgetCountryCode,
+              let country = countries.first(where: { $0.code == countryCode }) else {
+            return LocalizationKeys.favoriteWidgetNoSelection.localized
+        }
+
+        return "\(country.flagUnicode) \(country.localizedName(in: locale))"
     }
 }
 

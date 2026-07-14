@@ -85,6 +85,134 @@
         }
       }
     },
+    "widget.favorite.configuration.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep one saved country on your Home Screen. Requires Premium."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tieni un paese salvato nella schermata Home. Richiede Premium."
+          }
+        }
+      }
+    },
+    "widget.favorite.configuration.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese preferito"
+          }
+        }
+      }
+    },
+    "widget.favorite.empty.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a saved country in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un paese salvato in Voltly."
+          }
+        }
+      }
+    },
+    "widget.favorite.empty.inline" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly: Choose favorite country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly: Scegli il paese preferito"
+          }
+        }
+      }
+    },
+    "widget.favorite.empty.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un paese"
+          }
+        }
+      }
+    },
+    "widget.favorite.locked.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Upgrade to show a saved country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa a Premium per mostrare un paese salvato."
+          }
+        }
+      }
+    },
+    "widget.favorite.label" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preferito"
+          }
+        }
+      }
+    },
+    "widget.favorite.locked.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium feature"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funzione Premium"
+          }
+        }
+      }
+    },
     "widget.home.setup" : {
       "extractionState" : "stale",
       "localizations" : {

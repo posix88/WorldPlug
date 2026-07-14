@@ -1,6 +1,8 @@
 import Foundation
 import Observation
+import Repository
 import SwiftUI
+import WidgetKit
 
 // MARK: - TravelPreferencesStoring
 
@@ -13,18 +15,20 @@ protocol TravelPreferencesStoring: AnyObject {
     func toggleSavedCountry(code: String)
     func isSavedCountry(code: String) -> Bool
     func setNextTrip(_ trip: NextTrip?)
+    func setFavoriteWidgetCountry(code: String?)
 }
 
 // MARK: - ICloudTravelPreferencesStore
 
 /// Persists the small amount of user-owned travel data through iCloud key-value storage.
-/// Widget-facing values are mirrored to the App Group when their UI is introduced.
+/// Widget-facing values are mirrored to the App Group for WidgetKit timelines.
 @Observable
 @MainActor
 final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private static let preferencesKey = "travel.preferences.v1"
 
     private let iCloudStore: NSUbiquitousKeyValueStore
+    private let appGroupDefaults: UserDefaults
 
     var preferences: TravelPreferences {
         didSet {
@@ -32,10 +36,15 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         }
     }
 
-    init(iCloudStore: NSUbiquitousKeyValueStore = .default) {
+    init(
+        iCloudStore: NSUbiquitousKeyValueStore = .default,
+        appGroupDefaults: UserDefaults? = UserDefaults(suiteName: AppGroup.identifier)
+    ) {
         self.iCloudStore = iCloudStore
+        self.appGroupDefaults = appGroupDefaults ?? .standard
         iCloudStore.synchronize()
         preferences = Self.loadPreferences(from: iCloudStore)
+        mirrorWidgetValues()
     }
 
     func reloadFromICloud() {
@@ -73,6 +82,24 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         preferences = updatedPreferences
     }
 
+    func setFavoriteWidgetCountry(code: String?) {
+        let countryCode = code.map(Self.normalizedCountryCode)
+        guard let countryCode else {
+            var updatedPreferences = preferences
+            updatedPreferences.favoriteWidgetCountryCode = nil
+            preferences = updatedPreferences
+            return
+        }
+
+        guard preferences.savedCountryCodes.contains(countryCode) else {
+            return
+        }
+
+        var updatedPreferences = preferences
+        updatedPreferences.favoriteWidgetCountryCode = countryCode
+        preferences = updatedPreferences
+    }
+
     private func persist() {
         guard let data = try? JSONEncoder().encode(preferences) else {
             return
@@ -80,6 +107,12 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
         iCloudStore.set(data, forKey: Self.preferencesKey)
         iCloudStore.synchronize()
+        mirrorWidgetValues()
+    }
+
+    private func mirrorWidgetValues() {
+        appGroupDefaults.set(preferences.favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     private static func loadPreferences(
@@ -107,6 +140,7 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
     @MainActor func toggleSavedCountry(code: String) {}
     @MainActor func isSavedCountry(code: String) -> Bool { false }
     @MainActor func setNextTrip(_ trip: NextTrip?) {}
+    @MainActor func setFavoriteWidgetCountry(code: String?) {}
 }
 
 extension EnvironmentValues {
