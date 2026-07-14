@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WidgetEmptyState: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
             WidgetStrings.text("widget.set.home.country")
                 .font(.headline.weight(.semibold))
                 .foregroundStyle(WidgetPalette.primaryText)

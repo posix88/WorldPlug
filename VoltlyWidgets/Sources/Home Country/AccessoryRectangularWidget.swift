@@ -4,18 +4,10 @@ import WidgetKit
 struct AccessoryRectangularWidget: View {
     let entry: HomeCountryEntry
     
-    var countryName: String? {
-        Locale.autoupdatingCurrent.localizedString(forRegionCode: entry.country?.code ?? "") ?? entry.country?.name
-    }
-    
-    var countryTitle: String {
-        [entry.country?.flagUnicode, countryName].compactMap{ $0 }.joined(separator: " ")
-    }
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             if let country = entry.country {
-                Text(countryTitle)
+                Text(country.widgetTitle)
                     .font(.caption.weight(.semibold))
                     .lineLimit(1)
 

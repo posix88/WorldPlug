@@ -37,18 +37,21 @@ struct HomeCountryWidgetView: View {
     let entry: HomeCountryEntry
 
     var body: some View {
-        switch family {
-        case .systemSmall:
-            SmallWidget(entry: entry)
-        case .systemMedium:
-            MediumWidget(entry: entry)
-        case .accessoryRectangular:
-            AccessoryRectangularWidget(entry: entry)
-        case .accessoryInline:
-            AccessoryInlineWidget(entry: entry)
-        default:
-            SmallWidget(entry: entry)
+        Group {
+            switch family {
+            case .systemSmall:
+                SmallWidget(entry: entry)
+            case .systemMedium:
+                MediumWidget(entry: entry)
+            case .accessoryRectangular:
+                AccessoryRectangularWidget(entry: entry)
+            case .accessoryInline:
+                AccessoryInlineWidget(entry: entry)
+            default:
+                SmallWidget(entry: entry)
+            }
         }
+        .widgetURL(WidgetDeepLink.country(entry.country?.code))
     }
 }
 

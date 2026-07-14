@@ -112,6 +112,8 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
     private func mirrorWidgetValues() {
         appGroupDefaults.set(preferences.favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
+        appGroupDefaults.set(preferences.nextTrip?.countryCode, forKey: AppGroup.nextTripCountryCodeKey)
+        appGroupDefaults.set(preferences.nextTrip?.departureDate, forKey: AppGroup.nextTripDepartureDateKey)
         WidgetCenter.shared.reloadAllTimelines()
     }
 

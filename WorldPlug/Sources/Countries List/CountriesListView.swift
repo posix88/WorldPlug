@@ -10,12 +10,17 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var path = NavigationPath()
     @State private var searchQuery: String = ""
     @State private var selectedFilter: CountryCompatibilityFilter = .all
+    @Binding private var deepLinkedCountryCode: String?
     @Environment(\.homeCountryViewModel) private var homeViewModel
     @Environment(\.locale) private var locale
     private let compatibilityFilterTip = CompatibilityFilterTip()
 
-    init(viewModel: ViewModel) {
+    init(
+        viewModel: ViewModel,
+        deepLinkedCountryCode: Binding<String?> = .constant(nil)
+    ) {
         _viewModel = State(initialValue: viewModel)
+        _deepLinkedCountryCode = deepLinkedCountryCode
     }
 
     var body: some View {
@@ -70,6 +75,10 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             }
             .onAppear {
                 viewModel.search(query: searchQuery, locale: locale)
+                openDeepLinkedCountryIfNeeded()
+            }
+            .onChange(of: deepLinkedCountryCode) { _, _ in
+                openDeepLinkedCountryIfNeeded()
             }
             .onChange(of: homeViewModel.homeCountryCode) { _, newValue in
                 if newValue.isEmpty {
@@ -77,6 +86,19 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 }
             }
         }
+    }
+
+    private func openDeepLinkedCountryIfNeeded() {
+        guard let countryCode = deepLinkedCountryCode,
+              let country = viewModel.filteredCountries.first(where: { $0.code == countryCode }) else {
+            return
+        }
+
+        selectedFilter = .all
+        searchQuery = ""
+        path = NavigationPath()
+        path.append(country)
+        deepLinkedCountryCode = nil
     }
 
     private var compatibilitySummaries: [String: CountryCompatibilitySummary] {
@@ -347,8 +369,14 @@ enum CountryCompatibilitySummary {
 }
 
 extension CountriesListView where ViewModel == CountriesListViewModel {
-    init(modelContext: ModelContext) {
-        self.init(viewModel: CountriesListViewModel(modelContext: modelContext))
+    init(
+        modelContext: ModelContext,
+        deepLinkedCountryCode: Binding<String?> = .constant(nil)
+    ) {
+        self.init(
+            viewModel: CountriesListViewModel(modelContext: modelContext),
+            deepLinkedCountryCode: deepLinkedCountryCode
+        )
     }
 }
 

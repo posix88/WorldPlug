@@ -9,7 +9,7 @@ struct FavoriteCountrySmallWidget: View {
         ZStack {
             WidgetBackground()
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
                 FavoriteCountryHeader()
 
                 Text(country.flagUnicode)
@@ -18,10 +18,18 @@ struct FavoriteCountrySmallWidget: View {
                 WidgetChips(country: country)
                 WidgetPlugs(country: country, limit: 4, type: .small)
             }
-            .padding(16)
+            .padding(WidgetLayout.compactPadding)
         }
         .containerBackground(for: .widget) {
             Color.clear
         }
     }
 }
+
+#if DEBUG
+#Preview(as: .systemSmall) {
+    FavoriteCountryWidget()
+} timeline: {
+    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
+}
+#endif

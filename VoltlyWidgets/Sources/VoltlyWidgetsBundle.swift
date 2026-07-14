@@ -6,5 +6,6 @@ struct VoltlyWidgetsBundle: WidgetBundle {
     var body: some Widget {
         HomeCountryWidget()
         FavoriteCountryWidget()
+        NextTripWidget()
     }
 }

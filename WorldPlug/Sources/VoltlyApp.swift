@@ -9,6 +9,7 @@ struct VoltlyApp: App {
     @State private var travelPreferencesStore: ICloudTravelPreferencesStore
     @State private var homeCountryViewModel: HomeCountryViewModel
     @State private var premiumEntitlement: DevelopmentPremiumEntitlement
+    @State private var deepLinkedCountryCode: String?
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
 
@@ -26,7 +27,10 @@ struct VoltlyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView(modelContext: Repository.sharedModelContainer.mainContext)
+            RootTabView(
+                modelContext: Repository.sharedModelContainer.mainContext,
+                deepLinkedCountryCode: $deepLinkedCountryCode
+            )
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .environment(\.travelPreferencesStore, travelPreferencesStore)
                 .environment(\.premiumEntitlement, premiumEntitlement)
@@ -38,6 +42,14 @@ struct VoltlyApp: App {
                 .onAppear(perform: syncPremiumWidgetAccess)
                 .onChange(of: premiumEntitlement.isPremium) { _, _ in
                     syncPremiumWidgetAccess()
+                }
+                .onOpenURL { url in
+                    guard url.scheme == "voltly",
+                          url.host == "country",
+                          let countryCode = url.pathComponents.dropFirst().first else {
+                        return
+                    }
+                    deepLinkedCountryCode = countryCode.uppercased()
                 }
                 .fullScreenCover(isPresented: onboardingPresentationBinding) {
                     OnboardingView(

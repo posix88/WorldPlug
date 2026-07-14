@@ -5,35 +5,31 @@ import WidgetKit
 struct FavoriteCountryMediumWidget: View {
     let country: CountrySnapshot
 
-    private var countryName: String {
-        Locale.autoupdatingCurrent.localizedString(forRegionCode: country.code) ?? country.name
-    }
-
     var body: some View {
         ZStack {
             WidgetBackground()
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
                 FavoriteCountryHeader()
 
-                HStack(spacing: 12) {
-                    Text(country.flagUnicode)
-                        .font(.system(size: 38))
-
-                    Text(countryName)
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.primaryText)
-                        .lineLimit(1)
-                }
+                WidgetCountryIdentity(country: country)
 
                 WidgetChips(country: country)
                 WidgetPlugs(country: country, limit: 6, type: .large)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(18)
+            .padding(WidgetLayout.expandedPadding)
         }
         .containerBackground(for: .widget) {
             Color.clear
         }
     }
 }
+
+#if DEBUG
+#Preview(as: .systemMedium) {
+    FavoriteCountryWidget()
+} timeline: {
+    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
+}
+#endif

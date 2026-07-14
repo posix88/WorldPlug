@@ -5,13 +5,9 @@ import WidgetKit
 struct FavoriteCountryAccessoryRectangularWidget: View {
     let country: CountrySnapshot
 
-    private var countryName: String {
-        Locale.autoupdatingCurrent.localizedString(forRegionCode: country.code) ?? country.name
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Label("\(country.flagUnicode) \(countryName)", systemImage: "star.fill")
+            Label(country.widgetTitle, systemImage: "star.fill")
                 .font(.caption.weight(.semibold))
                 .lineLimit(1)
 
@@ -28,3 +24,11 @@ struct FavoriteCountryAccessoryRectangularWidget: View {
         }
     }
 }
+
+#if DEBUG
+#Preview(as: .accessoryRectangular) {
+    FavoriteCountryWidget()
+} timeline: {
+    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
+}
+#endif

@@ -4,32 +4,16 @@ import WidgetKit
 struct MediumWidget: View {
     let entry: HomeCountryEntry
 
-    var countryName: String? {
-        Locale.autoupdatingCurrent.localizedString(forRegionCode: entry.country?.code ?? "") ?? entry.country?.name
-    }
-    
     var body: some View {
         ZStack {
             WidgetBackground()
 
             HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
                     WidgetHeader()
 
                     if let country = entry.country {
-                        HStack(spacing: 12) {
-                            Text(country.flagUnicode)
-                                .font(.system(size: 38))
-
-                            VStack(alignment: .leading, spacing: 4) {
-                                if let countryName {
-                                    Text(countryName)
-                                        .font(.title3.weight(.semibold))
-                                        .foregroundStyle(WidgetPalette.primaryText)
-                                        .lineLimit(1)
-                                }
-                            }
-                        }
+                        WidgetCountryIdentity(country: country)
 
                         WidgetChips(country: country)
 
@@ -41,7 +25,7 @@ struct MediumWidget: View {
 
                 Spacer(minLength: 0)
             }
-            .padding(18)
+            .padding(WidgetLayout.expandedPadding)
         }
         .containerBackground(for: .widget) {
             Color.clear

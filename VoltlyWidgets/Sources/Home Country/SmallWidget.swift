@@ -8,7 +8,7 @@ struct SmallWidget: View {
         ZStack {
             WidgetBackground()
 
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
                 WidgetHeader()
                 
                 if let country = entry.country {
@@ -22,7 +22,7 @@ struct SmallWidget: View {
                     WidgetEmptyState()
                 }
             }
-            .padding(16)
+            .padding(WidgetLayout.compactPadding)
         }
         .containerBackground(for: .widget) {
             Color.clear

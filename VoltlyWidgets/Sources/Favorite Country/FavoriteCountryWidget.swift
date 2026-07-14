@@ -30,26 +30,29 @@ private struct FavoriteCountryWidgetView: View {
     let entry: FavoriteCountryEntry
 
     var body: some View {
-        if entry.isPremium {
-            if let country = entry.country {
-                switch family {
-                case .systemSmall:
-                    FavoriteCountrySmallWidget(country: country)
-                case .systemMedium:
-                    FavoriteCountryMediumWidget(country: country)
-                case .accessoryRectangular:
-                    FavoriteCountryAccessoryRectangularWidget(country: country)
-                case .accessoryInline:
-                    FavoriteCountryAccessoryInlineWidget(country: country)
-                default:
-                    FavoriteCountrySmallWidget(country: country)
+        Group {
+            if entry.isPremium {
+                if let country = entry.country {
+                    switch family {
+                    case .systemSmall:
+                        FavoriteCountrySmallWidget(country: country)
+                    case .systemMedium:
+                        FavoriteCountryMediumWidget(country: country)
+                    case .accessoryRectangular:
+                        FavoriteCountryAccessoryRectangularWidget(country: country)
+                    case .accessoryInline:
+                        FavoriteCountryAccessoryInlineWidget(country: country)
+                    default:
+                        FavoriteCountrySmallWidget(country: country)
+                    }
+                } else {
+                    FavoriteCountryEmptyWidgetView()
                 }
             } else {
-                FavoriteCountryEmptyWidgetView()
+                FavoriteCountryLockedWidgetView()
             }
-        } else {
-            FavoriteCountryLockedWidgetView()
         }
+        .widgetURL(entry.isPremium ? WidgetDeepLink.country(entry.country?.code) : nil)
     }
 }
 
@@ -73,7 +76,7 @@ private struct FavoriteCountryEmptyWidgetView: View {
             ZStack {
                 WidgetBackground()
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
                     WidgetStrings.text("widget.favorite.empty.title")
                         .font(.headline.weight(.semibold))
                         .foregroundStyle(WidgetPalette.primaryText)
@@ -84,7 +87,7 @@ private struct FavoriteCountryEmptyWidgetView: View {
                         .lineLimit(3)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
+                .padding(WidgetLayout.compactPadding)
             }
             .containerBackground(for: .widget) {
                 Color.clear
@@ -113,7 +116,7 @@ private struct FavoriteCountryLockedWidgetView: View {
             ZStack {
                 WidgetBackground()
 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
                     Label(WidgetStrings.string("widget.favorite.locked.title"), systemImage: "lock.fill")
                         .font(.headline.weight(.semibold))
                         .foregroundStyle(WidgetPalette.primaryText)
@@ -124,7 +127,7 @@ private struct FavoriteCountryLockedWidgetView: View {
                         .lineLimit(3)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
+                .padding(WidgetLayout.compactPadding)
             }
             .containerBackground(for: .widget) {
                 Color.clear
@@ -137,48 +140,12 @@ private struct FavoriteCountryLockedWidgetView: View {
 #Preview(as: .systemSmall) {
     FavoriteCountryWidget()
 } timeline: {
-    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
-}
-
-#Preview(as: .systemSmall) {
-    FavoriteCountryWidget()
-} timeline: {
     FavoriteCountryEntry(date: .now, country: nil, isPremium: false)
-}
-
-#Preview(as: .systemMedium) {
-    FavoriteCountryWidget()
-} timeline: {
-    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
 }
 
 #Preview(as: .systemMedium) {
     FavoriteCountryWidget()
 } timeline: {
     FavoriteCountryEntry(date: .now, country: nil, isPremium: true)
-}
-
-#Preview(as: .accessoryRectangular) {
-    FavoriteCountryWidget()
-} timeline: {
-    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
-}
-
-#Preview(as: .accessoryRectangular) {
-    FavoriteCountryWidget()
-} timeline: {
-    FavoriteCountryEntry(date: .now, country: nil, isPremium: false)
-}
-
-#Preview(as: .accessoryInline) {
-    FavoriteCountryWidget()
-} timeline: {
-    FavoriteCountryEntry(date: .now, country: .preview, isPremium: true)
-}
-
-#Preview(as: .accessoryInline) {
-    FavoriteCountryWidget()
-} timeline: {
-    FavoriteCountryEntry(date: .now, country: nil, isPremium: false)
 }
 #endif
