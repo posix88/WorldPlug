@@ -826,6 +826,41 @@
         }
       }
     },
+    "saved.countries.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save countries to quickly revisit their plug details." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva i paesi per ritrovare rapidamente i dettagli delle loro spine." } }
+      }
+    },
+    "saved.countries.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No saved countries" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nessun paese salvato" } }
+      }
+    },
+    "saved.countries.premium.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save unlimited countries and keep your travel plans in one place." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paesi illimitati e tieni i tuoi piani di viaggio in un unico posto." } }
+      }
+    },
+    "saved.countries.premium.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved countries is Premium" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paesi salvati è una funzione Premium" } }
+      }
+    },
+    "saved.countries.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salvati" } }
+      }
+    },
     "pin.diameter" : {
       "extractionState" : "manual",
       "localizations" : {

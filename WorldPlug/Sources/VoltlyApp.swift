@@ -14,7 +14,7 @@ struct VoltlyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CountriesListView(modelContext: Repository.sharedModelContainer.mainContext)
+            RootTabView(modelContext: Repository.sharedModelContainer.mainContext)
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .environment(\.premiumEntitlement, premiumEntitlement)
                 .onChange(of: scenePhase) { _, phase in

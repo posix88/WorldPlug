@@ -59,6 +59,14 @@ enum LocalizationKeys {
     static let onboardingSearchPlaceholder = "onboarding.search.placeholder"
     static let onboardingSelectCountry = "onboarding.select.country"
 
+    // MARK: - Saved Countries
+
+    static let savedCountriesTitle = "saved.countries.title"
+    static let savedCountriesEmptyTitle = "saved.countries.empty.title"
+    static let savedCountriesEmptyDescription = "saved.countries.empty.description"
+    static let savedCountriesPremiumTitle = "saved.countries.premium.title"
+    static let savedCountriesPremiumDescription = "saved.countries.premium.description"
+
     // MARK: - Countries List View
 
     static let countriesTitle = "countries.title"
