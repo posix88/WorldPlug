@@ -69,6 +69,21 @@ enum LocalizationKeys {
     static let savedCountriesAdd = "saved.countries.add"
     static let savedCountriesRemove = "saved.countries.remove"
 
+    // MARK: - Next Trip
+
+    static let nextTripTitle = "next.trip.title"
+    static let nextTripEdit = "next.trip.edit"
+    static let nextTripDestination = "next.trip.destination"
+    static let nextTripDates = "next.trip.dates"
+    static let nextTripDeparture = "next.trip.departure"
+    static let nextTripReturnDate = "next.trip.return.date"
+    static let nextTripName = "next.trip.name"
+    static let nextTripNamePlaceholder = "next.trip.name.placeholder"
+    static let nextTripCancel = "next.trip.cancel"
+    static let nextTripSave = "next.trip.save"
+    static let nextTripRemove = "next.trip.remove"
+    static let nextTripSearchDestination = "next.trip.search.destination"
+
     // MARK: - Countries List View
 
     static let countriesTitle = "countries.title"

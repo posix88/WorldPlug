@@ -12,6 +12,7 @@ protocol TravelPreferencesStoring: AnyObject {
     func reloadFromICloud()
     func toggleSavedCountry(code: String)
     func isSavedCountry(code: String) -> Bool
+    func setNextTrip(_ trip: NextTrip?)
 }
 
 // MARK: - ICloudTravelPreferencesStore
@@ -66,6 +67,12 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         preferences.savedCountryCodes.contains(Self.normalizedCountryCode(code))
     }
 
+    func setNextTrip(_ trip: NextTrip?) {
+        var updatedPreferences = preferences
+        updatedPreferences.nextTrip = trip
+        preferences = updatedPreferences
+    }
+
     private func persist() {
         guard let data = try? JSONEncoder().encode(preferences) else {
             return
@@ -99,6 +106,7 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
     @MainActor func reloadFromICloud() {}
     @MainActor func toggleSavedCountry(code: String) {}
     @MainActor func isSavedCountry(code: String) -> Bool { false }
+    @MainActor func setNextTrip(_ trip: NextTrip?) {}
 }
 
 extension EnvironmentValues {

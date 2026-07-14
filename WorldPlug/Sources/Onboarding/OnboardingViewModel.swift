@@ -35,7 +35,7 @@ final class OnboardingViewModel: OnboardingViewModelType {
     func countries(for locale: Locale) -> [Country] {
         allCountries
             .filter { searchQuery.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(searchQuery) }
-            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
+            .sortedByLocalizedName(in: locale)
     }
 }
 
@@ -56,7 +56,7 @@ final class PreviewOnboardingViewModel: OnboardingViewModelType {
     func countries(for locale: Locale) -> [Country] {
         allCountries
             .filter { searchQuery.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(searchQuery) }
-            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
+            .sortedByLocalizedName(in: locale)
     }
 }
 #endif

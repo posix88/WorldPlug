@@ -7,31 +7,36 @@ import SwiftUI
 struct SavedCountriesView: View {
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
+    @Environment(\.locale) private var locale
     @Query(sort: \Country.code) private var countries: [Country]
+    @State private var isTripEditorPresented = false
 
     var body: some View {
         NavigationStack {
             Group {
                 if premiumEntitlement.isPremium {
-                    if savedCountries.isEmpty {
-                        ContentUnavailableView(
-                            LocalizationKeys.savedCountriesEmptyTitle.localized,
-                            systemImage: "star",
-                            description: Text(LocalizationKeys.savedCountriesEmptyDescription.localized)
-                        )
-                    } else {
-                        ScrollView {
-                            LazyVStack(spacing: .md) {
+                    ScrollView {
+                        LazyVStack(spacing: .md) {
+                            nextTripCard
+
+                            if savedCountries.isEmpty {
+                                ContentUnavailableView(
+                                    LocalizationKeys.savedCountriesEmptyTitle.localized,
+                                    systemImage: "star",
+                                    description: Text(LocalizationKeys.savedCountriesEmptyDescription.localized)
+                                )
+                                .padding(.top, .special)
+                            } else {
                                 ForEach(savedCountries) { country in
                                     CountryBrowserRow(country: country, compatibility: nil)
                                 }
                             }
-                            .padding(.horizontal, .xxl)
-                            .padding(.vertical, .md)
                         }
-                        .navigationDestination(for: Country.self) { country in
-                            CountryDetailView(country: country)
-                        }
+                        .padding(.horizontal, .xxl)
+                        .padding(.vertical, .md)
+                    }
+                    .navigationDestination(for: Country.self) { country in
+                        CountryDetailView(country: country)
                     }
                 } else {
                     ContentUnavailableView(
@@ -42,13 +47,67 @@ struct SavedCountriesView: View {
                 }
             }
             .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
+            .toolbar {
+                if premiumEntitlement.isPremium {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isTripEditorPresented = true
+                        } label: {
+                            Image(systemName: travelPreferencesStore.preferences.nextTrip == nil ? "calendar.badge.plus" : "calendar")
+                        }
+                        .accessibilityLabel(LocalizationKeys.nextTripEdit.localized)
+                    }
+                }
+            }
             .background { AppMeshBackground() }
+            .sheet(isPresented: $isTripEditorPresented) {
+                NextTripEditorView(
+                    trip: travelPreferencesStore.preferences.nextTrip,
+                    countries: countries,
+                    onSave: { trip in
+                        travelPreferencesStore.setNextTrip(trip)
+                    },
+                    onDelete: {
+                        travelPreferencesStore.setNextTrip(nil)
+                    }
+                )
+            }
         }
     }
 
     private var savedCountries: [Country] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
         return travelPreferencesStore.preferences.savedCountryCodes.compactMap { countriesByCode[$0] }
+    }
+
+    @ViewBuilder
+    private var nextTripCard: some View {
+        if let trip = travelPreferencesStore.preferences.nextTrip,
+           let country = countries.first(where: { $0.code == trip.countryCode }) {
+            Button {
+                isTripEditorPresented = true
+            } label: {
+                VStack(alignment: .leading, spacing: .sm) {
+                    Text(LocalizationKeys.nextTripTitle.localized)
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.textLight)
+                        .textCase(.uppercase)
+
+                    Text(trip.name ?? "\(country.flagUnicode) \(country.localizedName(in: locale))")
+                        .font(.headline.weight(.semibold))
+                        .foregroundStyle(.textRegular)
+
+                    Text(trip.departureDate, format: .dateTime.day().month().year())
+                        .font(.subheadline)
+                        .foregroundStyle(.textLight)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.lg)
+                .background(.surfaceSecondary)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            }
+            .buttonStyle(.plain)
+        }
     }
 }
 

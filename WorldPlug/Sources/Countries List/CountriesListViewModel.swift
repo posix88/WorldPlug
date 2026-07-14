@@ -43,7 +43,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
     func search(query: String, locale: Locale) {
         filteredCountries = countries
             .filter { query.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(query) }
-            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
+            .sortedByLocalizedName(in: locale)
     }
 }
 
@@ -69,7 +69,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     func search(query: String, locale: Locale) {
         filteredCountries = allCountries
             .filter { query.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(query) }
-            .sorted { $0.localizedName(in: locale).localizedStandardCompare($1.localizedName(in: locale)) == .orderedAscending }
+            .sortedByLocalizedName(in: locale)
     }
 }
 #endif

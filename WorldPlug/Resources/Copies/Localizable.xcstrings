@@ -622,6 +622,90 @@
         }
       }
     },
+    "next.trip.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Annulla" } }
+      }
+    },
+    "next.trip.dates" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dates" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Date" } }
+      }
+    },
+    "next.trip.departure" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Departure" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Partenza" } }
+      }
+    },
+    "next.trip.destination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Destination" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Destinazione" } }
+      }
+    },
+    "next.trip.edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit next trip" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Modifica prossimo viaggio" } }
+      }
+    },
+    "next.trip.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Trip name" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nome del viaggio" } }
+      }
+    },
+    "next.trip.name.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summer holiday" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Vacanze estive" } }
+      }
+    },
+    "next.trip.remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove next trip" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi prossimo viaggio" } }
+      }
+    },
+    "next.trip.return.date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Return date" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Data di ritorno" } }
+      }
+    },
+    "next.trip.search.destination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search countries" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Cerca paesi" } }
+      }
+    },
+    "next.trip.save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva" } }
+      }
+    },
+    "next.trip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next trip" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Prossimo viaggio" } }
+      }
+    },
     "onboarding.adapter.info.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
