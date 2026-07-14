@@ -24,8 +24,8 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
 
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType)
     func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType)
-    func toggleSheetExpansion()
-    func loadMapFocus() async
+    func toggleSheetExpansion(reduceMotion: Bool)
+    func loadMapFocus(reduceMotion: Bool) async
 }
 
 // MARK: - CountryDetailViewModel
@@ -91,21 +91,25 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
         }
     }
 
-    func toggleSheetExpansion() {
-        withAnimation(.smooth(duration: 0.36, extraBounce: 0)) {
+    func toggleSheetExpansion(reduceMotion: Bool) {
+        withMotionAwareAnimation(
+            .smooth(duration: 0.36, extraBounce: 0),
+            reduceMotion: reduceMotion
+        ) {
             selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large
         }
     }
 
-    func loadMapFocus() async {
+    func loadMapFocus(reduceMotion: Bool) async {
         let lookup = CountryMapLookup(code: country.code)
 
         if let focus = await CountryMapGeocoder.shared.focus(for: lookup) {
             mapFocus = focus
 
-            try? await Task.sleep(for: .milliseconds(220))
-
-            withAnimation(.smooth(duration: 1.05, extraBounce: 0)) {
+            withMotionAwareAnimation(
+                .smooth(duration: 0.15, extraBounce: 0).delay(2),
+                reduceMotion: reduceMotion
+            ) {
                 mapPosition = .camera(
                     MapCamera(
                         centerCoordinate: focus.coordinate,
@@ -191,11 +195,11 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType) {}
     func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType) {}
 
-    func toggleSheetExpansion() {
+    func toggleSheetExpansion(reduceMotion: Bool) {
         selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large
     }
 
-    func loadMapFocus() async {}
+    func loadMapFocus(reduceMotion: Bool) async {}
 }
 #endif
 

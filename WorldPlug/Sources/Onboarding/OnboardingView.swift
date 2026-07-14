@@ -5,6 +5,7 @@ import SwiftUI
 // MARK: - OnboardingView
 
 struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var viewModel: ViewModel
     @State private var page: Int = 0
 
@@ -21,7 +22,12 @@ struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
 
             TabView(selection: $page) {
                 OnboardingWelcomeView {
-                    withAnimation(.spring(response: 0.55, dampingFraction: 0.82)) { page = 1 }
+                    withMotionAwareAnimation(
+                        .spring(response: 0.55, dampingFraction: 0.82),
+                        reduceMotion: reduceMotion
+                    ) {
+                        page = 1
+                    }
                 }
                 .tag(0)
 

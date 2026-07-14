@@ -3,6 +3,7 @@ import SwiftUI
 // MARK: - OnboardingWelcomeView
 
 struct OnboardingWelcomeView: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let onGetStarted: () -> Void
 
     @State private var logoScale: CGFloat = 0.3
@@ -33,7 +34,7 @@ struct OnboardingWelcomeView: View {
                                 endPoint: .bottom
                             )
                         )
-                        .symbolEffect(.bounce, options: .nonRepeating)
+                        .symbolEffect(.bounce, options: .nonRepeating, isActive: !reduceMotion)
                 }
                 .scaleEffect(logoScale)
                 .opacity(logoOpacity)
@@ -95,14 +96,23 @@ struct OnboardingWelcomeView: View {
     }
 
     private func animateEntrance() {
-        withAnimation(.spring(response: 0.7, dampingFraction: 0.65).delay(0.15)) {
+        withMotionAwareAnimation(
+            .spring(response: 0.7, dampingFraction: 0.65).delay(0.15),
+            reduceMotion: reduceMotion
+        ) {
             logoScale = 1
             logoOpacity = 1
         }
-        withAnimation(.easeOut(duration: 0.55).delay(0.55)) {
+        withMotionAwareAnimation(
+            .easeOut(duration: 0.55).delay(0.55),
+            reduceMotion: reduceMotion
+        ) {
             featuresVisible = true
         }
-        withAnimation(.easeOut(duration: 0.45).delay(0.80)) {
+        withMotionAwareAnimation(
+            .easeOut(duration: 0.45).delay(0.80),
+            reduceMotion: reduceMotion
+        ) {
             ctaVisible = true
         }
     }

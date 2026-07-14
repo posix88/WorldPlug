@@ -8,6 +8,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @Environment(\.locale) private var locale
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
     @State private var pendingSelectedPlug: Plug?
@@ -55,7 +56,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             }
         }
         .task(id: viewModel.country.code) {
-            await viewModel.loadMapFocus()
+            await viewModel.loadMapFocus(reduceMotion: reduceMotion)
         }
         .onAppear {
             viewModel.isInfoSheetPresented = true
@@ -160,7 +161,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     alignment: viewModel.isHeaderDetent ? .center : .top
                 )
         }
-        .animation(.smooth(duration: 0.28, extraBounce: 0), value: viewModel.selectedDetent)
+        .animation(
+            reduceMotion ? nil : .smooth(duration: 0.28, extraBounce: 0),
+            value: viewModel.selectedDetent
+        )
     }
 
     private var sheetHeader: some View {
@@ -341,8 +345,7 @@ private struct CountryDetailPlugRow: View {
                     .foregroundStyle(.textLight)
                     .lineLimit(2)
             }
-
-            Spacer(minLength: .md)
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             SFSymbols.chevronRight.image
                 .foregroundStyle(.textLighter)

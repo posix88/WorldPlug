@@ -6,6 +6,7 @@ import SwiftUI
 struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
     @Environment(\.homeCountryViewModel) private var homeViewModel
     @Environment(\.locale) private var locale
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Bindable var viewModel: ViewModel
     @FocusState private var searchFocused: Bool
     @State private var isSearching: Bool = false
@@ -23,7 +24,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         .font(.system(size: homeIconSize, weight: .bold))
                         .foregroundStyle(.yellow)
                         .padding(.top, .special)
-                        .symbolEffect(.bounce, options: .nonRepeating)
+                        .symbolEffect(.bounce, options: .nonRepeating, isActive: !reduceMotion)
 
                     Text(LocalizationKeys.onboardingPickerTitle.localized)
                         .font(.title.weight(.bold))
@@ -78,7 +79,10 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                             country: country,
                             isSelected: viewModel.selectedCountry?.code == country.code
                         ) {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.75)) {
+                            withMotionAwareAnimation(
+                                .spring(response: 0.3, dampingFraction: 0.75),
+                                reduceMotion: reduceMotion
+                            ) {
                                 let alreadySelected = viewModel.selectedCountry?.code == country.code
                                 viewModel.selectedCountry = alreadySelected ? nil : country
                             }
@@ -91,7 +95,10 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .onChange(of: searchFocused) { _, focused in
-            withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+            withMotionAwareAnimation(
+                .spring(response: 0.35, dampingFraction: 0.85),
+                reduceMotion: reduceMotion
+            ) {
                 isSearching = focused
             }
         }
@@ -133,7 +140,10 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                     viewModel.selectedCountry != nil ? .yellow : .white.opacity(0.08)
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .animation(.spring(response: 0.4), value: viewModel.selectedCountry?.code)
+                .animation(
+                    reduceMotion ? nil : .spring(response: 0.4),
+                    value: viewModel.selectedCountry?.code
+                )
             }
             .disabled(viewModel.selectedCountry == nil)
         }

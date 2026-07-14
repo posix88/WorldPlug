@@ -25,32 +25,6 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         NavigationStack(path: $path) {
             ScrollView {
                 LazyVStack(spacing: .md) {
-                    if !viewModel.filteredCountries.isEmpty {
-                        if let homeCountry = homeViewModel.homeCountry {
-                            HomeCountryBannerView(country: homeCountry) {
-                                homeViewModel.clearHome()
-                            }
-                            .padding(.bottom, .xs)
-                            .transition(.opacity.combined(with: .move(edge: .top)))
-
-                            CompatibilityFilterBar(
-                                selectedFilter: $selectedFilter,
-                                counts: filterCounts(using: compatibilitySummaries),
-                                tip: homeViewModel.homeCountryCode.isEmpty ? nil : compatibilityFilterTip
-                            )
-                            .onChange(of: selectedFilter) { oldValue, newValue in
-                                guard oldValue != newValue else {
-                                    return
-                                }
-
-                                compatibilityFilterTip.invalidate(reason: .actionPerformed)
-                            }
-                            .padding(.horizontal, -.xxl)
-                            .padding(.bottom, .xs)
-                            .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
-                        }
-                    }
-
                     ForEach(countries) { country in
                         CountryBrowserRow(
                             country: country,
@@ -76,6 +50,10 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             }
             .background { AppMeshBackground() }
             .scrollContentBackground(.hidden)
+            .safeAreaBar(edge: .top, spacing: 0) {
+                compatibilityHeader(using: compatibilitySummaries)
+            }
+            .scrollEdgeEffectStyle(.soft, for: .top)
             .searchable(
                 text: $searchQuery,
                 prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
@@ -98,9 +76,6 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     selectedFilter = .all
                 }
             }
-            .navigationTitle(LocalizationKeys.appTitle.localized)
-            .navigationBarTitleDisplayMode(.large)
-            .accessibilityLabel(LocalizationKeys.accessibilityNavigationTitle.localized(from: .accessibility))
         }
     }
 
@@ -135,6 +110,36 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         }
 
         return counts
+    }
+
+    @ViewBuilder
+    private func compatibilityHeader(
+        using compatibilitySummaries: [String: CountryCompatibilitySummary]
+    ) -> some View {
+        if !viewModel.filteredCountries.isEmpty, let homeCountry = homeViewModel.homeCountry {
+            VStack(spacing: .xs) {
+                HomeCountryBannerView(country: homeCountry) {
+                    homeViewModel.clearHome()
+                }
+                .padding(.horizontal, .xxl)
+                .transition(.opacity.combined(with: .move(edge: .top)))
+
+                CompatibilityFilterBar(
+                    selectedFilter: $selectedFilter,
+                    counts: filterCounts(using: compatibilitySummaries),
+                    tip: compatibilityFilterTip
+                )
+                .onChange(of: selectedFilter) { oldValue, newValue in
+                    guard oldValue != newValue else {
+                        return
+                    }
+
+                    compatibilityFilterTip.invalidate(reason: .actionPerformed)
+                }
+                .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
+            }
+            .padding(.vertical, .sm)
+        }
     }
 
     @ViewBuilder
@@ -190,13 +195,14 @@ private struct CompatibilityFilterBar: View {
     @Binding var selectedFilter: CountryCompatibilityFilter
     let counts: [CountryCompatibilityFilter: Int]
     let tip: CompatibilityFilterTip?
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: .sm) {
                 ForEach(CountryCompatibilityFilter.allCases) { filter in
                     Button {
-                        withAnimation(.snappy) {
+                        withMotionAwareAnimation(.snappy, reduceMotion: reduceMotion) {
                             selectedFilter = filter
                         }
                     } label: {

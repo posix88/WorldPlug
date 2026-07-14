@@ -51,9 +51,6 @@
         }
       }
     },
-    "Always travel plug‑ready." : {
-
-    },
     "app.title" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -506,9 +503,6 @@
         }
       }
     },
-    "Get Started" : {
-
-    },
     "home.country.adapter.needed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -631,85 +625,205 @@
     "onboarding.adapter.info.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Know exactly what you need before you pack" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scopri esattamente cosa ti serve prima di fare la valigia" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Know exactly what you need before you pack"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scopri esattamente cosa ti serve prima di fare la valigia"
+          }
+        }
       }
     },
     "onboarding.adapter.info.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Adapter info" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Informazioni sugli adattatori" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter info"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni sugli adattatori"
+          }
+        }
       }
     },
     "onboarding.countries.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plug standards, voltage & frequency covered" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Standard delle spine, tensione e frequenza inclusi" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug standards, voltage & frequency covered"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Standard delle spine, tensione e frequenza inclusi"
+          }
+        }
       }
     },
     "onboarding.countries.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "200+ countries" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Oltre 200 paesi" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "200+ countries"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oltre 200 paesi"
+          }
+        }
       }
     },
     "onboarding.get.started" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Get Started" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Inizia" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get Started"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inizia"
+          }
+        }
       }
     },
     "onboarding.home.country.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Instant compatibility checks when you travel" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Controlli immediati di compatibilità quando viaggi" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instant compatibility checks when you travel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlli immediati di compatibilità quando viaggi"
+          }
+        }
       }
     },
     "onboarding.home.country.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home country" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paese di origine" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di origine"
+          }
+        }
       }
     },
     "onboarding.picker.subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "We'll show plug compatibility\\nfor every country you visit." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Ti mostreremo la compatibilità delle spine\\nper ogni paese che visiterai." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll show plug compatibility\\nfor every country you visit."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ti mostreremo la compatibilità delle spine\\nper ogni paese che visiterai."
+          }
+        }
       }
     },
     "onboarding.picker.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Where's home?" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Qual è il tuo paese?" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Where's home?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual è il tuo paese?"
+          }
+        }
       }
     },
     "onboarding.search.placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search country…" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Cerca un paese…" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search country…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca un paese…"
+          }
+        }
       }
     },
     "onboarding.select.country" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select a country above" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Seleziona un paese qui sopra" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a country above"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona un paese qui sopra"
+          }
+        }
       }
     },
     "onboarding.tagline" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Always travel plug-ready." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Viaggia sempre senza pensieri." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Always travel plug-ready."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viaggia sempre senza pensieri."
+          }
+        }
       }
     },
     "pin.diameter" : {
@@ -1467,9 +1581,6 @@
         }
       }
     },
-    "Search country…" : {
-
-    },
     "search.countries.placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1487,16 +1598,7 @@
         }
       }
     },
-    "Select a country above" : {
-
-    },
     "Voltly" : {
-
-    },
-    "We'll show plug compatibility\nfor every country you visit." : {
-
-    },
-    "Where's home?" : {
 
     }
   },
