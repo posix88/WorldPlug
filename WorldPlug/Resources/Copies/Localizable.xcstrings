@@ -14,6 +14,16 @@
         }
       }
     },
+    "%@ (%@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$@)"
+          }
+        }
+      }
+    },
     "%@ %@" : {
       "localizations" : {
         "en" : {
@@ -23,9 +33,6 @@
           }
         }
       }
-    },
-    "+%@" : {
-
     },
     "also.known.as" : {
       "extractionState" : "manual",
@@ -621,6 +628,90 @@
         }
       }
     },
+    "onboarding.adapter.info.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Know exactly what you need before you pack" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scopri esattamente cosa ti serve prima di fare la valigia" } }
+      }
+    },
+    "onboarding.adapter.info.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Adapter info" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Informazioni sugli adattatori" } }
+      }
+    },
+    "onboarding.countries.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plug standards, voltage & frequency covered" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Standard delle spine, tensione e frequenza inclusi" } }
+      }
+    },
+    "onboarding.countries.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "200+ countries" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Oltre 200 paesi" } }
+      }
+    },
+    "onboarding.get.started" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Get Started" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Inizia" } }
+      }
+    },
+    "onboarding.home.country.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Instant compatibility checks when you travel" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Controlli immediati di compatibilità quando viaggi" } }
+      }
+    },
+    "onboarding.home.country.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paese di origine" } }
+      }
+    },
+    "onboarding.picker.subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "We'll show plug compatibility\\nfor every country you visit." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Ti mostreremo la compatibilità delle spine\\nper ogni paese che visiterai." } }
+      }
+    },
+    "onboarding.picker.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Where's home?" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Qual è il tuo paese?" } }
+      }
+    },
+    "onboarding.search.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search country…" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Cerca un paese…" } }
+      }
+    },
+    "onboarding.select.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select a country above" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Seleziona un paese qui sopra" } }
+      }
+    },
+    "onboarding.tagline" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Always travel plug-ready." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Viaggia sempre senza pensieri." } }
+      }
+    },
     "pin.diameter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -815,6 +906,23 @@
         }
       }
     },
+    "plug.type.a.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in North and Central America, Japan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Nord e Centro America, Giappone."
+          }
+        }
+      }
+    },
     "plug.type.b.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -828,6 +936,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina elettrica di Tipo B ha due pin piatti paralleli e un pin di messa a terra (o terra) rotondo. Il pin di terra è più lungo degli altri due in modo che il dispositivo sia messo a terra prima che venga collegata l'alimentazione. Come per le spine di tipo A, le versioni americana e giapponese variano leggermente.\nLe spine di Tipo B sono classificate a 15 ampere."
+          }
+        }
+      }
+    },
+    "plug.type.b.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in North and Central America, Japan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Nord e Centro America, Giappone."
           }
         }
       }
@@ -849,6 +974,23 @@
         }
       }
     },
+    "plug.type.c.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Europe, except the United Kingdom, Ireland, Cyprus and Malta."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Europa, eccetto Regno Unito, Irlanda, Cipro e Malta."
+          }
+        }
+      }
+    },
     "plug.type.d.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -862,6 +1004,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina elettrica di Tipo D ha tre pin rotondi grandi in uno schema triangolare. Le spine di Tipo M sono spesso utilizzate insieme alle spine di Tipo D per apparecchi più grandi e di conseguenza, alcune prese funzionano sia con spine di Tipo D che di Tipo M.\nLe spine di Tipo D sono classificate a 5 ampere."
+          }
+        }
+      }
+    },
+    "plug.type.d.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in India, Sri Lanka, Nepal and Namibia."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in India, Sri Lanka, Nepal e Namibia."
           }
         }
       }
@@ -883,6 +1042,23 @@
         }
       }
     },
+    "plug.type.e.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in France, Belgium, Slovakia and Tunisia, among others."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Francia, Belgio, Slovacchia e Tunisia, tra gli altri."
+          }
+        }
+      }
+    },
     "plug.type.f.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -896,6 +1072,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina elettrica di Tipo F (nota anche come spina Schuko) ha due pin rotondi da 4,8 mm distanziati di 19 mm. È simile alla spina di Tipo E ma ha due clip di terra sul lato piuttosto che un contatto di terra femmina. La spina CEE 7/7 è stata sviluppata per funzionare con prese E e F e ha clip di messa a terra su entrambi i lati (per funzionare con prese di Tipo F) e un contatto femmina (per accettare il pin di messa a terra della presa di tipo E).\nLe spine di Tipo F sono classificate a 16 ampere."
+          }
+        }
+      }
+    },
+    "plug.type.f.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Germany, Austria, the Netherlands and Spain, among others."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Germania, Austria, Paesi Bassi e Spagna, tra gli altri."
           }
         }
       }
@@ -917,6 +1110,23 @@
         }
       }
     },
+    "plug.type.g.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in the United Kingdom, Ireland, Cyprus, Malta, Malaysia, Singapore and Hong Kong."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata nel Regno Unito, Irlanda, Cipro, Malta, Malesia, Singapore e Hong Kong."
+          }
+        }
+      }
+    },
     "plug.type.h.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -930,6 +1140,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina di Tipo H è unica di Israele e ha due pin piatti a forma di V oltre a un pin di messa a terra. Tuttavia, attualmente viene gradualmente eliminata a favore di una versione con pin rotondi. I fori nelle prese di Tipo H sono larghi nel mezzo per accogliere la versione con pin rotondi della spina di Tipo H così come le spine di Tipo C."
+          }
+        }
+      }
+    },
+    "plug.type.h.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Israel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Israele."
           }
         }
       }
@@ -951,6 +1178,23 @@
         }
       }
     },
+    "plug.type.i.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Australia, New Zealand, Papua New Guinea and Argentina."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Australia, Nuova Zelanda, Papua Nuova Guinea e Argentina."
+          }
+        }
+      }
+    },
     "plug.type.j.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -964,6 +1208,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina di Tipo J ha due pin rotondi oltre a un pin di messa a terra. Sebbene la spina di Tipo J assomigli molto alla spina brasiliana di Tipo N, è incompatibile con la presa di Tipo N poiché il pin di terra è più lontano dalla linea centrale rispetto al Tipo N. Tuttavia, le spine di Tipo C sono perfettamente compatibili con le prese di Tipo J.\nLe spine di Tipo J sono classificate a 10 ampere."
+          }
+        }
+      }
+    },
+    "plug.type.j.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Switzerland and Liechtenstein."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Svizzera e Liechtenstein."
           }
         }
       }
@@ -985,6 +1246,23 @@
         }
       }
     },
+    "plug.type.k.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Denmark and Greenland."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Danimarca e Groenlandia."
+          }
+        }
+      }
+    },
     "plug.type.l.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -998,6 +1276,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ci sono due variazioni della spina di Tipo L, una classificata a 10 ampere e una a 16 ampere. La versione da 10 ampere ha due pin rotondi spessi 4 mm e distanziati 5,5 mm, con un pin di messa a terra al centro. La versione da 16 ampere ha due pin rotondi spessi 5 mm, distanziati 8 mm, oltre a un pin di messa a terra. L'Italia ha un tipo di presa \"universale\" che comprende una presa \"schuko\" per spine C, E, F e L e una presa \"bipasso\" per spine L e C."
+          }
+        }
+      }
+    },
+    "plug.type.l.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Italy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Italia."
           }
         }
       }
@@ -1019,6 +1314,23 @@
         }
       }
     },
+    "plug.type.m.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in South Africa, Eswatini and Lesotho."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Sudafrica, Eswatini e Lesotho."
+          }
+        }
+      }
+    },
     "plug.type.n.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1032,6 +1344,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "La spina elettrica di Tipo N è basata sullo standard IEC 60906-1 ed è stata adottata dal Brasile come standard nazionale NBR 14136. Esistono due varianti: una classificata a 10 ampere con diametro del pin di 4,0 mm, e una a 20 ampere con diametro del pin di 4,8 mm. Entrambe hanno due pin rotondi e un pin di messa a terra. La versione da 10 ampere è compatibile con le spine di Tipo C (Europlug). La presa di Tipo N è stata progettata per funzionare anche con spine di Tipo C. Questo standard è diventato obbligatorio in Brasile il 1° gennaio 2010, sostituendo la precedente miscela di spine di Tipo A, B e C utilizzate nel paese."
+          }
+        }
+      }
+    },
+    "plug.type.n.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Brazil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Brasile."
           }
         }
       }
@@ -1053,6 +1382,23 @@
         }
       }
     },
+    "plug.type.o.short.info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used in Thailand."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usata in Thailandia."
+          }
+        }
+      }
+    },
     "plug.type.prefix" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1070,179 +1416,20 @@
         }
       }
     },
-    "plug.type.a.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in North and Central America, Japan." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Nord e Centro America, Giappone." }
-        }
-      }
-    },
-    "plug.type.b.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in North and Central America, Japan." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Nord e Centro America, Giappone." }
-        }
-      }
-    },
-    "plug.type.c.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Europe, except the United Kingdom, Ireland, Cyprus and Malta." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Europa, eccetto Regno Unito, Irlanda, Cipro e Malta." }
-        }
-      }
-    },
-    "plug.type.d.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in India, Sri Lanka, Nepal and Namibia." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in India, Sri Lanka, Nepal e Namibia." }
-        }
-      }
-    },
-    "plug.type.e.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in France, Belgium, Slovakia and Tunisia, among others." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Francia, Belgio, Slovacchia e Tunisia, tra gli altri." }
-        }
-      }
-    },
-    "plug.type.f.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Germany, Austria, the Netherlands and Spain, among others." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Germania, Austria, Paesi Bassi e Spagna, tra gli altri." }
-        }
-      }
-    },
-    "plug.type.g.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in the United Kingdom, Ireland, Cyprus, Malta, Malaysia, Singapore and Hong Kong." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata nel Regno Unito, Irlanda, Cipro, Malta, Malesia, Singapore e Hong Kong." }
-        }
-      }
-    },
-    "plug.type.h.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Israel." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Israele." }
-        }
-      }
-    },
-    "plug.type.i.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Australia, New Zealand, Papua New Guinea and Argentina." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Australia, Nuova Zelanda, Papua Nuova Guinea e Argentina." }
-        }
-      }
-    },
-    "plug.type.j.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Switzerland and Liechtenstein." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Svizzera e Liechtenstein." }
-        }
-      }
-    },
-    "plug.type.k.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Denmark and Greenland." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Danimarca e Groenlandia." }
-        }
-      }
-    },
-    "plug.type.l.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Italy." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Italia." }
-        }
-      }
-    },
-    "plug.type.m.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in South Africa, Eswatini and Lesotho." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Sudafrica, Eswatini e Lesotho." }
-        }
-      }
-    },
-    "plug.type.n.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Brazil." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Brasile." }
-        }
-      }
-    },
-    "plug.type.o.short.info" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Used in Thailand." }
-        },
-        "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "Usata in Thailandia." }
-        }
-      }
-    },
     "plug.type.unknown.short.info" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Regional use varies." }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regional use varies."
+          }
         },
         "it" : {
-          "stringUnit" : { "state" : "translated", "value" : "L'uso varia in base alla regione." }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'uso varia in base alla regione."
+          }
         }
       }
     },

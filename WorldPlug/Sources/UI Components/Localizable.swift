@@ -44,6 +44,21 @@ enum LocalizationKeys {
 
     static let appTitle = "app.title"
 
+    // MARK: - Onboarding
+
+    static let onboardingTagline = "onboarding.tagline"
+    static let onboardingCountriesTitle = "onboarding.countries.title"
+    static let onboardingCountriesSubtitle = "onboarding.countries.subtitle"
+    static let onboardingHomeCountryTitle = "onboarding.home.country.title"
+    static let onboardingHomeCountrySubtitle = "onboarding.home.country.subtitle"
+    static let onboardingAdapterInfoTitle = "onboarding.adapter.info.title"
+    static let onboardingAdapterInfoSubtitle = "onboarding.adapter.info.subtitle"
+    static let onboardingGetStarted = "onboarding.get.started"
+    static let onboardingPickerTitle = "onboarding.picker.title"
+    static let onboardingPickerSubtitle = "onboarding.picker.subtitle"
+    static let onboardingSearchPlaceholder = "onboarding.search.placeholder"
+    static let onboardingSelectCountry = "onboarding.select.country"
+
     // MARK: - Countries List View
 
     static let countriesTitle = "countries.title"

@@ -43,7 +43,7 @@ struct OnboardingWelcomeView: View {
                         .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text("Always travel plug‑ready.")
+                    Text(LocalizationKeys.onboardingTagline.localized)
                         .font(.title3)
                         .foregroundStyle(.white.opacity(0.65))
                 }
@@ -56,18 +56,18 @@ struct OnboardingWelcomeView: View {
             VStack(alignment: .leading, spacing: .xxl) {
                 OnboardingFeatureRow(
                     icon: "globe.europe.africa.fill",
-                    title: "200+ countries",
-                    subtitle: "Plug standards, voltage & frequency covered"
+                    title: LocalizationKeys.onboardingCountriesTitle.localized,
+                    subtitle: LocalizationKeys.onboardingCountriesSubtitle.localized
                 )
                 OnboardingFeatureRow(
                     icon: "house.fill",
-                    title: "Home country",
-                    subtitle: "Instant compatibility checks when you travel"
+                    title: LocalizationKeys.onboardingHomeCountryTitle.localized,
+                    subtitle: LocalizationKeys.onboardingHomeCountrySubtitle.localized
                 )
                 OnboardingFeatureRow(
                     icon: "bolt.shield.fill",
-                    title: "Adapter info",
-                    subtitle: "Know exactly what you need before you pack"
+                    title: LocalizationKeys.onboardingAdapterInfoTitle.localized,
+                    subtitle: LocalizationKeys.onboardingAdapterInfoSubtitle.localized
                 )
             }
             .padding(.horizontal, .max)
@@ -78,7 +78,7 @@ struct OnboardingWelcomeView: View {
 
             // CTA
             Button(action: onGetStarted) {
-                Text("Get Started")
+                Text(LocalizationKeys.onboardingGetStarted.localized)
                     .font(.headline)
                     .foregroundStyle(Color.deepNavy)
                     .frame(maxWidth: .infinity)
@@ -112,8 +112,8 @@ struct OnboardingWelcomeView: View {
 
 struct OnboardingFeatureRow: View {
     let icon: String
-    let title: LocalizedStringKey
-    let subtitle: LocalizedStringKey
+    let title: String
+    let subtitle: String
 
     var body: some View {
         HStack(alignment: .top, spacing: .xl) {

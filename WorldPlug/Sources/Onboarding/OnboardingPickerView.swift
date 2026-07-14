@@ -25,11 +25,11 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         .padding(.top, .special)
                         .symbolEffect(.bounce, options: .nonRepeating)
 
-                    Text("Where's home?")
+                    Text(LocalizationKeys.onboardingPickerTitle.localized)
                         .font(.title.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text("We'll show plug compatibility\nfor every country you visit.")
+                    Text(LocalizationKeys.onboardingPickerSubtitle.localized)
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.60))
                         .multilineTextAlignment(.center)
@@ -46,7 +46,8 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
 
                 TextField(
                     text: $viewModel.searchQuery,
-                    prompt: Text("Search country…").foregroundStyle(.white.opacity(0.45))
+                    prompt: Text(LocalizationKeys.onboardingSearchPlaceholder.localized)
+                        .foregroundStyle(.white.opacity(0.45))
                 ) { EmptyView() }
                     .foregroundStyle(.white)
                     .tint(.yellow)
@@ -117,7 +118,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         )
                         .labelStyle(TrailingIconLabelStyle())
                     } else {
-                        Text("Select a country above")
+                        Text(LocalizationKeys.onboardingSelectCountry.localized)
                     }
                 }
                 .font(.headline)
