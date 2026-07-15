@@ -81,7 +81,8 @@ struct SavedCountriesView: View {
                         CountryBrowserRow(
                             country: country,
                             compatibility: nil,
-                            selection: $selectedCountry
+                            selection: $selectedCountry,
+                            allowsSavedCountryAction: false
                         )
                     }
                 }
@@ -95,18 +96,17 @@ struct SavedCountriesView: View {
     }
 
     private var lockedContent: some View {
-        VStack(spacing: .lg) {
-            ContentUnavailableView(
-                LocalizationKeys.savedCountriesPremiumTitle.localized,
-                systemImage: "lock.fill",
-                description: Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
-            )
-
+        ContentUnavailableView {
+            Label(LocalizationKeys.savedCountriesPremiumTitle.localized, systemImage: "lock.fill")
+        } description: {
+            Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
+        } actions: {
             Button(LocalizationKeys.premiumPaywallPurchase.localized) {
                 isPremiumPaywallPresented = true
             }
             .buttonStyle(.glassProminent)
-            .tint(.blue)
+            .tint(.premiumTint)
+            .controlSize(.regular)
         }
     }
 

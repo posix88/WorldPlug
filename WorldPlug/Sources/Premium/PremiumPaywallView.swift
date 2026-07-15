@@ -5,6 +5,7 @@ struct PremiumPaywallView: View {
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @State private var isPurchasing = false
     @State private var errorMessage: String?
+    @State private var premiumPrice: String?
 
     var body: some View {
         NavigationStack {
@@ -12,7 +13,7 @@ struct PremiumPaywallView: View {
                 Image(systemName: "star.circle.fill")
                     .font(.system(size: 88, weight: .medium))
                     .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(.premiumTint)
 
                 VStack(spacing: .sm) {
                     Text(LocalizationKeys.premiumPaywallTitle.localized)
@@ -38,6 +39,8 @@ struct PremiumPaywallView: View {
                     Group {
                         if isPurchasing {
                             ProgressView()
+                        } else if let premiumPrice {
+                            Text(LocalizationKeys.premiumPaywallPurchaseWithPrice.localized(premiumPrice))
                         } else {
                             Text(LocalizationKeys.premiumPaywallPurchase.localized)
                         }
@@ -45,7 +48,7 @@ struct PremiumPaywallView: View {
                     .frame(minWidth: 260)
                 }
                 .buttonStyle(.glassProminent)
-                .tint(.blue)
+                .tint(.premiumTint)
                 .controlSize(.large)
                 .disabled(isPurchasing)
 
@@ -77,6 +80,9 @@ struct PremiumPaywallView: View {
                 if isPremium {
                     dismiss()
                 }
+            }
+            .task {
+                premiumPrice = try? await premiumEntitlement.premiumProduct()?.displayPrice
             }
         }
     }
@@ -128,5 +134,6 @@ struct PremiumPaywallView: View {
 #if DEBUG
 #Preview {
     PremiumPaywallView()
+        .environment(\.premiumEntitlement, PreviewPremiumEntitlement(isPremium: false))
 }
 #endif

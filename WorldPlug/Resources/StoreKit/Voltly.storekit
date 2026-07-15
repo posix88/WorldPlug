@@ -1,0 +1,46 @@
+{
+  "identifier" : "A97B61CB-1D53-4AF5-91DF-76B6B21FD2A9",
+  "nonRenewingSubscription" : {
+
+  },
+  "products" : [
+    {
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "EC099E46-8DD1-44E1-A128-A2C9F5DF6A8D",
+      "localizations" : [
+        {
+          "description" : "Unlock saved countries, trips, and premium widgets.",
+          "displayName" : "Voltly Premium",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Sblocca paesi salvati, viaggi e widget premium.",
+          "displayName" : "Voltly Premium",
+          "locale" : "it_IT"
+        }
+      ],
+      "productID" : "com.posix88.voltly.premium",
+      "referenceName" : "Voltly Premium",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "",
+    "_developerTeamID" : "",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 0,
+    "_locale" : "en_US",
+    "_storeKitErrors" : [
+
+    ],
+    "_timeRate" : 0
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -74,6 +74,7 @@ enum LocalizationKeys {
     static let premiumPaywallTitle = "premium.paywall.title"
     static let premiumPaywallMessage = "premium.paywall.message"
     static let premiumPaywallPurchase = "premium.paywall.purchase"
+    static let premiumPaywallPurchaseWithPrice = "premium.paywall.purchase.with.price"
     static let premiumPaywallRestore = "premium.paywall.restore"
     static let premiumPaywallBenefitSavedCountries = "premium.paywall.benefit.saved.countries"
     static let premiumPaywallBenefitNextTrip = "premium.paywall.benefit.next.trip"

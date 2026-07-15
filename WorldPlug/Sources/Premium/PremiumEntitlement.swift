@@ -8,8 +8,15 @@ import SwiftUI
 protocol PremiumEntitlementProviding: AnyObject {
     @MainActor var isPremium: Bool { get }
     @MainActor func refreshEntitlements() async
+    @MainActor func premiumProduct() async throws -> PremiumProduct?
     @MainActor func purchasePremium() async throws -> PremiumPurchaseResult
     @MainActor func restorePurchases() async throws
+}
+
+// MARK: - PremiumProduct
+
+struct PremiumProduct: Equatable {
+    let displayPrice: String
 }
 
 // MARK: - PremiumPurchaseResult
@@ -73,8 +80,12 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
         isPremium = hasPremiumEntitlement
     }
 
+    func premiumProduct() async throws -> PremiumProduct? {
+        try await storeKitProduct().map { PremiumProduct(displayPrice: $0.displayPrice) }
+    }
+
     func purchasePremium() async throws -> PremiumPurchaseResult {
-        guard let product = try await Product.products(for: productIDs).first else {
+        guard let product = try await storeKitProduct() else {
             throw PremiumStoreError.productUnavailable
         }
 
@@ -91,6 +102,10 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
         @unknown default:
             return .cancelled
         }
+    }
+
+    private func storeKitProduct() async throws -> Product? {
+        try await Product.products(for: productIDs).first
     }
 
     func restorePurchases() async throws {
@@ -129,6 +144,7 @@ enum PremiumStoreError: LocalizedError {
 final class NullPremiumEntitlement: PremiumEntitlementProviding {
     @MainActor var isPremium: Bool { false }
     @MainActor func refreshEntitlements() async {}
+    @MainActor func premiumProduct() async throws -> PremiumProduct? { nil }
     @MainActor func purchasePremium() async throws -> PremiumPurchaseResult { .cancelled }
     @MainActor func restorePurchases() async throws {}
 }
@@ -144,6 +160,7 @@ final class PreviewPremiumEntitlement: PremiumEntitlementProviding {
     }
 
     func refreshEntitlements() async {}
+    func premiumProduct() async throws -> PremiumProduct? { nil }
     func purchasePremium() async throws -> PremiumPurchaseResult { .purchased }
     func restorePurchases() async throws {}
 }

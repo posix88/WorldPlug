@@ -5,10 +5,8 @@ import SwiftUI
 struct HomeCountryIndicator: View {
     var body: some View {
         Image(systemName: "house.fill")
-            .font(.caption.weight(.bold))
-            .foregroundStyle(.white)
-            .frame(width: 28, height: 28)
-            .background(.voltTint, in: Circle())
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(.voltTint)
             .accessibilityLabel(LocalizationKeys.homeCountryBadge.localized)
     }
 }

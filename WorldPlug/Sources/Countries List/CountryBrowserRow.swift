@@ -7,18 +7,23 @@ struct CountryBrowserRow: View {
     let country: Country
     let compatibility: CountryCompatibilitySummary?
     private let selection: Binding<Country?>?
+    private let allowsSavedCountryAction: Bool
 
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    @Environment(\.premiumEntitlement) private var premiumEntitlement
+    @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.locale) private var locale
 
     init(
         country: Country,
         compatibility: CountryCompatibilitySummary?,
-        selection: Binding<Country?>? = nil
+        selection: Binding<Country?>? = nil,
+        allowsSavedCountryAction: Bool = true
     ) {
         self.country = country
         self.compatibility = compatibility
         self.selection = selection
+        self.allowsSavedCountryAction = allowsSavedCountryAction
     }
 
     private var isHomeCountry: Bool {
@@ -40,20 +45,73 @@ struct CountryBrowserRow: View {
             }
         }
         .buttonStyle(.plain)
+        .swipeActions(edge: .leading, allowsFullSwipe: false) {
+            Button {
+                toggleHomeCountry()
+            } label: {
+                Label(
+                    isHomeCountry
+                        ? LocalizationKeys.homeCountryRemove.localized
+                        : LocalizationKeys.homeCountrySet.localized,
+                    systemImage: isHomeCountry ? "house.slash.fill" : "house.fill"
+                )
+            }
+            .tint(isHomeCountry ? .red : .voltTint)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+            if premiumEntitlement.isPremium, allowsSavedCountryAction {
+                Button {
+                    travelPreferencesStore.toggleSavedCountry(code: country.code)
+                } label: {
+                    Label(
+                        travelPreferencesStore.isSavedCountry(code: country.code)
+                            ? LocalizationKeys.savedCountriesRemove.localized
+                            : LocalizationKeys.savedCountriesAdd.localized,
+                        systemImage: travelPreferencesStore.isSavedCountry(code: country.code)
+                            ? "star.slash.fill"
+                            : "star.fill"
+                    )
+                }
+                .tint(.premiumTint)
+            }
+        }
         .contextMenu {
             if isHomeCountry {
                 Button(role: .destructive) {
-                    homeViewModel.clearHome()
+                    toggleHomeCountry()
                 } label: {
                     Label(LocalizationKeys.homeCountryRemove.localized, systemImage: "house.fill")
                 }
             } else {
                 Button {
-                    homeViewModel.setHome(code: country.code)
+                    toggleHomeCountry()
                 } label: {
                     Label(LocalizationKeys.homeCountrySet.localized, systemImage: "house.fill")
                 }
             }
+
+            if premiumEntitlement.isPremium, allowsSavedCountryAction {
+                Button {
+                    travelPreferencesStore.toggleSavedCountry(code: country.code)
+                } label: {
+                    Label(
+                        travelPreferencesStore.isSavedCountry(code: country.code)
+                            ? LocalizationKeys.savedCountriesRemove.localized
+                            : LocalizationKeys.savedCountriesAdd.localized,
+                        systemImage: travelPreferencesStore.isSavedCountry(code: country.code)
+                            ? "star.slash.fill"
+                            : "star.fill"
+                    )
+                }
+            }
+        }
+    }
+
+    private func toggleHomeCountry() {
+        if isHomeCountry {
+            homeViewModel.clearHome()
+        } else {
+            homeViewModel.setHome(code: country.code)
         }
     }
 

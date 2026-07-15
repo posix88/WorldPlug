@@ -30,5 +30,6 @@ struct RootTabView: View {
                 selectedTab = 0
             }
         }
+        .tint(.voltTint)
     }
 }

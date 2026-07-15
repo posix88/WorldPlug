@@ -1104,6 +1104,13 @@
         "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca Premium" } }
       }
     },
+    "premium.paywall.purchase.with.price" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Premium for %@" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca Premium a %@" } }
+      }
+    },
     "premium.paywall.restore" : {
       "extractionState" : "manual",
       "localizations" : {
