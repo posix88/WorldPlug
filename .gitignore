@@ -65,3 +65,7 @@ xcuserdata/
 
 Tools/Formatter/.build
 Tools/Formatter/.swiftpm
+
+### Swift Package Manager ###
+.build/
+.swiftpm/
