@@ -167,6 +167,41 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
     @MainActor func setFavoriteWidgetCountry(code: String?) {}
 }
 
+#if DEBUG
+@Observable
+@MainActor
+final class PreviewTravelPreferencesStore: TravelPreferencesStoring {
+    var preferences: TravelPreferences
+
+    init(preferences: TravelPreferences = TravelPreferences()) {
+        self.preferences = preferences
+    }
+
+    func reloadFromICloud() {}
+
+    func toggleSavedCountry(code: String) {
+        let countryCode = code.uppercased()
+        if let index = preferences.savedCountryCodes.firstIndex(of: countryCode) {
+            preferences.savedCountryCodes.remove(at: index)
+        } else {
+            preferences.savedCountryCodes.append(countryCode)
+        }
+    }
+
+    func isSavedCountry(code: String) -> Bool {
+        preferences.savedCountryCodes.contains(code.uppercased())
+    }
+
+    func setNextTrip(_ trip: NextTrip?) {
+        preferences.nextTrip = trip
+    }
+
+    func setFavoriteWidgetCountry(code: String?) {
+        preferences.favoriteWidgetCountryCode = code?.uppercased()
+    }
+}
+#endif
+
 extension EnvironmentValues {
     @Entry var travelPreferencesStore: any TravelPreferencesStoring = NullTravelPreferencesStore()
 }

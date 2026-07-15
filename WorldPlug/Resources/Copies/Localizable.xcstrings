@@ -105,15 +105,15 @@
     "favorite.widget.tip.message" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose a saved country to show in your Favorite Country widget." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli un paese salvato da mostrare nel widget Paese preferito." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pick a saved country." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli un paese salvato." } }
       }
     },
     "favorite.widget.tip.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose your widget country" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli il paese del widget" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose widget country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli il paese" } }
       }
     },
     "Back" : {
@@ -353,13 +353,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Use these pills to focus on countries that are already compatible, need an adapter, or require a converter."
+            "value" : "Filter by plug compatibility."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usa queste pill per vedere subito i paesi compatibili, quelli che richiedono un adattatore o un convertitore."
+            "value" : "Filtra per compatibilità della spina."
           }
         }
       }
@@ -757,15 +757,15 @@
     "next.trip.tip.message" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add a destination and dates to get a travel countdown and compatibility check." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Aggiungi una destinazione e le date per avere il conto alla rovescia e il controllo di compatibilità." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add dates and destination." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Aggiungi date e destinazione." } }
       }
     },
     "next.trip.tip.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan your next trip" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Pianifica il prossimo viaggio" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan a trip" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Pianifica un viaggio" } }
       }
     },
     "onboarding.adapter.info.subtitle" : {
@@ -1053,6 +1053,69 @@
             "value" : "Spazio tra pin"
           }
         }
+      }
+    },
+    "premium.paywall.benefit.next.trip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next Trip countdown and compatibility" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Conto alla rovescia e compatibilità del prossimo viaggio" } }
+      }
+    },
+    "premium.paywall.benefit.saved.countries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save all the countries you need" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva tutti i paesi che ti servono" } }
+      }
+    },
+    "premium.paywall.benefit.widgets" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Favorite Country and Next Trip widgets" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Widget Paese preferito e Prossimo viaggio" } }
+      }
+    },
+    "premium.paywall.dismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
+      }
+    },
+    "premium.paywall.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Purchase unavailable" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Acquisto non disponibile" } }
+      }
+    },
+    "premium.paywall.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock every travel tool in Voltly." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca tutti gli strumenti di viaggio di Voltly." } }
+      }
+    },
+    "premium.paywall.purchase" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Premium" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca Premium" } }
+      }
+    },
+    "premium.paywall.restore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Restore purchases" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Ripristina acquisti" } }
+      }
+    },
+    "premium.paywall.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Voltly Premium" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Voltly Premium" } }
       }
     },
     "plug.images" : {

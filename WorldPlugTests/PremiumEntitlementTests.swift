@@ -4,8 +4,8 @@ import Testing
 @MainActor
 struct PremiumEntitlementTests {
     @Test
-    func developmentEntitlementIsLocked() {
-        let entitlement = DevelopmentPremiumEntitlement()
+    func nullEntitlementIsLocked() {
+        let entitlement = NullPremiumEntitlement()
 
         #expect(entitlement.isPremium == false)
     }

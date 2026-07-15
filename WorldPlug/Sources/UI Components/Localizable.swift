@@ -69,6 +69,18 @@ enum LocalizationKeys {
     static let savedCountriesAdd = "saved.countries.add"
     static let savedCountriesRemove = "saved.countries.remove"
 
+    // MARK: - Premium Paywall
+
+    static let premiumPaywallTitle = "premium.paywall.title"
+    static let premiumPaywallMessage = "premium.paywall.message"
+    static let premiumPaywallPurchase = "premium.paywall.purchase"
+    static let premiumPaywallRestore = "premium.paywall.restore"
+    static let premiumPaywallBenefitSavedCountries = "premium.paywall.benefit.saved.countries"
+    static let premiumPaywallBenefitNextTrip = "premium.paywall.benefit.next.trip"
+    static let premiumPaywallBenefitWidgets = "premium.paywall.benefit.widgets"
+    static let premiumPaywallErrorTitle = "premium.paywall.error.title"
+    static let premiumPaywallDismiss = "premium.paywall.dismiss"
+
     // MARK: - Next Trip
 
     static let nextTripTitle = "next.trip.title"

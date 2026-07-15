@@ -11,50 +11,14 @@ struct SavedCountriesView: View {
     @Environment(\.locale) private var locale
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var isTripEditorPresented = false
+    @State private var isPremiumPaywallPresented = false
     @State private var selectedCountry: Country?
     private let nextTripTip = NextTripTip()
     private let favoriteWidgetSelectorTip = FavoriteWidgetSelectorTip()
 
     var body: some View {
         NavigationStack {
-            Group {
-                if premiumEntitlement.isPremium {
-                    ScrollView {
-                        LazyVStack(spacing: .md) {
-                            nextTripCard
-                            favoriteWidgetCard
-
-                            if savedCountries.isEmpty {
-                                ContentUnavailableView(
-                                    LocalizationKeys.savedCountriesEmptyTitle.localized,
-                                    systemImage: "star",
-                                    description: Text(LocalizationKeys.savedCountriesEmptyDescription.localized)
-                                )
-                                .padding(.top, .special)
-                            } else {
-                                ForEach(savedCountries) { country in
-                                    CountryBrowserRow(
-                                        country: country,
-                                        compatibility: nil,
-                                        selection: $selectedCountry
-                                    )
-                                }
-                            }
-                        }
-                        .padding(.horizontal, .xxl)
-                        .padding(.vertical, .md)
-                    }
-                    .navigationDestination(item: $selectedCountry) { country in
-                        CountryDetailView(country: country)
-                    }
-                } else {
-                    ContentUnavailableView(
-                        LocalizationKeys.savedCountriesPremiumTitle.localized,
-                        systemImage: "lock.fill",
-                        description: Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
-                    )
-                }
-            }
+            savedCountriesContent
             .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
             .toolbar {
                 if premiumEntitlement.isPremium {
@@ -84,6 +48,65 @@ struct SavedCountriesView: View {
                     }
                 )
             }
+            .sheet(isPresented: $isPremiumPaywallPresented) {
+                PremiumPaywallView()
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var savedCountriesContent: some View {
+        if premiumEntitlement.isPremium {
+            premiumContent
+        } else {
+            lockedContent
+        }
+    }
+
+    private var premiumContent: some View {
+        ScrollView {
+            LazyVStack(spacing: .md) {
+                nextTripCard
+                favoriteWidgetCard
+
+                if savedCountries.isEmpty {
+                    ContentUnavailableView(
+                        LocalizationKeys.savedCountriesEmptyTitle.localized,
+                        systemImage: "star",
+                        description: Text(LocalizationKeys.savedCountriesEmptyDescription.localized)
+                    )
+                    .padding(.top, .special)
+                } else {
+                    ForEach(savedCountries) { country in
+                        CountryBrowserRow(
+                            country: country,
+                            compatibility: nil,
+                            selection: $selectedCountry
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal, .xxl)
+            .padding(.vertical, .md)
+        }
+        .navigationDestination(item: $selectedCountry) { country in
+            CountryDetailView(country: country)
+        }
+    }
+
+    private var lockedContent: some View {
+        VStack(spacing: .lg) {
+            ContentUnavailableView(
+                LocalizationKeys.savedCountriesPremiumTitle.localized,
+                systemImage: "lock.fill",
+                description: Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
+            )
+
+            Button(LocalizationKeys.premiumPaywallPurchase.localized) {
+                isPremiumPaywallPresented = true
+            }
+            .buttonStyle(.glassProminent)
+            .tint(.blue)
         }
     }
 
@@ -208,7 +231,30 @@ private struct FavoriteWidgetSelectorTip: Tip {
 }
 
 #if DEBUG
-#Preview {
+#Preview("Premium locked") {
     SavedCountriesView()
+        .environment(\.premiumEntitlement, PreviewPremiumEntitlement(isPremium: false))
+}
+
+#Preview("Premium empty") {
+    SavedCountriesView()
+        .environment(\.premiumEntitlement, PreviewPremiumEntitlement(isPremium: true))
+}
+
+#Preview {
+    let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Country.self, configurations: configuration)
+    let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+    container.mainContext.insert(country)
+
+    return SavedCountriesView()
+        .modelContainer(container)
+        .environment(\.premiumEntitlement, PreviewPremiumEntitlement(isPremium: true))
+        .environment(
+            \.travelPreferencesStore,
+            PreviewTravelPreferencesStore(
+                preferences: TravelPreferences(savedCountryCodes: [country.code])
+            )
+        )
 }
 #endif

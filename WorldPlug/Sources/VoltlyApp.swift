@@ -8,7 +8,7 @@ struct VoltlyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State private var travelPreferencesStore: ICloudTravelPreferencesStore
     @State private var homeCountryViewModel: HomeCountryViewModel
-    @State private var premiumEntitlement: DevelopmentPremiumEntitlement
+    @State private var premiumEntitlement: StoreKitPremiumEntitlement
     @State private var deepLinkedCountryCode: String?
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
@@ -22,7 +22,7 @@ struct VoltlyApp: App {
                 modelContext: Repository.sharedModelContainer.mainContext
             )
         )
-        _premiumEntitlement = State(initialValue: DevelopmentPremiumEntitlement())
+        _premiumEntitlement = State(initialValue: StoreKitPremiumEntitlement())
     }
 
     var body: some Scene {
@@ -40,6 +40,9 @@ struct VoltlyApp: App {
                     }
                 }
                 .onAppear(perform: syncPremiumWidgetAccess)
+                .task {
+                    await premiumEntitlement.refreshEntitlements()
+                }
                 .onChange(of: premiumEntitlement.isPremium) { _, _ in
                     syncPremiumWidgetAccess()
                 }
