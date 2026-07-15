@@ -1,8 +1,10 @@
+import Analytics
 import SwiftUI
 
 struct PremiumPaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.premiumEntitlement) private var premiumEntitlement
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var isPurchasing = false
     @State private var errorMessage: String?
     @State private var premiumPrice: String?
@@ -81,6 +83,10 @@ struct PremiumPaywallView: View {
                     dismiss()
                 }
             }
+            .onAppear {
+                analyticsTracker.screen(.premiumPaywall)
+                analyticsTracker.track(.premiumPaywallPresented)
+            }
             .task {
                 premiumPrice = try? await premiumEntitlement.premiumProduct()?.displayPrice
             }
@@ -105,12 +111,16 @@ struct PremiumPaywallView: View {
     }
 
     private func purchasePremium() {
+        analyticsTracker.track(.premiumPurchaseStarted)
         Task {
             isPurchasing = true
             defer { isPurchasing = false }
 
             do {
-                _ = try await premiumEntitlement.purchasePremium()
+                let result = try await premiumEntitlement.purchasePremium()
+                if result == .purchased {
+                    analyticsTracker.track(.premiumPurchaseCompleted)
+                }
             } catch {
                 errorMessage = error.localizedDescription
             }
@@ -118,12 +128,14 @@ struct PremiumPaywallView: View {
     }
 
     private func restorePurchases() {
+        analyticsTracker.track(.premiumRestoreStarted)
         Task {
             isPurchasing = true
             defer { isPurchasing = false }
 
             do {
                 try await premiumEntitlement.restorePurchases()
+                analyticsTracker.track(.premiumRestoreCompleted)
             } catch {
                 errorMessage = error.localizedDescription
             }

@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftUI
 
@@ -6,6 +7,7 @@ import SwiftUI
 struct NextTripEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var trip: NextTrip
     @State private var returnDate: Date
 
@@ -89,6 +91,9 @@ struct NextTripEditorView: View {
                 }
             }
             .navigationTitle(LocalizationKeys.nextTripTitle.localized)
+            .onAppear {
+                analyticsTracker.screen(.nextTrip)
+            }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

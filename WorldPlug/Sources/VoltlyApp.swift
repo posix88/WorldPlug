@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftData
 import SwiftUI
@@ -9,16 +10,20 @@ struct VoltlyApp: App {
     @State private var travelPreferencesStore: ICloudTravelPreferencesStore
     @State private var homeCountryViewModel: HomeCountryViewModel
     @State private var premiumEntitlement: StoreKitPremiumEntitlement
+    private let analyticsTracker: any AnalyticsTracker
     @State private var deepLinkedCountryCode: String?
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        let travelPreferencesStore = ICloudTravelPreferencesStore()
+        let analyticsTracker = FirebaseAnalyticsTracker()
+        self.analyticsTracker = analyticsTracker
+        let travelPreferencesStore = ICloudTravelPreferencesStore(analyticsTracker: analyticsTracker)
         _travelPreferencesStore = State(initialValue: travelPreferencesStore)
         _homeCountryViewModel = State(
             initialValue: HomeCountryViewModel(
                 travelPreferencesStore: travelPreferencesStore,
+                analyticsTracker: analyticsTracker,
                 modelContext: Repository.sharedModelContainer.mainContext
             )
         )
@@ -34,6 +39,7 @@ struct VoltlyApp: App {
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .environment(\.travelPreferencesStore, travelPreferencesStore)
                 .environment(\.premiumEntitlement, premiumEntitlement)
+                .environment(\.analyticsTracker, analyticsTracker)
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         homeCountryViewModel.refreshHomeCountry()
@@ -58,11 +64,13 @@ struct VoltlyApp: App {
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext
                     ) {
+                        analyticsTracker.track(.onboardingCompleted)
                         hasSeenOnboarding = true
                     }
                     .environment(\.homeCountryViewModel, homeCountryViewModel)
                     .environment(\.travelPreferencesStore, travelPreferencesStore)
                     .environment(\.premiumEntitlement, premiumEntitlement)
+                    .environment(\.analyticsTracker, analyticsTracker)
                 }
         }
         .modelContainer(Repository.sharedModelContainer)

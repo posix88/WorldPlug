@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftData
 import SwiftUI
@@ -6,6 +7,7 @@ import SwiftUI
 
 struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var viewModel: ViewModel
     @State private var page: Int = 0
 
@@ -35,6 +37,9 @@ struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
                     .tag(1)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
+        }
+        .onAppear {
+            analyticsTracker.screen(.onboarding)
         }
     }
 }

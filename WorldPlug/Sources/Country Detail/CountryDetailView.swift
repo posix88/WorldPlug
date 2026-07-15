@@ -1,3 +1,4 @@
+import Analytics
 import MapKit
 import Repository
 import SwiftUI
@@ -10,6 +11,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.locale) private var locale
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.premiumEntitlement) private var premiumEntitlement
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
@@ -82,6 +84,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             await viewModel.loadMapFocus(reduceMotion: reduceMotion)
         }
         .onAppear {
+            analyticsTracker.screen(.countryDetail)
             viewModel.isInfoSheetPresented = true
             viewModel.syncHomeCountry(with: homeCountryViewModel)
         }

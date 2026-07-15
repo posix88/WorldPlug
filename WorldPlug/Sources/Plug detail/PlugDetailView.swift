@@ -1,9 +1,11 @@
+import Analytics
 import Repository
 import SwiftUI
 
 // MARK: - PlugDetailView
 
 struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
@@ -117,6 +119,9 @@ struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
                 images
             }
             .padding(.bottom, .xxxl)
+        }
+        .onAppear {
+            analyticsTracker.screen(.plugDetail)
         }
         .background { AppMeshBackground() }
         .navigationBarTitleDisplayMode(.inline)

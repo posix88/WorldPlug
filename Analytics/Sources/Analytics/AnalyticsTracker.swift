@@ -75,8 +75,10 @@ public enum AnalyticsScreen: String, Sendable {
     case countryDetail = "country_detail"
     case savedCountries = "saved_countries"
     case nextTrip = "next_trip"
+    case nextTripDestination = "next_trip_destination"
     case onboarding
     case premiumPaywall = "premium_paywall"
+    case plugDetail = "plug_detail"
 }
 
 public enum AnalyticsEvent: String, Sendable {
@@ -85,6 +87,7 @@ public enum AnalyticsEvent: String, Sendable {
     case homeCountryCleared = "home_country_cleared"
     case countrySaved = "country_saved"
     case countryUnsaved = "country_unsaved"
+    case compatibilityFilterSelected = "compatibility_filter_selected"
     case nextTripCreated = "next_trip_created"
     case nextTripUpdated = "next_trip_updated"
     case nextTripRemoved = "next_trip_removed"
@@ -93,6 +96,8 @@ public enum AnalyticsEvent: String, Sendable {
     case premiumPurchaseCompleted = "premium_purchase_completed"
     case premiumRestoreStarted = "premium_restore_started"
     case premiumRestoreCompleted = "premium_restore_completed"
+    case favoriteWidgetCountrySelected = "favorite_widget_country_selected"
+    case favoriteWidgetCountryCleared = "favorite_widget_country_cleared"
 }
 
 public enum AnalyticsValue: Sendable, Equatable {

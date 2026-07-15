@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftData
 import SwiftUI
@@ -8,6 +9,7 @@ import TipKit
 struct SavedCountriesView: View {
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.locale) private var locale
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var isTripEditorPresented = false
@@ -36,6 +38,9 @@ struct SavedCountriesView: View {
                 }
             }
             .background { AppMeshBackground() }
+            .onAppear {
+                analyticsTracker.screen(.savedCountries)
+            }
             .sheet(isPresented: $isTripEditorPresented) {
                 NextTripEditorView(
                     trip: travelPreferencesStore.preferences.nextTrip,

@@ -1,3 +1,4 @@
+import Analytics
 import Foundation
 import Observation
 import Repository
@@ -29,6 +30,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
     private let iCloudStore: NSUbiquitousKeyValueStore
     private let appGroupDefaults: UserDefaults
+    private let analyticsTracker: any AnalyticsTracker
 
     var preferences: TravelPreferences {
         didSet {
@@ -38,10 +40,12 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
     init(
         iCloudStore: NSUbiquitousKeyValueStore = .default,
-        appGroupDefaults: UserDefaults? = UserDefaults(suiteName: AppGroup.identifier)
+        appGroupDefaults: UserDefaults? = UserDefaults(suiteName: AppGroup.identifier),
+        analyticsTracker: any AnalyticsTracker = NoopAnalyticsTracker()
     ) {
         self.iCloudStore = iCloudStore
         self.appGroupDefaults = appGroupDefaults ?? .standard
+        self.analyticsTracker = analyticsTracker
         iCloudStore.synchronize()
         let loadedPreferences = Self.loadPreferences(from: iCloudStore)
         preferences = Self.removingExpiredTrip(from: loadedPreferences)
@@ -71,8 +75,10 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
             if updatedPreferences.favoriteWidgetCountryCode == countryCode {
                 updatedPreferences.favoriteWidgetCountryCode = nil
             }
+            analyticsTracker.track(.countryUnsaved)
         } else {
             updatedPreferences.savedCountryCodes.append(countryCode)
+            analyticsTracker.track(.countrySaved)
         }
 
         preferences = updatedPreferences
@@ -83,17 +89,33 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     }
 
     func setNextTrip(_ trip: NextTrip?) {
+        let previousTrip = preferences.nextTrip
         var updatedPreferences = preferences
         updatedPreferences.nextTrip = trip
         preferences = Self.removingExpiredTrip(from: updatedPreferences)
+
+        switch (previousTrip == nil, trip == nil) {
+        case (true, false):
+            analyticsTracker.track(.nextTripCreated)
+        case (false, false):
+            analyticsTracker.track(.nextTripUpdated)
+        case (false, true):
+            analyticsTracker.track(.nextTripRemoved)
+        case (true, true):
+            break
+        }
     }
 
     func setFavoriteWidgetCountry(code: String?) {
         let countryCode = code.map(Self.normalizedCountryCode)
         guard let countryCode else {
             var updatedPreferences = preferences
+            let hadFavoriteWidgetCountry = updatedPreferences.favoriteWidgetCountryCode != nil
             updatedPreferences.favoriteWidgetCountryCode = nil
             preferences = updatedPreferences
+            if hadFavoriteWidgetCountry {
+                analyticsTracker.track(.favoriteWidgetCountryCleared)
+            }
             return
         }
 
@@ -102,8 +124,12 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         }
 
         var updatedPreferences = preferences
+        guard updatedPreferences.favoriteWidgetCountryCode != countryCode else {
+            return
+        }
         updatedPreferences.favoriteWidgetCountryCode = countryCode
         preferences = updatedPreferences
+        analyticsTracker.track(.favoriteWidgetCountrySelected)
     }
 
     private func persist() {

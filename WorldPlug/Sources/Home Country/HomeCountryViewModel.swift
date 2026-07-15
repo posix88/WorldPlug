@@ -1,3 +1,4 @@
+import Analytics
 import Foundation
 import Observation
 import Repository
@@ -14,6 +15,7 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     private var store: any HomeCountryStoring
     private var travelPreferencesStore: any TravelPreferencesStoring
     private let modelContext: ModelContext
+    private let analyticsTracker: any AnalyticsTracker
 
     var homeCountryCode: String
     private(set) var homeCountry: Country?
@@ -22,10 +24,12 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     init(
         store: some HomeCountryStoring = UserDefaultsHomeCountryStore(),
         travelPreferencesStore: some TravelPreferencesStoring = ICloudTravelPreferencesStore(),
+        analyticsTracker: any AnalyticsTracker = NoopAnalyticsTracker(),
         modelContext: ModelContext
     ) {
         self.store = store
         self.travelPreferencesStore = travelPreferencesStore
+        self.analyticsTracker = analyticsTracker
         self.modelContext = modelContext
         let countryCode = Self.initialHomeCountryCode(
             from: store,
@@ -39,11 +43,21 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
 
     func setHome(code: String) {
         let normalizedCode = Self.normalizedCountryCode(code)
+        guard normalizedCode != homeCountryCode else {
+            return
+        }
+
         updateHomeCountry(with: normalizedCode)
+        analyticsTracker.track(.homeCountrySet)
     }
 
     func clearHome() {
+        guard !homeCountryCode.isEmpty else {
+            return
+        }
+
         updateHomeCountry(with: "")
+        analyticsTracker.track(.homeCountryCleared)
     }
 
     func refreshHomeCountry() {

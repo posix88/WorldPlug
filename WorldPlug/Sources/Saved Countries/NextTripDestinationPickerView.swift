@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftUI
 
@@ -6,6 +7,7 @@ import SwiftUI
 struct NextTripDestinationPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @Binding var selectedCountryCode: String
     @State private var searchQuery = ""
 
@@ -37,6 +39,9 @@ struct NextTripDestinationPickerView: View {
             .accessibilityAddTraits(country.code == selectedCountryCode ? .isSelected : [])
         }
         .navigationTitle(LocalizationKeys.nextTripDestination.localized)
+        .onAppear {
+            analyticsTracker.screen(.nextTripDestination)
+        }
         .tint(.yellow)
         .searchable(
             text: $searchQuery,

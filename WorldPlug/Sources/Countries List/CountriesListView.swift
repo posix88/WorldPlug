@@ -1,3 +1,4 @@
+import Analytics
 import Repository
 import SwiftData
 import SwiftUI
@@ -12,6 +13,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var selectedFilter: CountryCompatibilityFilter = .all
     @Binding private var deepLinkedCountryCode: String?
     @Environment(\.homeCountryViewModel) private var homeViewModel
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.locale) private var locale
     private let compatibilityFilterTip = CompatibilityFilterTip()
 
@@ -74,6 +76,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 viewModel.search(query: searchQuery, locale: locale)
             }
             .onAppear {
+                analyticsTracker.screen(.countries)
                 viewModel.search(query: searchQuery, locale: locale)
                 openDeepLinkedCountryIfNeeded()
             }
@@ -157,6 +160,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     }
 
                     compatibilityFilterTip.invalidate(reason: .actionPerformed)
+                    analyticsTracker.track(.compatibilityFilterSelected)
                 }
                 .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
             }
