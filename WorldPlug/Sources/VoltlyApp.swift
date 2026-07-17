@@ -51,6 +51,10 @@ struct VoltlyApp: App {
                 .onAppear(perform: openPendingCountryIfNeeded)
                 .task {
                     await premiumEntitlement.refreshEntitlements()
+
+                    if #available(iOS 26.0, *) {
+                        try? await CountrySpotlightIndex.indexAllCountries()
+                    }
                 }
                 .onChange(of: premiumEntitlement.isPremium) { _, _ in
                     syncPremiumWidgetAccess()

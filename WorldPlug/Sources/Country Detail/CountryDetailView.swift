@@ -96,6 +96,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
         .navigationDestination(item: $selectedPlug) { plug in
             PlugDetailView(plug: plug)
+                .toolbarVisibility(.hidden, for: .tabBar)
         }
         .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: handleInfoSheetDismissed) {
             countryInfoSheet

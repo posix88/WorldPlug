@@ -43,11 +43,9 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                         emptyState
                     }
                 }
-                .navigationDestination(for: Plug.self) { plug in
-                    PlugDetailView(plug: plug)
-                }
                 .navigationDestination(for: Country.self) { country in
                     CountryDetailView(country: country)
+                        .toolbarVisibility(.hidden, for: .tabBar)
                 }
                 .padding(.horizontal, .xxl)
                 .padding(.bottom, .xxl)

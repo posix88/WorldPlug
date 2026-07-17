@@ -2,31 +2,32 @@ import AppIntents
 import Foundation
 import Repository
 
-struct OpenCountryIntent: AppIntent {
+struct OpenCountryIntent: OpenIntent {
     static let title: LocalizedStringResource = "Open country"
     static let description = IntentDescription("Open a country’s power information in Voltly.")
     static let supportedModes: IntentModes = .foreground
 
     @Parameter(title: "Country")
-    var country: CountryEntity
+    var target: CountryEntity
 
     init() {}
 
     init(country: CountryEntity) {
-        self.country = country
+        target = country
     }
 
     static var parameterSummary: some ParameterSummary {
-        Summary("Open \(\.$country)")
+        Summary("Open \(\.$target)")
     }
 
-    func perform() async throws -> some IntentResult & ProvidesDialog {
+    @MainActor
+    func perform() async throws -> some IntentResult {
         UserDefaults(suiteName: AppGroup.identifier)?.set(
-            country.id,
+            target.id,
             forKey: AppGroup.pendingCountryCodeKey
         )
 
-        return .result(dialog: "Opening \(country.name) in Voltly.")
+        return .result()
     }
 }
 

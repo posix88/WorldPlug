@@ -3,7 +3,7 @@ import Repository
 import SwiftData
 
 /// A country that Voltly can resolve in Siri and the Shortcuts app.
-struct CountryEntity: AppEntity {
+struct CountryEntity: IndexedEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Country")
     static let defaultQuery = CountryEntityQuery()
 
@@ -62,3 +62,25 @@ struct CountryEntityQuery: EntityStringQuery {
             .map { CountryEntity(country: $0) }
     }
 }
+
+/*
+ iOS 27 adds automatic Spotlight reindexing through IndexedEntityQuery.
+ When building with an iOS 27 SDK, add `import CoreSpotlight` above and uncomment:
+
+ extension CountryEntityQuery: IndexedEntityQuery {
+     func reindexEntities(
+         for identifiers: [CountryEntity.ID],
+         indexDescription: CSSearchableIndexDescription
+     ) async throws {
+         let identifiers = Set(identifiers.map { $0.uppercased() })
+         let entities = await countryEntities { identifiers.contains($0.code) }
+         try await CountrySpotlightIndex.index(entities)
+     }
+
+     func reindexAllEntities(
+         indexDescription: CSSearchableIndexDescription
+     ) async throws {
+         try await CountrySpotlightIndex.indexAllCountries()
+     }
+ }
+ */

@@ -1,22 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Open my home country in ${applicationName}" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Open my home country in ${applicationName}"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apri il mio paese di origine in ${applicationName}"
-          }
-        }
-      }
-    },
     "Open a country in ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -34,18 +18,19 @@
         }
       }
     },
-    "Show my home country in ${applicationName}" : {
+    "Open my home country in ${applicationName}" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Show my home country in ${applicationName}"
+            "value" : "Open my home country in ${applicationName}"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mostra il mio paese di origine in ${applicationName}"
+            "value" : "Apri il mio paese di origine in ${applicationName}"
           }
         }
       }
@@ -63,6 +48,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostra le informazioni elettriche di un paese in ${applicationName}"
+          }
+        }
+      }
+    },
+    "Show my home country in ${applicationName}" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show my home country in ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il mio paese di origine in ${applicationName}"
           }
         }
       }
