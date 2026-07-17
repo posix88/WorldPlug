@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Open my home country in ${applicationName}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open my home country in ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri il mio paese di origine in ${applicationName}"
+          }
+        }
+      }
+    },
     "Open a country in ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14,6 +30,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri un paese in ${applicationName}"
+          }
+        }
+      }
+    },
+    "Show my home country in ${applicationName}" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show my home country in ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra il mio paese di origine in ${applicationName}"
           }
         }
       }

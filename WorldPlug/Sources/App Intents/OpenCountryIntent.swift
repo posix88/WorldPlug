@@ -43,5 +43,14 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
             shortTitle: "Open country",
             systemImageName: "globe.europe.africa.fill"
         )
+        AppShortcut(
+            intent: OpenHomeCountryIntent(),
+            phrases: [
+                "Open my home country in \(.applicationName)",
+                "Show my home country in \(.applicationName)"
+            ],
+            shortTitle: "Open home country",
+            systemImageName: "house.fill"
+        )
     }
 }

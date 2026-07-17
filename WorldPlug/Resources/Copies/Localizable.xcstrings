@@ -1234,6 +1234,38 @@
         }
       }
     },
+    "Open home country" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open home country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri il paese di origine"
+          }
+        }
+      }
+    },
+    "Open your home country’s power information in Voltly." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open your home country’s power information in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri le informazioni elettriche del tuo paese di origine in Voltly."
+          }
+        }
+      }
+    },
     "Opening %@ in Voltly." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1247,6 +1279,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apro %@ in Voltly."
+          }
+        }
+      }
+    },
+    "Opening your home country in Voltly." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opening your home country in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apro il tuo paese di origine in Voltly."
+          }
+        }
+      }
+    },
+    "Set a home country in Voltly first." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set a home country in Voltly first."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prima imposta un paese di origine in Voltly."
           }
         }
       }
