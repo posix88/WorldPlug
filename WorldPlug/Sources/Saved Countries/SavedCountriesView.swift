@@ -9,6 +9,7 @@ import TipKit
 struct SavedCountriesView: View {
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
+    @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.locale) private var locale
     @Query(sort: \Country.code) private var countries: [Country]
@@ -83,12 +84,16 @@ struct SavedCountriesView: View {
                     .padding(.top, .special)
                 } else {
                     ForEach(savedCountries) { country in
-                        CountryBrowserRow(
-                            country: country,
-                            compatibility: nil,
-                            selection: $selectedCountry,
-                            allowsSavedCountryAction: false
-                        )
+                        Button {
+                            selectedCountry = country
+                        } label: {
+                            CountrySummaryCard(
+                                country: country,
+                                compatibility: nil,
+                                isHomeCountry: country.code == homeCountryViewModel.homeCountryCode
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }

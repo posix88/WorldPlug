@@ -12,10 +12,6 @@ struct OpenCountryIntent: OpenIntent {
 
     init() {}
 
-    init(country: CountryEntity) {
-        target = country
-    }
-
     static var parameterSummary: some ParameterSummary {
         Summary("Open \(\.$target)")
     }

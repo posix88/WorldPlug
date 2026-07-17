@@ -30,29 +30,10 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         let countries = displayedCountries(using: compatibilitySummaries)
 
         NavigationStack(path: $path) {
-            ScrollView {
-                LazyVStack(spacing: .md) {
-                    ForEach(countries) { country in
-                        CountryBrowserRow(
-                            country: country,
-                            compatibility: compatibilitySummaries[country.code]
-                        )
-                    }
-
-                    if countries.isEmpty {
-                        emptyState
-                    }
-                }
-                .navigationDestination(for: Country.self) { country in
-                    CountryDetailView(country: country)
-                        .toolbarVisibility(.hidden, for: .tabBar)
-                }
-                .padding(.horizontal, .xxl)
-                .padding(.bottom, .xxl)
-                .accessibilityElement(children: .contain)
-                .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
-                .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
-            }
+            countryResults(
+                countries: countries,
+                compatibilitySummaries: compatibilitySummaries
+            )
             .background { AppMeshBackground() }
             .scrollContentBackground(.hidden)
             .safeAreaBar(edge: .top, spacing: 0) {
@@ -86,6 +67,64 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     selectedFilter = .all
                 }
             }
+            .navigationDestination(for: Country.self) { country in
+                CountryDetailView(country: country)
+                    .toolbarVisibility(.hidden, for: .tabBar)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func countryResults(
+        countries: [Country],
+        compatibilitySummaries: [String: CountryCompatibilitySummary]
+    ) -> some View {
+        if #available(iOS 27.0, *) {
+            ScrollView {
+                LazyVStack(spacing: .md) {
+                    countryRows(
+                        countries: countries,
+                        compatibilitySummaries: compatibilitySummaries
+                    )
+                }
+                .padding(.horizontal, .xxl)
+                .padding(.bottom, .xxl)
+            }
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
+            .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
+        } else {
+            List {
+                countryRows(
+                    countries: countries,
+                    compatibilitySummaries: compatibilitySummaries
+                )
+                .listRowInsets(.init(top: 0, leading: .xxl, bottom: .md, trailing: .xxl))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+            }
+            .listStyle(.plain)
+            .navigationLinkIndicatorVisibility(.hidden)
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
+            .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
+        }
+    }
+
+    @ViewBuilder
+    private func countryRows(
+        countries: [Country],
+        compatibilitySummaries: [String: CountryCompatibilitySummary]
+    ) -> some View {
+        ForEach(countries) { country in
+            CountryBrowserRow(
+                country: country,
+                compatibility: compatibilitySummaries[country.code]
+            )
+        }
+
+        if countries.isEmpty {
+            emptyState
         }
     }
 
