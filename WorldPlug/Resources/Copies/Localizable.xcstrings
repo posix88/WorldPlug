@@ -68,56 +68,25 @@
         }
       }
     },
-    "favorite.widget.no.selection" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No country selected"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nessun paese selezionato"
-          }
-        }
-      }
-    },
-    "favorite.widget.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Favorite widget"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Widget preferito"
-          }
-        }
-      }
-    },
-    "favorite.widget.tip.message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pick a saved country." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli un paese salvato." } }
-      }
-    },
-    "favorite.widget.tip.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose widget country" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Scegli il paese" } }
-      }
-    },
     "Back" : {
 
+    },
+    "Code" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codice"
+          }
+        }
+      }
     },
     "compatibility.legend.adapter.desc" : {
       "extractionState" : "manual",
@@ -381,6 +350,23 @@
         }
       }
     },
+    "Country" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese"
+          }
+        }
+      }
+    },
     "country.detail.all.plugs" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -551,6 +537,74 @@
         }
       }
     },
+    "favorite.widget.no.selection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No country selected"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese selezionato"
+          }
+        }
+      }
+    },
+    "favorite.widget.tip.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a saved country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un paese salvato."
+          }
+        }
+      }
+    },
+    "favorite.widget.tip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose widget country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli il paese"
+          }
+        }
+      }
+    },
+    "favorite.widget.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite widget"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget preferito"
+          }
+        }
+      }
+    },
     "home.country.adapter.needed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -670,102 +724,259 @@
         }
       }
     },
+    "Name" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome"
+          }
+        }
+      }
+    },
     "next.trip.cancel" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Annulla" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
+          }
+        }
       }
     },
     "next.trip.dates" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dates" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Date" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dates"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        }
       }
     },
     "next.trip.departure" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Departure" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Partenza" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Departure"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partenza"
+          }
+        }
       }
     },
     "next.trip.destination" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Destination" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Destinazione" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione"
+          }
+        }
       }
     },
     "next.trip.edit" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit next trip" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Modifica prossimo viaggio" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit next trip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica prossimo viaggio"
+          }
+        }
       }
     },
     "next.trip.name" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Trip name" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nome del viaggio" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trip name"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome del viaggio"
+          }
+        }
       }
     },
     "next.trip.name.placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summer holiday" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Vacanze estive" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Summer holiday"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vacanze estive"
+          }
+        }
       }
     },
     "next.trip.remove" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove next trip" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi prossimo viaggio" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove next trip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi prossimo viaggio"
+          }
+        }
       }
     },
     "next.trip.return.date" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Return date" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Data di ritorno" } }
-      }
-    },
-    "next.trip.search.destination" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search countries" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Cerca paesi" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return date"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data di ritorno"
+          }
+        }
       }
     },
     "next.trip.save" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva"
+          }
+        }
       }
     },
-    "next.trip.title" : {
+    "next.trip.search.destination" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next trip" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Prossimo viaggio" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search countries"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca paesi"
+          }
+        }
       }
     },
     "next.trip.tip.message" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add dates and destination." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Aggiungi date e destinazione." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add dates and destination."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi date e destinazione."
+          }
+        }
       }
     },
     "next.trip.tip.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan a trip" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Pianifica un viaggio" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan a trip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pianifica un viaggio"
+          }
+        }
+      }
+    },
+    "next.trip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next trip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prossimo viaggio"
+          }
+        }
       }
     },
     "onboarding.adapter.info.subtitle" : {
@@ -972,53 +1183,72 @@
         }
       }
     },
-    "saved.countries.add" : {
-      "extractionState" : "manual",
+    "Open %@" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save country" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paese" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri %@"
+          }
+        }
       }
     },
-    "saved.countries.empty.description" : {
-      "extractionState" : "manual",
+    "Open a country’s power information in Voltly." : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save countries to quickly revisit their plug details." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva i paesi per ritrovare rapidamente i dettagli delle loro spine." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a country’s power information in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri le informazioni elettriche di un paese in Voltly."
+          }
+        }
       }
     },
-    "saved.countries.empty.title" : {
-      "extractionState" : "manual",
+    "Open country" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No saved countries" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nessun paese salvato" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri un paese"
+          }
+        }
       }
     },
-    "saved.countries.premium.description" : {
-      "extractionState" : "manual",
+    "Opening %@ in Voltly." : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save unlimited countries and keep your travel plans in one place." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paesi illimitati e tieni i tuoi piani di viaggio in un unico posto." } }
-      }
-    },
-    "saved.countries.premium.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved countries is Premium" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paesi salvati è una funzione Premium" } }
-      }
-    },
-    "saved.countries.remove" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove saved country" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi paese salvato" } }
-      }
-    },
-    "saved.countries.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salvati" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opening %@ in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apro %@ in Voltly."
+          }
+        }
       }
     },
     "pin.diameter" : {
@@ -1053,76 +1283,6 @@
             "value" : "Spazio tra pin"
           }
         }
-      }
-    },
-    "premium.paywall.benefit.next.trip" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next Trip countdown and compatibility" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Conto alla rovescia e compatibilità del prossimo viaggio" } }
-      }
-    },
-    "premium.paywall.benefit.saved.countries" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save all the countries you need" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva tutti i paesi che ti servono" } }
-      }
-    },
-    "premium.paywall.benefit.widgets" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Favorite Country and Next Trip widgets" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Widget Paese preferito e Prossimo viaggio" } }
-      }
-    },
-    "premium.paywall.dismiss" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
-      }
-    },
-    "premium.paywall.error.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Purchase unavailable" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Acquisto non disponibile" } }
-      }
-    },
-    "premium.paywall.message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock every travel tool in Voltly." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca tutti gli strumenti di viaggio di Voltly." } }
-      }
-    },
-    "premium.paywall.purchase" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Premium" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca Premium" } }
-      }
-    },
-    "premium.paywall.purchase.with.price" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Premium for %@" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Sblocca Premium a %@" } }
-      }
-    },
-    "premium.paywall.restore" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Restore purchases" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Ripristina acquisti" } }
-      }
-    },
-    "premium.paywall.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Voltly Premium" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Voltly Premium" } }
       }
     },
     "plug.images" : {
@@ -1812,6 +1972,176 @@
         }
       }
     },
+    "premium.paywall.benefit.next.trip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Trip countdown and compatibility"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conto alla rovescia e compatibilità del prossimo viaggio"
+          }
+        }
+      }
+    },
+    "premium.paywall.benefit.saved.countries" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save all the countries you need"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva tutti i paesi che ti servono"
+          }
+        }
+      }
+    },
+    "premium.paywall.benefit.widgets" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Favorite Country and Next Trip widgets"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget Paese preferito e Prossimo viaggio"
+          }
+        }
+      }
+    },
+    "premium.paywall.dismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "premium.paywall.error.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acquisto non disponibile"
+          }
+        }
+      }
+    },
+    "premium.paywall.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock every travel tool in Voltly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca tutti gli strumenti di viaggio di Voltly."
+          }
+        }
+      }
+    },
+    "premium.paywall.purchase" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Premium"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca Premium"
+          }
+        }
+      }
+    },
+    "premium.paywall.purchase.with.price" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Premium for %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sblocca Premium a %@"
+          }
+        }
+      }
+    },
+    "premium.paywall.restore" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore purchases"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ripristina acquisti"
+          }
+        }
+      }
+    },
+    "premium.paywall.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly Premium"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly Premium"
+          }
+        }
+      }
+    },
     "rated.amperage" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1842,6 +2172,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riprova"
+          }
+        }
+      }
+    },
+    "saved.countries.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva paese"
+          }
+        }
+      }
+    },
+    "saved.countries.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save countries to quickly revisit their plug details."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva i paesi per ritrovare rapidamente i dettagli delle loro spine."
+          }
+        }
+      }
+    },
+    "saved.countries.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No saved countries"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun paese salvato"
+          }
+        }
+      }
+    },
+    "saved.countries.premium.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save unlimited countries and keep your travel plans in one place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva paesi illimitati e tieni i tuoi piani di viaggio in un unico posto."
+          }
+        }
+      }
+    },
+    "saved.countries.premium.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved countries is Premium"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paesi salvati è una funzione Premium"
+          }
+        }
+      }
+    },
+    "saved.countries.remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove saved country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi paese salvato"
+          }
+        }
+      }
+    },
+    "saved.countries.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvati"
           }
         }
       }

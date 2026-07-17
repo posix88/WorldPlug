@@ -28,6 +28,7 @@ struct VoltlyApp: App {
             )
         )
         _premiumEntitlement = State(initialValue: StoreKitPremiumEntitlement())
+        VoltlyAppShortcuts.updateAppShortcutParameters()
     }
 
     var body: some Scene {
@@ -43,9 +44,11 @@ struct VoltlyApp: App {
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         homeCountryViewModel.refreshHomeCountry()
+                        openPendingCountryIfNeeded()
                     }
                 }
                 .onAppear(perform: syncPremiumWidgetAccess)
+                .onAppear(perform: openPendingCountryIfNeeded)
                 .task {
                     await premiumEntitlement.refreshEntitlements()
                 }
@@ -91,5 +94,15 @@ struct VoltlyApp: App {
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
         defaults?.set(premiumEntitlement.isPremium, forKey: AppGroup.premiumAccessKey)
         WidgetCenter.shared.reloadAllTimelines()
+    }
+
+    private func openPendingCountryIfNeeded() {
+        let defaults = UserDefaults(suiteName: AppGroup.identifier)
+        guard let countryCode = defaults?.string(forKey: AppGroup.pendingCountryCodeKey) else {
+            return
+        }
+
+        defaults?.removeObject(forKey: AppGroup.pendingCountryCodeKey)
+        deepLinkedCountryCode = countryCode.uppercased()
     }
 }

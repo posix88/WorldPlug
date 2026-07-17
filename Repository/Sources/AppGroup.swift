@@ -10,4 +10,5 @@ public enum AppGroup {
     public static let nextTripDepartureDateKey = "next.trip.departure.date"
     public static let nextTripReturnDateKey = "next.trip.return.date"
     public static let premiumAccessKey = "premium.access"
+    public static let pendingCountryCodeKey = "pending.country.code"
 }
