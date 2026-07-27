@@ -52,7 +52,7 @@ private struct FavoriteCountryWidgetView: View {
                 FavoriteCountryLockedWidgetView()
             }
         }
-        .widgetURL(entry.isPremium ? WidgetDeepLink.country(entry.country?.code) : nil)
+        .widgetURL(entry.isPremium ? WidgetDeepLink.country(entry.country?.code) : WidgetDeepLink.premium)
     }
 }
 

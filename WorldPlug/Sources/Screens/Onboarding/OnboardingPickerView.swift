@@ -62,6 +62,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.white.opacity(0.45))
                     }
+                    .accessibilityLabel(LocalizationKeys.accessibilitySearchClear.localized(from: .accessibility))
                 }
             }
             .padding(.horizontal, 14)

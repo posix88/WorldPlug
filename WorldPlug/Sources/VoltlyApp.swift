@@ -12,6 +12,7 @@ struct VoltlyApp: App {
     @State private var premiumEntitlement: StoreKitPremiumEntitlement
     private let analyticsTracker: any AnalyticsTracker
     @State private var deepLinkedCountryCode: String?
+    @State private var premiumPaywallSource: PremiumPaywallSource?
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
 
@@ -41,6 +42,9 @@ struct VoltlyApp: App {
                 .environment(\.travelPreferencesStore, travelPreferencesStore)
                 .environment(\.premiumEntitlement, premiumEntitlement)
                 .environment(\.analyticsTracker, analyticsTracker)
+                .sheet(item: $premiumPaywallSource) { source in
+                    PremiumPaywallView(source: source)
+                }
                 .onChange(of: scenePhase) { _, phase in
                     if phase == .active {
                         homeCountryViewModel.refreshHomeCountry()
@@ -60,12 +64,16 @@ struct VoltlyApp: App {
                     syncPremiumWidgetAccess()
                 }
                 .onOpenURL { url in
-                    guard url.scheme == "voltly",
-                          url.host == "country",
-                          let countryCode = url.pathComponents.dropFirst().first else {
+                    guard url.scheme == "voltly" else {
                         return
                     }
-                    deepLinkedCountryCode = countryCode.uppercased()
+
+                    if url.host == "premium" {
+                        premiumPaywallSource = .widget
+                    } else if url.host == "country",
+                              let countryCode = url.pathComponents.dropFirst().first {
+                        deepLinkedCountryCode = countryCode.uppercased()
+                    }
                 }
                 .fullScreenCover(isPresented: onboardingPresentationBinding) {
                     OnboardingView(

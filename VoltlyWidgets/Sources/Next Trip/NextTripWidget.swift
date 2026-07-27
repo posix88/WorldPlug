@@ -55,7 +55,7 @@ private struct NextTripWidgetView: View {
                 NextTripEmptyWidgetView()
             }
         }
-        .widgetURL(isNavigableTrip ? WidgetDeepLink.country(entry.country?.code) : nil)
+        .widgetURL(isNavigableTrip ? WidgetDeepLink.country(entry.country?.code) : WidgetDeepLink.premium)
     }
 
     private var isNavigableTrip: Bool {

@@ -734,6 +734,40 @@
         }
       }
     },
+    "general.close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        }
+      }
+    },
+    "navigation.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indietro"
+          }
+        }
+      }
+    },
     "Name" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2131,6 +2165,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sblocca tutti gli strumenti di viaggio di Voltly."
+          }
+        }
+      }
+    },
+    "premium.paywall.country.save.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save this trip setup in Pro."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva questa configurazione di viaggio con Pro."
           }
         }
       }

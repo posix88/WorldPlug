@@ -10,6 +10,7 @@ struct CountryBrowserRow: View {
     @Environment(\.homeCountryViewModel) private var homeViewModel
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
+    @State private var isPremiumPaywallPresented = false
 
     private var isHomeCountry: Bool {
         country.code == homeViewModel.homeCountryCode
@@ -42,19 +43,11 @@ struct CountryBrowserRow: View {
             .tint(isHomeCountry ? .red : .voltTint)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            if premiumEntitlement.isPremium {
-                Button {
-                    travelPreferencesStore.toggleSavedCountry(code: country.code)
-                } label: {
-                    Image(systemName: isSavedCountry ? "star.slash.fill" : "star.fill")
-                }
-                .accessibilityLabel(
-                    isSavedCountry
-                        ? LocalizationKeys.savedCountriesRemove.localized
-                        : LocalizationKeys.savedCountriesAdd.localized
-                )
-                .tint(.premiumTint)
+            Button(action: handleSavedCountryAction) {
+                savedCountryIcon
             }
+            .accessibilityLabel(savedCountryAccessibilityLabel)
+            .tint(.premiumTint)
         }
         .contextMenu {
             if isHomeCountry {
@@ -71,20 +64,12 @@ struct CountryBrowserRow: View {
                 }
             }
 
-            if premiumEntitlement.isPremium {
-                Button {
-                    travelPreferencesStore.toggleSavedCountry(code: country.code)
-                } label: {
-                    Label(
-                        isSavedCountry
-                            ? LocalizationKeys.savedCountriesRemove.localized
-                            : LocalizationKeys.savedCountriesAdd.localized,
-                        systemImage: isSavedCountry
-                            ? "star.slash.fill"
-                            : "star.fill"
-                    )
-                }
+            Button(action: handleSavedCountryAction) {
+                Label(savedCountryAccessibilityLabel, systemImage: savedCountrySymbolName)
             }
+        }
+        .sheet(isPresented: $isPremiumPaywallPresented) {
+            PremiumPaywallView(source: .countryDetailSave)
         }
     }
 
@@ -94,6 +79,40 @@ struct CountryBrowserRow: View {
         } else {
             homeViewModel.setHome(code: country.code)
         }
+    }
+
+    private var savedCountrySymbolName: String {
+        guard premiumEntitlement.isPremium else { return "star.fill" }
+        return isSavedCountry ? "star.slash.fill" : "star.fill"
+    }
+
+    @ViewBuilder
+    private var savedCountryIcon: some View {
+        Image(systemName: savedCountrySymbolName)
+            .overlay(alignment: .bottomTrailing) {
+                if !premiumEntitlement.isPremium {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 7, weight: .bold))
+                        .foregroundStyle(.white, .premiumTint)
+                }
+            }
+    }
+
+    private var savedCountryAccessibilityLabel: String {
+        guard premiumEntitlement.isPremium else {
+            return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
+        }
+        return isSavedCountry
+            ? LocalizationKeys.savedCountriesRemove.localized
+            : LocalizationKeys.savedCountriesAdd.localized
+    }
+
+    private func handleSavedCountryAction() {
+        guard premiumEntitlement.isPremium else {
+            isPremiumPaywallPresented = true
+            return
+        }
+        travelPreferencesStore.toggleSavedCountry(code: country.code)
     }
 }
 

@@ -12,6 +12,7 @@ struct SavedCountriesView: View {
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.locale) private var locale
+    @Environment(\.requestReview) private var requestReview
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var isTripEditorPresented = false
     @State private var isPremiumPaywallPresented = false
@@ -47,7 +48,11 @@ struct SavedCountriesView: View {
                     trip: travelPreferencesStore.preferences.nextTrip,
                     countries: countries,
                     onSave: { trip in
+                        let isNewTrip = travelPreferencesStore.preferences.nextTrip == nil
                         travelPreferencesStore.setNextTrip(trip)
+                        if isNewTrip {
+                            AppReviewPrompt.requestAfterSuccessfulAction(using: { requestReview() })
+                        }
                     },
                     onDelete: {
                         travelPreferencesStore.setNextTrip(nil)
@@ -55,7 +60,7 @@ struct SavedCountriesView: View {
                 )
             }
             .sheet(isPresented: $isPremiumPaywallPresented) {
-                PremiumPaywallView()
+                PremiumPaywallView(source: .savedCountries)
             }
         }
     }
@@ -224,28 +229,22 @@ private struct SavedCountriesPremiumPreview: View {
     @Environment(\.locale) private var locale
 
     var body: some View {
-        VStack(alignment: .leading, spacing: .sm) {
-            Text(LocalizationKeys.savedCountriesPreviewTitle.localized)
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.textLight)
-
-            ZStack {
-                VStack(spacing: .md) {
-                    previewRow(flag: "🇯🇵", countryCode: "JP")
-                    previewRow(flag: "🇬🇧", countryCode: "GB")
-                }
-                .padding(.lg)
-                .blur(radius: 4)
-
-                Image(systemName: "lock.fill")
-                    .font(.title3)
-                    .foregroundStyle(.textLight)
-                    .padding(.md)
-                    .background(.regularMaterial, in: Circle())
+        ZStack {
+            VStack(spacing: .md) {
+                previewRow(flag: "🇯🇵", countryCode: "JP")
+                previewRow(flag: "🇬🇧", countryCode: "GB")
             }
-            .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-            .accessibilityHidden(true)
+            .padding(.lg)
+            .blur(radius: 4)
+
+            Image(systemName: "lock.fill")
+                .font(.title3)
+                .foregroundStyle(.textLight)
+                .padding(.md)
+                .background(.regularMaterial, in: Circle())
         }
+        .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .accessibilityHidden(true)
     }
 
     private func previewRow(flag: String, countryCode: String) -> some View {

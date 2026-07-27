@@ -19,6 +19,8 @@ struct CountrySummaryCard: View {
             .frame(minHeight: 56)
             .contentShape(Rectangle())
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilitySummary)
     }
 
     private var flag: some View {
@@ -75,6 +77,24 @@ struct CountrySummaryCard: View {
         }
         .frame(width: 116, alignment: .trailing)
         .layoutPriority(2)
+    }
+
+    private var accessibilitySummary: String {
+        var components = [
+            country.localizedName(in: locale),
+            "\(LocalizationKeys.accessibilityVoltage.localized(from: .accessibility)): \(country.voltage)",
+            "\(LocalizationKeys.accessibilityFrequency.localized(from: .accessibility)): \(country.frequency)"
+        ]
+
+        if isHomeCountry {
+            components.append(LocalizationKeys.homeCountryBadge.localized)
+        }
+
+        if let compatibility {
+            components.append(compatibility.title)
+        }
+
+        return components.joined(separator: ", ")
     }
 }
 

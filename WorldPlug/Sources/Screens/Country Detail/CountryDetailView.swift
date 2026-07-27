@@ -17,6 +17,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @State private var selectedPlug: Plug?
     @State private var pendingSelectedPlug: Plug?
     @State private var dismissAfterSheet = false
+    @State private var isPremiumPaywallPresented = false
 
     init(viewModel: ViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -26,7 +27,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         Map(position: mapPositionBinding, interactionModes: [.pan, .zoom]) {
             if let mapFocus = viewModel.mapFocus {
                 Annotation(countryName, coordinate: mapFocus.coordinate, anchor: .center) {
-                    CountryMapFocusPin()
+                    CountryMapFocusPin(countryName: countryName)
                 }
             }
         }
@@ -43,7 +44,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     Image(systemName: "chevron.backward")
                         .imageScale(.medium)
                 }
-                .accessibilityLabel(Text("Back"))
+                .accessibilityLabel(LocalizationKeys.navigationBack.localized)
             }
 
             ToolbarItem(placement: .topBarTrailing) {
@@ -60,24 +61,19 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 )
             }
 
-            if premiumEntitlement.isPremium {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        travelPreferencesStore.toggleSavedCountry(code: viewModel.country.code)
-                    } label: {
-                        Image(
-                            systemName: travelPreferencesStore.isSavedCountry(code: viewModel.country.code)
-                                ? "star.fill"
-                                : "star"
-                        )
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(action: handleSavedCountryAction) {
+                    Image(systemName: savedCountrySymbolName)
                         .imageScale(.medium)
-                    }
-                    .accessibilityLabel(
-                        travelPreferencesStore.isSavedCountry(code: viewModel.country.code)
-                            ? LocalizationKeys.savedCountriesRemove.localized
-                            : LocalizationKeys.savedCountriesAdd.localized
-                    )
+                        .overlay(alignment: .bottomTrailing) {
+                            if !premiumEntitlement.isPremium {
+                                Image(systemName: "lock.fill")
+                                    .font(.system(size: 7, weight: .bold))
+                                    .foregroundStyle(.background, .premiumTint)
+                            }
+                        }
                 }
+                .accessibilityLabel(savedCountryAccessibilityLabel)
             }
         }
         .task(id: viewModel.country.code) {
@@ -116,6 +112,9 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 )
                 .interactiveDismissDisabled()
                 .ignoresSafeArea(edges: .bottom)
+                .sheet(isPresented: $isPremiumPaywallPresented) {
+                    PremiumPaywallView(source: .countryDetailSave)
+                }
         }
     }
 
@@ -128,6 +127,28 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
     private var countryName: String {
         viewModel.country.localizedName(in: locale)
+    }
+
+    private var savedCountrySymbolName: String {
+        guard premiumEntitlement.isPremium else { return "star.fill" }
+        return travelPreferencesStore.isSavedCountry(code: viewModel.country.code) ? "star.fill" : "star"
+    }
+
+    private var savedCountryAccessibilityLabel: String {
+        guard premiumEntitlement.isPremium else {
+            return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
+        }
+        return travelPreferencesStore.isSavedCountry(code: viewModel.country.code)
+            ? LocalizationKeys.savedCountriesRemove.localized
+            : LocalizationKeys.savedCountriesAdd.localized
+    }
+
+    private func handleSavedCountryAction() {
+        guard premiumEntitlement.isPremium else {
+            isPremiumPaywallPresented = true
+            return
+        }
+        travelPreferencesStore.toggleSavedCountry(code: viewModel.country.code)
     }
 
     private var isInfoSheetPresentedBinding: Binding<Bool> {
@@ -431,6 +452,8 @@ private extension PlugCompatibility {
 // MARK: - CountryMapFocusPin
 
 private struct CountryMapFocusPin: View {
+    let countryName: String
+
     var body: some View {
         ZStack {
             Circle()
@@ -452,6 +475,8 @@ private struct CountryMapFocusPin: View {
                 .frame(width: 10, height: 10)
                 .shadow(color: .voltTint.opacity(0.9), radius: 14)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(countryName)
     }
 }
 

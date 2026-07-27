@@ -1,13 +1,36 @@
 import Analytics
 import SwiftUI
 
+enum PremiumPaywallSource: String, Identifiable {
+    case savedCountries = "saved_countries"
+    case countryDetailSave = "country_detail_save"
+    case tripCheck = "trip_check"
+    case widget = "widget"
+
+    var id: String { rawValue }
+
+    var messageKey: String {
+        switch self {
+        case .countryDetailSave:
+            LocalizationKeys.premiumPaywallCountrySaveMessage
+        case .savedCountries, .tripCheck, .widget:
+            LocalizationKeys.premiumPaywallMessage
+        }
+    }
+}
+
 struct PremiumPaywallView: View {
+    let source: PremiumPaywallSource
     @Environment(\.dismiss) private var dismiss
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var isPurchasing = false
     @State private var errorMessage: String?
     @State private var premiumPrice: String?
+
+    init(source: PremiumPaywallSource = .savedCountries) {
+        self.source = source
+    }
 
     var body: some View {
         NavigationStack {
@@ -22,7 +45,7 @@ struct PremiumPaywallView: View {
                         .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.textRegular)
 
-                    Text(LocalizationKeys.premiumPaywallMessage.localized)
+                    Text(source.messageKey.localized)
                         .font(.title3)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.textLight)
@@ -68,6 +91,7 @@ struct PremiumPaywallView: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
+                    .accessibilityLabel(LocalizationKeys.generalClose.localized)
                 }
             }
             .alert(
@@ -85,7 +109,10 @@ struct PremiumPaywallView: View {
             }
             .onAppear {
                 analyticsTracker.screen(.premiumPaywall)
-                analyticsTracker.track(.premiumPaywallPresented)
+                analyticsTracker.track(
+                    .premiumPaywallPresented,
+                    parameters: ["source": .string(source.rawValue)]
+                )
             }
             .task {
                 premiumPrice = try? await premiumEntitlement.premiumProduct()?.displayPrice

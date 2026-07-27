@@ -15,6 +15,7 @@ struct TripCheckView: View {
     @State private var isEditorPresented = false
     @State private var isPremiumPaywallPresented = false
     @State private var selectedTripCheck: TripCheck?
+    @State private var requestsReviewForSelectedTrip = false
     private let tripCheckTip = TripCheckTip()
 
     var body: some View {
@@ -31,6 +32,7 @@ struct TripCheckView: View {
                     } else {
                         ForEach(tripChecks) { tripCheck in
                             Button {
+                                requestsReviewForSelectedTrip = false
                                 selectedTripCheck = tripCheck
                             } label: {
                                 tripCheckRow(tripCheck)
@@ -60,14 +62,19 @@ struct TripCheckView: View {
                 TripCheckEditorView(countries: countries) { tripCheck in
                     travelPreferencesStore.saveTripCheck(tripCheck)
                     analyticsTracker.track(.tripCheckCompleted)
+                    requestsReviewForSelectedTrip = true
                     selectedTripCheck = tripCheck
                 }
             }
             .sheet(isPresented: $isPremiumPaywallPresented) {
-                PremiumPaywallView()
+                PremiumPaywallView(source: .tripCheck)
             }
             .navigationDestination(item: $selectedTripCheck) { tripCheck in
-                TripCheckResultView(tripCheck: tripCheck, countries: countries)
+                TripCheckResultView(
+                    tripCheck: tripCheck,
+                    countries: countries,
+                    requestsReviewAfterAppearance: requestsReviewForSelectedTrip
+                )
                     .toolbarVisibility(.hidden, for: .tabBar)
             }
             .onAppear {

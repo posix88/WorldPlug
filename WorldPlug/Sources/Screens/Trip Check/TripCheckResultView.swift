@@ -6,9 +6,21 @@ struct TripCheckResultView: View {
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.locale) private var locale
+    @Environment(\.requestReview) private var requestReview
     let tripCheck: TripCheck
     let countries: [Country]
+    let requestsReviewAfterAppearance: Bool
     @State private var isDisclaimerPresented = false
+
+    init(
+        tripCheck: TripCheck,
+        countries: [Country],
+        requestsReviewAfterAppearance: Bool = false
+    ) {
+        self.tripCheck = tripCheck
+        self.countries = countries
+        self.requestsReviewAfterAppearance = requestsReviewAfterAppearance
+    }
 
     var body: some View {
         Group {
@@ -49,7 +61,12 @@ struct TripCheckResultView: View {
             }
         }
         .navigationTitle(LocalizationKeys.tripCheckResultTitle.localized)
-        .onAppear { analyticsTracker.track(.deviceSafetyResultViewed) }
+        .onAppear {
+            analyticsTracker.track(.deviceSafetyResultViewed)
+            if requestsReviewAfterAppearance {
+                AppReviewPrompt.requestAfterSuccessfulAction(using: { requestReview() })
+            }
+        }
         .sheet(isPresented: $isDisclaimerPresented) {
             TripCheckDisclaimerView()
         }
