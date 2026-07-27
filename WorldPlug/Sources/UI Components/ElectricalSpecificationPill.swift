@@ -24,3 +24,13 @@ struct ElectricalSpecificationPill: View {
         .accessibilityValue(value)
     }
 }
+
+#Preview {
+    ElectricalSpecificationPill(
+        icon: .boltCircleFill,
+        label: "Voltage",
+        value: "230V",
+        color: .voltTint
+    )
+    .padding()
+}

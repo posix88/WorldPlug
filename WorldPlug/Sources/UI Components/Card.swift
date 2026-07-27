@@ -127,6 +127,16 @@ enum ShadowStyle {
     case custom(color: Color, radius: CGFloat, x: CGFloat, y: CGFloat)
 }
 
+#Preview {
+    Card {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Card title").font(.headline)
+            Text("Reusable surface component preview.").foregroundStyle(.secondary)
+        }
+    }
+    .padding()
+}
+
 /// Extension to apply shadow styles
 extension View {
     @ViewBuilder

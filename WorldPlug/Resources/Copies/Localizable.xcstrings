@@ -14,6 +14,16 @@
         }
       }
     },
+    "%@ · %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
     "%@ (%@)" : {
       "localizations" : {
         "en" : {
@@ -46,7 +56,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Anche conosciuta come"
+            "value" : "Conosciuta anche come"
           }
         }
       }
@@ -202,7 +212,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Legenda compatibilità"
+            "value" : "Guida alla compatibilità"
           }
         }
       }
@@ -219,7 +229,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spine Compatibili"
+            "value" : "Spine compatibili"
           }
         }
       }
@@ -294,7 +304,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cambia filtro compatibilità o ricerca."
+            "value" : "Modifica il filtro di compatibilità o i termini di ricerca."
           }
         }
       }
@@ -413,7 +423,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Panoramica compatibilita"
+            "value" : "Panoramica della compatibilità"
           }
         }
       }
@@ -447,7 +457,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Configurazione elettrica"
+            "value" : "Caratteristiche elettriche"
           }
         }
       }
@@ -481,7 +491,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ricerca del paese sulla mappa"
+            "value" : "Individuazione del Paese sulla mappa"
           }
         }
       }
@@ -498,7 +508,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessuna spina direttamente compatibile. Espandi per vedere adattatori e convertitori necessari."
+            "value" : "Nessuna spina compatibile direttamente. Espandi per scoprire se serve un adattatore o un convertitore."
           }
         }
       }
@@ -634,7 +644,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Casa"
+            "value" : "Origine"
           }
         }
       }
@@ -651,7 +661,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Confronto prese con"
+            "value" : "Confronto con"
           }
         }
       }
@@ -685,7 +695,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi paese di casa"
+            "value" : "Rimuovi Paese di origine"
           }
         }
       }
@@ -702,7 +712,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imposta come paese di casa"
+            "value" : "Imposta come Paese di origine"
           }
         }
       }
@@ -821,7 +831,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modifica prossimo viaggio"
+            "value" : "Modifica il prossimo viaggio"
           }
         }
       }
@@ -872,7 +882,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rimuovi prossimo viaggio"
+            "value" : "Rimuovi il prossimo viaggio"
           }
         }
       }
@@ -991,7 +1001,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scopri esattamente cosa ti serve prima di fare la valigia"
+            "value" : "Scopri cosa portare prima di fare la valigia"
           }
         }
       }
@@ -1127,7 +1137,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Qual è il tuo paese?"
+            "value" : "Da dove parti?"
           }
         }
       }
@@ -1314,7 +1324,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Diametro pin"
+            "value" : "Diametro dei poli"
           }
         }
       }
@@ -1331,7 +1341,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Spazio tra pin"
+            "value" : "Distanza tra i poli"
           }
         }
       }
@@ -1348,7 +1358,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Immagini"
+            "value" : "Immagini tecniche"
           }
         }
       }
@@ -1399,7 +1409,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Condiviso tramite Voltly ⚡"
+            "value" : "Condiviso con Voltly ⚡"
           }
         }
       }
@@ -1416,7 +1426,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifiche\n• Diametro pin: %3$@\n• Distanza pin: %4$@\n• Amperaggio: %5$@\n\nCondiviso tramite Voltly ⚡"
+            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifiche tecniche\n• Diametro dei poli: %3$@\n• Distanza tra i poli: %4$@\n• Corrente nominale: %5$@\n\nCondiviso con Voltly ⚡"
           }
         }
       }
@@ -1433,7 +1443,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Specifiche"
+            "value" : "Specifiche tecniche"
           }
         }
       }
@@ -2029,13 +2039,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Next Trip countdown and compatibility"
+            "value" : "Save unlimited Pack Checks and device safety results"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conto alla rovescia e compatibilità del prossimo viaggio"
+            "value" : "Salva controlli dispositivi illimitati e consulta gli esiti di sicurezza"
           }
         }
       }
@@ -2154,7 +2164,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sblocca Premium a %@"
+            "value" : "Sblocca Premium per %@"
           }
         }
       }
@@ -2171,7 +2181,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ripristina acquisti"
+            "value" : "Ripristina acquisti precedenti"
           }
         }
       }
@@ -2205,7 +2215,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Amperaggio"
+            "value" : "Corrente nominale"
           }
         }
       }
@@ -2290,7 +2300,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva paesi illimitati e tieni i tuoi piani di viaggio in un unico posto."
+            "value" : "Salva un numero illimitato di paesi e tieni i tuoi piani di viaggio in un unico posto."
           }
         }
       }
@@ -2307,7 +2317,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paesi salvati è una funzione Premium"
+            "value" : "I Paesi salvati sono una funzione Premium"
           }
         }
       }
@@ -2376,6 +2386,703 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Prima imposta un paese di origine in Voltly."
+          }
+        }
+      }
+    },
+    "trip.check.action" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica"
+          }
+        }
+      }
+    },
+    "trip.check.add" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add trip check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi controllo"
+          }
+        }
+      }
+    },
+    "trip.check.cancel" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
+          }
+        }
+      }
+    },
+    "trip.check.country" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese"
+          }
+        }
+      }
+    },
+    "trip.check.dates" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Travel dates"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date del viaggio"
+          }
+        }
+      }
+    },
+    "trip.check.departure" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Departure"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partenza"
+          }
+        }
+      }
+    },
+    "trip.check.destination" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione"
+          }
+        }
+      }
+    },
+    "trip.check.device.camera" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotocamera"
+          }
+        }
+      }
+    },
+    "trip.check.device.cpap" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPAP / medical device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CPAP / dispositivo medico"
+          }
+        }
+      }
+    },
+    "trip.check.device.hair.dryer" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hair dryer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Asciugacapelli"
+          }
+        }
+      }
+    },
+    "trip.check.device.hair.styler" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hair styler"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Styler per capelli"
+          }
+        }
+      }
+    },
+    "trip.check.device.laptop" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laptop"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Computer portatile"
+          }
+        }
+      }
+    },
+    "trip.check.device.phone" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Telefono"
+          }
+        }
+      }
+    },
+    "trip.check.device.section" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devices"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.device.shaver" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Electric shaver"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rasoio elettrico"
+          }
+        }
+      }
+    },
+    "trip.check.devices" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "devices"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.disclaimer" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly provides general travel information only. We do not guarantee accuracy or accept responsibility for device damage, injury, or loss. Always check the device label and follow manufacturer instructions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly fornisce solo informazioni generali di viaggio. Non garantiamo l'accuratezza dei dati e non ci assumiamo responsabilità per danni ai dispositivi, lesioni o perdite. Controlla sempre l'etichetta del dispositivo e segui le istruzioni del produttore."
+          }
+        }
+      }
+    },
+    "trip.check.disclaimer.summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read important device-safety information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leggi le informazioni importanti sulla sicurezza dei dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.disclaimer.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safety information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni sulla sicurezza"
+          }
+        }
+      }
+    },
+    "trip.check.empty.description" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your devices before your next trip."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla i tuoi dispositivi prima del prossimo viaggio."
+          }
+        }
+      }
+    },
+    "trip.check.empty.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Pack Checks yet"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun controllo salvato"
+          }
+        }
+      }
+    },
+    "trip.check.introduction" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a destination and the devices in your bag. Voltly checks plug and voltage risks before you fly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli una destinazione e i dispositivi nel tuo bagaglio. Voltly verifica i rischi di spina e tensione prima della partenza."
+          }
+        }
+      }
+    },
+    "trip.check.message.adapter" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring an adapter. Check the plug shape before packing."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta un adattatore. Controlla la forma della spina prima di fare la valigia."
+          }
+        }
+      }
+    },
+    "trip.check.message.dual.voltage" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bring an adapter. Confirm the device label says it accepts %@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta un adattatore. Verifica che l'etichetta del dispositivo indichi la compatibilità con %@."
+          }
+        }
+      }
+    },
+    "trip.check.message.ready" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltage and plug type match your home country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tensione e tipo di spina corrispondono al tuo paese di origine."
+          }
+        }
+      }
+    },
+    "trip.check.message.set.home" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your home country to check voltage and plug compatibility."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta il tuo paese di origine per verificare la compatibilità di tensione e spine."
+          }
+        }
+      }
+    },
+    "trip.check.message.unsafe" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High-power heat tools can be damaged by %@. Use a destination-rated model or a suitable converter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli apparecchi ad alta potenza possono danneggiarsi con %@. Usa un modello adatto alla destinazione o un convertitore idoneo."
+          }
+        }
+      }
+    },
+    "trip.check.new.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Pack Check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuovo controllo"
+          }
+        }
+      }
+    },
+    "trip.check.result.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trip result"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esito del controllo"
+          }
+        }
+      }
+    },
+    "trip.check.return" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Return"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ritorno"
+          }
+        }
+      }
+    },
+    "trip.check.safety.section" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device safety"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sicurezza dei dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.status.adapter" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter needed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adattatore necessario"
+          }
+        }
+      }
+    },
+    "trip.check.status.check.label" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check device label"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla l'etichetta del dispositivo"
+          }
+        }
+      }
+    },
+    "trip.check.status.ready" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to use"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto all'uso"
+          }
+        }
+      }
+    },
+    "trip.check.status.unsafe" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do not use without a converter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non usare senza convertitore"
+          }
+        }
+      }
+    },
+    "trip.check.tab.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pack Check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pack Check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.unavailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione non disponibile"
+          }
+        }
+      }
+    },
+    "trip.check.unlimited" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly Pro saves unlimited Pack Checks"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voltly Pro ti permette di salvare controlli illimitati"
+          }
+        }
+      }
+    },
+    "trip.check.unlock" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save unlimited Pack Checks"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva controlli illimitati"
+          }
+        }
+      }
+    },
+    "trip.check.your.trips" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Pack Checks"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi controlli"
           }
         }
       }

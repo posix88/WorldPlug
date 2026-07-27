@@ -20,7 +20,8 @@ struct OnboardingView<ViewModel: OnboardingViewModelType>: View {
 
     var body: some View {
         ZStack {
-            OnboardingBackground().ignoresSafeArea()
+            OnboardingBackground()
+                .ignoresSafeArea()
 
             TabView(selection: $page) {
                 OnboardingWelcomeView {

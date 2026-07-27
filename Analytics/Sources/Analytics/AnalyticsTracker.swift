@@ -98,6 +98,10 @@ public enum AnalyticsEvent: String, Sendable {
     case premiumRestoreCompleted = "premium_restore_completed"
     case favoriteWidgetCountrySelected = "favorite_widget_country_selected"
     case favoriteWidgetCountryCleared = "favorite_widget_country_cleared"
+    case tripCheckStarted = "trip_check_started"
+    case tripCheckCompleted = "trip_check_completed"
+    case tripCheckLimitReached = "trip_check_limit_reached"
+    case deviceSafetyResultViewed = "device_safety_result_viewed"
 }
 
 public enum AnalyticsValue: Sendable, Equatable {

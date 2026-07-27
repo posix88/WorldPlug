@@ -100,24 +100,34 @@ struct SavedCountriesView: View {
             .padding(.horizontal, .xxl)
             .padding(.vertical, .md)
         }
+        .scrollBounceBehavior(.basedOnSize)
         .navigationDestination(item: $selectedCountry) { country in
             CountryDetailView(country: country)
         }
     }
 
     private var lockedContent: some View {
-        ContentUnavailableView {
-            Label(LocalizationKeys.savedCountriesPremiumTitle.localized, systemImage: "lock.fill")
-        } description: {
-            Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
-        } actions: {
-            Button(LocalizationKeys.premiumPaywallPurchase.localized) {
-                isPremiumPaywallPresented = true
+        ScrollView {
+            VStack(spacing: .xl) {
+                ContentUnavailableView {
+                    Label(LocalizationKeys.savedCountriesPremiumTitle.localized, systemImage: "lock.fill")
+                } description: {
+                    Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
+                }
+
+                SavedCountriesPremiumPreview()
+
+                Button(LocalizationKeys.premiumPaywallPurchase.localized) {
+                    isPremiumPaywallPresented = true
+                }
+                .buttonStyle(.glassProminent)
+                .tint(.premiumTint)
+                .controlSize(.regular)
             }
-            .buttonStyle(.glassProminent)
-            .tint(.premiumTint)
-            .controlSize(.regular)
+            .padding(.horizontal, .xxl)
+            .padding(.top, .special)
         }
+        .scrollBounceBehavior(.basedOnSize)
     }
 
     private var savedCountries: [Country] {
@@ -207,6 +217,50 @@ struct SavedCountriesView: View {
         }
 
         return "\(country.flagUnicode) \(country.localizedName(in: locale))"
+    }
+}
+
+private struct SavedCountriesPremiumPreview: View {
+    @Environment(\.locale) private var locale
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .sm) {
+            Text(LocalizationKeys.savedCountriesPreviewTitle.localized)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.textLight)
+
+            ZStack {
+                VStack(spacing: .md) {
+                    previewRow(flag: "🇯🇵", countryCode: "JP")
+                    previewRow(flag: "🇬🇧", countryCode: "GB")
+                }
+                .padding(.lg)
+                .blur(radius: 4)
+
+                Image(systemName: "lock.fill")
+                    .font(.title3)
+                    .foregroundStyle(.textLight)
+                    .padding(.md)
+                    .background(.regularMaterial, in: Circle())
+            }
+            .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+            .accessibilityHidden(true)
+        }
+    }
+
+    private func previewRow(flag: String, countryCode: String) -> some View {
+        HStack(spacing: .md) {
+            Text(flag)
+                .font(.title2)
+
+            Text(locale.localizedString(forRegionCode: countryCode) ?? countryCode)
+                .font(.body.weight(.semibold))
+
+            Spacer()
+
+            Image(systemName: "star.fill")
+                .foregroundStyle(.premiumTint)
+        }
     }
 }
 

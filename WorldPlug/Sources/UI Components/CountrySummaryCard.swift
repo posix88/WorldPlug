@@ -95,3 +95,15 @@ private struct CompatibilityStatusIndicator: View {
         .accessibilityLabel(summary.title)
     }
 }
+
+#if DEBUG
+#Preview {
+    CountrySummaryCard(
+        country: Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵"),
+        compatibility: .adapterNeeded,
+        isHomeCountry: false
+    )
+    .padding()
+    .background { AppMeshBackground() }
+}
+#endif

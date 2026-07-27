@@ -2,9 +2,9 @@ import Analytics
 import Repository
 import SwiftUI
 
-// MARK: - NextTripDestinationPickerView
+// MARK: - CountryDestinationPickerView
 
-struct NextTripDestinationPickerView: View {
+struct CountryDestinationPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.locale) private var locale
     @Environment(\.analyticsTracker) private var analyticsTracker
@@ -58,3 +58,18 @@ struct NextTripDestinationPickerView: View {
             .sortedByLocalizedName(in: locale)
     }
 }
+
+#if DEBUG
+#Preview {
+    NavigationStack {
+        CountryDestinationPickerView(
+            selectedCountryCode: .constant("JP"),
+            countries: [
+                Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹"),
+                Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
+            ]
+        )
+    }
+    .environment(\.analyticsTracker, NoopAnalyticsTracker())
+}
+#endif

@@ -41,7 +41,7 @@ struct NextTripEditorView: View {
             Form {
                 Section(LocalizationKeys.nextTripDestination.localized) {
                     NavigationLink {
-                        NextTripDestinationPickerView(
+                        CountryDestinationPickerView(
                             selectedCountryCode: $trip.countryCode,
                             countries: countries
                         )
@@ -132,3 +132,18 @@ struct NextTripEditorView: View {
         return name.isEmpty ? nil : name
     }
 }
+
+#if DEBUG
+#Preview {
+    NextTripEditorView(
+        trip: NextTrip(countryCode: "JP", departureDate: .now, returnDate: .now, name: "Tokyo"),
+        countries: [
+            Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹"),
+            Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
+        ],
+        onSave: { _ in },
+        onDelete: {}
+    )
+    .environment(\.analyticsTracker, NoopAnalyticsTracker())
+}
+#endif

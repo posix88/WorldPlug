@@ -16,6 +16,8 @@ protocol TravelPreferencesStoring: AnyObject {
     func toggleSavedCountry(code: String)
     func isSavedCountry(code: String) -> Bool
     func setNextTrip(_ trip: NextTrip?)
+    func saveTripCheck(_ tripCheck: TripCheck)
+    func removeTripCheck(id: UUID)
     func setFavoriteWidgetCountry(code: String?)
 }
 
@@ -106,6 +108,22 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         }
     }
 
+    func saveTripCheck(_ tripCheck: TripCheck) {
+        var updatedPreferences = preferences
+        if let index = updatedPreferences.tripChecks.firstIndex(where: { $0.id == tripCheck.id }) {
+            updatedPreferences.tripChecks[index] = tripCheck
+        } else {
+            updatedPreferences.tripChecks.append(tripCheck)
+        }
+        preferences = updatedPreferences
+    }
+
+    func removeTripCheck(id: UUID) {
+        var updatedPreferences = preferences
+        updatedPreferences.tripChecks.removeAll { $0.id == id }
+        preferences = updatedPreferences
+    }
+
     func setFavoriteWidgetCountry(code: String?) {
         let countryCode = code.map(Self.normalizedCountryCode)
         guard let countryCode else {
@@ -190,6 +208,8 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
     @MainActor func toggleSavedCountry(code: String) {}
     @MainActor func isSavedCountry(code: String) -> Bool { false }
     @MainActor func setNextTrip(_ trip: NextTrip?) {}
+    @MainActor func saveTripCheck(_ tripCheck: TripCheck) {}
+    @MainActor func removeTripCheck(id: UUID) {}
     @MainActor func setFavoriteWidgetCountry(code: String?) {}
 }
 
@@ -220,6 +240,18 @@ final class PreviewTravelPreferencesStore: TravelPreferencesStoring {
 
     func setNextTrip(_ trip: NextTrip?) {
         preferences.nextTrip = trip
+    }
+
+    func saveTripCheck(_ tripCheck: TripCheck) {
+        if let index = preferences.tripChecks.firstIndex(where: { $0.id == tripCheck.id }) {
+            preferences.tripChecks[index] = tripCheck
+        } else {
+            preferences.tripChecks.append(tripCheck)
+        }
+    }
+
+    func removeTripCheck(id: UUID) {
+        preferences.tripChecks.removeAll { $0.id == id }
     }
 
     func setFavoriteWidgetCountry(code: String?) {

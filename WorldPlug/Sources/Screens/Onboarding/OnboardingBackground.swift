@@ -19,3 +19,7 @@ struct OnboardingBackground: View {
         )
     }
 }
+
+#Preview {
+    OnboardingBackground()
+}

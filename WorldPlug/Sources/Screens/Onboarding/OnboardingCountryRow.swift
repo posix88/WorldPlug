@@ -46,3 +46,17 @@ struct OnboardingCountryRow: View {
         .buttonStyle(.plain)
     }
 }
+
+#if DEBUG
+#Preview {
+    ZStack {
+        OnboardingBackground().ignoresSafeArea()
+        OnboardingCountryRow(
+            country: Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹"),
+            isSelected: true,
+            onTap: {}
+        )
+        .padding()
+    }
+}
+#endif

@@ -68,6 +68,7 @@ enum LocalizationKeys {
     static let savedCountriesPremiumDescription = "saved.countries.premium.description"
     static let savedCountriesAdd = "saved.countries.add"
     static let savedCountriesRemove = "saved.countries.remove"
+    static let savedCountriesPreviewTitle = "saved.countries.preview.title"
 
     // MARK: - Premium Paywall
 
@@ -81,6 +82,50 @@ enum LocalizationKeys {
     static let premiumPaywallBenefitWidgets = "premium.paywall.benefit.widgets"
     static let premiumPaywallErrorTitle = "premium.paywall.error.title"
     static let premiumPaywallDismiss = "premium.paywall.dismiss"
+
+    // MARK: - Trip Check
+
+    static let tripCheckTitle = "trip.check.title"
+    static let tripCheckTabTitle = "trip.check.tab.title"
+    static let tripCheckIntroduction = "trip.check.introduction"
+    static let tripCheckEmptyTitle = "trip.check.empty.title"
+    static let tripCheckEmptyDescription = "trip.check.empty.description"
+    static let tripCheckYourTrips = "trip.check.your.trips"
+    static let tripCheckUnlimited = "trip.check.unlimited"
+    static let tripCheckUnlock = "trip.check.unlock"
+    static let tripCheckAdd = "trip.check.add"
+    static let tripCheckDevices = "trip.check.devices"
+    static let tripCheckNewTitle = "trip.check.new.title"
+    static let tripCheckDestination = "trip.check.destination"
+    static let tripCheckCountry = "trip.check.country"
+    static let tripCheckDates = "trip.check.dates"
+    static let tripCheckDeparture = "trip.check.departure"
+    static let tripCheckReturn = "trip.check.return"
+    static let tripCheckDeviceSection = "trip.check.device.section"
+    static let tripCheckCancel = "trip.check.cancel"
+    static let tripCheckAction = "trip.check.action"
+    static let tripCheckResultTitle = "trip.check.result.title"
+    static let tripCheckSafetySection = "trip.check.safety.section"
+    static let tripCheckUnavailable = "trip.check.unavailable"
+    static let tripCheckDisclaimer = "trip.check.disclaimer"
+    static let tripCheckDisclaimerTitle = "trip.check.disclaimer.title"
+    static let tripCheckDisclaimerSummary = "trip.check.disclaimer.summary"
+    static let tripCheckDevicePhone = "trip.check.device.phone"
+    static let tripCheckDeviceLaptop = "trip.check.device.laptop"
+    static let tripCheckDeviceCamera = "trip.check.device.camera"
+    static let tripCheckDeviceShaver = "trip.check.device.shaver"
+    static let tripCheckDeviceHairDryer = "trip.check.device.hair.dryer"
+    static let tripCheckDeviceHairStyler = "trip.check.device.hair.styler"
+    static let tripCheckDeviceCPAP = "trip.check.device.cpap"
+    static let tripCheckStatusReady = "trip.check.status.ready"
+    static let tripCheckStatusAdapter = "trip.check.status.adapter"
+    static let tripCheckStatusCheckLabel = "trip.check.status.check.label"
+    static let tripCheckStatusUnsafe = "trip.check.status.unsafe"
+    static let tripCheckMessageSetHome = "trip.check.message.set.home"
+    static let tripCheckMessageReady = "trip.check.message.ready"
+    static let tripCheckMessageDualVoltage = "trip.check.message.dual.voltage"
+    static let tripCheckMessageAdapter = "trip.check.message.adapter"
+    static let tripCheckMessageUnsafe = "trip.check.message.unsafe"
 
     // MARK: - Next Trip
 

@@ -1,3 +1,5 @@
+import Analytics
+import Repository
 import SwiftData
 import SwiftUI
 
@@ -19,11 +21,17 @@ struct RootTabView: View {
                 }
                 .tag(0)
 
+            TripCheckView()
+                .tabItem {
+                    Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
+                }
+                .tag(1)
+
             SavedCountriesView()
                 .tabItem {
                     Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
                 }
-                .tag(1)
+                .tag(2)
         }
         .onChange(of: deepLinkedCountryCode) { _, countryCode in
             if countryCode != nil {
@@ -33,3 +41,17 @@ struct RootTabView: View {
         .tint(.voltTint)
     }
 }
+
+#if DEBUG
+#Preview {
+    RootTabView(
+        modelContext: Repository.sharedModelContainer.mainContext,
+        deepLinkedCountryCode: .constant(nil)
+    )
+    .modelContainer(Repository.sharedModelContainer)
+    .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel())
+    .environment(\.travelPreferencesStore, PreviewTravelPreferencesStore())
+    .environment(\.premiumEntitlement, PreviewPremiumEntitlement(isPremium: true))
+    .environment(\.analyticsTracker, NoopAnalyticsTracker())
+}
+#endif

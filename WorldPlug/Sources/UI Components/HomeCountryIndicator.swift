@@ -10,3 +10,8 @@ struct HomeCountryIndicator: View {
             .accessibilityLabel(LocalizationKeys.homeCountryBadge.localized)
     }
 }
+
+#Preview {
+    HomeCountryIndicator()
+        .padding()
+}

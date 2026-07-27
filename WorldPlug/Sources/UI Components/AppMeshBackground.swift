@@ -28,3 +28,12 @@ struct AppMeshBackground: View {
         .ignoresSafeArea()
     }
 }
+
+#Preview("Light") {
+    AppMeshBackground()
+}
+
+#Preview("Dark") {
+    AppMeshBackground()
+        .preferredColorScheme(.dark)
+}
