@@ -39,9 +39,9 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             .safeAreaBar(edge: .top, spacing: 0) {
                 compatibilityHeader(using: compatibilitySummaries)
             }
-            .scrollEdgeEffectStyle(.soft, for: .top)
             .searchable(
                 text: $searchQuery,
+                placement: .navigationBarDrawer(displayMode: .always),
                 prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
             )
             .onChange(of: searchQuery) { oldValue, newValue in
