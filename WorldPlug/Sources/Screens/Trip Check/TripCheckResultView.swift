@@ -42,16 +42,19 @@ struct TripCheckResultView: View {
                         )) { result in
                             Label {
                                 VStack(alignment: .leading, spacing: 3) {
-                                    Text(result.device.title).fontWeight(.semibold)
+                                    Text(result.device.name).fontWeight(.semibold)
                                     Text(result.status.title).foregroundStyle(statusColor(result.status))
                                     Text(result.message).font(.caption).foregroundStyle(.secondary)
                                 }
                             } icon: {
-                                Image(systemName: result.status.symbolName).foregroundStyle(statusColor(result.status))
+                                Image(systemName: result.device.symbolName)
+                                    .foregroundStyle(statusColor(result.status))
                             }
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background { Color.backgroundSurface.ignoresSafeArea() }
                 .safeAreaInset(edge: .bottom, spacing: 0) {
                     disclaimerButton
                 }
@@ -74,10 +77,10 @@ struct TripCheckResultView: View {
 
     private func statusColor(_ status: DeviceSafetyStatus) -> Color {
         switch status {
-        case .ready: .green
-        case .adapterNeeded: .blue
-        case .checkLabel: .orange
-        case .unsafe: .red
+        case .ready: .statusReady
+        case .adapterNeeded: .statusAdapter
+        case .checkLabel: .statusCheck
+        case .unsafe: .statusUnsafe
         }
     }
 
@@ -89,7 +92,7 @@ struct TripCheckResultView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(LocalizationKeys.tripCheckDisclaimerTitle.localized)
                         .font(.caption.weight(.semibold))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(.statusCheck)
 
                     Text(LocalizationKeys.tripCheckDisclaimerSummary.localized)
                         .font(.caption2)
@@ -110,7 +113,7 @@ struct TripCheckResultView: View {
         .background(.regularMaterial)
         .overlay(alignment: .top) {
             Rectangle()
-                .fill(.orange.opacity(0.25))
+                .fill(.statusCheck.opacity(0.25))
                 .frame(height: 1)
         }
     }
@@ -153,7 +156,13 @@ private struct TripCheckDisclaimerView: View {
     let destination = Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
     return NavigationStack {
         TripCheckResultView(
-            tripCheck: TripCheck(countryCode: "JP", devices: [.phone, .laptop, .hairDryer]),
+            tripCheck: TripCheck(
+                countryCode: "JP",
+                devices: [
+                    PackDevice(name: "MacBook charger", symbolName: "laptopcomputer", voltage: "100-240V", frequency: "50/60Hz"),
+                    PackDevice(name: "Hair dryer", symbolName: "wind", voltage: "220-240V", frequency: "50Hz")
+                ]
+            ),
             countries: [destination]
         )
     }

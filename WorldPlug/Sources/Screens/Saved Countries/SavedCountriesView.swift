@@ -186,7 +186,7 @@ struct SavedCountriesView: View {
         } label: {
             HStack(spacing: .md) {
                 Image(systemName: "rectangle.on.rectangle")
-                    .foregroundStyle(.yellow)
+                    .foregroundStyle(.premiumTint)
 
                 VStack(alignment: .leading, spacing: .xxs) {
                     Text(LocalizationKeys.favoriteWidgetTitle.localized)

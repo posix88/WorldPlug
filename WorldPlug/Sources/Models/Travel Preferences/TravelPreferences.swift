@@ -51,7 +51,7 @@ struct TripCheck: Codable, Equatable, Hashable, Identifiable, Sendable {
     var departureDate: Date
     var returnDate: Date
     var name: String?
-    var devices: [TravelDevice]
+    var devices: [PackDevice]
 
     init(
         id: UUID = UUID(),
@@ -59,7 +59,7 @@ struct TripCheck: Codable, Equatable, Hashable, Identifiable, Sendable {
         departureDate: Date = .now,
         returnDate: Date = .now,
         name: String? = nil,
-        devices: [TravelDevice] = []
+        devices: [PackDevice] = []
     ) {
         self.id = id
         self.countryCode = countryCode
@@ -67,6 +67,52 @@ struct TripCheck: Codable, Equatable, Hashable, Identifiable, Sendable {
         self.returnDate = returnDate
         self.name = name
         self.devices = devices
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, countryCode, departureDate, returnDate, name, devices
+    }
+
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        countryCode = try container.decodeIfPresent(String.self, forKey: .countryCode) ?? ""
+        departureDate = try container.decodeIfPresent(Date.self, forKey: .departureDate) ?? .now
+        returnDate = try container.decodeIfPresent(Date.self, forKey: .returnDate) ?? departureDate
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+
+        if let savedDevices = try? container.decode([PackDevice].self, forKey: .devices) {
+            devices = savedDevices
+        } else {
+            let legacyDevices = try container.decodeIfPresent([TravelDevice].self, forKey: .devices) ?? []
+            devices = legacyDevices.map(PackDevice.init(legacyDevice:))
+        }
+    }
+}
+
+struct PackDevice: Codable, Equatable, Hashable, Identifiable, Sendable {
+    let id: UUID
+    var name: String
+    var symbolName: String
+    var voltage: String
+    var frequency: String
+
+    init(
+        id: UUID = UUID(),
+        name: String,
+        symbolName: String = "powerplug.fill",
+        voltage: String,
+        frequency: String = ""
+    ) {
+        self.id = id
+        self.name = name
+        self.symbolName = symbolName
+        self.voltage = voltage
+        self.frequency = frequency
+    }
+
+    init(legacyDevice: TravelDevice) {
+        self.init(name: legacyDevice.title, symbolName: legacyDevice.symbolName, voltage: "")
     }
 }
 
@@ -105,14 +151,6 @@ enum TravelDevice: String, Codable, CaseIterable, Identifiable, Hashable, Sendab
         }
     }
 
-    /// Most modern chargers have a wide input range. High-wattage heat tools should never
-    /// be treated as safe across a voltage change without reading their own label.
-    var isUsuallyDualVoltage: Bool {
-        switch self {
-        case .phone, .laptop, .camera, .electricShaver, .cpap: true
-        case .hairDryer, .hairStyler: false
-        }
-    }
 }
 
 // MARK: - NextTrip

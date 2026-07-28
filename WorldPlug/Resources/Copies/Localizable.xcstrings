@@ -2489,6 +2489,23 @@
         }
       }
     },
+    "trip.check.remove.device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi dispositivo"
+          }
+        }
+      }
+    },
     "trip.check.cancel" : {
       "extractionState" : "stale",
       "localizations" : {

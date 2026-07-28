@@ -17,22 +17,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PDG-pi-BNy">
-                                <rect key="frame" x="171.66666666666666" y="417" width="50" height="43.666666666666686"/>
-                                <color key="tintColor" name="Text_Regular"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VmK-15-zft">
+                                <rect key="frame" x="130.5" y="360.5" width="132" height="132"/>
+                                <color key="tintColor" name="Volt_Tint"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="HEG-6z-siH"/>
-                                    <constraint firstAttribute="height" constant="50" id="Pmx-YG-FII"/>
+                                    <constraint firstAttribute="width" constant="132" id="ECt-Ad-k9K"/>
+                                    <constraint firstAttribute="height" constant="132" id="0G7-DA-i2m"/>
                                 </constraints>
-                                <imageReference key="image" image="poweroutlet.type.b.fill" catalog="system" symbolScale="small" renderingMode="template" variableValue="1"/>
-                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="light"/>
+                                <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large" renderingMode="template" variableValue="1"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PDG-pi-BNy">
+                                <rect key="frame" x="165.5" y="395.5" width="62" height="62"/>
+                                <color key="tintColor" name="Background_Surface"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="62" id="HEG-6z-siH"/>
+                                    <constraint firstAttribute="height" constant="62" id="Pmx-YG-FII"/>
+                                </constraints>
+                                <imageReference key="image" image="poweroutlet.type.c.fill" catalog="system" symbolScale="medium" renderingMode="template" variableValue="1"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" weight="regular"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="Background"/>
+                        <color key="backgroundColor" name="Background_Surface"/>
                         <constraints>
-                            <constraint firstItem="PDG-pi-BNy" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="KtB-ZW-bgl"/>
+                            <constraint firstItem="VmK-15-zft" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="KtB-ZW-bgl"/>
+                            <constraint firstItem="PDG-pi-BNy" firstAttribute="centerY" secondItem="VmK-15-zft" secondAttribute="centerY" id="sPZ-r3-9bX"/>
                             <constraint firstItem="PDG-pi-BNy" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="w6f-JT-SMc"/>
+                            <constraint firstItem="VmK-15-zft" firstAttribute="centerX" secondItem="PDG-pi-BNy" secondAttribute="centerX" id="GK4-7c-ZOn"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -42,12 +53,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="poweroutlet.type.b.fill" catalog="system" width="128" height="110"/>
-        <namedColor name="Background">
-            <color red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <image name="circle.fill" catalog="system" width="128" height="121"/>
+        <image name="poweroutlet.type.c.fill" catalog="system" width="128" height="110"/>
+        <namedColor name="Background_Surface">
+            <color red="0.93333333333333335" green="0.91764705882352937" blue="0.97254901960784312" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="Text_Regular">
-            <color red="0.14901960784313725" green="0.13725490196078433" blue="0.14509803921568629" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="Volt_Tint">
+            <color red="0.62745098039215685" green="0.35686274509803922" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

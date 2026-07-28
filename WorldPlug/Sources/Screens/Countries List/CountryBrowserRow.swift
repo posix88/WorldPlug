@@ -40,7 +40,7 @@ struct CountryBrowserRow: View {
                     ? LocalizationKeys.homeCountryRemove.localized
                     : LocalizationKeys.homeCountrySet.localized
             )
-            .tint(isHomeCountry ? .red : .voltTint)
+            .tint(isHomeCountry ? .statusUnsafe : .voltTint)
         }
         .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button(action: handleSavedCountryAction) {

@@ -379,9 +379,9 @@ enum CountryCompatibilityFilter: CaseIterable, Identifiable {
     var color: Color {
         switch self {
         case .all: .buttonInfoTint
-        case .compatible: .green
-        case .adapterNeeded: .orange
-        case .converterRequired: .red
+        case .compatible: .statusReady
+        case .adapterNeeded: .statusCheck
+        case .converterRequired: .statusUnsafe
         }
     }
 

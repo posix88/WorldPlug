@@ -442,9 +442,9 @@ private extension PlugCompatibility {
 
     var color: Color {
         switch self {
-        case .compatible: .green
-        case .adapterNeeded: .orange
-        case .converterRequired: .red
+        case .compatible: .statusReady
+        case .adapterNeeded: .statusCheck
+        case .converterRequired: .statusUnsafe
         }
     }
 }

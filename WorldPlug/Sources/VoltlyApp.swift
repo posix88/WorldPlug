@@ -13,6 +13,7 @@ struct VoltlyApp: App {
     private let analyticsTracker: any AnalyticsTracker
     @State private var deepLinkedCountryCode: String?
     @State private var premiumPaywallSource: PremiumPaywallSource?
+    @State private var isLaunchExperiencePresented = true
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @Environment(\.scenePhase) private var scenePhase
 
@@ -34,10 +35,11 @@ struct VoltlyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootTabView(
-                modelContext: Repository.sharedModelContainer.mainContext,
-                deepLinkedCountryCode: $deepLinkedCountryCode
-            )
+            ZStack {
+                RootTabView(
+                    modelContext: Repository.sharedModelContainer.mainContext,
+                    deepLinkedCountryCode: $deepLinkedCountryCode
+                )
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .environment(\.travelPreferencesStore, travelPreferencesStore)
                 .environment(\.premiumEntitlement, premiumEntitlement)
@@ -87,6 +89,14 @@ struct VoltlyApp: App {
                     .environment(\.premiumEntitlement, premiumEntitlement)
                     .environment(\.analyticsTracker, analyticsTracker)
                 }
+
+                if isLaunchExperiencePresented {
+                    LaunchExperienceView {
+                        isLaunchExperiencePresented = false
+                    }
+                    .transition(.opacity)
+                }
+            }
         }
         .modelContainer(Repository.sharedModelContainer)
     }

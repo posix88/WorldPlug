@@ -21,15 +21,18 @@ struct TripCheckView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section(LocalizationKeys.tripCheckYourTrips.localized) {
-                    if tripChecks.isEmpty {
-                        ContentUnavailableView(
-                            LocalizationKeys.tripCheckEmptyTitle.localized,
-                            systemImage: "suitcase.rolling",
-                            description: Text(LocalizationKeys.tripCheckEmptyDescription.localized)
-                        )
-                        .transition(.opacity.combined(with: .scale(scale: 0.96)))
-                    } else {
+                if tripChecks.isEmpty {
+                    ContentUnavailableView(
+                        LocalizationKeys.tripCheckEmptyTitle.localized,
+                        systemImage: "suitcase.rolling",
+                        description: Text(LocalizationKeys.tripCheckEmptyDescription.localized)
+                    )
+                    .padding(.top, .special)
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
+                } else {
+                    Section(LocalizationKeys.tripCheckYourTrips.localized) {
                         ForEach(tripChecks) { tripCheck in
                             Button {
                                 requestsReviewForSelectedTrip = false
@@ -43,9 +46,10 @@ struct TripCheckView: View {
                         .transition(.opacity.combined(with: .move(edge: .bottom)))
                     }
                 }
-                .animation(reduceMotion ? nil : .snappy, value: tripChecks.isEmpty)
-
             }
+            .animation(reduceMotion ? nil : .snappy, value: tripChecks.isEmpty)
+            .scrollContentBackground(.hidden)
+            .background { AppMeshBackground() }
             .scrollBounceBehavior(.basedOnSize)
             .navigationTitle(LocalizationKeys.tripCheckTitle.localized)
             .toolbar {
@@ -120,7 +124,7 @@ struct TripCheckView: View {
                         .font(.body.weight(.semibold))
 
                     HStack(spacing: -4) {
-                        ForEach(Array(tripCheck.devices.prefix(4)), id: \.self) { device in
+                        ForEach(Array(tripCheck.devices.prefix(4))) { device in
                             Image(systemName: device.symbolName)
                                 .font(.caption2.weight(.semibold))
                                 .foregroundStyle(.tint)
@@ -181,7 +185,12 @@ private struct TripCheckTip: Tip {
             \.travelPreferencesStore,
             PreviewTravelPreferencesStore(
                 preferences: TravelPreferences(
-                    tripChecks: [TripCheck(countryCode: "JP", devices: [.phone, .laptop])]
+                    tripChecks: [
+                        TripCheck(
+                            countryCode: "JP",
+                            devices: [PackDevice(name: "Phone charger", symbolName: "iphone", voltage: "100-240V", frequency: "50/60Hz")]
+                        )
+                    ]
                 )
             )
         )

@@ -1,3 +1,4 @@
+import Foundation
 import Repository
 
 enum DeviceSafetyStatus: CaseIterable {
@@ -26,16 +27,16 @@ enum DeviceSafetyStatus: CaseIterable {
 }
 
 struct DeviceSafetyAssessment: Identifiable {
-    let device: TravelDevice
+    let device: PackDevice
     let status: DeviceSafetyStatus
     let message: String
 
-    var id: TravelDevice { device }
+    var id: UUID { device.id }
 }
 
 enum TripSafetyChecker {
     static func assessments(
-        devices: [TravelDevice],
+        devices: [PackDevice],
         homeCountry: Country?,
         destination: Country
     ) -> [DeviceSafetyAssessment] {
@@ -43,22 +44,36 @@ enum TripSafetyChecker {
     }
 
     private static func assessment(
-        for device: TravelDevice,
+        for device: PackDevice,
         homeCountry: Country?,
         destination: Country
     ) -> DeviceSafetyAssessment {
-        guard let homeCountry else {
+        guard !device.voltage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .checkLabel,
-                message: LocalizationKeys.tripCheckMessageSetHome.localized
+                message: LocalizationKeys.tripCheckMessageMissingVoltage.localized
             )
         }
 
-        let sameVoltage = VoltageCompatibility.isCompatible(homeCountry.voltage, destination.voltage)
-        let plugMatches = !Set(homeCountry.plugs.map(\.id)).isDisjoint(with: destination.plugs.map(\.id))
+        guard VoltageCompatibility.isCompatible(device.voltage, destination.voltage) else {
+            return DeviceSafetyAssessment(
+                device: device,
+                status: .unsafe,
+                message: LocalizationKeys.tripCheckMessageUnsafe.localized(destination.voltage)
+            )
+        }
 
-        if sameVoltage, plugMatches {
+        if !device.frequency.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+           !FrequencyCompatibility.isCompatible(device.frequency, destination.frequency) {
+            return DeviceSafetyAssessment(
+                device: device,
+                status: .checkLabel,
+                message: LocalizationKeys.tripCheckMessageFrequency.localized(destination.frequency)
+            )
+        }
+
+        guard let homeCountry else {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .ready,
@@ -66,20 +81,30 @@ enum TripSafetyChecker {
             )
         }
 
-        if device.isUsuallyDualVoltage {
-            return DeviceSafetyAssessment(
-                device: device,
-                status: .adapterNeeded,
-                message: LocalizationKeys.tripCheckMessageDualVoltage.localized(destination.voltage)
-            )
-        }
-
+        let plugMatches = !Set(homeCountry.plugs.map(\.id)).isDisjoint(with: destination.plugs.map(\.id))
         return DeviceSafetyAssessment(
             device: device,
-            status: sameVoltage ? .adapterNeeded : .unsafe,
-            message: sameVoltage
-                ? LocalizationKeys.tripCheckMessageAdapter.localized
-                : LocalizationKeys.tripCheckMessageUnsafe.localized(destination.voltage)
+            status: plugMatches ? .ready : .adapterNeeded,
+            message: plugMatches
+                ? LocalizationKeys.tripCheckMessageReady.localized
+                : LocalizationKeys.tripCheckMessageAdapter.localized
         )
+    }
+}
+
+private enum FrequencyCompatibility {
+    static func isCompatible(_ lhs: String, _ rhs: String, tolerance: Int = 1) -> Bool {
+        let lhsValues = values(in: lhs)
+        let rhsValues = values(in: rhs)
+        guard !lhsValues.isEmpty, !rhsValues.isEmpty else { return true }
+        return lhsValues.contains { lhsValue in
+            rhsValues.contains { abs($0 - lhsValue) <= tolerance }
+        }
+    }
+
+    private static func values(in string: String) -> [Int] {
+        string.components(separatedBy: .decimalDigits.inverted)
+            .filter { !$0.isEmpty }
+            .compactMap(Int.init)
     }
 }

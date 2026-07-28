@@ -84,6 +84,8 @@ struct PremiumPaywallView: View {
             }
             .frame(maxWidth: 480)
             .padding(.xxl)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background { AppMeshBackground() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button {

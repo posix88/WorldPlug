@@ -35,14 +35,19 @@ struct CountryDestinationPickerView: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
             .accessibilityLabel(country.localizedName(in: locale))
             .accessibilityAddTraits(country.code == selectedCountryCode ? .isSelected : [])
         }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .background { AppMeshBackground() }
         .navigationTitle(LocalizationKeys.nextTripDestination.localized)
         .onAppear {
             analyticsTracker.screen(.nextTripDestination)
         }
-        .tint(.yellow)
+        .tint(.voltTint)
         .searchable(
             text: $searchQuery,
             prompt: Text(LocalizationKeys.nextTripSearchDestination.localized)
