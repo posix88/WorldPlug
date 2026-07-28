@@ -78,9 +78,6 @@
         }
       }
     },
-    "Back" : {
-
-    },
     "Code" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -104,13 +101,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Plug shape differs, voltage is compatible"
+            "value" : "Different plug shape; voltage is compatible"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Forma della spina diversa, tensione compatibile"
+            "value" : "Spina diversa, tensione compatibile"
           }
         }
       }
@@ -138,7 +135,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Same voltage and plug type — no adapter needed"
+            "value" : "Same voltage and plug type — no adapter required"
           }
         },
         "it" : {
@@ -172,13 +169,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltage differs — a step-down converter is needed"
+            "value" : "Different voltage — a voltage converter is required"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tensione diversa — è necessario un convertitore di tensione"
+            "value" : "Tensione diversa — serve un convertitore di tensione"
           }
         }
       }
@@ -206,7 +203,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Compatibility Legend"
+            "value" : "Compatibility guide"
           }
         },
         "it" : {
@@ -485,13 +482,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Finding country on the map"
+            "value" : "Finding the country on the map"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Individuazione del Paese sulla mappa"
+            "value" : "Individuazione del paese sulla mappa"
           }
         }
       }
@@ -502,13 +499,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No directly compatible plugs yet. Expand for adapter and converter guidance."
+            "value" : "No directly compatible plugs. Expand for adapter or converter guidance."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessuna spina compatibile direttamente. Espandi per scoprire se serve un adattatore o un convertitore."
+            "value" : "Nessuna spina direttamente compatibile. Espandi per scoprire se serve un adattatore o un convertitore."
           }
         }
       }
@@ -611,6 +608,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Widget preferito"
+          }
+        }
+      }
+    },
+    "general.close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
           }
         }
       }
@@ -734,19 +748,19 @@
         }
       }
     },
-    "general.close" : {
-      "extractionState" : "manual",
+    "Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Close"
+            "value" : "Name"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Chiudi"
+            "value" : "Nome"
           }
         }
       }
@@ -764,23 +778,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Indietro"
-          }
-        }
-      }
-    },
-    "Name" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nome"
           }
         }
       }
@@ -1324,7 +1321,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apro %@ in Voltly."
+            "value" : "Apertura di %@ in Voltly."
           }
         }
       }
@@ -1341,7 +1338,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apro il tuo paese di origine in Voltly."
+            "value" : "Apertura del tuo paese di origine in Voltly."
           }
         }
       }
@@ -2073,13 +2070,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Save unlimited Pack Checks and device safety results"
+            "value" : "Save unlimited Pack Checks and device compatibility results"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva controlli dispositivi illimitati e consulta gli esiti di sicurezza"
+            "value" : "Salva tutte le verifiche e i risultati di compatibilità che vuoi"
           }
         }
       }
@@ -2107,13 +2104,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Favorite Country and Next Trip widgets"
+            "value" : "Widgets for Favorite Country and Next Trip"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Widget Paese preferito e Prossimo viaggio"
+            "value" : "Widget per Paese preferito e Prossimo viaggio"
+          }
+        }
+      }
+    },
+    "premium.paywall.country.save.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save this destination with Pro."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva questa destinazione con Pro."
           }
         }
       }
@@ -2165,23 +2179,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sblocca tutti gli strumenti di viaggio di Voltly."
-          }
-        }
-      }
-    },
-    "premium.paywall.country.save.message" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save this trip setup in Pro."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salva questa configurazione di viaggio con Pro."
           }
         }
       }
@@ -2447,13 +2444,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check"
+            "value" : "Save"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verifica"
+            "value" : "Salva"
           }
         }
       }
@@ -2464,13 +2461,30 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add trip check"
+            "value" : "Add a Pack Check"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiungi controllo"
+            "value" : "Aggiungi una verifica"
+          }
+        }
+      }
+    },
+    "trip.check.add.device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un dispositivo"
           }
         }
       }
@@ -2594,6 +2608,40 @@
         }
       }
     },
+    "trip.check.device.details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device details"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dettagli del dispositivo"
+          }
+        }
+      }
+    },
+    "trip.check.device.frequency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input frequency"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequenza di ingresso"
+          }
+        }
+      }
+    },
     "trip.check.device.hair.dryer" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2628,6 +2676,142 @@
         }
       }
     },
+    "trip.check.device.game.controller" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game controller"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controller di gioco"
+          }
+        }
+      }
+    },
+    "trip.check.device.headphones" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Headphones"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuffie"
+          }
+        }
+      }
+    },
+    "trip.check.device.smartwatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smartwatch"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smartwatch"
+          }
+        }
+      }
+    },
+    "trip.check.device.speaker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speaker"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altoparlante"
+          }
+        }
+      }
+    },
+    "trip.check.device.choose.icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose an icon"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un’icona"
+          }
+        }
+      }
+    },
+    "trip.check.device.icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icona"
+          }
+        }
+      }
+    },
+    "trip.check.device.icon.other" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other electronic device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altro dispositivo elettronico"
+          }
+        }
+      }
+    },
+    "trip.check.device.icon.plug" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power plug"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spina elettrica"
+          }
+        }
+      }
+    },
     "trip.check.device.laptop" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2641,6 +2825,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Computer portatile"
+          }
+        }
+      }
+    },
+    "trip.check.device.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device name"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome del dispositivo"
           }
         }
       }
@@ -2696,6 +2897,23 @@
         }
       }
     },
+    "trip.check.device.voltage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input voltage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tensione di ingresso"
+          }
+        }
+      }
+    },
     "trip.check.devices" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -2713,19 +2931,36 @@
         }
       }
     },
+    "trip.check.devices.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a device and its input rating to check compatibility."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un dispositivo e inserisci i valori di alimentazione riportati sull’etichetta."
+          }
+        }
+      }
+    },
     "trip.check.disclaimer" : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly provides general travel information only. We do not guarantee accuracy or accept responsibility for device damage, injury, or loss. Always check the device label and follow manufacturer instructions."
+            "value" : "Voltly provides general travel guidance only. We do not guarantee that the information is accurate and accept no responsibility for device damage, injury, or loss. Always check the device label and follow the manufacturer’s instructions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly fornisce solo informazioni generali di viaggio. Non garantiamo l'accuratezza dei dati e non ci assumiamo responsabilità per danni ai dispositivi, lesioni o perdite. Controlla sempre l'etichetta del dispositivo e segui le istruzioni del produttore."
+            "value" : "Voltly fornisce solo indicazioni generali per il viaggio. Non garantiamo l’accuratezza delle informazioni e non ci assumiamo alcuna responsabilità per danni a dispositivi, lesioni o perdite. Controlla sempre l’etichetta del dispositivo e segui le istruzioni del produttore."
           }
         }
       }
@@ -2736,13 +2971,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Read important device-safety information"
+            "value" : "Read important information about device compatibility"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Leggi le informazioni importanti sulla sicurezza dei dispositivi"
+            "value" : "Leggi le informazioni importanti sulla compatibilità dei dispositivi"
           }
         }
       }
@@ -2753,13 +2988,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Safety information"
+            "value" : "Important information"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informazioni sulla sicurezza"
+            "value" : "Informazioni importanti"
           }
         }
       }
@@ -2776,7 +3011,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controlla i tuoi dispositivi prima del prossimo viaggio."
+            "value" : "Verifica i dispositivi prima del prossimo viaggio."
           }
         }
       }
@@ -2793,7 +3028,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessun controllo salvato"
+            "value" : "Nessuna verifica salvata"
           }
         }
       }
@@ -2804,13 +3039,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pick a destination and the devices in your bag. Voltly checks plug and voltage risks before you fly."
+            "value" : "Choose your destination and add the devices you’re taking. Voltly flags potential plug and voltage issues before you travel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli una destinazione e i dispositivi nel tuo bagaglio. Voltly verifica i rischi di spina e tensione prima della partenza."
+            "value" : "Scegli la destinazione e aggiungi i dispositivi che porterai con te. Voltly segnala eventuali problemi di spina e tensione prima della partenza."
           }
         }
       }
@@ -2821,13 +3056,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bring an adapter. Check the plug shape before packing."
+            "value" : "You may need a plug adapter. Check the plug type before packing."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Porta un adattatore. Controlla la forma della spina prima di fare la valigia."
+            "value" : "Potrebbe servirti un adattatore. Controlla il tipo di spina prima di fare la valigia."
           }
         }
       }
@@ -2838,13 +3073,47 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bring an adapter. Confirm the device label says it accepts %@."
+            "value" : "Bring an adapter. Confirm that the input rating includes %@."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Porta un adattatore. Verifica che l'etichetta del dispositivo indichi la compatibilità con %@."
+            "value" : "Porta un adattatore. Verifica che la tensione di ingresso includa %@."
+          }
+        }
+      }
+    },
+    "trip.check.message.frequency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This destination uses %@. Make sure your device supports it."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La destinazione usa %@. Verifica che il dispositivo la supporti."
+          }
+        }
+      }
+    },
+    "trip.check.message.missing.voltage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the input voltage shown on the device label."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci la tensione di ingresso riportata sull’etichetta del dispositivo."
           }
         }
       }
@@ -2855,13 +3124,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltage and plug type match your home country."
+            "value" : "Your device is compatible with the destination."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tensione e tipo di spina corrispondono al tuo paese di origine."
+            "value" : "Il dispositivo è compatibile con la destinazione."
           }
         }
       }
@@ -2872,13 +3141,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set your home country to check voltage and plug compatibility."
+            "value" : "Set your home country to check plug compatibility."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imposta il tuo paese di origine per verificare la compatibilità di tensione e spine."
+            "value" : "Imposta il tuo paese di origine per verificare la compatibilità delle spine."
           }
         }
       }
@@ -2889,13 +3158,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "High-power heat tools can be damaged by %@. Use a destination-rated model or a suitable converter."
+            "value" : "This device can be damaged by %@. Use a model rated for the destination or a suitable voltage converter."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gli apparecchi ad alta potenza possono danneggiarsi con %@. Usa un modello adatto alla destinazione o un convertitore idoneo."
+            "value" : "Questo dispositivo può danneggiarsi con %@. Usa un modello adatto alla destinazione o un convertitore di tensione idoneo."
           }
         }
       }
@@ -2912,7 +3181,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuovo controllo"
+            "value" : "Nuova verifica"
           }
         }
       }
@@ -2923,13 +3192,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Trip result"
+            "value" : "Check results"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esito del controllo"
+            "value" : "Esito della verifica"
           }
         }
       }
@@ -2957,13 +3226,81 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Device safety"
+            "value" : "Device compatibility"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sicurezza dei dispositivi"
+            "value" : "Compatibilità dei dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.scan.label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan device label"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scansiona l’etichetta del dispositivo"
+          }
+        }
+      }
+    },
+    "trip.check.scan.label.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Point the camera at the line that begins with INPUT, then confirm the detected values."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquadra la riga che inizia con INPUT, poi verifica i valori rilevati."
+          }
+        }
+      }
+    },
+    "trip.check.scan.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera scan unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scansione con fotocamera non disponibile"
+          }
+        }
+      }
+    },
+    "trip.check.scan.unavailable.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the values from the device label manually."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci manualmente i valori riportati sull’etichetta del dispositivo."
           }
         }
       }
@@ -2991,13 +3328,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Check device label"
+            "value" : "Check the device label"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controlla l'etichetta del dispositivo"
+            "value" : "Controlla l’etichetta del dispositivo"
           }
         }
       }
@@ -3008,13 +3345,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ready to use"
+            "value" : "Safe to use"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pronto all'uso"
+            "value" : "Puoi usarlo"
           }
         }
       }
@@ -3025,13 +3362,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Do not use without a converter"
+            "value" : "Do not use without a voltage converter"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Non usare senza convertitore"
+            "value" : "Non usarlo senza un convertitore di tensione"
           }
         }
       }
@@ -3048,7 +3385,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controllo dispositivi"
+            "value" : "Verifica dispositivi"
           }
         }
       }
@@ -3065,7 +3402,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Controllo dispositivi"
+            "value" : "Verifica dispositivi"
           }
         }
       }
@@ -3093,13 +3430,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly Pro saves unlimited Pack Checks"
+            "value" : "Voltly Pro lets you save unlimited Pack Checks"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly Pro ti permette di salvare controlli illimitati"
+            "value" : "Con Voltly Pro puoi salvare tutte le verifiche che vuoi"
           }
         }
       }
@@ -3116,7 +3453,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salva controlli illimitati"
+            "value" : "Salva tutte le verifiche che vuoi"
           }
         }
       }
@@ -3133,7 +3470,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "I tuoi controlli"
+            "value" : "Le tue verifiche"
           }
         }
       }
