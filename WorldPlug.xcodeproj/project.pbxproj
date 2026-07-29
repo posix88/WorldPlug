@@ -393,6 +393,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -556,6 +557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;

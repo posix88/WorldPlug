@@ -1,0 +1,85 @@
+import SwiftUI
+import VisionKit
+
+// MARK: - DeviceLabelScannerView
+
+struct DeviceLabelValues: Equatable {
+    let voltage: String
+    let frequency: String
+}
+
+struct DeviceLabelScannerView: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var viewModel = DeviceLabelScannerViewModel()
+    let onRecognized: (DeviceLabelValues) -> Void
+
+    var body: some View {
+        Group {
+            if DataScannerViewController.isSupported && DataScannerViewController.isAvailable {
+                DeviceLabelDataScanner { text in
+                    guard let values = viewModel.recognizedValues(in: text) else { return }
+                    onRecognized(values)
+                    dismiss()
+                }
+                .ignoresSafeArea(edges: .bottom)
+            } else {
+                ContentUnavailableView(
+                    LocalizationKeys.tripCheckScanUnavailable.localized,
+                    systemImage: "camera.fill",
+                    description: Text(LocalizationKeys.tripCheckScanUnavailableDescription.localized)
+                )
+            }
+        }
+        .navigationTitle(LocalizationKeys.tripCheckScanLabel.localized)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button { dismiss() } label: { Image(systemName: "xmark") }
+                    .accessibilityLabel(LocalizationKeys.generalClose.localized)
+            }
+        }
+    }
+}
+
+private struct DeviceLabelDataScanner: UIViewControllerRepresentable {
+    let onRecognized: (String) -> Void
+
+    func makeCoordinator() -> Coordinator { Coordinator(onRecognized: onRecognized) }
+
+    func makeUIViewController(context: Context) -> DataScannerViewController {
+        let scanner = DataScannerViewController(
+            recognizedDataTypes: [.text(languages: ["en", "it"])],
+            qualityLevel: .accurate,
+            recognizesMultipleItems: true,
+            isHighFrameRateTrackingEnabled: false,
+            isPinchToZoomEnabled: true,
+            isGuidanceEnabled: true,
+            isHighlightingEnabled: true
+        )
+        scanner.delegate = context.coordinator
+        try? scanner.startScanning()
+        return scanner
+    }
+
+    func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {}
+
+    final class Coordinator: NSObject, DataScannerViewControllerDelegate {
+        let onRecognized: (String) -> Void
+
+        init(onRecognized: @escaping (String) -> Void) {
+            self.onRecognized = onRecognized
+        }
+
+        func dataScanner(_ dataScanner: DataScannerViewController, didTapOn item: RecognizedItem) {
+            guard case .text(let text) = item else { return }
+            onRecognized(text.transcript)
+        }
+    }
+}
+
+#if DEBUG
+#Preview("Label scanner") {
+    NavigationStack {
+        DeviceLabelScannerView { _ in }
+    }
+}
+#endif

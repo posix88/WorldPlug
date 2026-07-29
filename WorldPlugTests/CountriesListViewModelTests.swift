@@ -1,3 +1,4 @@
+import Analytics
 import Foundation
 import Repository
 import SwiftData
@@ -18,6 +19,7 @@ struct CountriesListViewModelTests {
     private let container: ModelContainer
     private let context: ModelContext
     private let viewModel: CountriesListViewModel
+    private let homeCountryViewModel: PreviewHomeCountryViewModel
 
     init() throws {
         self.container = try ModelContainer(
@@ -32,7 +34,15 @@ struct CountriesListViewModelTests {
         context.insert(japan)
         context.insert(usa)
         try context.save()
-        self.viewModel = CountriesListViewModel(modelContext: context)
+        let homeCountryViewModel = PreviewHomeCountryViewModel(homeVoltage: "230V")
+        self.homeCountryViewModel = homeCountryViewModel
+        self.viewModel = CountriesListViewModel(
+            modelContext: context,
+            homeCountryViewModel: homeCountryViewModel,
+            travelPreferencesStore: PreviewTravelPreferencesStore(),
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
     }
 
     // MARK: Fetch
@@ -49,7 +59,7 @@ struct CountriesListViewModelTests {
 
     @Test("filteredCountries are sorted by name")
     func sortedByName() {
-        let names = viewModel.filteredCountries.map(\.name)
+        let names = viewModel.filteredCountries.map { $0.localizedName(in: .current) }
         #expect(names == names.sorted())
     }
 
@@ -71,7 +81,7 @@ struct CountriesListViewModelTests {
 
         viewModel.search(query: italyName.lowercased())
         #expect(viewModel.filteredCountries.allSatisfy {
-            $0.name.lowercased().contains(italyName.lowercased())
+            $0.localizedName(in: .current).lowercased().contains(italyName.lowercased())
         })
     }
 
@@ -87,6 +97,15 @@ struct CountriesListViewModelTests {
         #expect(viewModel.filteredCountries.isEmpty)
         viewModel.search(query: "")
         #expect(viewModel.filteredCountries.count == 3)
+    }
+
+    @Test("compatibility summaries update from home-country state")
+    func refreshCompatibilitySummaries() {
+        homeCountryViewModel.setHome(code: "IT")
+        viewModel.homeCountryChanged()
+
+        #expect(viewModel.compatibilitySummaries["IT"] == .compatible)
+        #expect(viewModel.compatibilitySummaries["JP"] == .converterRequired)
     }
 }
 
@@ -119,9 +138,6 @@ struct HomeCountryViewModelTests {
         country.plugs = plugIDs.map {
             let plug = Plug(
                 id: $0,
-                name: "Type \($0)",
-                shortInfo: "",
-                info: "",
                 images: [],
                 specifications: .init(pinDiameter: "", pinSpacing: "", ratedAmperage: "", alsoKnownAs: "")
             )

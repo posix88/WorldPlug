@@ -15,7 +15,6 @@ struct PlugDetailViewModelTests {
 
     private func makePlug(
         id: String = "A",
-        shortInfo: String = "Two flat parallel pins",
         pinDiameter: String = "1.5mm",
         pinSpacing: String = "12.7mm",
         ratedAmperage: String = "15A"
@@ -26,9 +25,6 @@ struct PlugDetailViewModelTests {
         )
         let plug = Plug(
             id: id,
-            name: "Type \(id)",
-            shortInfo: shortInfo,
-            info: "Full description",
             images: [],
             specifications: .init(
                 pinDiameter: pinDiameter,
@@ -52,9 +48,10 @@ struct PlugDetailViewModelTests {
 
     @Test("shareText contains the plug shortInfo")
     func shareTextContainsShortInfo() throws {
-        let fixture = try makePlug(shortInfo: "Two flat parallel pins")
+        let fixture = try makePlug(id: "A")
         let vm = PlugDetailViewModel(plug: fixture.plug)
-        #expect(vm.shareText.contains("Two flat parallel pins"))
+        let expected = String(localized: fixture.plug.plugType.shortInfoResource)
+        #expect(vm.shareText.contains(expected))
     }
 
     @Test("shareText contains pin diameter")

@@ -45,7 +45,7 @@ struct Card<Content>: View where Content: View {
     ///   - content: A closure that returns the content to display inside the card.
     init(
         background: Color = .cardSurface,
-        radius: CGFloat = 12,
+        radius: CGFloat = DesignTokens.Radius.medium,
         insets: EdgeInsets = .init(top: 20, leading: 20, bottom: 20, trailing: 20),
         spacing: CGFloat = .zero,
         borderColor: Color = .borderStroke,
