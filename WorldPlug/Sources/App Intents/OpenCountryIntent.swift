@@ -1,6 +1,4 @@
 import AppIntents
-import Foundation
-import Repository
 
 struct OpenCountryIntent: OpenIntent {
     static let title: LocalizedStringResource = "Open country"
@@ -18,11 +16,7 @@ struct OpenCountryIntent: OpenIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        UserDefaults(suiteName: AppGroup.identifier)?.set(
-            target.id,
-            forKey: AppGroup.pendingCountryCodeKey
-        )
-
+        AppNavigationModel.shared.openCountry(code: target.id)
         return .result()
     }
 }

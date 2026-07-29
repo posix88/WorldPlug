@@ -11,6 +11,7 @@ struct VoltlyApp: App {
     @State private var travelPreferencesStore: ICloudTravelPreferencesStore
     @State private var homeCountryViewModel: HomeCountryViewModel
     @State private var premiumEntitlement: StoreKitPremiumEntitlement
+    @State private var navigationModel: AppNavigationModel
     @State private var coordinator: AppCoordinator
     private let analyticsTracker: any AnalyticsTracker
     @Environment(\.scenePhase) private var scenePhase
@@ -28,26 +29,29 @@ struct VoltlyApp: App {
         _homeCountryViewModel = State(initialValue: homeCountryViewModel)
         let premiumEntitlement = StoreKitPremiumEntitlement()
         _premiumEntitlement = State(initialValue: premiumEntitlement)
-        _coordinator = State(
-            initialValue: AppCoordinator(
-                homeCountryViewModel: homeCountryViewModel,
-                premiumEntitlement: premiumEntitlement,
-                appGroupDefaults: UserDefaults(suiteName: AppGroup.identifier) ?? .standard,
-                standardDefaults: .standard
-            )
+        let navigationModel = AppNavigationModel.shared
+        _navigationModel = State(initialValue: navigationModel)
+        let coordinator = AppCoordinator(
+            homeCountryViewModel: homeCountryViewModel,
+            premiumEntitlement: premiumEntitlement,
+            navigationModel: navigationModel,
+            appGroupDefaults: UserDefaults(suiteName: AppGroup.identifier) ?? .standard,
+            standardDefaults: .standard
         )
+        _coordinator = State(initialValue: coordinator)
         VoltlyAppShortcuts.updateAppShortcutParameters()
     }
 
     var body: some Scene {
         @Bindable var coordinator = coordinator
+        @Bindable var navigationModel = navigationModel
 
         WindowGroup {
             ZStack {
                 RootTabView(
                     modelContext: Repository.sharedModelContainer.mainContext,
-                    deepLinkedCountryCode: $coordinator.deepLinkedCountryCode,
-                    selectedTab: $coordinator.selectedTab
+                    deepLinkedCountryCode: $navigationModel.deepLinkedCountryCode,
+                    selectedTab: $navigationModel.selectedTab
                 )
                 .environment(\.homeCountryViewModel, homeCountryViewModel)
                 .environment(\.travelPreferencesStore, travelPreferencesStore)

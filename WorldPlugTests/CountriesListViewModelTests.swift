@@ -107,6 +107,30 @@ struct CountriesListViewModelTests {
         #expect(viewModel.compatibilitySummaries["IT"] == .compatible)
         #expect(viewModel.compatibilitySummaries["JP"] == .converterRequired)
     }
+
+    // MARK: Deep links
+
+    @Test("deep link opens country hidden by search and resets browsing state")
+    func deepLinkIgnoresActiveSearch() {
+        viewModel.search(query: "ZZZZNOTACOUNTRY")
+        viewModel.selectedFilter = .converterRequired
+
+        let didOpen = viewModel.openDeepLinkedCountry(code: " it\n")
+
+        #expect(didOpen)
+        #expect(viewModel.navigationPath.map(\.code) == ["IT"])
+        #expect(viewModel.searchQuery.isEmpty)
+        #expect(viewModel.selectedFilter == .all)
+        #expect(viewModel.filteredCountries.count == 3)
+    }
+
+    @Test("deep link rejects unknown country without changing navigation")
+    func unknownDeepLinkIsIgnored() {
+        let didOpen = viewModel.openDeepLinkedCountry(code: "XX")
+
+        #expect(didOpen == false)
+        #expect(viewModel.navigationPath.isEmpty)
+    }
 }
 
 // MARK: - HomeCountryViewModelTests

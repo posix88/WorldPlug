@@ -49,6 +49,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                     prompt: Text(LocalizationKeys.onboardingSearchPlaceholder.localized)
                         .foregroundStyle(.white.opacity(0.45))
                 ) { EmptyView() }
+                    .autocorrectionDisabled()
                     .foregroundStyle(.white)
                     .tint(.yellow)
                     .submitLabel(.search)

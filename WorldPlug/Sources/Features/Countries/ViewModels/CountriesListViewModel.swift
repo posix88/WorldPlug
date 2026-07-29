@@ -124,11 +124,12 @@ final class CountriesListViewModel: CountriesListViewModelType {
     }
 
     func openDeepLinkedCountry(code: String) -> Bool {
-        guard let country = filteredCountries.first(where: { $0.code == code }) else {
+        let normalizedCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard let country = countries.first(where: { $0.code.uppercased() == normalizedCode }) else {
             return false
         }
         selectedFilter = .all
-        searchQuery = ""
+        search(query: "")
         navigationPath = [country]
         return true
     }
@@ -219,7 +220,12 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     func toggleSavedCountry(code: String) -> Bool { true }
 
     func openDeepLinkedCountry(code: String) -> Bool {
-        guard let country = filteredCountries.first(where: { $0.code == code }) else { return false }
+        let normalizedCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard let country = allCountries.first(where: { $0.code.uppercased() == normalizedCode }) else {
+            return false
+        }
+        selectedFilter = .all
+        search(query: "")
         navigationPath = [country]
         return true
     }

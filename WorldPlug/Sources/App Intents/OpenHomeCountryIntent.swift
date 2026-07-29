@@ -8,6 +8,7 @@ struct OpenHomeCountryIntent: AppIntent {
     static let description = IntentDescription("Open your home country’s power information in Voltly.")
     static let supportedModes: IntentModes = .foreground
 
+    @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let defaults = UserDefaults(suiteName: AppGroup.identifier)
         guard let countryCode = defaults?.string(forKey: AppGroup.homeCountryCodeKey),
@@ -15,7 +16,7 @@ struct OpenHomeCountryIntent: AppIntent {
             return .result(dialog: "Set a home country in Voltly first.")
         }
 
-        defaults?.set(countryCode, forKey: AppGroup.pendingCountryCodeKey)
+        AppNavigationModel.shared.openCountry(code: countryCode)
         return .result(dialog: "Opening your home country in Voltly.")
     }
 }
