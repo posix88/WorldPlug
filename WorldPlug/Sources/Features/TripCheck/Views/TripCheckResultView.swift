@@ -1,7 +1,8 @@
 import Analytics
+import AppIntents
 import Repository
-import SwiftUI
 import StoreKit
+import SwiftUI
 
 // MARK: - TripCheckResultView
 
@@ -67,6 +68,11 @@ struct TripCheckResultView: View {
             }
         }
         .navigationTitle(LocalizationKeys.tripCheckResultTitle.localized)
+        .appEntityIdentifier(
+            viewModel.destination.map {
+                EntityIdentifier(for: CountryEntity.self, identifier: $0.code)
+            }
+        )
         .onAppear {
             viewModel.screenAppeared(requestReview: { requestReview() })
         }
@@ -118,6 +124,8 @@ struct TripCheckResultView: View {
         }
     }
 }
+
+// MARK: - TripCheckDisclaimerView
 
 private struct TripCheckDisclaimerView: View {
     @Environment(\.dismiss) private var dismiss

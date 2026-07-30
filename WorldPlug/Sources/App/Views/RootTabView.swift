@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import Repository
 import SwiftData
 import SwiftUI
@@ -24,10 +25,10 @@ struct RootTabView: View {
                 analyticsTracker: analyticsTracker,
                 deepLinkedCountryCode: $deepLinkedCountryCode
             )
-                .tabItem {
-                    Label(LocalizationKeys.countriesTitle.localized, systemImage: "globe.europe.africa.fill")
-                }
-                .tag(0)
+            .tabItem {
+                Label(LocalizationKeys.countriesTitle.localized, systemImage: "globe.europe.africa.fill")
+            }
+            .tag(0)
 
             TripCheckView(
                 travelPreferencesStore: travelPreferencesStore,
@@ -35,10 +36,10 @@ struct RootTabView: View {
                 premiumEntitlement: premiumEntitlement,
                 analyticsTracker: analyticsTracker
             )
-                .tabItem {
-                    Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
-                }
-                .tag(1)
+            .tabItem {
+                Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
+            }
+            .tag(1)
 
             SavedCountriesView(
                 premiumEntitlement: premiumEntitlement,
@@ -46,12 +47,16 @@ struct RootTabView: View {
                 homeCountryViewModel: homeCountryViewModel,
                 analyticsTracker: analyticsTracker
             )
-                .tabItem {
-                    Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
-                }
-                .tag(2)
+            .tabItem {
+                Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
+            }
+            .tag(2)
         }
         .tint(.voltTint)
+        .onAppIntentExecution(OpenCountryIntent.self) { intent in
+            selectedTab = 0
+            deepLinkedCountryCode = intent.target.id
+        }
     }
 }
 

@@ -3,7 +3,8 @@ import Repository
 import Testing
 @testable import WorldPlug
 
-// MARK: - WorldPlugTests
+// MARK: - VoltlyDeepLinkTests
+
 //
 // App-target unit tests. Add test suites here for any type that lives
 // in the WorldPlug target and cannot be moved to the Repository package.
@@ -31,28 +32,55 @@ struct VoltlyDeepLinkTests {
     }
 }
 
-@Suite("OpenCountryIntent")
+// MARK: - AppNavigationModelTests
+
+@Suite("AppNavigationModel")
 @MainActor
-struct OpenCountryIntentTests {
-    @Test("perform routes the selected country through the coordinator")
-    func performRoutesCountry() async throws {
+struct AppNavigationModelTests {
+    @Test("opening a country routes to its detail")
+    func openCountryRoutesToDetail() {
         let navigationModel = AppNavigationModel.shared
         navigationModel.selectedTab = 2
         navigationModel.deepLinkedCountryCode = nil
 
-        var intent = OpenCountryIntent()
-        intent.target = CountryEntity(
+        navigationModel.openCountry(code: "it")
+
+        #expect(navigationModel.selectedTab == 0)
+        #expect(navigationModel.deepLinkedCountryCode == "IT")
+    }
+}
+
+// MARK: - CountryEntityTests
+
+@Suite("CountryEntity")
+@MainActor
+struct CountryEntityTests {
+    @Test("entity exposes rich electrical metadata")
+    func exposesRichElectricalMetadata() {
+        let plug = Plug(
+            id: "C",
+            images: [],
+            specifications: PlugSpecifications(
+                pinDiameter: "",
+                pinSpacing: "",
+                ratedAmperage: "",
+                alsoKnownAs: ""
+            )
+        )
+        let entity = CountryEntity(
             country: Country(
                 code: "IT",
                 voltage: "230V",
                 frequency: "50Hz",
-                flagUnicode: "🇮🇹"
-            )
+                flagUnicode: "🇮🇹",
+                plugs: [plug]
+            ),
+            locale: Locale(identifier: "en_US")
         )
 
-        _ = try await intent.perform()
-
-        #expect(navigationModel.selectedTab == 0)
-        #expect(navigationModel.deepLinkedCountryCode == "IT")
+        #expect(entity.voltage == "230V")
+        #expect(entity.frequency == "50Hz")
+        #expect(entity.plugTypes == ["C"])
+        #expect(entity.electricalInformation.contains("230V"))
     }
 }

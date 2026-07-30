@@ -7,18 +7,68 @@ import SwiftData
 
 /// A country that Voltly can resolve in Siri and the Shortcuts app.
 struct CountryEntity: IndexedEntity {
-    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Country")
+    static let typeDisplayRepresentation = TypeDisplayRepresentation(
+        name: LocalizedStringResource(
+            "intent.country.entity.type",
+            defaultValue: "Country"
+        )
+    )
     static let defaultQuery = CountryEntityQuery()
 
     let id: String
-    @Property(title: "Name") var name: String
-    @Property(title: "Code") var code: String
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.name",
+            defaultValue: "Name"
+        ),
+        indexingKey: \.displayName
+    )
+    var name: String
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.code",
+            defaultValue: "Code"
+        ),
+        indexingKey: \.country
+    )
+    var code: String
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.voltage",
+            defaultValue: "Voltage"
+        )
+    )
+    var voltage: String
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.frequency",
+            defaultValue: "Frequency"
+        )
+    )
+    var frequency: String
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.plug.types",
+            defaultValue: "Plug types"
+        ),
+        indexingKey: \.keywords
+    )
+    var plugTypes: [String]
+    @Property(
+        title: LocalizedStringResource(
+            "intent.country.property.electrical.information",
+            defaultValue: "Electrical information"
+        ),
+        indexingKey: \.contentDescription
+    )
+    var electricalInformation: String
     var flag: String
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
             title: "\(flag) \(name)",
-            subtitle: "\(code)"
+            subtitle: "\(voltage) · \(frequency) · \(formattedPlugTypes)",
+            image: .init(systemName: "powerplug.fill")
         )
     }
 
@@ -28,6 +78,27 @@ struct CountryEntity: IndexedEntity {
         self.flag = country.flagUnicode
         self.name = country.localizedName(in: locale)
         self.code = country.code
+        self.voltage = country.voltage
+        self.frequency = country.frequency
+        let plugTypes = country.sortedPlugs.map(\.id)
+        self.plugTypes = plugTypes
+        let formattedPlugTypes = plugTypes.isEmpty
+            ? "Plug types unavailable"
+            : "Plug types \(plugTypes.joined(separator: ", "))"
+        self.electricalInformation = [
+            "\(country.localizedName(in: locale)) uses \(country.voltage)",
+            "\(country.frequency) frequency",
+            formattedPlugTypes
+        ]
+        .joined(separator: ". ")
+    }
+
+    private var formattedPlugTypes: String {
+        guard !plugTypes.isEmpty else {
+            return "Plug types unavailable"
+        }
+
+        return "Plug types \(plugTypes.joined(separator: ", "))"
     }
 }
 
@@ -53,6 +124,14 @@ struct CountryEntityQuery: EntityStringQuery {
 
     func suggestedEntities() async throws -> [CountryEntity] {
         await countryEntities { _ in true }
+    }
+
+    @available(iOS 27.0, *)
+    func displayRepresentations(
+        for identifiers: [CountryEntity.ID]
+    ) async throws -> [CountryEntity.ID: DisplayRepresentation] {
+        let entities = try await entities(for: identifiers)
+        return Dictionary(uniqueKeysWithValues: entities.map { ($0.id, $0.displayRepresentation) })
     }
 
     @MainActor

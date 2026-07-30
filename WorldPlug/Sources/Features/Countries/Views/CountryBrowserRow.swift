@@ -1,3 +1,4 @@
+import AppIntents
 import Repository
 import SwiftUI
 
@@ -72,6 +73,9 @@ struct CountryBrowserRow: View {
             PremiumPaywallView(source: .countryDetailSave)
         }
         .sensoryFeedback(.selection, trigger: actionFeedbackTrigger)
+        .appEntityIdentifier(
+            EntityIdentifier(for: CountryEntity.self, identifier: model.country.code)
+        )
     }
 
     private func toggleHomeCountry() {

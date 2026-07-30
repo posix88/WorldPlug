@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import Repository
 import SwiftData
 import SwiftUI
@@ -56,6 +57,9 @@ struct TripCheckView: View {
                                 TripCheckRow(row: row)
                             }
                             .buttonStyle(.plain)
+                            .appEntityIdentifier(
+                                EntityIdentifier(for: CountryEntity.self, identifier: row.country.code)
+                            )
                         }
                         .onDelete(perform: viewModel.delete)
                         .transition(.opacity.combined(with: .move(edge: .bottom)))

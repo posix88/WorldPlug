@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import Repository
 import SwiftUI
 
@@ -44,6 +45,9 @@ struct CountryDestinationPickerView: View {
             .listRowSeparator(.hidden)
             .accessibilityLabel(country.localizedName(in: locale))
             .accessibilityAddTraits(country.code == selectedCountryCode ? .isSelected : [])
+            .appEntityIdentifier(
+                EntityIdentifier(for: CountryEntity.self, identifier: country.code)
+            )
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)

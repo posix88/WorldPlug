@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import Repository
 import StoreKit
 import SwiftData
@@ -117,6 +118,9 @@ struct SavedCountriesView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .appEntityIdentifier(
+                            EntityIdentifier(for: CountryEntity.self, identifier: country.code)
+                        )
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                             Button(role: .destructive) {
                                 removeSavedCountry(code: country.code)
@@ -193,6 +197,9 @@ struct SavedCountriesView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             }
             .buttonStyle(.plain)
+            .appEntityIdentifier(
+                EntityIdentifier(for: CountryEntity.self, identifier: country.code)
+            )
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(role: .destructive) {
                     deleteNextTrip()
@@ -246,6 +253,11 @@ struct SavedCountriesView: View {
         .appTipIconTint()
         .accessibilityLabel(LocalizationKeys.favoriteWidgetTitle.localized)
         .accessibilityValue(favoriteWidgetCountryName)
+        .appEntityIdentifier(
+            viewModel.favoriteWidgetCountry.map {
+                EntityIdentifier(for: CountryEntity.self, identifier: $0.code)
+            }
+        )
     }
 
     private var favoriteWidgetCountryName: String {

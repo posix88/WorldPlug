@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import MapKit
 import Repository
 import SwiftUI
@@ -32,6 +33,9 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .navigationTitle(countryName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .appEntityIdentifier(
+            EntityIdentifier(for: CountryEntity.self, identifier: viewModel.country.code)
+        )
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
@@ -201,7 +205,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             if viewModel.isHomeCountry {
                 HomeCountryIndicator()
             }
-
         }
         .frame(
             maxWidth: .infinity,
@@ -286,7 +289,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
     }
 
-    private func detailSection<Content: View>(title: String, @ViewBuilder content: () -> Content) -> some View {
+    private func detailSection(title: String, @ViewBuilder content: () -> some View) -> some View {
         VStack(alignment: .leading, spacing: .md) {
             Text(title)
                 .font(.headline.weight(.semibold))

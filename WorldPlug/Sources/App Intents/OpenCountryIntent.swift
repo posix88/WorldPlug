@@ -1,11 +1,30 @@
 import AppIntents
 
-struct OpenCountryIntent: OpenIntent {
-    static let title: LocalizedStringResource = "Open country"
-    static let description = IntentDescription("Open a country’s power information in Voltly.")
-    static let supportedModes: IntentModes = .foreground
+// MARK: - OpenCountryIntent
 
-    @Parameter(title: "Country")
+struct OpenCountryIntent: OpenIntent, TargetContentProvidingIntent {
+    static let title = LocalizedStringResource(
+        "intent.open.country.title",
+        defaultValue: "Open country"
+    )
+    static let description = IntentDescription(
+        LocalizedStringResource(
+            "intent.open.country.description",
+            defaultValue: "Open a country’s power information in Voltly."
+        )
+    )
+
+    @available(iOS 27.0, *)
+    static var allowedExecutionTargets: IntentExecutionTargets {
+        .main
+    }
+
+    @Parameter(
+        title: LocalizedStringResource(
+            "intent.open.country.parameter",
+            defaultValue: "Country"
+        )
+    )
     var target: CountryEntity
 
     init() {}
@@ -13,13 +32,9 @@ struct OpenCountryIntent: OpenIntent {
     static var parameterSummary: some ParameterSummary {
         Summary("Open \(\.$target)")
     }
-
-    @MainActor
-    func perform() async throws -> some IntentResult {
-        AppNavigationModel.shared.openCountry(code: target.id)
-        return .result()
-    }
 }
+
+// MARK: - VoltlyAppShortcuts
 
 struct VoltlyAppShortcuts: AppShortcutsProvider {
     static let shortcutTileColor: ShortcutTileColor = .orange
@@ -31,7 +46,10 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
                 "Open a country in \(.applicationName)",
                 "Show country power information in \(.applicationName)"
             ],
-            shortTitle: "Open country",
+            shortTitle: LocalizedStringResource(
+                "intent.open.country.title",
+                defaultValue: "Open country"
+            ),
             systemImageName: "globe.europe.africa.fill"
         )
         AppShortcut(
@@ -40,7 +58,10 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
                 "Open my home country in \(.applicationName)",
                 "Show my home country in \(.applicationName)"
             ],
-            shortTitle: "Open home country",
+            shortTitle: LocalizedStringResource(
+                "intent.open.home.country.title",
+                defaultValue: "Open home country"
+            ),
             systemImageName: "house.fill"
         )
     }
