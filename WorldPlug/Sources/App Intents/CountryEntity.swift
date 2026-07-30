@@ -1,6 +1,9 @@
 import AppIntents
+import CoreSpotlight
 import Repository
 import SwiftData
+
+// MARK: - CountryEntity
 
 /// A country that Voltly can resolve in Siri and the Shortcuts app.
 struct CountryEntity: IndexedEntity {
@@ -21,12 +24,14 @@ struct CountryEntity: IndexedEntity {
 
     @MainActor
     init(country: Country, locale: Locale = .current) {
-        id = country.code
-        flag = country.flagUnicode
-        name = country.localizedName(in: locale)
-        code = country.code
+        self.id = country.code
+        self.flag = country.flagUnicode
+        self.name = country.localizedName(in: locale)
+        self.code = country.code
     }
 }
+
+// MARK: - CountryEntityQuery
 
 struct CountryEntityQuery: EntityStringQuery {
     func entities(for identifiers: [CountryEntity.ID]) async throws -> [CountryEntity] {
@@ -42,7 +47,7 @@ struct CountryEntityQuery: EntityStringQuery {
 
         return await countryEntities { country in
             country.code.localizedCaseInsensitiveContains(query) ||
-            country.localizedName(in: .current).localizedCaseInsensitiveContains(query)
+                country.localizedName(in: .current).localizedCaseInsensitiveContains(query)
         }
     }
 
@@ -63,24 +68,22 @@ struct CountryEntityQuery: EntityStringQuery {
     }
 }
 
-/*
- iOS 27 adds automatic Spotlight reindexing through IndexedEntityQuery.
- When building with an iOS 27 SDK, add `import CoreSpotlight` above and uncomment:
+// MARK: IndexedEntityQuery
 
- extension CountryEntityQuery: IndexedEntityQuery {
-     func reindexEntities(
-         for identifiers: [CountryEntity.ID],
-         indexDescription: CSSearchableIndexDescription
-     ) async throws {
-         let identifiers = Set(identifiers.map { $0.uppercased() })
-         let entities = await countryEntities { identifiers.contains($0.code) }
-         try await CountrySpotlightIndex.index(entities)
-     }
+@available(iOS 27.0, *)
+extension CountryEntityQuery: IndexedEntityQuery {
+    func reindexEntities(
+        for identifiers: [CountryEntity.ID],
+        indexDescription: CSSearchableIndexDescription
+    ) async throws {
+        let identifiers = Set(identifiers.map { $0.uppercased() })
+        let entities = await countryEntities { identifiers.contains($0.code) }
+        try await CountrySpotlightIndex.index(entities)
+    }
 
-     func reindexAllEntities(
-         indexDescription: CSSearchableIndexDescription
-     ) async throws {
-         try await CountrySpotlightIndex.indexAllCountries()
-     }
- }
- */
+    func reindexAllEntities(
+        indexDescription: CSSearchableIndexDescription
+    ) async throws {
+        try await CountrySpotlightIndex.indexAllCountries()
+    }
+}

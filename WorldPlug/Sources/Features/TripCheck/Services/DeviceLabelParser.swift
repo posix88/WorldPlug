@@ -1,5 +1,12 @@
 import Foundation
 
+// MARK: - DeviceLabelValues
+
+struct DeviceLabelValues: Equatable, Sendable {
+    let voltage: String
+    let frequency: String
+}
+
 // MARK: - DeviceLabelParser
 
 enum DeviceLabelParser {
@@ -23,6 +30,7 @@ enum DeviceLabelParser {
               let range = Range(match.range, in: text) else {
             return ""
         }
+
         return String(text[range])
     }
 }

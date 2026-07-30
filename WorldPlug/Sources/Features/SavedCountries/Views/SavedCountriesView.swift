@@ -1,9 +1,9 @@
 import Analytics
 import Repository
+import StoreKit
 import SwiftData
 import SwiftUI
 import TipKit
-import StoreKit
 
 // MARK: - SavedCountriesView
 
@@ -15,6 +15,7 @@ struct SavedCountriesView: View {
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: SavedCountriesViewModel
+    @State private var removalFeedbackTrigger = 0
     private let nextTripTip = NextTripTip()
     private let favoriteWidgetSelectorTip = FavoriteWidgetSelectorTip()
 
@@ -39,46 +40,47 @@ struct SavedCountriesView: View {
 
         NavigationStack {
             savedCountriesContent
-            .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
-            .toolbar {
-                if viewModel.isPremium {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            viewModel.presentTripEditor()
-                            nextTripTip.invalidate(reason: .actionPerformed)
-                        } label: {
-                            Image(systemName: viewModel.nextTrip == nil ? "calendar.badge.plus" : "calendar")
+                .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
+                .toolbar {
+                    if viewModel.isPremium {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                viewModel.presentTripEditor()
+                                nextTripTip.invalidate(reason: .actionPerformed)
+                            } label: {
+                                Image(systemName: viewModel.nextTrip == nil ? "calendar.badge.plus" : "calendar")
+                            }
+                            .accessibilityLabel(LocalizationKeys.nextTripEdit.localized)
+                            .popoverTip(nextTripTip, arrowEdge: .top)
+                            .appTipIconTint()
                         }
-                        .accessibilityLabel(LocalizationKeys.nextTripEdit.localized)
-                        .popoverTip(nextTripTip, arrowEdge: .top)
-                        .appTipIconTint()
                     }
                 }
-            }
-            .background { AppMeshBackground() }
-            .onAppear {
-                viewModel.updateCountries(countries)
-                viewModel.screenAppeared()
-            }
-            .onChange(of: countries.map(\.code)) { _, _ in
-                viewModel.updateCountries(countries)
-            }
-            .sheet(isPresented: $viewModel.isTripEditorPresented) {
-                NextTripEditorView(
-                    trip: viewModel.nextTrip,
-                    countries: countries,
-                    onSave: { trip in
-                        if viewModel.saveNextTrip(trip) {
-                            AppReviewPrompt.requestAfterSuccessfulAction(using: { requestReview() })
-                        }
-                    },
-                    onDelete: viewModel.deleteNextTrip
-                )
-            }
-            .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
-                PremiumPaywallView(source: .savedCountries)
-            }
+                .background { AppMeshBackground() }
+                .onAppear {
+                    viewModel.updateCountries(countries)
+                    viewModel.screenAppeared()
+                }
+                .onChange(of: countries.map(\.code)) { _, _ in
+                    viewModel.updateCountries(countries)
+                }
+                .sheet(isPresented: $viewModel.isTripEditorPresented) {
+                    NextTripEditorView(
+                        trip: viewModel.nextTrip,
+                        countries: countries,
+                        onSave: { trip in
+                            if viewModel.saveNextTrip(trip) {
+                                AppReviewPrompt.requestAfterSuccessfulAction(using: { requestReview() })
+                            }
+                        },
+                        onDelete: viewModel.deleteNextTrip
+                    )
+                }
+                .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
+                    PremiumPaywallView(source: .savedCountries)
+                }
         }
+        .sensoryFeedback(.success, trigger: removalFeedbackTrigger)
     }
 
     @ViewBuilder
@@ -115,12 +117,20 @@ struct SavedCountriesView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                removeSavedCountry(code: country.code)
+                            } label: {
+                                Image(systemName: "star.slash.fill")
+                            }
+                        }
                     }
                 }
             }
             .padding(.horizontal, .xxl)
             .padding(.vertical, .md)
         }
+        .savedCountriesSwipeActionsContainer()
         .scrollBounceBehavior(.basedOnSize)
         .navigationDestination(item: $viewModel.selectedCountry) { country in
             CountryDetailView(
@@ -183,6 +193,13 @@ struct SavedCountriesView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
             }
             .buttonStyle(.plain)
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button(role: .destructive) {
+                    deleteNextTrip()
+                } label: {
+                    Image(systemName: "trash")
+                }
+            }
         }
     }
 
@@ -238,7 +255,30 @@ struct SavedCountriesView: View {
 
         return "\(country.flagUnicode) \(country.localizedName(in: locale))"
     }
+
+    private func deleteNextTrip() {
+        viewModel.deleteNextTrip()
+        removalFeedbackTrigger += 1
+    }
+
+    private func removeSavedCountry(code: String) {
+        viewModel.removeSavedCountry(code: code)
+        removalFeedbackTrigger += 1
+    }
 }
+
+private extension View {
+    @ViewBuilder
+    func savedCountriesSwipeActionsContainer() -> some View {
+        if #available(iOS 27.0, *) {
+            swipeActionsContainer()
+        } else {
+            self
+        }
+    }
+}
+
+// MARK: - SavedCountriesPremiumPreview
 
 private struct SavedCountriesPremiumPreview: View {
     @Environment(\.locale) private var locale
@@ -278,7 +318,7 @@ private struct SavedCountriesPremiumPreview: View {
     }
 }
 
-// MARK: - Tips
+// MARK: - NextTripTip
 
 private struct NextTripTip: Tip {
     var title: Text {
@@ -293,6 +333,8 @@ private struct NextTripTip: Tip {
         Image(systemName: "calendar.badge.plus")
     }
 }
+
+// MARK: - FavoriteWidgetSelectorTip
 
 private struct FavoriteWidgetSelectorTip: Tip {
     var title: Text {
@@ -341,6 +383,6 @@ private struct FavoriteWidgetSelectorTip: Tip {
         homeCountryViewModel: PreviewHomeCountryViewModel(),
         analyticsTracker: NoopAnalyticsTracker()
     )
-        .modelContainer(container)
+    .modelContainer(container)
 }
 #endif

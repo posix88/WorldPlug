@@ -81,7 +81,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     travelPreferencesStore: travelPreferencesStore,
                     analyticsTracker: analyticsTracker
                 )
-                    .toolbarVisibility(.hidden, for: .tabBar)
+                .toolbarVisibility(.hidden, for: .tabBar)
             }
         }
     }
@@ -91,10 +91,12 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
               viewModel.openDeepLinkedCountry(code: countryCode) else {
             return
         }
+
         deepLinkedCountryCode = nil
     }
-
 }
+
+// MARK: - CountryResultsView
 
 private struct CountryResultsView: View {
     let countries: [Country]
@@ -115,6 +117,7 @@ private struct CountryResultsView: View {
                     .padding(.horizontal, .xxl)
                     .padding(.bottom, .xxl)
                 }
+                .swipeActionsContainer()
             } else {
                 List {
                     countryRows
@@ -166,6 +169,8 @@ private struct CountryResultsView: View {
     }
 }
 
+// MARK: - CountriesListCompatibilityHeader
+
 private struct CountriesListCompatibilityHeader: View {
     let homeCountry: Country?
     let countriesCount: Int
@@ -184,7 +189,10 @@ private struct CountriesListCompatibilityHeader: View {
 
                 CompatibilityFilterBar(selectedFilter: $selectedFilter, counts: filterCounts, tip: tip)
                     .onChange(of: selectedFilter) { oldValue, newValue in
-                        guard oldValue != newValue else { return }
+                        guard oldValue != newValue else {
+                            return
+                        }
+
                         tip.invalidate(reason: .actionPerformed)
                         onFilterSelected()
                     }

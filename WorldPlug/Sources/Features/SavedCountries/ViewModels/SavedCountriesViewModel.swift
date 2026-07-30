@@ -42,6 +42,7 @@ final class SavedCountriesViewModel {
         guard let code = travelPreferencesStore.preferences.favoriteWidgetCountryCode else {
             return nil
         }
+
         return countries.first(where: { $0.code == code })
     }
 
@@ -65,6 +66,14 @@ final class SavedCountriesViewModel {
 
     func deleteNextTrip() {
         travelPreferencesStore.setNextTrip(nil)
+    }
+
+    func removeSavedCountry(code: String) {
+        guard travelPreferencesStore.isSavedCountry(code: code) else {
+            return
+        }
+
+        travelPreferencesStore.toggleSavedCountry(code: code)
     }
 
     func selectFavoriteWidgetCountry(code: String?) {

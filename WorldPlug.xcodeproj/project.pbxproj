@@ -487,6 +487,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
@@ -530,6 +531,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;

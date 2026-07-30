@@ -2540,40 +2540,6 @@
         }
       }
     },
-    "trip.check.dates" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Travel dates"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date del viaggio"
-          }
-        }
-      }
-    },
-    "trip.check.departure" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Departure"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partenza"
-          }
-        }
-      }
-    },
     "trip.check.destination" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3220,23 +3186,6 @@
         }
       }
     },
-    "trip.check.return" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Return"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ritorno"
-          }
-        }
-      }
-    },
     "trip.check.safety.section" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3250,6 +3199,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compatibilità dei dispositivi"
+          }
+        }
+      }
+    },
+    "trip.check.scan.analyze" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze label"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analizza etichetta"
           }
         }
       }
@@ -3284,6 +3250,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inquadra la riga che inizia con INPUT, poi verifica i valori rilevati."
+          }
+        }
+      }
+    },
+    "trip.check.scan.no.values" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No input voltage found. Move closer and try again."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna tensione di ingresso trovata. Avvicinati e riprova."
+          }
+        }
+      }
+    },
+    "trip.check.scan.smart.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frame the full electrical label. Analysis stays on your device."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inquadra l’intera etichetta elettrica. L’analisi resta sul dispositivo."
           }
         }
       }

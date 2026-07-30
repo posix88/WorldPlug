@@ -83,7 +83,11 @@ struct TripCheckView: View {
                 }
             }
             .sheet(isPresented: $viewModel.isEditorPresented) {
-                TripCheckEditorView(countries: countries, premiumEntitlement: premiumEntitlement) {
+                TripCheckEditorView(
+                    countries: countries,
+                    initialCountryCode: viewModel.initialCountryCode,
+                    premiumEntitlement: premiumEntitlement
+                ) {
                     viewModel.save($0)
                 }
             }
@@ -98,7 +102,7 @@ struct TripCheckView: View {
                     requestsReviewAfterAppearance: viewModel.requestsReviewForSelectedTrip,
                     analyticsTracker: analyticsTracker
                 )
-                    .toolbarVisibility(.hidden, for: .tabBar)
+                .toolbarVisibility(.hidden, for: .tabBar)
             }
             .onAppear {
                 viewModel.updateCountries(countries)
@@ -110,6 +114,8 @@ struct TripCheckView: View {
         }
     }
 }
+
+// MARK: - TripCheckRow
 
 private struct TripCheckRow: View {
     let row: TripCheckRowModel
@@ -150,6 +156,7 @@ private struct TripCheckRow: View {
     }
 }
 
+// MARK: - TripCheckTip
 
 private struct TripCheckTip: Tip {
     var title: Text {
@@ -198,6 +205,6 @@ private struct TripCheckTip: Tip {
         premiumEntitlement: premiumEntitlement,
         analyticsTracker: NoopAnalyticsTracker()
     )
-        .modelContainer(container)
+    .modelContainer(container)
 }
 #endif

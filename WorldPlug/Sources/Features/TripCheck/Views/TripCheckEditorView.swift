@@ -14,12 +14,14 @@ struct TripCheckEditorView: View {
 
     init(
         countries: [Country],
+        initialCountryCode: String? = nil,
         premiumEntitlement: any PremiumEntitlementProviding,
         onSave: @escaping (TripCheck) -> Void
     ) {
         _viewModel = State(
             initialValue: TripCheckEditorViewModel(
                 countries: countries,
+                initialCountryCode: initialCountryCode,
                 premiumEntitlement: premiumEntitlement
             )
         )
@@ -35,7 +37,6 @@ struct TripCheckEditorView: View {
             ScrollView {
                 VStack(spacing: .xl) {
                     destinationCard
-                    datesCard
                     devicesCard
                 }
                 .padding(.horizontal, .xxl)
@@ -54,8 +55,8 @@ struct TripCheckEditorView: View {
                         onSave(viewModel.save())
                         dismiss()
                     } label: { Image(systemName: "checkmark") }
-                    .disabled(!viewModel.canSave)
-                    .accessibilityLabel(LocalizationKeys.tripCheckAction.localized)
+                        .disabled(!viewModel.canSave)
+                        .accessibilityLabel(LocalizationKeys.tripCheckAction.localized)
                 }
             }
             .navigationDestination(for: TripCheckEditorRoute.self) { route in
@@ -67,8 +68,12 @@ struct TripCheckEditorView: View {
                         onSave: viewModel.appendDevice,
                         onScanRequested: viewModel.requestLabelScan
                     )
+
                 case .labelScanner:
-                    DeviceLabelScannerView(onRecognized: viewModel.receiveScannedValues)
+                    DeviceLabelScannerView(
+                        interpreter: FoundationModelDeviceLabelInterpreter(),
+                        onRecognized: viewModel.receiveScannedValues
+                    )
                 }
             }
             .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
@@ -100,25 +105,6 @@ struct TripCheckEditorView: View {
                 .padding(.lg)
                 .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
             }
-        }
-    }
-
-    private var datesCard: some View {
-        TripCheckEditorCard(title: LocalizationKeys.tripCheckDates.localized) {
-            DatePicker(
-                LocalizationKeys.tripCheckDeparture.localized,
-                selection: $viewModel.tripCheck.departureDate,
-                displayedComponents: .date
-            )
-
-            Divider()
-
-            DatePicker(
-                LocalizationKeys.tripCheckReturn.localized,
-                selection: $viewModel.returnDate,
-                in: viewModel.tripCheck.departureDate...,
-                displayedComponents: .date
-            )
         }
     }
 
@@ -170,8 +156,9 @@ struct TripCheckEditorView: View {
             Image(systemName: device.symbolName)
         }
     }
-
 }
+
+// MARK: - TripCheckEditorCard
 
 private struct TripCheckEditorCard<Content: View>: View {
     let title: String

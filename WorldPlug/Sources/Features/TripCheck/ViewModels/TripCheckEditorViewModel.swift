@@ -9,21 +9,27 @@ enum TripCheckEditorRoute: Hashable {
     case labelScanner
 }
 
+// MARK: - TripCheckEditorViewModel
+
 @Observable
 @MainActor
 final class TripCheckEditorViewModel {
     private let premiumEntitlement: any PremiumEntitlementProviding
 
     var tripCheck: TripCheck
-    var returnDate: Date
     var navigationPath: [TripCheckEditorRoute] = []
     var isPremiumPaywallPresented = false
     var scannedValues: DeviceLabelValues?
 
-    init(countries: [Country], premiumEntitlement: any PremiumEntitlementProviding) {
-        let initial = TripCheck(countryCode: countries.first?.code ?? "")
-        self.tripCheck = initial
-        self.returnDate = initial.returnDate
+    init(
+        countries: [Country],
+        initialCountryCode: String? = nil,
+        premiumEntitlement: any PremiumEntitlementProviding
+    ) {
+        let countryCode = initialCountryCode.flatMap { code in
+            countries.contains(where: { $0.code == code }) ? code : nil
+        } ?? countries.first?.code ?? ""
+        self.tripCheck = TripCheck(countryCode: countryCode)
         self.premiumEntitlement = premiumEntitlement
     }
 
@@ -32,8 +38,7 @@ final class TripCheckEditorViewModel {
     }
 
     func save() -> TripCheck {
-        tripCheck.returnDate = returnDate
-        return tripCheck
+        tripCheck
     }
 
     func addDevice() {
@@ -41,6 +46,7 @@ final class TripCheckEditorViewModel {
             isPremiumPaywallPresented = true
             return
         }
+
         navigationPath.append(.deviceEditor)
     }
 

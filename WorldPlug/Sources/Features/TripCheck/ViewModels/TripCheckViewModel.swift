@@ -13,6 +13,8 @@ struct TripCheckRowModel: Identifiable {
     var id: UUID { tripCheck.id }
 }
 
+// MARK: - TripCheckViewModel
+
 @Observable
 @MainActor
 final class TripCheckViewModel {
@@ -43,12 +45,22 @@ final class TripCheckViewModel {
         travelPreferencesStore.preferences.tripChecks.sorted { $0.departureDate < $1.departureDate }
     }
 
+    var initialCountryCode: String? {
+        guard let countryCode = travelPreferencesStore.preferences.nextTrip?.countryCode,
+              countries.contains(where: { $0.code == countryCode }) else {
+            return nil
+        }
+
+        return countryCode
+    }
+
     var rows: [TripCheckRowModel] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
         return tripChecks.compactMap { tripCheck in
             guard let country = countriesByCode[tripCheck.countryCode] else {
                 return nil
             }
+
             let assessments = TripSafetyChecker.assessments(
                 devices: tripCheck.devices,
                 homeCountry: homeCountryViewModel.homeCountry,
@@ -76,6 +88,7 @@ final class TripCheckViewModel {
             isPremiumPaywallPresented = true
             return
         }
+
         analyticsTracker.track(.tripCheckStarted)
         isEditorPresented = true
     }

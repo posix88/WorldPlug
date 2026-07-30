@@ -1,7 +1,7 @@
 import Repository
 import SwiftUI
 
-// MARK: - CountryBrowserRow
+// MARK: - CountryBrowserRowModel
 
 struct CountryBrowserRowModel {
     let country: Country
@@ -10,12 +10,15 @@ struct CountryBrowserRowModel {
     let isPremium: Bool
 }
 
+// MARK: - CountryBrowserRow
+
 struct CountryBrowserRow: View {
     let model: CountryBrowserRowModel
     let compatibility: CountryCompatibilitySummary?
     let onToggleHomeCountry: (String) -> Void
     let onToggleSavedCountry: (String) -> Bool
     @State private var isPremiumPaywallPresented = false
+    @State private var actionFeedbackTrigger = 0
 
     var body: some View {
         NavigationLink(value: model.country) {
@@ -26,7 +29,7 @@ struct CountryBrowserRow: View {
             )
         }
         .buttonStyle(.plain)
-        .swipeActions(edge: .leading, allowsFullSwipe: false) {
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button {
                 toggleHomeCountry()
             } label: {
@@ -39,7 +42,7 @@ struct CountryBrowserRow: View {
             )
             .tint(model.isHomeCountry ? .statusUnsafe : .voltTint)
         }
-        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(action: handleSavedCountryAction) {
                 savedCountryIcon
             }
@@ -68,14 +71,19 @@ struct CountryBrowserRow: View {
         .sheet(isPresented: $isPremiumPaywallPresented) {
             PremiumPaywallView(source: .countryDetailSave)
         }
+        .sensoryFeedback(.selection, trigger: actionFeedbackTrigger)
     }
 
     private func toggleHomeCountry() {
         onToggleHomeCountry(model.country.code)
+        actionFeedbackTrigger += 1
     }
 
     private var savedCountrySymbolName: String {
-        guard model.isPremium else { return "star.fill" }
+        guard model.isPremium else {
+            return "star.fill"
+        }
+
         return model.isSavedCountry ? "star.slash.fill" : "star.fill"
     }
 
@@ -95,6 +103,7 @@ struct CountryBrowserRow: View {
         guard model.isPremium else {
             return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
         }
+
         return model.isSavedCountry
             ? LocalizationKeys.savedCountriesRemove.localized
             : LocalizationKeys.savedCountriesAdd.localized
@@ -105,6 +114,8 @@ struct CountryBrowserRow: View {
             isPremiumPaywallPresented = true
             return
         }
+
+        actionFeedbackTrigger += 1
     }
 }
 
@@ -141,9 +152,9 @@ import SwiftData
             onToggleHomeCountry: { _ in },
             onToggleSavedCountry: { _ in true }
         )
-            .padding(.xxl)
-            .modelContainer(container)
-            .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel(homeCountryCode: "GB", plugTypeIDs: ["G"]))
+        .padding(.xxl)
+        .modelContainer(container)
+        .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel(homeCountryCode: "GB", plugTypeIDs: ["G"]))
     }
 }
 #endif

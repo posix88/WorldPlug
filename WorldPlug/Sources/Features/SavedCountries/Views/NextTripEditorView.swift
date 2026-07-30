@@ -9,6 +9,7 @@ struct NextTripEditorView: View {
     @Environment(\.locale) private var locale
     @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var viewModel: NextTripEditorViewModel
+    @State private var isDeleteConfirmationPresented = false
 
     let countries: [Country]
     let onSave: (NextTrip) -> Void
@@ -72,25 +73,30 @@ struct NextTripEditorView: View {
                         )
                     )
                 }
-
-                if viewModel.isExisting {
-                    Section {
-                        Button(role: .destructive) {
-                            onDelete()
-                            dismiss()
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                        .accessibilityLabel(LocalizationKeys.nextTripRemove.localized)
-                    }
-                }
             }
             .onChange(of: viewModel.trip.departureDate) { _, _ in
                 viewModel.departureDateChanged()
             }
             .navigationTitle(LocalizationKeys.nextTripTitle.localized)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                if viewModel.isExisting {
+                    removeTripButton
+                }
+            }
             .onAppear {
                 analyticsTracker.screen(.nextTrip)
+            }
+            .confirmationDialog(
+                LocalizationKeys.nextTripRemove.localized,
+                isPresented: $isDeleteConfirmationPresented,
+                titleVisibility: .visible
+            ) {
+                Button(LocalizationKeys.nextTripRemove.localized, role: .destructive) {
+                    onDelete()
+                    dismiss()
+                }
+
+                Button(LocalizationKeys.nextTripCancel.localized, role: .cancel) {}
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -116,6 +122,23 @@ struct NextTripEditorView: View {
         }
     }
 
+    private var removeTripButton: some View {
+        Button(role: .destructive) {
+            isDeleteConfirmationPresented = true
+        } label: {
+            Label(LocalizationKeys.nextTripRemove.localized, systemImage: "trash")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.large)
+        .tint(.statusUnsafe)
+        .padding(.horizontal, .xxl)
+        .padding(.vertical, .md)
+        .background(.regularMaterial)
+        .overlay(alignment: .top) {
+            Divider()
+        }
+    }
 }
 
 #if DEBUG
