@@ -1,8 +1,7 @@
 import Foundation
+@testable import Repository
 import SwiftData
 import Testing
-
-@testable import Repository
 
 // MARK: - Container
 

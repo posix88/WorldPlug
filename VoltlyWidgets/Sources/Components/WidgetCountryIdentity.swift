@@ -11,6 +11,8 @@ extension CountrySnapshot {
     }
 }
 
+// MARK: - WidgetCountryIdentity
+
 struct WidgetCountryIdentity: View {
     let country: CountrySnapshot
 

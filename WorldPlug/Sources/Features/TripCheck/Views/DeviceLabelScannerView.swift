@@ -1,3 +1,4 @@
+import Analytics
 import SwiftUI
 import VisionKit
 
@@ -5,9 +6,11 @@ import VisionKit
 
 struct DeviceLabelScannerView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var viewModel: DeviceLabelScannerViewModel
     @State private var camera = DeviceLabelScannerCamera()
     @State private var recognizedText = ""
+    @State private var analyzeTask: Task<Void, Never>?
     let onRecognized: (DeviceLabelValues) -> Void
 
     init(
@@ -24,6 +27,7 @@ struct DeviceLabelScannerView: View {
                 ZStack(alignment: .bottom) {
                     DeviceLabelDataScanner(
                         camera: camera,
+                        analyticsTracker: analyticsTracker,
                         onRecognizedTextChanged: { recognizedText = $0 },
                         onRecognizedTextTapped: finishWithRecognizedText
                     )
@@ -41,6 +45,9 @@ struct DeviceLabelScannerView: View {
         }
         .navigationTitle(LocalizationKeys.tripCheckScanLabel.localized)
         .navigationBarTitleDisplayMode(.inline)
+        .onDisappear {
+            analyzeTask?.cancel()
+        }
     }
 
     private var scannerControls: some View {
@@ -64,9 +71,7 @@ struct DeviceLabelScannerView: View {
             }
 
             Button {
-                Task {
-                    await analyzeLabel()
-                }
+                startAnalyzing()
             } label: {
                 Group {
                     if viewModel.state == .analyzing {
@@ -92,9 +97,41 @@ struct DeviceLabelScannerView: View {
         .padding(.bottom, .lg)
     }
 
+    /// Guards re-entrancy (a fast double-tap, or a live-recognized-text tap arriving mid-scan)
+    /// and cancels any still-running analysis before starting a new one, so at most one
+    /// capture/analyze round trip — and therefore at most one `finish(with:)`/`dismiss()` — can
+    /// be in flight at a time.
+    private func startAnalyzing() {
+        guard viewModel.state != .analyzing else {
+            return
+        }
+
+        analyzeTask?.cancel()
+        analyzeTask = Task {
+            await analyzeLabel()
+        }
+    }
+
     private func analyzeLabel() async {
+        // Marked *before* the capture starts (not after it, inside `viewModel.analyze`), so the
+        // "Analyze" button disables for the whole round trip, not just once the photo is back.
+        viewModel.beginAnalyzing()
+
         let image = viewModel.usesFoundationModel ? try? await camera.capturePhoto() : nil
-        guard let values = await viewModel.analyze(image: image, fallbackText: recognizedText) else {
+        guard !Task.isCancelled else {
+            return
+        }
+
+        let values = await viewModel.analyze(image: image, fallbackText: recognizedText)
+
+        if let failureReason = viewModel.lastSmartAnalysisFailureReason {
+            analyticsTracker.track(
+                .deviceLabelSmartAnalysisFailed,
+                parameters: ["error": .string(failureReason)]
+            )
+        }
+
+        guard let values else {
             return
         }
 
@@ -102,7 +139,7 @@ struct DeviceLabelScannerView: View {
     }
 
     private func finishWithRecognizedText(_ text: String) {
-        guard let values = viewModel.recognizedValues(in: text) else {
+        guard viewModel.state != .analyzing, let values = viewModel.recognizedValues(in: text) else {
             return
         }
 
@@ -141,6 +178,7 @@ private enum DeviceLabelScannerCameraError: Error {
 
 private struct DeviceLabelDataScanner: UIViewControllerRepresentable {
     let camera: DeviceLabelScannerCamera
+    let analyticsTracker: any AnalyticsTracker
     let onRecognizedTextChanged: (String) -> Void
     let onRecognizedTextTapped: (String) -> Void
 
@@ -163,7 +201,19 @@ private struct DeviceLabelDataScanner: UIViewControllerRepresentable {
         )
         scanner.delegate = context.coordinator
         camera.scanner = scanner
-        try? scanner.startScanning()
+
+        do {
+            try scanner.startScanning()
+        } catch {
+            // The scanner screen still renders (with live recognition simply never starting),
+            // so without this a permission revoked mid-session or busy-hardware failure here is
+            // completely silent — nothing else in this flow would ever record it.
+            analyticsTracker.track(
+                .deviceLabelScanStartFailed,
+                parameters: ["error": .string(String(describing: error))]
+            )
+        }
+
         return scanner
     }
 

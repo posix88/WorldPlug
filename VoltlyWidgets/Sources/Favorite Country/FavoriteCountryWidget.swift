@@ -56,6 +56,8 @@ private struct FavoriteCountryWidgetView: View {
     }
 }
 
+// MARK: - FavoriteCountryEmptyWidgetView
+
 private struct FavoriteCountryEmptyWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
@@ -63,6 +65,7 @@ private struct FavoriteCountryEmptyWidgetView: View {
         switch family {
         case .accessoryInline:
             WidgetStrings.text("widget.favorite.empty.inline")
+
         case .accessoryRectangular:
             VStack(alignment: .leading, spacing: 4) {
                 WidgetStrings.text("widget.favorite.empty.title")
@@ -72,6 +75,7 @@ private struct FavoriteCountryEmptyWidgetView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
         default:
             ZStack {
                 WidgetBackground()
@@ -96,6 +100,8 @@ private struct FavoriteCountryEmptyWidgetView: View {
     }
 }
 
+// MARK: - FavoriteCountryLockedWidgetView
+
 private struct FavoriteCountryLockedWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
@@ -103,6 +109,7 @@ private struct FavoriteCountryLockedWidgetView: View {
         switch family {
         case .accessoryInline:
             Label(WidgetStrings.string("widget.favorite.locked.title"), systemImage: "lock.fill")
+
         case .accessoryRectangular:
             VStack(alignment: .leading, spacing: 4) {
                 Label(WidgetStrings.string("widget.favorite.locked.title"), systemImage: "lock.fill")
@@ -112,6 +119,7 @@ private struct FavoriteCountryLockedWidgetView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
         default:
             ZStack {
                 WidgetBackground()

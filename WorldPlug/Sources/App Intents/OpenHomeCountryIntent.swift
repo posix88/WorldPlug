@@ -18,9 +18,13 @@ struct OpenHomeCountryIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult & ProvidesDialog {
-        let defaults = UserDefaults(suiteName: AppGroup.identifier)
-        guard let countryCode = defaults?.string(forKey: AppGroup.homeCountryCodeKey),
-              !countryCode.isEmpty else {
+        // Reuse the same App-Group-with-standard-defaults-fallback logic the rest of the app
+        // uses (`UserDefaultsHomeCountryStore`), instead of reading only the App Group suite —
+        // a raw `UserDefaults(suiteName:)` read here would report "no home country set" if the
+        // App Group container is ever transiently unavailable to this intent's execution
+        // context, even though a value exists.
+        let countryCode = UserDefaultsHomeCountryStore().homeCountryCode
+        guard !countryCode.isEmpty else {
             return .result(
                 dialog: IntentDialog(
                     LocalizedStringResource(

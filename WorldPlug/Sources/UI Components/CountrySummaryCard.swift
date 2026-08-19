@@ -1,6 +1,8 @@
 import Repository
 import SwiftUI
 
+// MARK: - CountrySummaryCard
+
 /// The shared visual representation of a country in browsable country lists.
 struct CountrySummaryCard: View {
     let country: Country
@@ -97,6 +99,8 @@ struct CountrySummaryCard: View {
         return components.joined(separator: ", ")
     }
 }
+
+// MARK: - CompatibilityStatusIndicator
 
 private struct CompatibilityStatusIndicator: View {
     let summary: CountryCompatibilitySummary

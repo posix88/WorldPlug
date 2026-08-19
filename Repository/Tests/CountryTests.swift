@@ -1,7 +1,7 @@
+import Foundation
+@testable import Repository
 import SwiftData
 import Testing
-
-@testable import Repository
 
 // MARK: - Country Tests
 
@@ -12,8 +12,8 @@ struct CountryTests {
     private let context: ModelContext
 
     init() throws {
-        container = try makeContainer()
-        context = container.mainContext
+        self.container = try makeContainer()
+        self.context = container.mainContext
     }
 
     @Test("code is stored unchanged")

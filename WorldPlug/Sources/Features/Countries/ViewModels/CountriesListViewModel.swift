@@ -68,6 +68,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
         guard selectedFilter != .all, !homeCountryViewModel.homeCountryCode.isEmpty else {
             return filteredCountries
         }
+
         return filteredCountries.filter {
             compatibilitySummaries[$0.code]?.filter == selectedFilter
         }
@@ -87,7 +88,14 @@ final class CountriesListViewModel: CountriesListViewModelType {
             countries = try modelContext.fetch(FetchDescriptor<Country>())
             search(query: "", locale: .current)
         } catch {
+            // `assertionFailure` is compiled out in release, so without this the entire
+            // catalog silently going empty (every feature depends on it) would be invisible
+            // in production — at least surface it in analytics so it's discoverable.
             assertionFailure("Unable to fetch countries: \(error.localizedDescription)")
+            analyticsTracker.track(
+                .catalogFetchFailed,
+                parameters: ["error": .string(String(describing: error))]
+            )
         }
     }
 
@@ -128,6 +136,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
         guard let country = countries.first(where: { $0.code.uppercased() == normalizedCode }) else {
             return false
         }
+
         selectedFilter = .all
         search(query: "")
         navigationPath = [country]
@@ -156,7 +165,10 @@ final class CountriesListViewModel: CountriesListViewModelType {
     }
 
     func toggleSavedCountry(code: String) -> Bool {
-        guard premiumEntitlement.isPremium else { return false }
+        guard premiumEntitlement.isPremium else {
+            return false
+        }
+
         travelPreferencesStore.toggleSavedCountry(code: code)
         return true
     }
@@ -216,6 +228,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
             isPremium: true
         )
     }
+
     func toggleHomeCountry(code: String) {}
     func toggleSavedCountry(code: String) -> Bool { true }
 
@@ -224,6 +237,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
         guard let country = allCountries.first(where: { $0.code.uppercased() == normalizedCode }) else {
             return false
         }
+
         selectedFilter = .all
         search(query: "")
         navigationPath = [country]

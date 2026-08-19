@@ -58,8 +58,17 @@ struct PackDeviceEditorView: View {
             }
         }
         .onChange(of: scannerValues) { _, values in
-            guard let values else { return }
+            guard let values else {
+                return
+            }
+
             viewModel.applyScannedValues(values)
+            // Consume it: `scannedValues` lives on the trip-level view model and outlives this
+            // editor instance (a new device editor is pushed for each device added), so leaving
+            // it set would mean a *second* device that happens to scan to the exact same
+            // voltage/frequency never sees a value change — `onChange` only fires on an actual
+            // transition, and the value would already equal what it's being set to.
+            scannerValues = nil
         }
         .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
             PremiumPaywallView(source: .tripCheck)
@@ -83,6 +92,8 @@ struct PackDeviceEditorView: View {
         dismiss()
     }
 }
+
+// MARK: - ScanDeviceLabelCard
 
 private struct ScanDeviceLabelCard: View {
     let isPremium: Bool
@@ -126,6 +137,8 @@ private struct ScanDeviceLabelCard: View {
     }
 }
 
+// MARK: - DeviceIdentityCard
+
 private struct DeviceIdentityCard: View {
     @Binding var name: String
     @Binding var symbolName: String
@@ -159,6 +172,8 @@ private struct DeviceIdentityCard: View {
         }
     }
 }
+
+// MARK: - DeviceIconPickerSheet
 
 private struct DeviceIconPickerSheet: View {
     @Environment(\.dismiss) private var dismiss
@@ -221,6 +236,8 @@ private struct DeviceIconPickerSheet: View {
     }
 }
 
+// MARK: - DeviceElectricalRatingsCard
+
 private struct DeviceElectricalRatingsCard: View {
     @Binding var voltage: String
     @Binding var frequency: String
@@ -243,6 +260,8 @@ private struct DeviceElectricalRatingsCard: View {
         }
     }
 }
+
+// MARK: - WheelPicker
 
 private struct WheelPicker: View {
     let title: String

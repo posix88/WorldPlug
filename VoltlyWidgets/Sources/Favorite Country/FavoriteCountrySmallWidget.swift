@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - FavoriteCountrySmallWidget
+
 struct FavoriteCountrySmallWidget: View {
     let country: CountrySnapshot
 

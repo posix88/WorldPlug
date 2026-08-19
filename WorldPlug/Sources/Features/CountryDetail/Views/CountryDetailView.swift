@@ -30,6 +30,12 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
         .mapStyle(.standard(elevation: .realistic))
         .ignoresSafeArea(edges: .bottom)
+        .overlay(alignment: .top) {
+            if viewModel.mapLoadState == .unavailable {
+                mapUnavailableNotice
+                    .padding(.top, .xl)
+            }
+        }
         .navigationTitle(countryName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -125,6 +131,15 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
     private var countryName: String {
         viewModel.country.localizedName(in: locale)
+    }
+
+    private var mapUnavailableNotice: some View {
+        Label(LocalizationKeys.countryDetailMapUnavailable.localized, systemImage: "mappin.slash")
+            .font(.caption.weight(.medium))
+            .foregroundStyle(.textRegular)
+            .padding(.horizontal, .lg)
+            .padding(.vertical, .sm)
+            .background(.regularMaterial, in: Capsule())
     }
 
     private func handleSavedCountryAction() {

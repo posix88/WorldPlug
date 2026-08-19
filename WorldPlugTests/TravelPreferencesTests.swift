@@ -28,11 +28,11 @@ struct TravelPreferencesTests {
     @Test
     func decodesPreferencesStoredBeforeHomeCountrySync() throws {
         let data = """
-        {
-          "savedCountryCodes": ["JP"],
-          "favoriteWidgetCountryCode": "JP"
-        }
-        """.data(using: .utf8)!
+            {
+              "savedCountryCodes": ["JP"],
+              "favoriteWidgetCountryCode": "JP"
+            }
+            """.data(using: .utf8)!
 
         let preferences = try JSONDecoder().decode(TravelPreferences.self, from: data)
 

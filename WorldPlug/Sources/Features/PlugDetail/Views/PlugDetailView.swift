@@ -43,6 +43,8 @@ struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
     }
 }
 
+// MARK: - PlugDetailHero
+
 private struct PlugDetailHero: View {
     let plugID: String
 
@@ -64,6 +66,8 @@ private struct PlugDetailHero: View {
         .padding(.top, .lg)
     }
 }
+
+// MARK: - PlugDetailOverview
 
 private struct PlugDetailOverview: View {
     let description: String
@@ -87,6 +91,8 @@ private struct PlugDetailOverview: View {
     }
 }
 
+// MARK: - PlugDetailSpecifications
+
 private struct PlugDetailSpecifications: View {
     let plug: Plug
 
@@ -99,9 +105,24 @@ private struct PlugDetailSpecifications: View {
                     color: .voltTint
                 )
 
-                SpecificationRow(icon: .powerPlug, title: LocalizationKeys.pinDiameter.localized, value: plug.pinDiameter, color: .voltTint)
-                SpecificationRow(icon: .waveform, title: LocalizationKeys.pinSpacing.localized, value: plug.pinSpacing, color: .frequencyTint)
-                SpecificationRow(icon: .batteryFull, title: LocalizationKeys.ratedAmperage.localized, value: plug.ratedAmperage, color: .buttonInfoTint)
+                SpecificationRow(
+                    icon: .powerPlug,
+                    title: LocalizationKeys.pinDiameter.localized,
+                    value: plug.pinDiameter,
+                    color: .voltTint
+                )
+                SpecificationRow(
+                    icon: .waveform,
+                    title: LocalizationKeys.pinSpacing.localized,
+                    value: plug.pinSpacing,
+                    color: .frequencyTint
+                )
+                SpecificationRow(
+                    icon: .batteryFull,
+                    title: LocalizationKeys.ratedAmperage.localized,
+                    value: plug.ratedAmperage,
+                    color: .buttonInfoTint
+                )
 
                 VStack(alignment: .leading, spacing: .sm) {
                     Text(LocalizationKeys.alsoKnownAs.localized)
@@ -121,6 +142,8 @@ private struct PlugDetailSpecifications: View {
         .padding(.horizontal, .xl)
     }
 }
+
+// MARK: - PlugDetailSectionHeader
 
 private struct PlugDetailSectionHeader: View {
     let icon: SFSymbols

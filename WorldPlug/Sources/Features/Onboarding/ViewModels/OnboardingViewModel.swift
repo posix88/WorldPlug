@@ -44,7 +44,10 @@ final class OnboardingViewModel: OnboardingViewModelType {
     }
 
     func completeSelection() -> Bool {
-        guard let selectedCountry else { return false }
+        guard let selectedCountry else {
+            return false
+        }
+
         homeCountryViewModel.setHome(code: selectedCountry.code)
         return true
     }
@@ -75,6 +78,7 @@ final class PreviewOnboardingViewModel: OnboardingViewModelType {
             .filter { searchQuery.isEmpty || $0.localizedName(in: locale).localizedCaseInsensitiveContains(searchQuery) }
             .sortedByLocalizedName(in: locale)
     }
+
     func screenAppeared() {}
     func completeSelection() -> Bool { selectedCountry != nil }
 }

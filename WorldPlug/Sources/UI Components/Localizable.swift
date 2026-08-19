@@ -83,6 +83,8 @@ enum LocalizationKeys {
     static let premiumPaywallBenefitWidgets = "premium.paywall.benefit.widgets"
     static let premiumPaywallErrorTitle = "premium.paywall.error.title"
     static let premiumPaywallDismiss = "premium.paywall.dismiss"
+    static let premiumPaywallPendingTitle = "premium.paywall.pending.title"
+    static let premiumPaywallPendingMessage = "premium.paywall.pending.message"
 
     // MARK: - Trip Check
 
@@ -188,6 +190,7 @@ enum LocalizationKeys {
     static let countryDetailCompatibilityOverview = "country.detail.compatibility.overview"
     static let countryDetailAllPlugs = "country.detail.all.plugs"
     static let countryDetailMapLocating = "country.detail.map.locating"
+    static let countryDetailMapUnavailable = "country.detail.map.unavailable"
     static let countryDetailExpand = "country.detail.expand"
     static let countryDetailCollapse = "country.detail.collapse"
     static let searchCountriesPlaceholder = "search.countries.placeholder"

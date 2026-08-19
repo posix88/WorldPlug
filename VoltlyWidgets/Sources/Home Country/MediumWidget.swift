@@ -1,6 +1,8 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - MediumWidget
+
 struct MediumWidget: View {
     let entry: HomeCountryEntry
 

@@ -9,6 +9,7 @@ enum VoltlyDeepLink {
               let code = url.pathComponents.dropFirst().first else {
             return nil
         }
+
         return normalizedCountryCode(code)
     }
 

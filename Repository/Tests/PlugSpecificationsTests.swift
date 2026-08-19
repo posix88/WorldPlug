@@ -1,7 +1,6 @@
 import Foundation
-import Testing
-
 @testable import Repository
+import Testing
 
 // MARK: - PlugSpecifications Tests
 
@@ -41,13 +40,13 @@ struct PlugSpecificationsTests {
     @Test("Decodes correctly from snake_case JSON")
     func decodesFromSnakeCaseJSON() throws {
         let json = """
-        {
-            "pin_diameter": "1.5mm",
-            "pin_spacing": "12.7mm",
-            "rated_amperage": "10A",
-            "also_known_as": "NEMA 5-15"
-        }
-        """.data(using: .utf8)!
+            {
+                "pin_diameter": "1.5mm",
+                "pin_spacing": "12.7mm",
+                "rated_amperage": "10A",
+                "also_known_as": "NEMA 5-15"
+            }
+            """.data(using: .utf8)!
 
         let specs = try JSONDecoder().decode(PlugSpecifications.self, from: json)
         #expect(specs.pinDiameter == "1.5mm")

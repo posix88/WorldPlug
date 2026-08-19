@@ -28,6 +28,7 @@ final class PackDeviceEditorViewModel {
             isPremiumPaywallPresented = true
             return false
         }
+
         return true
     }
 
@@ -46,7 +47,10 @@ final class PackDeviceEditorViewModel {
     }
 
     func iconPickerDismissed() {
-        guard shouldPresentIconPaywall else { return }
+        guard shouldPresentIconPaywall else {
+            return
+        }
+
         shouldPresentIconPaywall = false
         isPremiumPaywallPresented = true
     }

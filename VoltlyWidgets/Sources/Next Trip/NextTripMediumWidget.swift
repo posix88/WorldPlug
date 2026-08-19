@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - NextTripMediumWidget
+
 struct NextTripMediumWidget: View {
     let homeCountry: CountrySnapshot?
     let country: CountrySnapshot
@@ -11,6 +13,7 @@ struct NextTripMediumWidget: View {
     private var countdown: NextTripCountdown {
         NextTripCountdown(departureDate: departureDate, returnDate: returnDate)
     }
+
     private var compatibility: NextTripCompatibility {
         NextTripCompatibility(homeCountry: homeCountry, destination: country)
     }
@@ -44,6 +47,13 @@ struct NextTripMediumWidget: View {
 #Preview(as: .systemMedium) {
     NextTripWidget()
 } timeline: {
-    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), returnDate: .now.addingTimeInterval(20 * 86_400), isPremium: true)
+    NextTripEntry(
+        date: .now,
+        homeCountry: .preview,
+        country: .preview,
+        departureDate: .now.addingTimeInterval(12 * 86400),
+        returnDate: .now.addingTimeInterval(20 * 86400),
+        isPremium: true
+    )
 }
 #endif

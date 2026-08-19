@@ -4,7 +4,9 @@ import SwiftUI
 // MARK: - VoltageCompatibility
 
 enum VoltageCompatibility {
-    static func isCompatible(_ lhs: String, _ rhs: String, tolerance: Int = 20) -> Bool {
+    /// `minimumTolerance` is an absolute floor (in volts) applied on top of the percentage-based
+    /// tolerance below, so very low nominal voltages still get a sane minimum band.
+    static func isCompatible(_ lhs: String, _ rhs: String, minimumTolerance: Int = 10) -> Bool {
         let lhsVoltages = parseVoltages(lhs)
         let rhsVoltages = parseVoltages(rhs)
 
@@ -14,9 +16,28 @@ enum VoltageCompatibility {
 
         return lhsVoltages.contains { lhsVoltage in
             rhsVoltages.contains { rhsVoltage in
-                abs(lhsVoltage - rhsVoltage) <= tolerance
+                abs(lhsVoltage - rhsVoltage) <= tolerance(for: lhsVoltage, rhsVoltage, minimumTolerance: minimumTolerance)
             }
         }
+    }
+
+    /// Whether `string` contains at least one recognizable voltage value. Callers that feed in
+    /// arbitrary/user-provided text (e.g. a camera-scanned device label) should check this before
+    /// trusting `isCompatible`, since `isCompatible` treats unparseable input as compatible by
+    /// design (there's nothing to compare) — that default is wrong for a safety check, where
+    /// "unreadable" must not be conflated with "safe". See `DeviceSafetyAssessment`.
+    static func hasRecognizedValue(_ string: String) -> Bool {
+        !parseVoltages(string).isEmpty
+    }
+
+    /// A flat absolute tolerance (e.g. ±20V for every comparison) is a much larger relative
+    /// margin on a 100V-class device than on a 230V-class one — on a fixed single-voltage
+    /// heating/motorized appliance that's a real overheating risk, not just "runs a bit hot".
+    /// Scale the tolerance to the lower nominal voltage instead (±10%), with an absolute floor
+    /// so very low voltages still get a workable band.
+    private static func tolerance(for lhsVoltage: Int, _ rhsVoltage: Int, minimumTolerance: Int) -> Int {
+        let nominalVoltage = max(min(lhsVoltage, rhsVoltage), 1)
+        return max(minimumTolerance, Int((Double(nominalVoltage) * 0.1).rounded()))
     }
 
     private static func parseVoltages(_ string: String) -> [Int] {

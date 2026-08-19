@@ -17,11 +17,23 @@ final class AppCoordinator {
     private let navigationModel: AppNavigationModel
     private let appGroupDefaults: UserDefaults
     private let standardDefaults: UserDefaults
+    /// Whether onboarding still needs to run, decided once at launch. Kept separate from
+    /// `isOnboardingPresented` so the onboarding cover doesn't appear until the launch
+    /// splash has finished — see `launchExperienceCompleted()`.
+    private let needsOnboarding: Bool
 
     var premiumPaywallSource: PremiumPaywallSource?
     var isLaunchExperiencePresented = true
-    var isOnboardingPresented: Bool
-    
+    /// Only ever flips to `true` from `launchExperienceCompleted()`, never at init, so a
+    /// first-time user sees the launch splash before the onboarding cover appears on top of it.
+    var isOnboardingPresented = false
+    /// Flips to `true` once `premiumEntitlement.refreshEntitlements()` resolves. `LaunchExperienceView`
+    /// waits for this (in addition to its minimum splash duration) before dismissing, so the app
+    /// is never revealed with a stale/default `isPremium` — without this a genuinely premium user
+    /// could briefly see locked content, or even have a tap during that window misrouted to the
+    /// paywall, right after a cold launch.
+    private(set) var hasRefreshedEntitlements = false
+
     init(
         homeCountryViewModel: any HomeCountryViewModelType,
         premiumEntitlement: any PremiumEntitlementProviding,
@@ -34,12 +46,13 @@ final class AppCoordinator {
         self.navigationModel = navigationModel
         self.appGroupDefaults = appGroupDefaults
         self.standardDefaults = standardDefaults
-        self.isOnboardingPresented = !standardDefaults.bool(forKey: Keys.hasSeenOnboarding)
+        self.needsOnboarding = !standardDefaults.bool(forKey: Keys.hasSeenOnboarding)
     }
 
     func start() async {
         syncPremiumWidgetAccess()
         await premiumEntitlement.refreshEntitlements()
+        hasRefreshedEntitlements = true
         try? await CountrySpotlightIndex.indexAllCountries()
     }
 
@@ -58,6 +71,9 @@ final class AppCoordinator {
 
     func launchExperienceCompleted() {
         isLaunchExperiencePresented = false
+        if needsOnboarding {
+            isOnboardingPresented = true
+        }
     }
 
     func open(_ url: URL) {

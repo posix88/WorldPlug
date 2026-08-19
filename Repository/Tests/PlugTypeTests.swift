@@ -1,7 +1,6 @@
 import Foundation
-import Testing
-
 @testable import Repository
+import Testing
 
 // MARK: - PlugType Tests
 

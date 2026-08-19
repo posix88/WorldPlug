@@ -1,9 +1,11 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - AccessoryInlineWidget
+
 struct AccessoryInlineWidget: View {
     let entry: HomeCountryEntry
-    
+
     var body: some View {
         if let country = entry.country {
             Text("\(country.flagUnicode) \(country.voltage) \(country.frequency)")

@@ -2,6 +2,8 @@ import Foundation
 import Repository
 import SwiftUI
 
+// MARK: - NextTripCompatibility
+
 enum NextTripCompatibility {
     case homeCountryMissing
     case compatible
@@ -13,12 +15,10 @@ enum NextTripCompatibility {
             self = .homeCountryMissing
             return
         }
-
         guard homeCountry.code != destination.code else {
             self = .compatible
             return
         }
-
         guard Self.isVoltageCompatible(homeCountry.voltage, destination.voltage) else {
             self = .converterRequired
             return
@@ -86,6 +86,8 @@ enum NextTripCompatibility {
     }
 }
 
+// MARK: - NextTripCompatibilityCard
+
 struct NextTripCompatibilityCard: View {
     let compatibility: NextTripCompatibility
 
@@ -113,6 +115,8 @@ struct NextTripCompatibilityCard: View {
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
     }
 }
+
+// MARK: - NextTripCompactCompatibility
 
 struct NextTripCompactCompatibility: View {
     let compatibility: NextTripCompatibility

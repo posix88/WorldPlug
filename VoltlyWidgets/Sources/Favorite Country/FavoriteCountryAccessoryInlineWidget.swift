@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - FavoriteCountryAccessoryInlineWidget
+
 struct FavoriteCountryAccessoryInlineWidget: View {
     let country: CountrySnapshot
 

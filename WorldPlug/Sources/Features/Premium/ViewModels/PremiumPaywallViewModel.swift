@@ -12,6 +12,9 @@ final class PremiumPaywallViewModel {
     let source: PremiumPaywallSource
     var isPurchasing = false
     var errorMessage: String?
+    /// Set when StoreKit returns `.pending` (e.g. Ask to Buy) — the purchase wasn't declined or
+    /// completed, it's just waiting on approval, so this must not be shown as an error.
+    var isPurchasePending = false
     var premiumPrice: String?
 
     init(
@@ -42,8 +45,13 @@ final class PremiumPaywallViewModel {
         analyticsTracker.track(.premiumPurchaseStarted)
         await perform {
             let result = try await premiumEntitlement.purchasePremium()
-            if result == .purchased {
+            switch result {
+            case .purchased:
                 analyticsTracker.track(.premiumPurchaseCompleted)
+            case .pending:
+                isPurchasePending = true
+            case .cancelled:
+                break
             }
         }
     }
@@ -58,6 +66,10 @@ final class PremiumPaywallViewModel {
 
     func clearError() {
         errorMessage = nil
+    }
+
+    func clearPendingNotice() {
+        isPurchasePending = false
     }
 
     private func perform(_ operation: () async throws -> Void) async {

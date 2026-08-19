@@ -1,6 +1,8 @@
 import Analytics
 import XCTest
 
+// MARK: - AnalyticsEventTests
+
 final class AnalyticsEventTests: XCTestCase {
     func testScreenNamesAreStable() {
         XCTAssertEqual(AnalyticsScreen.countryDetail.rawValue, "country_detail")
@@ -22,6 +24,8 @@ final class AnalyticsEventTests: XCTestCase {
         XCTAssertEqual(tracker.events, [.nextTripCreated])
     }
 }
+
+// MARK: - AnalyticsTrackerSpy
 
 private final class AnalyticsTrackerSpy: AnalyticsTracker {
     private(set) var screens: [AnalyticsScreen] = []

@@ -2,8 +2,6 @@ import Foundation
 import Observation
 import Repository
 
-// MARK: - PlugDetailViewModel
-
 // MARK: - PlugDetailViewModelType
 
 @MainActor

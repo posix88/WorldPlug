@@ -21,6 +21,8 @@ enum CountryCompatibilitySummary: Equatable {
     var color: Color { filter.color }
 }
 
+// MARK: - CountryCompatibilityCalculator
+
 @MainActor
 struct CountryCompatibilityCalculator {
     let homeCountryViewModel: any HomeCountryViewModelType

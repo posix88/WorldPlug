@@ -2,6 +2,8 @@ import FirebaseAnalytics
 import FirebaseCore
 import Foundation
 
+// MARK: - AnalyticsTracker
+
 /// Application-facing analytics interface.
 ///
 /// Depend on this protocol in features so analytics can be replaced by a spy in tests.
@@ -21,6 +23,8 @@ public extension AnalyticsTracker {
         track(event, parameters: [:])
     }
 }
+
+// MARK: - FirebaseAnalyticsTracker
 
 /// Firebase-backed implementation of ``AnalyticsTracker``.
 public final class FirebaseAnalyticsTracker: AnalyticsTracker {
@@ -58,6 +62,8 @@ public final class FirebaseAnalyticsTracker: AnalyticsTracker {
     }
 }
 
+// MARK: - NoopAnalyticsTracker
+
 /// No-op implementation for previews and features that do not collect analytics.
 public final class NoopAnalyticsTracker: AnalyticsTracker {
     public init() {}
@@ -70,8 +76,10 @@ public final class NoopAnalyticsTracker: AnalyticsTracker {
     ) {}
 }
 
+// MARK: - AnalyticsScreen
+
 public enum AnalyticsScreen: String, Sendable {
-    case countries 
+    case countries
     case countryDetail = "country_detail"
     case savedCountries = "saved_countries"
     case nextTrip = "next_trip"
@@ -80,6 +88,8 @@ public enum AnalyticsScreen: String, Sendable {
     case premiumPaywall = "premium_paywall"
     case plugDetail = "plug_detail"
 }
+
+// MARK: - AnalyticsEvent
 
 public enum AnalyticsEvent: String, Sendable {
     case onboardingCompleted = "onboarding_completed"
@@ -102,7 +112,12 @@ public enum AnalyticsEvent: String, Sendable {
     case tripCheckCompleted = "trip_check_completed"
     case tripCheckLimitReached = "trip_check_limit_reached"
     case deviceSafetyResultViewed = "device_safety_result_viewed"
+    case catalogFetchFailed = "catalog_fetch_failed"
+    case deviceLabelSmartAnalysisFailed = "device_label_smart_analysis_failed"
+    case deviceLabelScanStartFailed = "device_label_scan_start_failed"
 }
+
+// MARK: - AnalyticsValue
 
 public enum AnalyticsValue: Sendable, Equatable {
     case string(String)

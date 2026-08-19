@@ -7,7 +7,7 @@ enum PremiumPaywallSource: String, Identifiable {
     case savedCountries = "saved_countries"
     case countryDetailSave = "country_detail_save"
     case tripCheck = "trip_check"
-    case widget = "widget"
+    case widget
 
     var id: String { rawValue }
 
@@ -20,6 +20,8 @@ enum PremiumPaywallSource: String, Identifiable {
         }
     }
 }
+
+// MARK: - PremiumPaywallView
 
 struct PremiumPaywallView: View {
     let source: PremiumPaywallSource
@@ -41,9 +43,19 @@ struct PremiumPaywallView: View {
     }
 }
 
+// MARK: - PremiumPaywallContent
+
 private struct PremiumPaywallContent: View {
     @Environment(\.dismiss) private var dismiss
-    @State var viewModel: PremiumPaywallViewModel
+    @State private var viewModel: PremiumPaywallViewModel
+
+    // Marking `viewModel` `private` narrows the auto-synthesized memberwise init's access to
+    // inside this type only — a top-level `private struct` alone would be file-scoped, but a
+    // `private` *member* caps the init to the enclosing type itself. An explicit init (not
+    // marked `private`) restores the file-wide access `PremiumPaywallView.body` below needs.
+    init(viewModel: PremiumPaywallViewModel) {
+        _viewModel = State(initialValue: viewModel)
+    }
 
     var body: some View {
         NavigationStack {
@@ -117,6 +129,14 @@ private struct PremiumPaywallContent: View {
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
+            .alert(
+                LocalizationKeys.premiumPaywallPendingTitle.localized,
+                isPresented: pendingPresentationBinding
+            ) {
+                Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {}
+            } message: {
+                Text(LocalizationKeys.premiumPaywallPendingMessage.localized)
+            }
             .onChange(of: viewModel.isPremium) { _, isPremium in
                 if isPremium {
                     dismiss()
@@ -143,6 +163,17 @@ private struct PremiumPaywallContent: View {
             set: { isPresented in
                 if !isPresented {
                     viewModel.clearError()
+                }
+            }
+        )
+    }
+
+    private var pendingPresentationBinding: Binding<Bool> {
+        Binding(
+            get: { viewModel.isPurchasePending },
+            set: { isPresented in
+                if !isPresented {
+                    viewModel.clearPendingNotice()
                 }
             }
         )

@@ -28,6 +28,8 @@ enum DeviceSafetyStatus: CaseIterable {
     }
 }
 
+// MARK: - DeviceSafetyAssessment
+
 struct DeviceSafetyAssessment: Identifiable {
     let device: PackDevice
     let status: DeviceSafetyStatus
@@ -35,6 +37,8 @@ struct DeviceSafetyAssessment: Identifiable {
 
     var id: UUID { device.id }
 }
+
+// MARK: - TripSafetyChecker
 
 enum TripSafetyChecker {
     static func assessments(
@@ -50,15 +54,20 @@ enum TripSafetyChecker {
         homeCountry: Country?,
         destination: Country
     ) -> DeviceSafetyAssessment {
-        guard !device.voltage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+        let trimmedVoltage = device.voltage.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedVoltage.isEmpty, VoltageCompatibility.hasRecognizedValue(trimmedVoltage) else {
+            // Empty AND unparseable/garbled both mean the same thing here: we don't actually
+            // know the device's input voltage, so we must not fall through to `isCompatible`,
+            // which treats "nothing to compare" as compatible — the right default for a general
+            // country-vs-country comparison, but the wrong one for a safety verdict, where
+            // "unreadable" must never be reported as "safe".
             return DeviceSafetyAssessment(
                 device: device,
                 status: .checkLabel,
                 message: LocalizationKeys.tripCheckMessageMissingVoltage.localized
             )
         }
-
-        guard VoltageCompatibility.isCompatible(device.voltage, destination.voltage) else {
+        guard VoltageCompatibility.isCompatible(trimmedVoltage, destination.voltage) else {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .unsafe,
@@ -66,13 +75,17 @@ enum TripSafetyChecker {
             )
         }
 
-        if !device.frequency.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-           !FrequencyCompatibility.isCompatible(device.frequency, destination.frequency) {
-            return DeviceSafetyAssessment(
-                device: device,
-                status: .checkLabel,
-                message: LocalizationKeys.tripCheckMessageFrequency.localized(destination.frequency)
-            )
+        let trimmedFrequency = device.frequency.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmedFrequency.isEmpty {
+            let isRecognizedAndCompatible = FrequencyCompatibility.hasRecognizedValue(trimmedFrequency)
+                && FrequencyCompatibility.isCompatible(trimmedFrequency, destination.frequency)
+            if !isRecognizedAndCompatible {
+                return DeviceSafetyAssessment(
+                    device: device,
+                    status: .checkLabel,
+                    message: LocalizationKeys.tripCheckMessageFrequency.localized(destination.frequency)
+                )
+            }
         }
 
         guard let homeCountry else {
@@ -94,14 +107,26 @@ enum TripSafetyChecker {
     }
 }
 
+// MARK: - FrequencyCompatibility
+
 private enum FrequencyCompatibility {
     static func isCompatible(_ lhs: String, _ rhs: String, tolerance: Int = 1) -> Bool {
         let lhsValues = values(in: lhs)
         let rhsValues = values(in: rhs)
-        guard !lhsValues.isEmpty, !rhsValues.isEmpty else { return true }
+        guard !lhsValues.isEmpty, !rhsValues.isEmpty else {
+            return true
+        }
+
         return lhsValues.contains { lhsValue in
             rhsValues.contains { abs($0 - lhsValue) <= tolerance }
         }
+    }
+
+    /// See `VoltageCompatibility.hasRecognizedValue` — same rationale: an unparseable, non-empty
+    /// frequency string must not silently fall through `isCompatible`'s "nothing to compare"
+    /// default.
+    static func hasRecognizedValue(_ string: String) -> Bool {
+        !values(in: string).isEmpty
     }
 
     private static func values(in string: String) -> [Int] {

@@ -34,7 +34,7 @@ struct FoundationModelDeviceLabelInterpreter: DeviceLabelInterpreting {
             Return an empty string when a value is absent or unreadable.
             """
         #if targetEnvironment(simulator)
-        // Xcode 27 Beta 4 doesn't include Vision's Foundation Models tools in the simulator SDK.
+        /// Xcode 27 Beta 4 doesn't include Vision's Foundation Models tools in the simulator SDK.
         let session = LanguageModelSession(instructions: instructions)
         #else
         let session = LanguageModelSession(

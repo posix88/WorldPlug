@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - FavoriteCountryAccessoryRectangularWidget
+
 struct FavoriteCountryAccessoryRectangularWidget: View {
     let country: CountrySnapshot
 

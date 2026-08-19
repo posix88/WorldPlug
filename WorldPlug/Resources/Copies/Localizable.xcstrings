@@ -493,6 +493,23 @@
         }
       }
     },
+    "country.detail.map.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't locate this country on the map"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile individuare il paese sulla mappa"
+          }
+        }
+      }
+    },
     "country.detail.no.compatible.plugs" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2417,6 +2434,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sblocca tutti gli strumenti di viaggio di Voltly."
+          }
+        }
+      }
+    },
+    "premium.paywall.pending.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This purchase needs approval (for example Ask to Buy). Premium unlocks automatically once it's approved."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo acquisto richiede un'approvazione (ad esempio Richiedi di acquistare). Premium si sbloccherà automaticamente una volta approvato."
+          }
+        }
+      }
+    },
+    "premium.paywall.pending.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase pending"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acquisto in attesa"
           }
         }
       }

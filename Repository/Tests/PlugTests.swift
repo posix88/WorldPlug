@@ -1,8 +1,7 @@
 import Foundation
+@testable import Repository
 import SwiftData
 import Testing
-
-@testable import Repository
 
 // MARK: - Plug Tests
 
@@ -13,8 +12,8 @@ struct PlugTests {
     private let context: ModelContext
 
     init() throws {
-        container = try makeContainer()
-        context = container.mainContext
+        self.container = try makeContainer()
+        self.context = container.mainContext
     }
 
     @Test("plugType is inferred correctly from id on init", arguments: PlugType.allCases.filter { $0 != .unknown })

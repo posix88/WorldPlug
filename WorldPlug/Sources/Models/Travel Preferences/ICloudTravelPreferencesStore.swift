@@ -33,9 +33,22 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private let iCloudStore: NSUbiquitousKeyValueStore
     private let appGroupDefaults: UserDefaults
     private let analyticsTracker: any AnalyticsTracker
+    /// `nonisolated(unsafe)`: written exactly once in `init` and read exactly once in `deinit`.
+    /// Both run at a point where no other code can be concurrently touching `self`, so no
+    /// additional synchronization is needed even though the class is `@MainActor`-isolated
+    /// (a plain `@MainActor` stored property can't be read from `deinit`, which is nonisolated).
+    private nonisolated(unsafe) var externalChangeObserver: NSObjectProtocol?
 
     var preferences: TravelPreferences {
         didSet {
+            // Avoid re-writing (and re-`synchronize()`-ing) iCloud with data that hasn't
+            // actually changed — important now that `reloadFromICloud()` also runs in response
+            // to `didChangeExternallyNotification`, or every incoming external change would
+            // immediately echo an identical write straight back to iCloud.
+            guard preferences != oldValue else {
+                return
+            }
+
             persist()
         }
     }
@@ -50,12 +63,37 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         self.analyticsTracker = analyticsTracker
         iCloudStore.synchronize()
         let loadedPreferences = Self.loadPreferences(from: iCloudStore)
-        preferences = Self.removingExpiredTrip(from: loadedPreferences)
+        self.preferences = Self.removingExpiredTrip(from: loadedPreferences)
 
         if preferences != loadedPreferences {
             persist()
         } else {
             mirrorWidgetValues()
+        }
+
+        observeExternalChanges()
+    }
+
+    deinit {
+        if let externalChangeObserver {
+            NotificationCenter.default.removeObserver(externalChangeObserver)
+        }
+    }
+
+    /// Picks up changes written by another device (or another process on this device) through
+    /// the same iCloud account. Without this, a session already in the foreground never sees a
+    /// change made elsewhere until it backgrounds and re-foregrounds — see
+    /// `AppCoordinator.sceneBecameActive()`, which is otherwise the only caller of
+    /// `reloadFromICloud()`.
+    private func observeExternalChanges() {
+        externalChangeObserver = NotificationCenter.default.addObserver(
+            forName: NSUbiquitousKeyValueStore.didChangeExternallyNotification,
+            object: iCloudStore,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.reloadFromICloud()
+            }
         }
     }
 
@@ -136,7 +174,6 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
             }
             return
         }
-
         guard preferences.savedCountryCodes.contains(countryCode) else {
             return
         }
@@ -145,6 +182,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         guard updatedPreferences.favoriteWidgetCountryCode != countryCode else {
             return
         }
+
         updatedPreferences.favoriteWidgetCountryCode = countryCode
         preferences = updatedPreferences
         analyticsTracker.track(.favoriteWidgetCountrySelected)

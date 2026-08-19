@@ -1,16 +1,18 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - SmallWidget
+
 struct SmallWidget: View {
     let entry: HomeCountryEntry
-    
+
     var body: some View {
         ZStack {
             WidgetBackground()
 
             VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
                 WidgetHeader()
-                
+
                 if let country = entry.country {
                     Text(country.flagUnicode)
                         .font(.system(size: 30))

@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - NextTripLargeWidget
+
 struct NextTripLargeWidget: View {
     let homeCountry: CountrySnapshot?
     let country: CountrySnapshot
@@ -11,6 +13,7 @@ struct NextTripLargeWidget: View {
     private var countdown: NextTripCountdown {
         NextTripCountdown(departureDate: departureDate, returnDate: returnDate)
     }
+
     private var compatibility: NextTripCompatibility {
         NextTripCompatibility(homeCountry: homeCountry, destination: country)
     }
@@ -53,7 +56,7 @@ struct NextTripLargeWidget: View {
                             .foregroundStyle(WidgetPalette.accent)
                     }
                 }
-                
+
                 Spacer()
 
                 NextTripCompatibilityCard(compatibility: compatibility)
@@ -63,7 +66,6 @@ struct NextTripLargeWidget: View {
         }
         .containerBackground(for: .widget) { Color.clear }
     }
-
 }
 
 #if DEBUG
@@ -74,8 +76,8 @@ struct NextTripLargeWidget: View {
         date: .now,
         homeCountry: .preview,
         country: .preview,
-        departureDate: .now.addingTimeInterval(12 * 86_400),
-        returnDate: .now.addingTimeInterval(20 * 86_400),
+        departureDate: .now.addingTimeInterval(12 * 86400),
+        returnDate: .now.addingTimeInterval(20 * 86400),
         isPremium: true
     )
 }

@@ -1,5 +1,5 @@
-import SwiftData
 import Foundation
+import SwiftData
 
 // MARK: - SchemaV4 Migration Snapshot
 

@@ -18,7 +18,11 @@ final class NextTripEditorViewModel {
             returnDate: .now
         )
         self.trip = initialTrip
-        self.returnDate = initialTrip.returnDate
+        // Enforce the same "return date can't precede departure" invariant at construction that
+        // `departureDateChanged()` enforces reactively — otherwise a trip built from a source
+        // that never went through this editor (a future migration, a corrupted/hand-edited
+        // iCloud KV record) could start the picker already in an inconsistent state.
+        self.returnDate = max(initialTrip.returnDate, initialTrip.departureDate)
         self.isExisting = trip != nil
     }
 

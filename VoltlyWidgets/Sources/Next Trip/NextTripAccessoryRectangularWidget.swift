@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - NextTripAccessoryRectangularWidget
+
 struct NextTripAccessoryRectangularWidget: View {
     let country: CountrySnapshot
     let departureDate: Date
@@ -32,6 +34,13 @@ struct NextTripAccessoryRectangularWidget: View {
 #Preview(as: .accessoryRectangular) {
     NextTripWidget()
 } timeline: {
-    NextTripEntry(date: .now, homeCountry: .preview, country: .preview, departureDate: .now.addingTimeInterval(12 * 86_400), returnDate: .now.addingTimeInterval(20 * 86_400), isPremium: true)
+    NextTripEntry(
+        date: .now,
+        homeCountry: .preview,
+        country: .preview,
+        departureDate: .now.addingTimeInterval(12 * 86400),
+        returnDate: .now.addingTimeInterval(20 * 86400),
+        isPremium: true
+    )
 }
 #endif

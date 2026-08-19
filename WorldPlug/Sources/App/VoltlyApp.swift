@@ -84,12 +84,14 @@ struct VoltlyApp: App {
                 }
 
                 if coordinator.isLaunchExperiencePresented {
-                    LaunchExperienceView(dismiss: coordinator.launchExperienceCompleted)
+                    LaunchExperienceView(
+                        isReady: coordinator.hasRefreshedEntitlements,
+                        dismiss: coordinator.launchExperienceCompleted
+                    )
                     .transition(.opacity)
                 }
             }
         }
         .modelContainer(Repository.sharedModelContainer)
     }
-
 }

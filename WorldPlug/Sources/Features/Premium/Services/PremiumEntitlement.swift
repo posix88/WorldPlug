@@ -46,18 +46,17 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
 
     init(productIDs: Set<String> = [PremiumProductIDs.premium]) {
         self.productIDs = productIDs
-        transactionUpdatesTask = Task { [weak self] in
+        self.transactionUpdatesTask = Task { [weak self] in
             for await update in StoreKit.Transaction.updates {
                 guard let self else {
                     return
                 }
-
                 guard let transaction = try? Self.verifiedTransaction(from: update) else {
                     continue
                 }
 
                 await transaction.finish()
-                await self.refreshEntitlements()
+                await refreshEntitlements()
             }
         }
     }
@@ -95,10 +94,13 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
             await transaction.finish()
             await refreshEntitlements()
             return .purchased
+
         case .pending:
             return .pending
+
         case .userCancelled:
             return .cancelled
+
         @unknown default:
             return .cancelled
         }
@@ -124,6 +126,8 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
         }
     }
 }
+
+// MARK: - PremiumStoreError
 
 enum PremiumStoreError: LocalizedError {
     case productUnavailable

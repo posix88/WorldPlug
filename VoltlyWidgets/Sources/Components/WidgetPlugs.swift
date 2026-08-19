@@ -1,21 +1,21 @@
-import SwiftUI
 import Repository
+import SwiftUI
 
 struct WidgetPlugs: View {
     let country: CountrySnapshot
     let limit: Int
     let type: WidgetType
-    
+
     enum WidgetType {
         case small
         case large
     }
-    
+
     var body: some View {
         HStack(spacing: 6) {
             ForEach(Array(country.plugTypeIDs.prefix(limit)), id: \.self) { plugType in
                 if type == .large {
-                    Text("Type \(plugType)")
+                    Text(WidgetStrings.string("widget.plug.type", plugType))
                         .font(.caption2.weight(.bold))
                         .foregroundStyle(WidgetPalette.primaryText)
                         .padding(.horizontal, 8)
@@ -32,4 +32,3 @@ struct WidgetPlugs: View {
         }
     }
 }
-

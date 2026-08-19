@@ -5,6 +5,16 @@ import Observation
 import Repository
 import SwiftUI
 
+// MARK: - CountryMapLoadState
+
+/// Distinguishes "still looking" from "gave up" so the map doesn't sit silently unfocused
+/// forever when `CountryMapGeocoder` can't find anything for a country.
+enum CountryMapLoadState: Equatable {
+    case locating
+    case located
+    case unavailable
+}
+
 // MARK: - CountryDetailViewModelType
 
 @MainActor
@@ -12,6 +22,7 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var country: Country { get }
     var mapPosition: MapCameraPosition { get set }
     var mapFocus: CountryMapFocus? { get }
+    var mapLoadState: CountryMapLoadState { get }
     var isInfoSheetPresented: Bool { get set }
     var selectedDetent: PresentationDetent { get set }
     var isHomeCountry: Bool { get }
@@ -45,6 +56,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
 
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
+    private(set) var mapLoadState: CountryMapLoadState = .locating
     var isInfoSheetPresented = true
     var selectedDetent: PresentationDetent = .custom(CountryHeaderDetent.self)
 
@@ -73,6 +85,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     var showsCompatibilityOverview: Bool {
         hasHomeCountry && !isHomeCountry
     }
+
     var allPlugs: [Plug] { country.sortedPlugs }
 
     init(
@@ -89,15 +102,20 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     }
 
     var savedCountrySymbolName: String {
-        guard premiumEntitlement.isPremium else { return "star.fill" }
+        guard premiumEntitlement.isPremium else {
+            return "star.fill"
+        }
+
         return travelPreferencesStore.isSavedCountry(code: country.code) ? "star.fill" : "star"
     }
+
     var isPremium: Bool { premiumEntitlement.isPremium }
 
     var savedCountryAccessibilityLabel: String {
         guard premiumEntitlement.isPremium else {
             return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
         }
+
         return travelPreferencesStore.isSavedCountry(code: country.code)
             ? LocalizationKeys.savedCountriesRemove.localized
             : LocalizationKeys.savedCountriesAdd.localized
@@ -114,6 +132,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
             isPremiumPaywallPresented = true
             return
         }
+
         travelPreferencesStore.toggleSavedCountry(code: country.code)
     }
 
@@ -130,7 +149,8 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
 
         compatiblePlugs = country.sortedPlugs.filter { plugCompatibility(for: $0, using: homeCountryViewModel) == .compatible }
         adapterPlugs = country.sortedPlugs.filter { plugCompatibility(for: $0, using: homeCountryViewModel) == .adapterNeeded }
-        converterPlugs = country.sortedPlugs.filter { plugCompatibility(for: $0, using: homeCountryViewModel) == .converterRequired }
+        converterPlugs = country.sortedPlugs
+            .filter { plugCompatibility(for: $0, using: homeCountryViewModel) == .converterRequired }
     }
 
     func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType) {
@@ -153,22 +173,29 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     func loadMapFocus(reduceMotion: Bool) async {
         let lookup = CountryMapLookup(code: country.code)
 
-        if let focus = await CountryMapGeocoder.shared.focus(for: lookup) {
-            mapFocus = focus
+        guard let focus = await CountryMapGeocoder.shared.focus(for: lookup) else {
+            // Distinct from `.locating` so the UI can stop implying a search is still in
+            // progress — without this, a country MapKit can't resolve looks identical to one
+            // that just hasn't finished loading yet, forever.
+            mapLoadState = .unavailable
+            return
+        }
 
-            withMotionAwareAnimation(
-                .smooth(duration: 0.15, extraBounce: 0).delay(2),
-                reduceMotion: reduceMotion
-            ) {
-                mapPosition = .camera(
-                    MapCamera(
-                        centerCoordinate: focus.coordinate,
-                        distance: focus.cameraDistance,
-                        heading: 0,
-                        pitch: 8
-                    )
+        mapFocus = focus
+        mapLoadState = .located
+
+        withMotionAwareAnimation(
+            .smooth(duration: 0.15, extraBounce: 0).delay(2),
+            reduceMotion: reduceMotion
+        ) {
+            mapPosition = .camera(
+                MapCamera(
+                    centerCoordinate: focus.coordinate,
+                    distance: focus.cameraDistance,
+                    heading: 0,
+                    pitch: 8
                 )
-            }
+            )
         }
     }
 
@@ -190,6 +217,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var country: Country
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
+    var mapLoadState: CountryMapLoadState = .locating
     var isInfoSheetPresented = true
     var selectedDetent: PresentationDetent = .custom(CountryHeaderDetent.self)
     var isHomeCountry = false
@@ -260,11 +288,15 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 }
 #endif
 
+// MARK: - CountryHeaderDetent
+
 struct CountryHeaderDetent: CustomPresentationDetent {
     static func height(in context: Context) -> CGFloat? {
         min(88, max(80, context.maxDetentValue * 0.12))
     }
 }
+
+// MARK: - CountrySummaryDetent
 
 struct CountrySummaryDetent: CustomPresentationDetent {
     static func height(in context: Context) -> CGFloat? {

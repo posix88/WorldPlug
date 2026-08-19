@@ -1,9 +1,11 @@
 import SwiftUI
 import WidgetKit
 
+// MARK: - AccessoryRectangularWidget
+
 struct AccessoryRectangularWidget: View {
     let entry: HomeCountryEntry
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             if let country = entry.country {
@@ -23,7 +25,7 @@ struct AccessoryRectangularWidget: View {
                     Image(systemName: "house.fill")
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(WidgetPalette.accent)
-                    
+
                     VStack(alignment: .leading) {
                         Text("Voltly")
                             .font(.caption.weight(.semibold))
@@ -38,12 +40,11 @@ struct AccessoryRectangularWidget: View {
             Color.clear
         }
     }
-    
+
     private func localizedPlugType(_ id: String) -> String {
         WidgetStrings.string("widget.plug.type", id)
     }
 }
-
 
 #if DEBUG
 #Preview(as: .accessoryRectangular) {

@@ -13,7 +13,12 @@ final class InMemoryHomeCountryStore: HomeCountryStoring {
 
 // MARK: - CountriesListViewModelTests
 
-@Suite("CountriesListViewModel")
+// `.serialized`: each test stands up its own in-memory SwiftData `ModelContainer`, and running
+// them concurrently (Swift Testing's default) has been observed to intermittently fail with no
+// code-level cause — consistent with in-memory `ModelConfiguration` containers created in a tight
+// window colliding under the hood. Serializing trades a small amount of wall-clock time for
+// reliable results.
+@Suite("CountriesListViewModel", .serialized)
 @MainActor
 struct CountriesListViewModelTests {
     private let container: ModelContainer
@@ -23,13 +28,25 @@ struct CountriesListViewModelTests {
 
     init() throws {
         self.container = try ModelContainer(
-            for: Country.self,
+            for: Country.self, Plug.self,
             configurations: ModelConfiguration(isStoredInMemoryOnly: true)
         )
         self.context = container.mainContext
         let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
         let japan = Country(code: "JP", voltage: "100V", frequency: "50Hz", flagUnicode: "🇯🇵")
         let usa = Country(code: "US", voltage: "120V", frequency: "60Hz", flagUnicode: "🇺🇸")
+        // Every real country in the catalog has at least one plug type — give these fixtures one
+        // too, otherwise `CountryCompatibilityCalculator.summary(for:)` has nothing to iterate
+        // over and silently reports `.compatible` regardless of voltage.
+        for (country, plugID) in [(italy, "F"), (japan, "A"), (usa, "B")] {
+            let plug = Plug(
+                id: plugID,
+                images: [],
+                specifications: .init(pinDiameter: "", pinSpacing: "", ratedAmperage: "", alsoKnownAs: "")
+            )
+            context.insert(plug)
+            country.plugs = [plug]
+        }
         context.insert(italy)
         context.insert(japan)
         context.insert(usa)
@@ -135,7 +152,8 @@ struct CountriesListViewModelTests {
 
 // MARK: - HomeCountryViewModelTests
 
-@Suite("HomeCountryViewModel")
+/// See the `.serialized` note on `CountriesListViewModelTests` above — same reasoning applies here.
+@Suite("HomeCountryViewModel", .serialized)
 @MainActor
 struct HomeCountryViewModelTests {
     private func makeContainer() throws -> ModelContainer {

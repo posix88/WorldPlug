@@ -3,7 +3,7 @@ import Repository
 
 // MARK: - Country Sorting
 
-extension Sequence where Element == Country {
+extension Sequence<Country> {
     func sortedByLocalizedName(in locale: Locale) -> [Country] {
         sorted {
             $0.localizedName(in: locale)

@@ -1,16 +1,16 @@
-import SwiftUI
 import Repository
+import SwiftUI
 
 struct WidgetChips: View {
     let country: CountrySnapshot
-    
+
     var body: some View {
         HStack(spacing: 6) {
             infoChip(systemName: "bolt.fill", text: country.voltage, tint: WidgetPalette.accent)
             infoChip(systemName: "waveform", text: country.frequency, tint: WidgetPalette.frequency)
         }
     }
-    
+
     private func infoChip(systemName: String, text: String, tint: Color) -> some View {
         HStack(spacing: 4) {
             Image(systemName: systemName)
@@ -25,4 +25,3 @@ struct WidgetChips: View {
         .clipShape(Capsule())
     }
 }
-

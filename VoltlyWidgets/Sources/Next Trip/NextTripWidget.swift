@@ -2,6 +2,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - NextTripWidget
+
 struct NextTripWidget: Widget {
     private let kind = "NextTripWidget"
 
@@ -15,6 +17,8 @@ struct NextTripWidget: Widget {
         .contentMarginsDisabled()
     }
 }
+
+// MARK: - NextTripWidgetView
 
 private struct NextTripWidgetView: View {
     @Environment(\.widgetFamily) private var family
@@ -30,6 +34,7 @@ private struct NextTripWidgetView: View {
                 switch family {
                 case .systemSmall:
                     NextTripSmallWidget(country: country, departureDate: departureDate, returnDate: entry.returnDate)
+
                 case .systemMedium:
                     NextTripMediumWidget(
                         homeCountry: entry.homeCountry,
@@ -37,6 +42,7 @@ private struct NextTripWidgetView: View {
                         departureDate: departureDate,
                         returnDate: entry.returnDate
                     )
+
                 case .systemLarge:
                     NextTripLargeWidget(
                         homeCountry: entry.homeCountry,
@@ -44,10 +50,17 @@ private struct NextTripWidgetView: View {
                         departureDate: departureDate,
                         returnDate: entry.returnDate
                     )
+
                 case .accessoryRectangular:
-                    NextTripAccessoryRectangularWidget(country: country, departureDate: departureDate, returnDate: entry.returnDate)
+                    NextTripAccessoryRectangularWidget(
+                        country: country,
+                        departureDate: departureDate,
+                        returnDate: entry.returnDate
+                    )
+
                 case .accessoryInline:
                     NextTripAccessoryInlineWidget(country: country, departureDate: departureDate, returnDate: entry.returnDate)
+
                 default:
                     NextTripSmallWidget(country: country, departureDate: departureDate, returnDate: entry.returnDate)
                 }
@@ -55,17 +68,30 @@ private struct NextTripWidgetView: View {
                 NextTripEmptyWidgetView()
             }
         }
-        .widgetURL(isNavigableTrip ? WidgetDeepLink.country(entry.country?.code) : WidgetDeepLink.premium)
+        .widgetURL(destinationURL)
+    }
+
+    /// `nil` when premium but there's simply no active trip to open (matches the Home/Favorite
+    /// Country widgets' empty-state behavior) — a premium user must never be routed to the
+    /// paywall just because they haven't planned a trip yet.
+    private var destinationURL: URL? {
+        guard entry.isPremium else {
+            return WidgetDeepLink.premium
+        }
+
+        return isNavigableTrip ? WidgetDeepLink.country(entry.country?.code) : nil
     }
 
     private var isNavigableTrip: Bool {
-        guard entry.isPremium, let departureDate = entry.departureDate else {
+        guard let departureDate = entry.departureDate else {
             return false
         }
 
         return !NextTripCountdown(departureDate: departureDate, returnDate: entry.returnDate).isExpired
     }
 }
+
+// MARK: - NextTripCountdown
 
 struct NextTripCountdown {
     let departureDate: Date
@@ -78,7 +104,7 @@ struct NextTripCountdown {
     }
 
     var isExpired: Bool {
-        return Calendar.current.startOfDay(for: .now) > Calendar.current.startOfDay(for: returnDate)
+        Calendar.current.startOfDay(for: .now) > Calendar.current.startOfDay(for: returnDate)
     }
 
     var daysRemaining: Int {
@@ -114,6 +140,8 @@ struct NextTripCountdown {
     }
 }
 
+// MARK: - NextTripEmptyWidgetView
+
 private struct NextTripEmptyWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
@@ -121,6 +149,7 @@ private struct NextTripEmptyWidgetView: View {
         switch family {
         case .accessoryInline:
             WidgetStrings.text("widget.next.trip.empty.inline")
+
         case .accessoryRectangular:
             VStack(alignment: .leading, spacing: 4) {
                 WidgetStrings.text("widget.next.trip.empty.title")
@@ -129,6 +158,7 @@ private struct NextTripEmptyWidgetView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
         default:
             ZStack {
                 WidgetBackground()
@@ -149,6 +179,8 @@ private struct NextTripEmptyWidgetView: View {
     }
 }
 
+// MARK: - NextTripLockedWidgetView
+
 private struct NextTripLockedWidgetView: View {
     @Environment(\.widgetFamily) private var family
 
@@ -156,6 +188,7 @@ private struct NextTripLockedWidgetView: View {
         switch family {
         case .accessoryInline:
             Label(WidgetStrings.string("widget.next.trip.locked.title"), systemImage: "lock.fill")
+
         case .accessoryRectangular:
             VStack(alignment: .leading, spacing: 4) {
                 Label(WidgetStrings.string("widget.next.trip.locked.title"), systemImage: "lock.fill")
@@ -164,6 +197,7 @@ private struct NextTripLockedWidgetView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
+
         default:
             ZStack {
                 WidgetBackground()

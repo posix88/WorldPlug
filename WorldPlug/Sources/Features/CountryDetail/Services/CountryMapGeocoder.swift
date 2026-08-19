@@ -8,7 +8,7 @@
 import CoreLocation
 import MapKit
 
-// MARK: - CountryMapGeocoder
+// MARK: - CountryMapLookup
 
 struct CountryMapLookup: Sendable {
     let code: String
@@ -22,14 +22,23 @@ struct CountryMapFocus {
     let cameraDistance: CLLocationDistance
 }
 
+// MARK: - CountryMapGeocoder
+
 actor CountryMapGeocoder {
     static let shared = CountryMapGeocoder()
 
     private var cache: [String: CountryMapFocus] = [:]
+    /// Country codes already queried this app session with no usable map focus found — avoids
+    /// re-issuing the same failing `MKLocalSearch` every time the country's detail screen is
+    /// revisited. Naturally resets on the next app launch.
+    private var codesWithoutAFocus: Set<String> = []
 
     func focus(for country: CountryMapLookup) async -> CountryMapFocus? {
         if let cached = cache[country.code] {
             return cached
+        }
+        guard !codesWithoutAFocus.contains(country.code) else {
+            return nil
         }
 
         let request = MKLocalSearch.Request()
@@ -40,6 +49,7 @@ actor CountryMapGeocoder {
         do {
             let response = try await MKLocalSearch(request: request).start()
             guard let mapItem = bestMapItem(in: response.mapItems, for: country) else {
+                codesWithoutAFocus.insert(country.code)
                 return nil
             }
 
@@ -60,18 +70,24 @@ actor CountryMapGeocoder {
             cache[country.code] = focus
             return focus
         } catch {
+            codesWithoutAFocus.insert(country.code)
             return nil
         }
     }
 
+    /// Prefers an exact region-identifier match, but falls back to the first result rather than
+    /// nothing — a same-country-but-inexact result (common for small states, overseas
+    /// territories, or a country whose English display name doesn't map to a single MapKit
+    /// result) is still a better outcome than never focusing the map at all.
     private func bestMapItem(
         in mapItems: [MKMapItem],
         for country: CountryMapLookup
     ) -> MKMapItem? {
         let normalizedCode = country.code.uppercased()
-        return mapItems.first { mapItem in
+        let exactMatch = mapItems.first { mapItem in
             mapItem.addressRepresentations?.region?.identifier.uppercased() == normalizedCode
         }
+        return exactMatch ?? mapItems.first
     }
 }
 

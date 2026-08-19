@@ -3,6 +3,8 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - NextTripEntry
+
 struct NextTripEntry: TimelineEntry {
     let date: Date
     let homeCountry: CountrySnapshot?
@@ -12,6 +14,8 @@ struct NextTripEntry: TimelineEntry {
     let isPremium: Bool
 }
 
+// MARK: - NextTripTimelineProvider
+
 struct NextTripTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> NextTripEntry {
         NextTripEntry(
@@ -19,7 +23,7 @@ struct NextTripTimelineProvider: TimelineProvider {
             homeCountry: .preview,
             country: .preview,
             departureDate: Calendar.current.date(byAdding: .day, value: 12, to: .now),
-            returnDate: .now.addingTimeInterval(20 * 86_400),
+            returnDate: .now.addingTimeInterval(20 * 86400),
             isPremium: true
         )
     }
