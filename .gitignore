@@ -69,3 +69,24 @@ Tools/Formatter/.swiftpm
 ### Swift Package Manager ###
 .build/
 .swiftpm/
+
+### Screenshot pipeline (Scripts/screenshots) ###
+Scripts/screenshots/node_modules/
+Scripts/screenshots/raw/
+Scripts/screenshots/out/
+
+### fastlane ###
+# Secrets — never commit these
+fastlane/.env
+fastlane/*.p8
+# Generated reports/artifacts, safe to regenerate
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/test_output/
+build/fastlane/
+*.ipa
+*.dSYM.zip
+
+### Bundler ###
+vendor/bundle/
+.bundle/

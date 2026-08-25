@@ -1,0 +1,11 @@
+app_identifier("com.posix88.Voltly")
+
+# Reuse the same folder AppStore/LAUNCH_PLAN.md and the screenshot pipeline
+# (Scripts/screenshots/) already write into — no separate fastlane/screenshots copy to keep in
+# sync.
+screenshots_path("./AppStore/Screenshots")
+metadata_path("./fastlane/metadata")
+
+# Primary/secondary category (Travel / Utilities per LAUNCH_PLAN.md §1) is a one-time setting —
+# leave it to App Store Connect's UI rather than risk deliver's category-key syntax drifting from
+# what Apple actually expects.

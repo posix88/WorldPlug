@@ -1,0 +1,101 @@
+default_platform(:ios)
+
+# Don't let fastlane overwrite fastlane/README.md with its auto-generated lane docs — it has a
+# hand-written setup guide instead (see that file).
+skip_docs
+
+# Xcode 27 (currently only shipping as a beta) has the iOS 27 SDK this project needs —
+# `FoundationModelDeviceLabelInterpreter.swift` won't compile against the iOS 26 SDK in
+# Xcode 26.x. Update this path once Xcode 27 ships as a stable release (drop the "-Beta.N"
+# suffix, or point at whichever Xcode has the iOS 27 SDK), or override per-run with:
+#   VOLTLY_XCODE_PATH="/Applications/Xcode.app" bundle exec fastlane beta
+XCODE_PATH = ENV["VOLTLY_XCODE_PATH"] || "/Applications/Xcode-27.0.0-Beta.4.app"
+
+SCHEME = "WorldPlug"
+TEST_DEVICE = ENV["VOLTLY_TEST_DEVICE"] || "iPhone 17 Pro"
+BUILD_OUTPUT_DIRECTORY = "./build/fastlane"
+
+platform :ios do
+  before_all do
+    ENV["DEVELOPER_DIR"] = "#{XCODE_PATH}/Contents/Developer"
+    # Best-effort only — Ruby's own string encoding locks in from the locale at interpreter
+    # boot, so mutating ENV here is too late to fix it (unlike DEVELOPER_DIR above, which only
+    # subprocesses spawned later ever read). If you see "'\xCA' on US-ASCII" or "xcrun simctl CLI
+    # broken", `LANG`/`LC_ALL` must be exported in your shell *before* invoking fastlane — see
+    # fastlane/README.md.
+    ENV["LANG"] = "en_US.UTF-8"
+    ENV["LC_ALL"] = "en_US.UTF-8"
+  end
+
+  desc "Run the full test suite (WorldPlugTests) on a simulator"
+  lane :test do
+    run_tests(
+      scheme: SCHEME,
+      devices: [TEST_DEVICE],
+      clean: true
+    )
+  end
+
+  desc "Bump the build number (CURRENT_PROJECT_VERSION) across every target"
+  lane :bump_build_number do
+    increment_build_number(xcodeproj: "WorldPlug.xcodeproj")
+  end
+
+  desc "Archive + export a release .ipa, signed for App Store distribution"
+  private_lane :build_release do
+    build_app(
+      scheme: SCHEME,
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: BUILD_OUTPUT_DIRECTORY,
+      output_name: "Voltly.ipa",
+      clean: true,
+      # Lets Xcode silently refresh provisioning profiles under automatic signing (the project's
+      # current setup — no `match`/manual profiles configured) instead of failing non-interactively.
+      xcargs: "-allowProvisioningUpdates"
+    )
+  end
+
+  # Authenticates to App Store Connect via an API key instead of an Apple ID + password, so pilot/
+  # deliver never hit an interactive 2FA prompt. See fastlane/README.md for how to generate the key
+  # and which environment variables to set before running `beta` or `release`.
+  private_lane :authenticate do
+    app_store_connect_api_key(
+      key_id: ENV.fetch("ASC_KEY_ID"),
+      issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+      key_filepath: ENV.fetch("ASC_KEY_FILEPATH"),
+      in_house: false
+    )
+  end
+
+  desc "Run tests, bump the build number, and ship a new build to TestFlight"
+  lane :beta do
+    test
+    authenticate
+    bump_build_number
+    build_release
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      changelog: "Automated TestFlight build via fastlane."
+    )
+  end
+
+  desc "Run tests, bump the build number, and push a build + metadata + screenshots to App Store Connect"
+  desc "Does NOT submit for review by default — flip submit_for_review to true once everything (screenshots, privacy answers, IAP) is confirmed ready in App Store Connect."
+  lane :release do
+    test
+    authenticate
+    bump_build_number
+    build_release
+    upload_to_app_store(
+      submit_for_review: false,
+      automatic_release: false,
+      force: true, # skip deliver's interactive "review the diff in your browser" prompt
+      skip_metadata: false,
+      skip_screenshots: false,
+      # The in-app purchase's own metadata/pricing is managed separately in App Store Connect
+      # (see AppStore/LAUNCH_PLAN.md §1) — this only silences deliver's precheck warning about it.
+      precheck_include_in_app_purchases: false
+    )
+  end
+end

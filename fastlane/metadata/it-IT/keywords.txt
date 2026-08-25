@@ -1,0 +1,1 @@
+spina,adattatore,voltaggio,presa,viaggio,convertitore,elettricità,frequenza,caricabatterie,estero

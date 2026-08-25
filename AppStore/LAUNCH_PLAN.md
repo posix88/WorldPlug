@@ -138,11 +138,30 @@ You need **3–10 screenshots per device size per locale** (5 is a good target).
 5. **Saved Countries + Next Trip** (Premium) — shows the paywall value without being the paywall itself.
 6. *(optional 6th)* — a **widget gallery** shot (Home Country / Favorite Country / Next Trip widgets on a Home Screen) — widgets sell well as a screenshot and you already have three widget families built.
 
+### Captioning: use the on-brand renderer, not `frameit`
+
+`Scripts/screenshots/` has a working, on-brand captioning pipeline — an HTML/CSS template using
+Voltly's actual colors (the cosmic mesh gradient from `AppMeshBackground.swift`, the volt-tint
+gold accent) rendered to a pixel-perfect PNG via headless Chrome, instead of `fastlane frameit`'s
+flat-color/system-font look. Two real examples are already rendered in
+`Scripts/screenshots/out/en-US/` from the actual running app (Countries list, and a Trip Check
+"do not use without a converter" verdict) — open them to see the actual output before doing your
+own. Full usage in `Scripts/screenshots/README.md`, including how to wire it up behind `fastlane
+snapshot` once a UI Testing target exists for full multi-device/locale automation.
+
 Process:
-- [ ] Capture raw screenshots from the Simulator (`xcrun simctl io booted screenshot`) or a device, on an iPhone 17 Pro Max–class simulator and an iPad 13" simulator, in both English and Italian (switch simulator language, or use scheme launch arguments `-AppleLanguages "(it)"`).
-- [ ] Drop raw captures into `AppStore/Screenshots/raw/`, framed/annotated versions into `en-US/` and `it-IT/` respectively — the folder structure already anticipates this workflow, it's just never been used yet.
-- [ ] Optional but recommended: add a one-line marketing caption baked into each screenshot (e.g. via a tool like Fastlane `frameit`, Figma, or Screenshots Pro) — plain device screenshots convert noticeably worse than captioned ones. Given this is a solo project, a simple caption bar with the app's own `DesignTokens` colors keeps it on-brand without a design tool.
-- [ ] No automation exists for this yet (`Scripts/` only has `run_swiftformat.sh`). If you expect to update screenshots more than once, it's worth 1–2 hours to add a `fastlane snapshot`/`UITest`-based capture script — not required for a v1 solo launch, just flag it as a time-saver for v1.1+.
+- [ ] Capture raw screenshots — either by hand (`xcrun simctl io booted screenshot`, on an iPhone
+      17 Pro Max–class simulator and an iPad 13" simulator, in English and Italian) or via
+      `fastlane snapshot` once set up (README has the setup steps) — into
+      `Scripts/screenshots/raw/`.
+- [ ] Run each through `node render.mjs --input ... --caption "..." --output ... --width ...
+      --height ...` (README has the full flag list) into `Scripts/screenshots/out/{en-US,it-IT}/`.
+- [ ] Write one short, punchy caption per shot in both languages — reuse the shot list above as
+      your caption ideas (e.g. "200+ countries, one glance" for #1, "Know before you plug in" for
+      #3) rather than starting from a blank page.
+- [ ] Copy the final PNGs from `Scripts/screenshots/out/` into `AppStore/Screenshots/{en-US,it-IT}/`
+      for upload — the `out/` folder is gitignored scratch space, `AppStore/Screenshots/` is where
+      the actual submission assets should live.
 
 ## 5. App Privacy ("nutrition label")
 
@@ -165,10 +184,11 @@ Action items:
 
 ## 6. Suggested pre-submission order of operations
 
-1. Fix the top 2–3 items in [CLAUDE.md](../CLAUDE.md)'s "Known issues" (onboarding/splash race, and at minimum the TripCheck fail-open compatibility check — that one has real safety-messaging implications, worth getting right before it's in front of App Review or real users).
+1. ~~Fix the top items in [CLAUDE.md](../CLAUDE.md)'s "Known issues"~~ — done; see that file's log.
 2. Create the IAP in App Store Connect and verify a Sandbox purchase + restore end-to-end on a real device.
 3. Write and host the privacy policy; fill in App Privacy answers.
-4. Capture and caption screenshots (§4).
-5. Fill in metadata (§2/§3) for both locales in App Store Connect.
-6. Archive, upload via Xcode/Transporter, submit a TestFlight build to yourself first.
-7. Submit for review once TestFlight confirms StoreKit + widgets + camera permission all behave as expected on a real device.
+4. Capture and caption screenshots (§4) — pipeline + two real examples already in `Scripts/screenshots/`.
+5. Fill in metadata (§2/§3) — already drafted into `fastlane/metadata/{en-US,it-IT}/`, ready for `fastlane release` to push (see below); do a native-speaker pass on the Italian copy first.
+6. Generate an App Store Connect API key and set up `fastlane/.env` — see `fastlane/README.md`.
+7. `bundle exec fastlane beta` — runs the test suite, bumps the build number, archives, and uploads to TestFlight. Install it on a real device yourself first; StoreKit sandbox, widgets, and the camera permission prompt all behave subtly differently on-device than in the simulator.
+8. `bundle exec fastlane release` once TestFlight checks out — uploads the build plus metadata and screenshots to App Store Connect, but leaves `submit_for_review: false` on purpose. Review everything in App Store Connect's UI, then either flip that flag in `fastlane/Fastfile` or hit submit manually — a deliberate last step, not a side effect of running a lane.

@@ -1,0 +1,1 @@
+plug,adapter,voltage,socket,travel,converter,outlet,electricity,frequency,charger,abroad,trip

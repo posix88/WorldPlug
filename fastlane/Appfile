@@ -1,0 +1,7 @@
+app_identifier("com.posix88.Voltly") # WorldPlug.xcodeproj's app target bundle id
+team_id("NEE9ZGT53Y") # already set as DEVELOPMENT_TEAM on every target in the Xcode project
+
+# Not set here on purpose: this Fastfile authenticates to App Store Connect via an API key
+# (see fastlane/README.md), not an Apple ID + password, so no interactive 2FA prompt is needed.
+# If you ever need Apple-ID-based auth as a fallback, uncomment and fill in:
+# apple_id("you@example.com")
