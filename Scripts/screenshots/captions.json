@@ -1,0 +1,24 @@
+{
+  "_comment": "Shot manifest for render-all.mjs / `bundle exec fastlane screenshots`. Add a shot once you have a raw capture for it in raw/; add a device once you have a raw capture at that device's resolution. Devices/sizes per AppStore/LAUNCH_PLAN.md §4 — App Store Connect's upload screen is the source of truth if these ever drift.",
+  "devices": {
+    "iphone": { "width": 1320, "height": 2868 }
+  },
+  "shots": [
+    {
+      "id": "01_countries",
+      "raw": { "iphone": "countries_demo.png" },
+      "captions": {
+        "en-US": "200+ countries, one glance",
+        "it-IT": "Oltre 200 paesi, un solo sguardo"
+      }
+    },
+    {
+      "id": "02_tripcheck",
+      "raw": { "iphone": "tripcheck_demo.png" },
+      "captions": {
+        "en-US": "Know before you plug in",
+        "it-IT": "Scoprilo prima di collegarlo"
+      }
+    }
+  ]
+}

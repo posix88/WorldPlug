@@ -1,5 +1,8 @@
 default_platform(:ios)
 
+require "fileutils"
+require "shellwords"
+
 # Don't let fastlane overwrite fastlane/README.md with its auto-generated lane docs — it has a
 # hand-written setup guide instead (see that file).
 skip_docs
@@ -116,5 +119,36 @@ platform :ios do
   lane :metadata do
     authenticate
     deliver_metadata_and_screenshots(skip_binary_upload: true)
+  end
+
+  desc "Render every shot in Scripts/screenshots/captions.json (from raw captures already in"
+  desc "Scripts/screenshots/raw/) and copy the results into AppStore/Screenshots/. Does NOT touch"
+  desc "App Store Connect — run `fastlane metadata` or `fastlane release` afterward to upload them."
+  desc "Doesn't capture raw screenshots itself: add PNGs to raw/ and an entry to captions.json first."
+  lane :screenshots do
+    screenshots_dir = File.expand_path("../Scripts/screenshots", __dir__)
+
+    unless Dir.exist?(File.join(screenshots_dir, "node_modules"))
+      UI.message("Installing screenshot renderer dependencies (first run only)...")
+      sh("cd #{screenshots_dir.shellescape} && PUPPETEER_SKIP_DOWNLOAD=true npm install")
+    end
+
+    sh("cd #{screenshots_dir.shellescape} && node render-all.mjs")
+
+    rendered_root = File.join(screenshots_dir, "out")
+    destination_root = File.expand_path("../AppStore/Screenshots", __dir__)
+    copied = 0
+
+    Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
+      locale = File.basename(locale_dir)
+      destination = File.join(destination_root, locale)
+      FileUtils.mkdir_p(destination)
+      Dir.glob(File.join(locale_dir, "*.png")).each do |file|
+        FileUtils.cp(file, destination)
+        copied += 1
+      end
+    end
+
+    UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane metadata` to upload.")
   end
 end
