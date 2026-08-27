@@ -35,6 +35,7 @@ platform :ios do
     run_tests(
       scheme: SCHEME,
       devices: [TEST_DEVICE],
+      only_testing: ["WorldPlugTests"], # excludes WorldPlugUITests (screenshot pipeline) — see :capture_screenshots
       clean: true
     )
   end
@@ -83,21 +84,21 @@ platform :ios do
     )
   end
 
-  # Shared `deliver` options for both `release` (uploads a binary too) and `metadata` (doesn't).
+  # Shared `deliver` options for `release`, `upload_metadata`, and `upload_screenshots`.
   # skip_app_version_update is intentionally NOT tied to skip_binary_upload (an earlier version of
-  # this lane did that and it broke `metadata` on a never-submitted app): with no App Store
-  # version ever created yet, deliver has nothing to attach metadata to and dies with a cryptic
-  # "No data" deep inside fetch_app_store_review_detail — a known fastlane limitation for a brand
-  # new app's very first push (https://github.com/fastlane/fastlane/issues/20538). Leaving this
-  # false lets deliver create/target the editable version shell itself, first push or not.
-  private_lane :deliver_metadata_and_screenshots do |options|
+  # this lane did that and it broke metadata-only pushes on a never-submitted app): with no App
+  # Store version ever created yet, deliver has nothing to attach metadata to and dies with a
+  # cryptic "No data" deep inside fetch_app_store_review_detail — a known fastlane limitation for
+  # a brand new app's very first push (https://github.com/fastlane/fastlane/issues/20538). Leaving
+  # this false lets deliver create/target the editable version shell itself, first push or not.
+  private_lane :run_deliver do |options|
     upload_to_app_store(
       skip_binary_upload: options[:skip_binary_upload],
       submit_for_review: false,
       automatic_release: false,
       force: true, # skip deliver's interactive "review the diff in your browser" prompt
-      skip_metadata: false,
-      skip_screenshots: false,
+      skip_metadata: options[:skip_metadata],
+      skip_screenshots: options[:skip_screenshots],
       # The in-app purchase's own metadata/pricing is managed separately in App Store Connect
       # (see AppStore/LAUNCH_PLAN.md §1) — this only silences deliver's precheck warning about it.
       precheck_include_in_app_purchases: false
@@ -111,23 +112,89 @@ platform :ios do
     authenticate
     bump_build_number
     build_release
-    deliver_metadata_and_screenshots(skip_binary_upload: false)
+    run_deliver(skip_binary_upload: false, skip_metadata: false, skip_screenshots: false)
   end
 
-  desc "Push metadata + screenshots (name, subtitle, description, keywords, release notes, and"
-  desc "everything in AppStore/Screenshots/) to App Store Connect WITHOUT building or uploading a"
-  desc "new binary. For iterating on copy/screenshots against an already-uploaded build, or before"
-  desc "a binary even exists yet. Regenerate screenshots via Scripts/screenshots/ first if stale."
-  lane :metadata do
+  desc "Push ONLY metadata (name, subtitle, description, keywords, release notes — everything in"
+  desc "fastlane/metadata/) to App Store Connect. Does NOT touch screenshots or upload a binary."
+  desc "For iterating on copy alone. Run `fastlane upload_screenshots` separately for images."
+  lane :upload_metadata do
     authenticate
-    deliver_metadata_and_screenshots(skip_binary_upload: true)
+    run_deliver(skip_binary_upload: true, skip_metadata: false, skip_screenshots: true)
+  end
+
+  desc "Push ONLY screenshots (everything in AppStore/Screenshots/) to App Store Connect. Does NOT"
+  desc "touch metadata or upload a binary. Run `fastlane render_screenshots` first if the PNGs in"
+  desc "AppStore/Screenshots/ are stale — this lane only uploads what's already there."
+  lane :upload_screenshots do
+    authenticate
+    run_deliver(skip_binary_upload: true, skip_metadata: true, skip_screenshots: false)
+  end
+
+  desc "Push both metadata and screenshots to App Store Connect WITHOUT building or uploading a"
+  desc "new binary. Convenience wrapper around upload_metadata + upload_screenshots for when you"
+  desc "want both pushed together (e.g. before a TestFlight review pass)."
+  lane :metadata do
+    upload_metadata
+    upload_screenshots
+  end
+
+  desc "Drive WorldPlugUITests on the simulator via `snapshot` (see fastlane/Snapfile) and refresh"
+  desc "Scripts/screenshots/raw/ with fresh captures for every shot the test covers (countries"
+  desc "list, country detail, trip check, saved countries). Does NOT capture the label scanner or"
+  desc "widget gallery shots (camera + Home Screen widgets aren't automatable via XCUITest) — those"
+  desc "still need a manual `xcrun simctl io booted screenshot` capture into raw/."
+  desc "Run `fastlane render_screenshots` afterward to composite captions on top of the new raws."
+  lane :capture_screenshots do
+    snapshot(reinstall_app: true)
+
+    raw_dir = File.expand_path("../Scripts/screenshots/raw", __dir__)
+
+    # Maps each `snapshot("...")` call in WorldPlugUITests.swift to the raw filename
+    # Scripts/screenshots/captions.json expects for that shot.
+    shot_name_to_raw_filename = {
+      "01_countries" => "countries_demo.png",
+      "02_tripcheck" => "tripcheck_demo.png",
+      "03_countrydetail" => "countrydetail_demo.png",
+      "05_saved" => "saved_demo.png"
+    }
+
+    copied = 0
+    Dir.glob(File.join(raw_dir, "*")).select { |entry| File.directory?(entry) }.each do |language_dir|
+      language = File.basename(language_dir)
+      # `snapshot`'s language folders (e.g. "it-IT") don't match captions.json's locale keys (e.g.
+      # "it") — English becomes the shared flat raw/ fallback every locale renders from by
+      # default; every language also gets its own raw/<locale>/ copy so render-all.mjs picks up a
+      # real localized capture for that locale instead of falling back to English.
+      is_english = language.start_with?("en")
+      locale_key = is_english ? "en-US" : "it"
+
+      shot_name_to_raw_filename.each do |snapshot_name, raw_filename|
+        match = Dir.glob(File.join(language_dir, "*-#{snapshot_name}.png")).first
+        next unless match
+
+        if is_english
+          FileUtils.cp(match, File.join(raw_dir, raw_filename))
+          copied += 1
+        end
+
+        locale_dir = File.join(raw_dir, locale_key)
+        FileUtils.mkdir_p(locale_dir)
+        FileUtils.cp(match, File.join(locale_dir, raw_filename))
+        copied += 1
+      end
+    end
+
+    UI.success("Copied #{copied} fresh capture(s) into Scripts/screenshots/raw/. Run `fastlane render_screenshots` next.")
   end
 
   desc "Render every shot in Scripts/screenshots/captions.json (from raw captures already in"
   desc "Scripts/screenshots/raw/) and copy the results into AppStore/Screenshots/. Does NOT touch"
-  desc "App Store Connect — run `fastlane metadata` or `fastlane release` afterward to upload them."
-  desc "Doesn't capture raw screenshots itself: add PNGs to raw/ and an entry to captions.json first."
-  lane :screenshots do
+  desc "App Store Connect — run `fastlane upload_screenshots` (or `fastlane metadata`/`release`)"
+  desc "afterward to upload them."
+  desc "Doesn't capture raw screenshots itself: run `fastlane capture_screenshots` first, or add"
+  desc "PNGs to raw/ and an entry to captions.json by hand."
+  lane :render_screenshots do
     screenshots_dir = File.expand_path("../Scripts/screenshots", __dir__)
 
     unless Dir.exist?(File.join(screenshots_dir, "node_modules"))
@@ -151,6 +218,6 @@ platform :ios do
       end
     end
 
-    UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane metadata` to upload.")
+    UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane upload_screenshots` (or `fastlane metadata`) to upload.")
   end
 end

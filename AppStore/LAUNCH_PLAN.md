@@ -188,7 +188,7 @@ Action items:
 2. Create the IAP in App Store Connect and verify a Sandbox purchase + restore end-to-end on a real device.
 3. Write and host the privacy policy; fill in App Privacy answers.
 4. Capture and caption screenshots (§4) — pipeline + two real examples already in `Scripts/screenshots/`.
-5. Fill in metadata (§2/§3) — already drafted into `fastlane/metadata/{en-US,it}/`, ready for `fastlane release`/`fastlane metadata` to push (see below); do a native-speaker pass on the Italian copy first.
+5. Fill in metadata (§2/§3) — already drafted into `fastlane/metadata/{en-US,it}/`, ready for `fastlane release`/`fastlane metadata`/`fastlane upload_metadata` to push (see below); do a native-speaker pass on the Italian copy first.
 6. Generate an App Store Connect API key and set up `fastlane/.env` — see `fastlane/README.md`.
 7. `bundle exec fastlane beta` — runs the test suite, bumps the build number, archives, and uploads to TestFlight. Install it on a real device yourself first; StoreKit sandbox, widgets, and the camera permission prompt all behave subtly differently on-device than in the simulator.
 8. `bundle exec fastlane release` once TestFlight checks out — uploads the build plus metadata and screenshots to App Store Connect, but leaves `submit_for_review: false` on purpose. Review everything in App Store Connect's UI, then either flip that flag in `fastlane/Fastfile` or hit submit manually — a deliberate last step, not a side effect of running a lane.

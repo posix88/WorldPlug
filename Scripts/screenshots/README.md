@@ -23,7 +23,7 @@ PUPPETEER_SKIP_DOWNLOAD=true npm install
 `PUPPETEER_SKIP_DOWNLOAD` skips Puppeteer's bundled-Chromium download (it fails behind this
 network's TLS proxy) — the renderer points at the system Google Chrome install instead. If your
 Chrome lives somewhere other than `/Applications/Google Chrome.app`, set
-`PUPPETEER_EXECUTABLE_PATH` before running. (`bundle exec fastlane screenshots` runs this install
+`PUPPETEER_EXECUTABLE_PATH` before running. (`bundle exec fastlane render_screenshots` runs this install
 step automatically on first use — see "Batch rendering" below.)
 
 ## Batch rendering (recommended) — `captions.json` + `render-all.mjs`
@@ -33,7 +33,7 @@ per-locale caption text), then render everything in one shot and copy the result
 `AppStore/Screenshots/`:
 
 ```sh
-bundle exec fastlane screenshots
+bundle exec fastlane render_screenshots
 ```
 
 (or `node render-all.mjs` directly from this directory, if you just want `out/` populated without

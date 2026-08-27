@@ -1,0 +1,27 @@
+# Drives `bundle exec fastlane capture_screenshots` (see fastlane/Fastfile). Writes raw device
+# screenshots into Scripts/screenshots/raw/ — render-all.mjs then composites captions on top of
+# these (see Scripts/screenshots/README.md). Requires the WorldPlugUITests target (added for this
+# pipeline) and its accessibility identifiers to stay in sync with RootTabView/CountryBrowserRow.
+
+scheme("WorldPlug")
+
+# iPhone 6.9" is the baseline size Apple requires; iPad 13" is required too since the app is
+# universal (TARGETED_DEVICE_FAMILY = "1,2"). See AppStore/LAUNCH_PLAN.md §4.
+devices([
+  "iPhone 17 Pro Max",
+  "iPad Pro 13-inch (M5)"
+])
+
+languages([
+  "en-US",
+  "it-IT"
+])
+
+output_directory("./Scripts/screenshots/raw")
+clear_previous_screenshots(true)
+override_status_bar(true)
+concurrent_simulators(false)
+
+# Only drive WorldPlugUITests here — excludes WorldPlugTests (unit tests) from the scheme's
+# Testables, since capturing screenshots doesn't need them and they'd only slow this down.
+only_testing(["WorldPlugUITests"])

@@ -19,6 +19,42 @@
         "en-US": "Know before you plug in",
         "it": "Scoprilo prima di collegarlo"
       }
+    },
+    {
+      "_comment": "Add raw/countrydetail_demo.png (Country Detail screen, e.g. Japan or UK) before this renders.",
+      "id": "03_countrydetail",
+      "raw": { "iphone": "countrydetail_demo.png" },
+      "captions": {
+        "en-US": "Every plug, voltage & socket — mapped",
+        "it": "Ogni presa, voltaggio e standard, a colpo d'occhio"
+      }
+    },
+    {
+      "_comment": "Add raw/scanner_demo.png (device label scanner mid-scan) before this renders.",
+      "id": "04_scanner",
+      "raw": { "iphone": "scanner_demo.png" },
+      "captions": {
+        "en-US": "Just scan the label. We do the math.",
+        "it": "Inquadra l'etichetta. Pensiamo noi al resto."
+      }
+    },
+    {
+      "_comment": "Add raw/saved_demo.png (Saved Countries + Next Trip, Premium) before this renders.",
+      "id": "05_saved",
+      "raw": { "iphone": "saved_demo.png" },
+      "captions": {
+        "en-US": "Save it. Plan it. Never pack blind.",
+        "it": "Salva. Pianifica. Parti senza sorprese."
+      }
+    },
+    {
+      "_comment": "Add raw/widgets_demo.png (Home Screen with the 3 widget families) before this renders.",
+      "id": "06_widgets",
+      "raw": { "iphone": "widgets_demo.png" },
+      "captions": {
+        "en-US": "Your plug, one glance from Home",
+        "it": "La tua presa, a un'occhiata dalla Home"
+      }
     }
   ]
 }

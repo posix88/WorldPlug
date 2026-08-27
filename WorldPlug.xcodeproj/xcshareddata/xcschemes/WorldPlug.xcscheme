@@ -34,6 +34,20 @@
                ReferencedContainer = "container:WorldPlug.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC1E1D5F9B04CA3D6BB029BE"
+               BuildableName = "WorldPlugUITests.xctest"
+               BlueprintName = "WorldPlugUITests"
+               ReferencedContainer = "container:WorldPlug.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -60,6 +74,17 @@
                BlueprintIdentifier = "FCF8AC8099A2E3C005E911E4"
                BuildableName = "WorldPlugTests.xctest"
                BlueprintName = "WorldPlugTests"
+               ReferencedContainer = "container:WorldPlug.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EC1E1D5F9B04CA3D6BB029BE"
+               BuildableName = "WorldPlugUITests.xctest"
+               BlueprintName = "WorldPlugUITests"
                ReferencedContainer = "container:WorldPlug.xcodeproj">
             </BuildableReference>
          </TestableReference>

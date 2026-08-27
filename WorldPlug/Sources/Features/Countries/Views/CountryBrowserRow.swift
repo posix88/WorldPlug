@@ -76,6 +76,7 @@ struct CountryBrowserRow: View {
         .appEntityIdentifier(
             EntityIdentifier(for: CountryEntity.self, identifier: model.country.code)
         )
+        .accessibilityIdentifier("countryRow.\(model.country.code)")
     }
 
     private func toggleHomeCountry() {

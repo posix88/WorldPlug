@@ -44,16 +44,19 @@ auto-generated lane docs — if you ever want that instead, remove `skip_docs` a
 ## Lanes
 
 ```sh
-bundle exec fastlane test     # run the WorldPlugTests suite on a simulator
-bundle exec fastlane beta     # test → bump build number → archive → upload to TestFlight
-bundle exec fastlane release  # test → bump build number → archive → upload build + metadata + screenshots
-                               # (does NOT submit for review — that's a deliberate separate step,
-                               # flip `submit_for_review: true` in the Fastfile once you're sure)
+bundle exec fastlane test               # run the WorldPlugTests suite on a simulator
+bundle exec fastlane beta                # test → bump build number → archive → upload to TestFlight
+bundle exec fastlane release             # test → bump build number → archive → upload build + metadata + screenshots
+                                          # (does NOT submit for review — that's a deliberate separate step,
+                                          # flip `submit_for_review: true` in the Fastfile once you're sure)
+bundle exec fastlane render_screenshots  # render Scripts/screenshots/captions.json into AppStore/Screenshots/ (local only, no upload)
+bundle exec fastlane upload_metadata     # push ONLY fastlane/metadata/{en-US,it}/ to App Store Connect
+bundle exec fastlane upload_screenshots  # push ONLY AppStore/Screenshots/{en-US,it}/ to App Store Connect
+bundle exec fastlane metadata            # convenience: upload_metadata + upload_screenshots together
 ```
 
-`release` pushes whatever is currently in `fastlane/metadata/{en-US,it}/` and
-`AppStore/Screenshots/{en-US,it}/` — regenerate screenshots via `Scripts/screenshots/` first if
-they're stale.
+`upload_metadata`/`upload_screenshots`/`metadata` all skip the binary — none of them build or touch
+TestFlight. Run `render_screenshots` first if `AppStore/Screenshots/{en-US,it}/` is stale.
 
 ## What's NOT handled here
 

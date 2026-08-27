@@ -29,6 +29,7 @@ struct RootTabView: View {
                 Label(LocalizationKeys.countriesTitle.localized, systemImage: "globe.europe.africa.fill")
             }
             .tag(0)
+            .accessibilityIdentifier("tab.countries")
 
             TripCheckView(
                 travelPreferencesStore: travelPreferencesStore,
@@ -40,6 +41,7 @@ struct RootTabView: View {
                 Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
             }
             .tag(1)
+            .accessibilityIdentifier("tab.tripCheck")
 
             SavedCountriesView(
                 premiumEntitlement: premiumEntitlement,
@@ -51,6 +53,7 @@ struct RootTabView: View {
                 Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
             }
             .tag(2)
+            .accessibilityIdentifier("tab.saved")
         }
         .tint(.voltTint)
         .onAppIntentExecution(OpenCountryIntent.self) { intent in

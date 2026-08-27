@@ -34,19 +34,25 @@ try {
         continue;
       }
 
-      const inputPath = path.join(rawDir, rawFile);
-      if (!fs.existsSync(inputPath)) {
+      const fallbackInputPath = path.join(rawDir, rawFile);
+      if (!fs.existsSync(fallbackInputPath)) {
         console.warn(`Skipping ${shot.id}/${deviceName}: raw/${rawFile} not found.`);
         skipped++;
         continue;
       }
 
       for (const [locale, caption] of Object.entries(shot.captions)) {
-        if (locale !== "en-US") {
-          // We only track one raw capture per device per shot (no separate per-locale raw
-          // captures yet), so a non-English caption is composited over whatever screenshot we
-          // have — almost certainly still showing English UI text underneath. Fine as a
-          // placeholder; swap in a real localized capture for this shot/device once you have one.
+        // Prefer a locale-specific raw capture (raw/<locale>/<rawFile>, e.g. what
+        // `fastlane capture_screenshots` writes) if one exists, so a real localized UI capture is
+        // used instead of the English one. Falls back to the shared English raw/ file otherwise.
+        const localizedInputPath = path.join(rawDir, locale, rawFile);
+        const inputPath = fs.existsSync(localizedInputPath) ? localizedInputPath : fallbackInputPath;
+
+        if (locale !== "en-US" && inputPath === fallbackInputPath) {
+          // No locale-specific raw capture yet, so a non-English caption is composited over the
+          // English screenshot — almost certainly still showing English UI text underneath. Fine
+          // as a placeholder; run `fastlane capture_screenshots` (or drop a manual capture into
+          // raw/<locale>/) to fix this for a given shot.
           usedNonEnglishRawForNonEnglishLocale = true;
         }
 
