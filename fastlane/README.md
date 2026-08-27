@@ -51,8 +51,8 @@ bundle exec fastlane release  # test → bump build number → archive → uploa
                                # flip `submit_for_review: true` in the Fastfile once you're sure)
 ```
 
-`release` pushes whatever is currently in `fastlane/metadata/{en-US,it-IT}/` and
-`AppStore/Screenshots/{en-US,it-IT}/` — regenerate screenshots via `Scripts/screenshots/` first if
+`release` pushes whatever is currently in `fastlane/metadata/{en-US,it}/` and
+`AppStore/Screenshots/{en-US,it}/` — regenerate screenshots via `Scripts/screenshots/` first if
 they're stale.
 
 ## What's NOT handled here

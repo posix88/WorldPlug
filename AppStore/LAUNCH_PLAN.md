@@ -19,7 +19,7 @@ This plan assumes the app itself is code-complete (see the correctness review ab
 - [ ] Add support URL and marketing URL (a simple landing page or even a GitHub Pages README works for a v1 — App Store requires a working support URL).
 - [ ] Add a privacy policy URL (**required** because you collect analytics data and sync via iCloud — see §5; a one-page policy is enough, several free generators exist, or write ~1 page by hand covering Firebase Analytics + iCloud KVS + no ad tracking).
 - [ ] Set up App Store Connect **TestFlight** internal testing build first, sanity-check the paywall against a **Sandbox Apple ID**, and confirm `Transaction.updates` + `AppStore.sync()` behave against the sandbox before submitting for review (StoreKit sandbox behaves differently enough from production that this is worth doing even solo).
-- [ ] Localize the App Store *listing itself* for both `en-US` and `it-IT` (App Store Connect lets you pick which locales to support — add both).
+- [ ] Localize the App Store *listing itself* for both `en-US` and `it` (App Store Connect lets you pick which locales to support — add both). Note: App Store Connect's locale code for Italian is bare `it`, not `it-IT` — `deliver` rejects `it-IT` as an invalid directory name (confirmed the hard way).
 
 ## 2. Metadata copy — English (`en-US`)
 
@@ -69,9 +69,9 @@ Questions or feedback? We'd love to hear from you.
 **What's New (first version)**:
 > Welcome to Socket Buddy! Browse plug types and voltage for 200+ countries, run a Trip Check on everything you're packing, scan device labels with your camera, and keep your favorite countries and next trip one glance away with widgets.
 
-## 3. Metadata copy — Italian (`it-IT`)
+## 3. Metadata copy — Italian (`it`)
 
-**Nome app** (≤30 caratteri) — già impostato in `fastlane/metadata/it-IT/name.txt`:
+**Nome app** (≤30 caratteri) — già impostato in `fastlane/metadata/it/name.txt`:
 - `Socket Buddy: Prese in viaggio` (30 caratteri)
 
 **Sottotitolo** (≤30 caratteri):
@@ -121,7 +121,7 @@ Domande o suggerimenti? Ci farebbe piacere sentirti.
 
 ## 4. Screenshots
 
-`AppStore/Screenshots/{raw,en-US,it-IT}/` already exist but are **empty** — nothing has been captured yet. Apple changes required screenshot sizes periodically — treat the table below as a starting point and let App Store Connect's upload screen be the source of truth at submission time:
+`AppStore/Screenshots/{en-US,it}/` — two shots done, more still needed. Apple changes required screenshot sizes periodically — treat the table below as a starting point and let App Store Connect's upload screen be the source of truth at submission time:
 
 | Device | Size (px) | Required? |
 |---|---|---|
@@ -155,11 +155,11 @@ Process:
       `fastlane snapshot` once set up (README has the setup steps) — into
       `Scripts/screenshots/raw/`.
 - [ ] Run each through `node render.mjs --input ... --caption "..." --output ... --width ...
-      --height ...` (README has the full flag list) into `Scripts/screenshots/out/{en-US,it-IT}/`.
+      --height ...` (README has the full flag list) into `Scripts/screenshots/out/{en-US,it}/`.
 - [ ] Write one short, punchy caption per shot in both languages — reuse the shot list above as
       your caption ideas (e.g. "200+ countries, one glance" for #1, "Know before you plug in" for
       #3) rather than starting from a blank page.
-- [ ] Copy the final PNGs from `Scripts/screenshots/out/` into `AppStore/Screenshots/{en-US,it-IT}/`
+- [ ] Copy the final PNGs from `Scripts/screenshots/out/` into `AppStore/Screenshots/{en-US,it}/`
       for upload — the `out/` folder is gitignored scratch space, `AppStore/Screenshots/` is where
       the actual submission assets should live.
 
@@ -188,7 +188,7 @@ Action items:
 2. Create the IAP in App Store Connect and verify a Sandbox purchase + restore end-to-end on a real device.
 3. Write and host the privacy policy; fill in App Privacy answers.
 4. Capture and caption screenshots (§4) — pipeline + two real examples already in `Scripts/screenshots/`.
-5. Fill in metadata (§2/§3) — already drafted into `fastlane/metadata/{en-US,it-IT}/`, ready for `fastlane release` to push (see below); do a native-speaker pass on the Italian copy first.
+5. Fill in metadata (§2/§3) — already drafted into `fastlane/metadata/{en-US,it}/`, ready for `fastlane release`/`fastlane metadata` to push (see below); do a native-speaker pass on the Italian copy first.
 6. Generate an App Store Connect API key and set up `fastlane/.env` — see `fastlane/README.md`.
 7. `bundle exec fastlane beta` — runs the test suite, bumps the build number, archives, and uploads to TestFlight. Install it on a real device yourself first; StoreKit sandbox, widgets, and the camera permission prompt all behave subtly differently on-device than in the simulator.
 8. `bundle exec fastlane release` once TestFlight checks out — uploads the build plus metadata and screenshots to App Store Connect, but leaves `submit_for_review: false` on purpose. Review everything in App Store Connect's UI, then either flip that flag in `fastlane/Fastfile` or hit submit manually — a deliberate last step, not a side effect of running a lane.

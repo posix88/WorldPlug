@@ -84,13 +84,15 @@ platform :ios do
   end
 
   # Shared `deliver` options for both `release` (uploads a binary too) and `metadata` (doesn't).
-  # `skip_app_version_update` follows `skip_binary_upload`: with no new binary there's no new app
-  # version to attach metadata to, so this pushes onto whichever version is already open/editable
-  # in App Store Connect (created by a prior `release` run, or manually).
+  # skip_app_version_update is intentionally NOT tied to skip_binary_upload (an earlier version of
+  # this lane did that and it broke `metadata` on a never-submitted app): with no App Store
+  # version ever created yet, deliver has nothing to attach metadata to and dies with a cryptic
+  # "No data" deep inside fetch_app_store_review_detail — a known fastlane limitation for a brand
+  # new app's very first push (https://github.com/fastlane/fastlane/issues/20538). Leaving this
+  # false lets deliver create/target the editable version shell itself, first push or not.
   private_lane :deliver_metadata_and_screenshots do |options|
     upload_to_app_store(
       skip_binary_upload: options[:skip_binary_upload],
-      skip_app_version_update: options[:skip_binary_upload],
       submit_for_review: false,
       automatic_release: false,
       force: true, # skip deliver's interactive "review the diff in your browser" prompt

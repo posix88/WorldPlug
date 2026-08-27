@@ -48,7 +48,7 @@ the copy step). `captions.json` looks like this:
       "raw": { "iphone": "countries_demo.png" },
       "captions": {
         "en-US": "200+ countries, one glance",
-        "it-IT": "Oltre 200 paesi, un solo sguardo"
+        "it": "Oltre 200 paesi, un solo sguardo"
       }
     }
   ]
@@ -60,7 +60,7 @@ that resolution, and reference it in a shot's `raw` map — the renderer fans ou
 device × locale combination it finds captures/captions for.
 
 **Current limitation**: there's only one raw capture per shot (captured in English), reused for
-every locale — so an `it-IT` render gets the Italian caption composited over a screenshot whose
+every locale — so an `it` render gets the Italian caption composited over a screenshot whose
 on-screen app UI is still in English. The renderer prints a reminder about this every run. Fix it
 per-shot by capturing the real screen with the simulator's language set to Italian and pointing
 that shot's `raw` entry at the new file — no schema changes needed.

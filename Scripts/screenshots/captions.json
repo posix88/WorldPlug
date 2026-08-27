@@ -9,7 +9,7 @@
       "raw": { "iphone": "countries_demo.png" },
       "captions": {
         "en-US": "200+ countries, one glance",
-        "it-IT": "Oltre 200 paesi, un solo sguardo"
+        "it": "Oltre 200 paesi, un solo sguardo"
       }
     },
     {
@@ -17,7 +17,7 @@
       "raw": { "iphone": "tripcheck_demo.png" },
       "captions": {
         "en-US": "Know before you plug in",
-        "it-IT": "Scoprilo prima di collegarlo"
+        "it": "Scoprilo prima di collegarlo"
       }
     }
   ]

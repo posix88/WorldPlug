@@ -120,4 +120,4 @@ They're still accurate on *conventions* (MVVM shape, `XxxViewModelType` protocol
 ## Before you ship
 
 - No fastlane/CI screenshot or App Store automation exists yet (`Scripts/` only has `run_swiftformat.sh`). See the App Store launch plan the user was given alongside this file for what's still needed (screenshots, IT/EN metadata, privacy nutrition label, etc.).
-- `AppStore/Screenshots/{raw,en-US,it-IT}/` directories exist but are empty — screenshots still need to be captured.
+- `AppStore/Screenshots/{en-US,it}/` directories exist — two shots done, more still need to be captured (see AppStore/LAUNCH_PLAN.md §4). Locale folder is `it`, not `it-IT` — App Store Connect's `deliver` rejects `it-IT` as an invalid directory name.
