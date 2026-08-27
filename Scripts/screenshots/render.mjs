@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Composites a raw device screenshot + a caption into a finished, on-brand App Store
-// screenshot, using Voltly's own colors (see template.html). Renders via headless Chrome
+// screenshot, using Socket Buddy's own colors (see template.html). Renders via headless Chrome
 // (Puppeteer) so the output is a pixel-perfect PNG at the exact target dimensions — no manual
 // screenshotting of a browser tab.
 //
@@ -9,7 +9,7 @@
 //     --output out/en-US/01_countries.png --width 1320 --height 2868
 //
 // Optional:
-//   --eyebrow "Voltly"          small label above the caption (defaults to "Voltly")
+//   --eyebrow "Socket Buddy"    small label above the caption (defaults to "Socket Buddy")
 //   --caption-size 92           caption font size in px, tune per caption length
 //   --shot-top 34               where the screenshot starts, as % of canvas height
 
@@ -40,7 +40,7 @@ for (const key of required) {
 
 const width = parseInt(args.width, 10);
 const height = parseInt(args.height, 10);
-const eyebrow = args.eyebrow ?? "Voltly";
+const eyebrow = args.eyebrow ?? "Socket Buddy";
 const captionSize = args["caption-size"] ? parseInt(args["caption-size"], 10) : Math.round(width * 0.07);
 const shotTop = args["shot-top"] ? `${args["shot-top"]}%` : "21%";
 

@@ -2,7 +2,7 @@
   "name": "voltly-screenshot-renderer",
   "private": true,
   "type": "module",
-  "description": "Composites raw simulator screenshots + captions into finished App Store screenshots using Voltly's own brand colors. See ../../AppStore/LAUNCH_PLAN.md.",
+  "description": "Composites raw simulator screenshots + captions into finished App Store screenshots using Socket Buddy's own brand colors. See ../../AppStore/LAUNCH_PLAN.md.",
   "scripts": {
     "render": "node render.mjs",
     "render-all": "node render-all.mjs"

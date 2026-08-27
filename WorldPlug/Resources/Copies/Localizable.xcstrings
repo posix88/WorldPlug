@@ -67,13 +67,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly"
+            "value" : "Socket Buddy"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly"
+            "value" : "Socket Buddy"
           }
         }
       }
@@ -873,13 +873,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open a country’s power information in Voltly."
+            "value" : "Open a country’s power information in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri le informazioni elettriche di un paese in Voltly."
+            "value" : "Apri le informazioni elettriche di un paese in Socket Buddy."
           }
         }
       }
@@ -924,13 +924,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open your home country’s power information in Voltly."
+            "value" : "Open your home country’s power information in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri le informazioni elettriche del tuo paese di origine in Voltly."
+            "value" : "Apri le informazioni elettriche del tuo paese di origine in Socket Buddy."
           }
         }
       }
@@ -941,13 +941,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set a home country in Voltly first."
+            "value" : "Set a home country in Socket Buddy first."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prima imposta un paese di origine in Voltly."
+            "value" : "Prima imposta un paese di origine in Socket Buddy."
           }
         }
       }
@@ -958,13 +958,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opening your home country in Voltly."
+            "value" : "Opening your home country in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apertura del tuo paese di origine in Voltly."
+            "value" : "Apertura del tuo paese di origine in Socket Buddy."
           }
         }
       }
@@ -1496,19 +1496,19 @@
         }
       }
     },
-    "Open a country’s power information in Voltly." : {
+    "Open a country’s power information in Socket Buddy." : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open a country’s power information in Voltly."
+            "value" : "Open a country’s power information in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri le informazioni elettriche di un paese in Voltly."
+            "value" : "Apri le informazioni elettriche di un paese in Socket Buddy."
           }
         }
       }
@@ -1547,53 +1547,53 @@
         }
       }
     },
-    "Open your home country’s power information in Voltly." : {
+    "Open your home country’s power information in Socket Buddy." : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open your home country’s power information in Voltly."
+            "value" : "Open your home country’s power information in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apri le informazioni elettriche del tuo paese di origine in Voltly."
+            "value" : "Apri le informazioni elettriche del tuo paese di origine in Socket Buddy."
           }
         }
       }
     },
-    "Opening %@ in Voltly." : {
+    "Opening %@ in Socket Buddy." : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opening %@ in Voltly."
+            "value" : "Opening %@ in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apertura di %@ in Voltly."
+            "value" : "Apertura di %@ in Socket Buddy."
           }
         }
       }
     },
-    "Opening your home country in Voltly." : {
+    "Opening your home country in Socket Buddy." : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opening your home country in Voltly."
+            "value" : "Opening your home country in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apertura del tuo paese di origine in Voltly."
+            "value" : "Apertura del tuo paese di origine in Socket Buddy."
           }
         }
       }
@@ -1689,13 +1689,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Shared via Voltly ⚡"
+            "value" : "Shared via Socket Buddy ⚡"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Condiviso con Voltly ⚡"
+            "value" : "Condiviso con Socket Buddy ⚡"
           }
         }
       }
@@ -1706,13 +1706,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifications\n• Pin diameter: %3$@\n• Pin spacing: %4$@\n• Rated amperage: %5$@\n\nShared via Voltly ⚡"
+            "value" : "⚡ %1$@ — Socket Buddy\n\n%2$@\n\n📐 Specifications\n• Pin diameter: %3$@\n• Pin spacing: %4$@\n• Rated amperage: %5$@\n\nShared via Socket Buddy ⚡"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "⚡ %1$@ — Voltly\n\n%2$@\n\n📐 Specifiche tecniche\n• Diametro dei poli: %3$@\n• Distanza tra i poli: %4$@\n• Corrente nominale: %5$@\n\nCondiviso con Voltly ⚡"
+            "value" : "⚡ %1$@ — Socket Buddy\n\n%2$@\n\n📐 Specifiche tecniche\n• Diametro dei poli: %3$@\n• Distanza tra i poli: %4$@\n• Corrente nominale: %5$@\n\nCondiviso con Socket Buddy ⚡"
           }
         }
       }
@@ -2427,13 +2427,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unlock every travel tool in Voltly."
+            "value" : "Unlock every travel tool in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sblocca tutti gli strumenti di viaggio di Voltly."
+            "value" : "Sblocca tutti gli strumenti di viaggio di Socket Buddy."
           }
         }
       }
@@ -2529,13 +2529,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly Premium"
+            "value" : "Socket Buddy Premium"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly Premium"
+            "value" : "Socket Buddy Premium"
           }
         }
       }
@@ -2710,19 +2710,19 @@
         }
       }
     },
-    "Set a home country in Voltly first." : {
+    "Set a home country in Socket Buddy first." : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set a home country in Voltly first."
+            "value" : "Set a home country in Socket Buddy first."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prima imposta un paese di origine in Voltly."
+            "value" : "Prima imposta un paese di origine in Socket Buddy."
           }
         }
       }
@@ -3226,13 +3226,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly provides general travel guidance only. We do not guarantee that the information is accurate and accept no responsibility for device damage, injury, or loss. Always check the device label and follow the manufacturer’s instructions."
+            "value" : "Socket Buddy provides general travel guidance only. We do not guarantee that the information is accurate and accept no responsibility for device damage, injury, or loss. Always check the device label and follow the manufacturer’s instructions."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly fornisce solo indicazioni generali per il viaggio. Non garantiamo l’accuratezza delle informazioni e non ci assumiamo alcuna responsabilità per danni a dispositivi, lesioni o perdite. Controlla sempre l’etichetta del dispositivo e segui le istruzioni del produttore."
+            "value" : "Socket Buddy fornisce solo indicazioni generali per il viaggio. Non garantiamo l’accuratezza delle informazioni e non ci assumiamo alcuna responsabilità per danni a dispositivi, lesioni o perdite. Controlla sempre l’etichetta del dispositivo e segui le istruzioni del produttore."
           }
         }
       }
@@ -3311,13 +3311,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose your destination and add the devices you’re taking. Voltly flags potential plug and voltage issues before you travel."
+            "value" : "Choose your destination and add the devices you’re taking. Socket Buddy flags potential plug and voltage issues before you travel."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli la destinazione e aggiungi i dispositivi che porterai con te. Voltly segnala eventuali problemi di spina e tensione prima della partenza."
+            "value" : "Scegli la destinazione e aggiungi i dispositivi che porterai con te. Socket Buddy segnala eventuali problemi di spina e tensione prima della partenza."
           }
         }
       }
@@ -3736,13 +3736,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly Pro lets you save unlimited Pack Checks"
+            "value" : "Socket Buddy Pro lets you save unlimited Pack Checks"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con Voltly Pro puoi salvare tutte le verifiche che vuoi"
+            "value" : "Con Socket Buddy Pro puoi salvare tutte le verifiche che vuoi"
           }
         }
       }
@@ -3781,7 +3781,7 @@
         }
       }
     },
-    "Voltly" : {
+    "Socket Buddy" : {
 
     }
   },

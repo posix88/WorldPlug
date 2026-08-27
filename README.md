@@ -1,9 +1,14 @@
-# Voltly
+# Socket Buddy
 
 Your travel companion for electrical plug types, voltage, and socket standards in 200+
 countries — with a per-device packing safety check, camera label scanning, Siri/Spotlight
-support, and home-screen widgets. Xcode project name is still `WorldPlug`; bundle id is
-`com.posix88.Voltly`.
+support, and home-screen widgets.
+
+Shipping name is **Socket Buddy** ("Voltly," the original working name, was already taken on
+the App Store). Everything internal still says Voltly/WorldPlug on purpose — Xcode project name,
+bundle id (`com.posix88.Voltly`), App Group, URL scheme, Swift type names — none of that is
+user-visible or checked against other apps. See [CLAUDE.md](CLAUDE.md)'s "Naming" section for
+the full split of what changed vs. what didn't.
 
 For architecture, module ownership, and known issues, see **[CLAUDE.md](CLAUDE.md)** — read
 that before making non-trivial changes, especially to `TripCheck`'s safety logic

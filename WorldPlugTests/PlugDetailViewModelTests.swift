@@ -75,11 +75,11 @@ struct PlugDetailViewModelTests {
         #expect(vm.shareText.contains("15A"))
     }
 
-    @Test("shareText contains Voltly branding")
+    @Test("shareText contains Socket Buddy branding")
     func shareTextContainsBranding() throws {
         let fixture = try makePlug()
         let vm = PlugDetailViewModel(plug: fixture.plug)
-        #expect(vm.shareText.contains("Voltly"))
+        #expect(vm.shareText.contains("Socket Buddy"))
     }
 
     @Test(

@@ -11,17 +11,17 @@
       "localizations" : [
         {
           "description" : "Unlock saved countries, trips, and premium widgets.",
-          "displayName" : "Voltly Premium",
+          "displayName" : "Socket Buddy Premium",
           "locale" : "en_US"
         },
         {
           "description" : "Sblocca paesi salvati, viaggi e widget premium.",
-          "displayName" : "Voltly Premium",
+          "displayName" : "Socket Buddy Premium",
           "locale" : "it_IT"
         }
       ],
       "productID" : "com.posix88.voltly.premium",
-      "referenceName" : "Voltly Premium",
+      "referenceName" : "Socket Buddy Premium",
       "type" : "NonConsumable"
     }
   ],

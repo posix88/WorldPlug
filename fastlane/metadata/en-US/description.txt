@@ -1,20 +1,20 @@
-Traveling with the wrong plug or the wrong voltage can fry your charger — or worse. Voltly tells you, in seconds, exactly what you need for any of 200+ countries: plug type, voltage, frequency, and whether your devices are safe to use as-is, with an adapter, or need a voltage converter.
+Traveling with the wrong plug or the wrong voltage can fry your charger — or worse. Socket Buddy tells you, in seconds, exactly what you need for any of 200+ countries: plug type, voltage, frequency, and whether your devices are safe to use as-is, with an adapter, or need a voltage converter.
 
-WHAT VOLTLY DOES
+WHAT SOCKET BUDDY DOES
 
 • Browse plug types & sockets for 200+ countries — clear diagrams, voltage, frequency, and every plug standard in use there.
 • Set your home country once and get instant compatibility badges everywhere: Compatible, Adapter needed, or Converter required.
 • Trip Check — add every device you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for your destination.
-• Scan a device's label with your camera — Voltly reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
+• Scan a device's label with your camera — Socket Buddy reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
 • Save your favorite countries and plan your Next Trip, with home-screen and lock-screen widgets that always show the right plug at a glance.
-• Ask Siri or search Spotlight — "Open Japan in Voltly" or "What's my home country's plug type" just works.
+• Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "What's my home country's plug type" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
-WHY VOLTLY
+WHY SOCKET BUDDY
 
-Voltly was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.
+Socket Buddy was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.
 
-VOLTLY PREMIUM (one-time purchase, no subscription)
+SOCKET BUDDY PREMIUM (one-time purchase, no subscription)
 
 • Save unlimited countries
 • Plan your Next Trip and get unlimited Pack Checks

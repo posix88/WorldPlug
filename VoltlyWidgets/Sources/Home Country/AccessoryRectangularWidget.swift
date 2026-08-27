@@ -27,7 +27,7 @@ struct AccessoryRectangularWidget: View {
                         .foregroundStyle(WidgetPalette.accent)
 
                     VStack(alignment: .leading) {
-                        Text("Voltly")
+                        Text("Socket Buddy")
                             .font(.caption.weight(.semibold))
                         WidgetStrings.text("widget.set.home.country")
                             .font(.caption2)

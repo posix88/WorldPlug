@@ -42,7 +42,7 @@ struct OnboardingWelcomeView: View {
                 .opacity(logoOpacity)
 
                 VStack(spacing: .md) {
-                    Text("Voltly")
+                    Text(LocalizationKeys.appTitle.localized)
                         .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.white)
 

@@ -11,7 +11,7 @@ struct OpenHomeCountryIntent: AppIntent {
     static let description = IntentDescription(
         LocalizedStringResource(
             "intent.open.home.country.description",
-            defaultValue: "Open your home country’s power information in Voltly."
+            defaultValue: "Open your home country’s power information in Socket Buddy."
         )
     )
     static let supportedModes: IntentModes = .foreground
@@ -29,7 +29,7 @@ struct OpenHomeCountryIntent: AppIntent {
                 dialog: IntentDialog(
                     LocalizedStringResource(
                         "intent.open.home.country.missing",
-                        defaultValue: "Set a home country in Voltly first."
+                        defaultValue: "Set a home country in Socket Buddy first."
                     )
                 )
             )
@@ -40,7 +40,7 @@ struct OpenHomeCountryIntent: AppIntent {
             dialog: IntentDialog(
                 LocalizedStringResource(
                     "intent.open.home.country.opening",
-                    defaultValue: "Opening your home country in Voltly."
+                    defaultValue: "Opening your home country in Socket Buddy."
                 )
             )
         )

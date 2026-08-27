@@ -1,6 +1,6 @@
-# Voltly — fastlane
+# Socket Buddy — fastlane
 
-Automates the build → sign → upload steps for shipping Voltly. Everything one-time and manual
+Automates the build → sign → upload steps for shipping Socket Buddy. Everything one-time and manual
 (paying for the Apple Developer Program, creating the app record in App Store Connect, creating
 the `com.posix88.voltly.premium` in-app purchase, filling in App Privacy answers, writing the
 privacy policy) is **not** automated here on purpose — see `AppStore/LAUNCH_PLAN.md` §1 for that

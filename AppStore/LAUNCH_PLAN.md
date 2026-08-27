@@ -1,6 +1,8 @@
-# Voltly — App Store Launch Plan
+# Socket Buddy — App Store Launch Plan
 
-Bundle ID `com.posix88.Voltly` · Primary category **Travel** (already set via `INFOPLIST_KEY_LSApplicationCategoryType`) · One IAP: `com.posix88.voltly.premium` ("Voltly Premium", non-consumable, $4.99).
+**Socket Buddy** is the App Store / marketing name — "Voltly" turned out to already be taken. Internally the bundle ID, App Group, URL scheme (`voltly://`), and Swift type names (`VoltlyApp`, `VoltlyWidgets`, `VoltlyDeepLink`, …) all still say "Voltly" — none of that is user-visible or checked against other apps, so it was left alone. See [CLAUDE.md](../CLAUDE.md) for the full internal/external naming split.
+
+Bundle ID `com.posix88.Voltly` · Primary category **Travel** (already set via `INFOPLIST_KEY_LSApplicationCategoryType`) · One IAP: `com.posix88.voltly.premium` ("Socket Buddy Premium", non-consumable, $4.99).
 
 This plan assumes the app itself is code-complete (see the correctness review above/[CLAUDE.md](../CLAUDE.md) for the outstanding bugs — fix at least items 1–3 there before submitting). Everything below is what's left to actually get to "Ready for Sale."
 
@@ -9,7 +11,7 @@ This plan assumes the app itself is code-complete (see the correctness review ab
 ## 1. App Store Connect setup checklist
 
 - [ ] Create the app record in App Store Connect (bundle ID `com.posix88.Voltly`), if not already created.
-- [ ] Create the in-app purchase `com.posix88.voltly.premium` as **Non-Consumable**, display name "Voltly Premium", price tier matching $4.99 — this must be created and in "Ready to Submit" state *before* you submit the app binary that references it, or the binary validation / review can stall.
+- [ ] Create the in-app purchase `com.posix88.voltly.premium` as **Non-Consumable**, display name "Socket Buddy Premium", price tier matching $4.99 — this must be created and in "Ready to Submit" state *before* you submit the app binary that references it, or the binary validation / review can stall.
 - [ ] Fill in the two localizations for the IAP exactly as already drafted in [`WorldPlug/Resources/StoreKit/Voltly.storekit`](../WorldPlug/Resources/StoreKit/Voltly.storekit): EN "Unlock saved countries, trips, and premium widgets.", IT "Sblocca paesi salvati, viaggi e widget premium."
 - [ ] Add **App Privacy** ("nutrition label") answers — see §5 below.
 - [ ] Answer the **Age Rating** questionnaire — nothing in the app suggests anything above 4+ (no user-generated content, no unrestricted web access, no gambling; camera use is for label-scanning only, not photo capture/sharing).
@@ -21,9 +23,8 @@ This plan assumes the app itself is code-complete (see the correctness review ab
 
 ## 2. Metadata copy — English (`en-US`)
 
-**App name** (≤30 chars) — pick one:
-- `Voltly: World Plug & Voltage` (28 chars)
-- `Voltly – Travel Plug Guide` (27 chars)
+**App name** (≤30 chars) — already set in `fastlane/metadata/en-US/name.txt`:
+- `Socket Buddy: Plugs & Voltage` (29 chars)
 
 **Subtitle** (≤30 chars):
 > Plugs, voltage, travel safety
@@ -38,23 +39,23 @@ plug,adapter,voltage,socket,travel,converter,outlet,electricity,frequency,charge
 
 **Description** (≤4000 chars):
 ```
-Traveling with the wrong plug or the wrong voltage can fry your charger — or worse. Voltly tells you, in seconds, exactly what you need for any of 200+ countries: plug type, voltage, frequency, and whether your devices are safe to use as-is, with an adapter, or need a voltage converter.
+Traveling with the wrong plug or the wrong voltage can fry your charger — or worse. Socket Buddy tells you, in seconds, exactly what you need for any of 200+ countries: plug type, voltage, frequency, and whether your devices are safe to use as-is, with an adapter, or need a voltage converter.
 
-WHAT VOLTLY DOES
+WHAT SOCKET BUDDY DOES
 
 • Browse plug types & sockets for 200+ countries — clear diagrams, voltage, frequency, and every plug standard in use there.
 • Set your home country once and get instant compatibility badges everywhere: Compatible, Adapter needed, or Converter required.
 • Trip Check — add every device you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for your destination.
-• Scan a device's label with your camera — Voltly reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
+• Scan a device's label with your camera — Socket Buddy reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
 • Save your favorite countries and plan your Next Trip, with home-screen and lock-screen widgets that always show the right plug at a glance.
-• Ask Siri or search Spotlight — "Open Japan in Voltly" or "What's my home country's plug type" just works.
+• Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "What's my home country's plug type" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
-WHY VOLTLY
+WHY SOCKET BUDDY
 
-Voltly was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.
+Socket Buddy was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.
 
-VOLTLY PREMIUM (one-time purchase, no subscription)
+SOCKET BUDDY PREMIUM (one-time purchase, no subscription)
 
 • Save unlimited countries
 • Plan your Next Trip and get unlimited Pack Checks
@@ -66,13 +67,12 @@ Questions or feedback? We'd love to hear from you.
 ```
 
 **What's New (first version)**:
-> Welcome to Voltly! Browse plug types and voltage for 200+ countries, run a Trip Check on everything you're packing, scan device labels with your camera, and keep your favorite countries and next trip one glance away with widgets.
+> Welcome to Socket Buddy! Browse plug types and voltage for 200+ countries, run a Trip Check on everything you're packing, scan device labels with your camera, and keep your favorite countries and next trip one glance away with widgets.
 
 ## 3. Metadata copy — Italian (`it-IT`)
 
-**Nome app** (≤30 caratteri):
-- `Voltly: Prese e Voltaggio` (25 caratteri)
-- `Voltly – Guida Prese Viaggio` (29 caratteri)
+**Nome app** (≤30 caratteri) — già impostato in `fastlane/metadata/it-IT/name.txt`:
+- `Socket Buddy: Prese in viaggio` (30 caratteri)
 
 **Sottotitolo** (≤30 caratteri):
 > Prese, voltaggio, sicurezza
@@ -87,23 +87,23 @@ spina,adattatore,voltaggio,presa,viaggio,convertitore,elettricità,frequenza,car
 
 **Descrizione** (≤4000 caratteri):
 ```
-Viaggiare con la spina sbagliata o il voltaggio sbagliato può bruciare il tuo caricabatterie — o peggio. Voltly ti dice, in pochi secondi, esattamente cosa ti serve per oltre 200 paesi: tipo di presa, voltaggio, frequenza e se i tuoi dispositivi sono sicuri da usare così come sono, con un adattatore, o se serve un convertitore di tensione.
+Viaggiare con la spina sbagliata o il voltaggio sbagliato può bruciare il tuo caricabatterie — o peggio. Socket Buddy ti dice, in pochi secondi, esattamente cosa ti serve per oltre 200 paesi: tipo di presa, voltaggio, frequenza e se i tuoi dispositivi sono sicuri da usare così come sono, con un adattatore, o se serve un convertitore di tensione.
 
-COSA FA VOLTLY
+COSA FA SOCKET BUDDY
 
 • Sfoglia i tipi di presa e spina per oltre 200 paesi — schemi chiari, voltaggio, frequenza e tutti gli standard di spina in uso.
 • Imposta il tuo paese di origine una volta sola e ottieni badge di compatibilità istantanei ovunque: Compatibile, Adattatore necessario o Convertitore necessario.
 • Trip Check — aggiungi ogni dispositivo che porti in valigia (caricabatterie, asciugacapelli, CPAP, laptop, attrezzatura fotografica…) e ottieni un verdetto di sicurezza per ogni dispositivo in base alla tua destinazione.
-• Scansiona l'etichetta di un dispositivo con la fotocamera — Voltly legge voltaggio e frequenza stampati sull'etichetta usando il riconoscimento testo on-device e Apple Intelligence dove disponibile. Nessun dato lascia il tuo iPhone.
+• Scansiona l'etichetta di un dispositivo con la fotocamera — Socket Buddy legge voltaggio e frequenza stampati sull'etichetta usando il riconoscimento testo on-device e Apple Intelligence dove disponibile. Nessun dato lascia il tuo iPhone.
 • Salva i tuoi paesi preferiti e pianifica il tuo Prossimo viaggio, con widget per la schermata Home e il Lock Screen che mostrano sempre la presa giusta a colpo d'occhio.
-• Chiedi a Siri o cerca con Spotlight — "Apri Giappone in Voltly" o "Qual è la presa del mio paese" funziona subito.
+• Chiedi a Siri o cerca con Spotlight — "Apri Giappone in Socket Buddy" o "Qual è la presa del mio paese" funziona subito.
 • Funziona completamente offline. I tuoi dati si sincronizzano in privato tra i tuoi dispositivi tramite iCloud — mai condivisi con nessun altro.
 
-PERCHÉ VOLTLY
+PERCHÉ SOCKET BUDDY
 
-Voltly è nato dall'esigenza di un viaggiatore stanco di indovinare se una presa sarebbe entrata, o se "230V" sarebbe stato un problema. È veloce, funziona offline ed è pensato per fare bene una cosa sola: dirti tutto su prese e voltaggio.
+Socket Buddy è nato dall'esigenza di un viaggiatore stanco di indovinare se una presa sarebbe entrata, o se "230V" sarebbe stato un problema. È veloce, funziona offline ed è pensato per fare bene una cosa sola: dirti tutto su prese e voltaggio.
 
-VOLTLY PREMIUM (acquisto una tantum, nessun abbonamento)
+SOCKET BUDDY PREMIUM (acquisto una tantum, nessun abbonamento)
 
 • Salva un numero illimitato di paesi
 • Pianifica il tuo Prossimo viaggio e ottieni Trip Check illimitati
@@ -115,7 +115,7 @@ Domande o suggerimenti? Ci farebbe piacere sentirti.
 ```
 
 **Novità (prima versione)**:
-> Benvenuto in Voltly! Sfoglia tipi di presa e voltaggio per oltre 200 paesi, esegui un Trip Check su tutto ciò che porti in valigia, scansiona le etichette dei dispositivi con la fotocamera e tieni sempre a portata di sguardo il tuo paese preferito e il prossimo viaggio grazie ai widget.
+> Benvenuto in Socket Buddy! Sfoglia tipi di presa e voltaggio per oltre 200 paesi, esegui un Trip Check su tutto ciò che porti in valigia, scansiona le etichette dei dispositivi con la fotocamera e tieni sempre a portata di sguardo il tuo paese preferito e il prossimo viaggio grazie ai widget.
 
 > **Note on the Italian copy**: machine-quality but idiomatic; a native-speaker pass (you) before submitting is still worth 10 minutes, especially on the app name/subtitle since those are the highest-visibility strings and can't be A/B tested cheaply.
 
@@ -141,7 +141,7 @@ You need **3–10 screenshots per device size per locale** (5 is a good target).
 ### Captioning: use the on-brand renderer, not `frameit`
 
 `Scripts/screenshots/` has a working, on-brand captioning pipeline — an HTML/CSS template using
-Voltly's actual colors (the cosmic mesh gradient from `AppMeshBackground.swift`, the volt-tint
+Socket Buddy's actual colors (the cosmic mesh gradient from `AppMeshBackground.swift`, the volt-tint
 gold accent) rendered to a pixel-perfect PNG via headless Chrome, instead of `fastlane frameit`'s
 flat-color/system-font look. Two real examples are already rendered in
 `Scripts/screenshots/out/en-US/` from the actual running app (Countries list, and a Trip Check

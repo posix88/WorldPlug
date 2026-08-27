@@ -1,10 +1,12 @@
-# Voltly — Codebase Guide for AI Agents
+# Socket Buddy — Codebase Guide for AI Agents
 
 Read this before touching the code. It describes what actually exists today, not the aspirational state. Where this file and `.github/copilot-instructions.md` / `.github/instructions/*.md` disagree, **this file wins** — the `.github` docs describe an earlier project layout (pre-reorg, iOS 17) and are stale in places (see "Known doc drift" below). They're still useful for the *conventions* (naming, MVVM shape, testing style), just not for the current folder layout or deployment target.
 
 ## What this app is
 
-**Voltly** (Xcode project still named `WorldPlug`, bundle id `com.posix88.Voltly`) is a personal iOS app that tells travelers everything about electrical plugs, sockets, voltage and frequency for 200+ countries, checks whether their devices are safe to use abroad, and lets them save countries/trips behind a one-time $4.99 IAP ("Voltly Premium"). It ships a WidgetKit extension, Siri/Spotlight App Intents, iCloud-synced preferences, and on-device AI (Vision + Apple FoundationModels) for reading device labels via the camera.
+**Socket Buddy** (Xcode project still named `WorldPlug`, bundle id `com.posix88.Voltly`) is a personal iOS app that tells travelers everything about electrical plugs, sockets, voltage and frequency for 200+ countries, checks whether their devices are safe to use abroad, and lets them save countries/trips behind a one-time $4.99 IAP ("Socket Buddy Premium"). It ships a WidgetKit extension, Siri/Spotlight App Intents, iCloud-synced preferences, and on-device AI (Vision + Apple FoundationModels) for reading device labels via the camera.
+
+**Naming**: the App Store / marketing name is "Socket Buddy" — "Voltly" (the original working name) turned out to already be taken. Every internal identifier still says "Voltly" on purpose (Apple only checks the App Store listing name for uniqueness, not any of these): the bundle ID (`com.posix88.Voltly`), the App Group (`group.com.posix88.Voltly`), the URL scheme (`voltly://`), the Xcode project name (`WorldPlug`), the Firebase project (`voltly-1527f`), and every `Voltly*`-prefixed Swift type (`VoltlyApp`, `VoltlyWidgets`, `VoltlyDeepLink`, `VoltlyAppShortcuts`, …). Only user-visible text was changed: `CFBundleDisplayName`, the onboarding/paywall/share-sheet copy, the camera permission string, the widget empty-state text, and the App Store metadata in `fastlane/metadata/`. Don't "fix" the internal naming without a good reason — it's intentionally left alone, not an oversight.
 
 - Target: iOS 26.0+ (`IPHONEOS_DEPLOYMENT_TARGET = 26.0`), universal (iPhone + iPad), Swift 6.0, **strict concurrency = complete**.
 - No `SWIFT_DEFAULT_ACTOR_ISOLATION` override — every `@MainActor` is explicit, by convention. Follow that convention; don't rely on default-MainActor-isolation behavior.
@@ -62,12 +64,12 @@ There is also an **empty, dead `WorldPlug/Sources/Screens/` directory tree** (`C
 - **iCloud sync**: `ICloudTravelPreferencesStore` wraps `NSUbiquitousKeyValueStore` and observes `didChangeExternallyNotification` (in addition to reloading on `AppCoordinator.sceneBecameActive()`), so changes made on another device (or by the widget extension) show up live, not just on foreground.
 - **TripCheck safety logic**: `DeviceSafetyAssessment` + `VoltageCompatibility`/`FrequencyCompatibility` (`Models/Home Country/HomeCountryViewModelType.swift`) decide whether a packed device is `.ready` / `.adapterNeeded` / `.checkLabel` / unsafe for a destination. This is the one piece of business logic with real-world physical-safety consequences (wrong verdict ⇒ user could plug an incompatible device into a wall socket). Read the "Known issues" section before changing tolerances or the label-parsing regexes.
 - **Analytics**: `AnalyticsTracker` protocol (`Analytics` package) with a Firebase-backed implementation and `NoopAnalyticsTracker` for previews/tests, injected via `@Environment(\.analyticsTracker)`. `AppDelegate` calls `FirebaseAnalyticsTracker.configure()` in `didFinishLaunchingWithOptions`.
-- **Camera usage**: `DeviceLabelScannerView` uses `VisionKit.DataScannerViewController` (not raw `AVCaptureSession`). `NSCameraUsageDescription` **is** correctly set in `en.lproj`/`it.lproj` `InfoPlist.strings` (EN: "Voltly uses the camera to read the voltage and frequency printed on your device label.").
+- **Camera usage**: `DeviceLabelScannerView` uses `VisionKit.DataScannerViewController` (not raw `AVCaptureSession`). `NSCameraUsageDescription` **is** correctly set in `en.lproj`/`it.lproj` `InfoPlist.strings` (EN: "Socket Buddy uses the camera to read the voltage and frequency printed on your device label.").
 
 ## Localization
 
 - String catalogs live in `WorldPlug/Resources/Copies/`: `Localizable.xcstrings` (220 keys, source language English), `Accessibility.xcstrings`, `AppShortcuts.xcstrings`.
-- Two shipping languages: **English** and **Italian**, both essentially fully localized (only interpolation-format placeholder keys like `"%@"` and the brand name `"Voltly"` lack a separate IT entry, which is correct — they don't need translating).
+- Two shipping languages: **English** and **Italian**, both essentially fully localized (only interpolation-format placeholder keys like `"%@"` and the brand name `"Socket Buddy"` are identical in both locales, which is correct — a brand name doesn't get translated).
 - Access strings through the `LocalizationKeys` enum (`UI Components/Localizable.swift`), not raw string literals — `String(localized: LocalizationKeys.xxx)`.
 - `InfoPlist.strings` per-locale (camera usage description, etc.) live in `WorldPlug/Resources/{en,it}.lproj/`.
 - `VoltlyWidgets/Sources/WidgetLocalization.swift` handles widget-extension-side localization separately (it can't share the app target's string catalog directly).

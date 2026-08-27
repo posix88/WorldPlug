@@ -1,14 +1,14 @@
-# Voltly screenshot pipeline
+# Socket Buddy screenshot pipeline
 
 Composites raw device screenshots + captions into finished, on-brand App Store screenshots —
-using Voltly's own colors (the cosmic mesh gradient from `AppMeshBackground.swift`, the volt-tint
+using Socket Buddy's own colors (the cosmic mesh gradient from `AppMeshBackground.swift`, the volt-tint
 gold accent) instead of a generic frame + flat background. See two real examples already rendered
 in `out/en-US/`.
 
 ## Why this exists instead of `fastlane frameit`
 
 `frameit` frames + captions screenshots, but only with a flat background color and the system
-font — it can't reproduce Voltly's actual visual identity. This does the same job (raw screenshot
+font — it can't reproduce Socket Buddy's actual visual identity. This does the same job (raw screenshot
 in → captioned marketing image out) with full CSS control instead, driven by headless Chrome via
 Puppeteer so it's just as scriptable/batchable as `frameit` — it's a drop-in replacement for that
 one step, not a replacement for `fastlane snapshot`. See "Combining with fastlane snapshot" below.
@@ -39,7 +39,7 @@ Required: `--input`, `--caption`, `--output`, `--width`, `--height` (use Apple's
 dimensions — see `AppStore/LAUNCH_PLAN.md` §4 for the current list; App Store Connect's upload
 screen is the source of truth since Apple changes these periodically).
 
-Optional: `--eyebrow "Voltly"` (small label above the caption), `--caption-size <px>` (tune for
+Optional: `--eyebrow "Socket Buddy"` (small label above the caption), `--caption-size <px>` (tune for
 longer captions), `--shot-top <percent>` (where the screenshot starts, as % of canvas height —
 raise it if a long caption wraps to 3 lines and starts crowding the frame).
 
@@ -54,7 +54,7 @@ Any raw PNG at the target device's native resolution works. Two ways to get them
 ```sh
 xcrun simctl io booted screenshot raw/my_screen.png
 ```
-Boot the right simulator first (`xcrun simctl boot "iPhone 17 Pro Max"`), launch Voltly, navigate
+Boot the right simulator first (`xcrun simctl boot "iPhone 17 Pro Max"`), launch Socket Buddy, navigate
 to the screen you want, then run the command above.
 
 **From `fastlane snapshot`** — see below. Same `render.mjs` command either way; `snapshot` just

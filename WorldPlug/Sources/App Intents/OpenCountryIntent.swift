@@ -10,7 +10,7 @@ struct OpenCountryIntent: OpenIntent, TargetContentProvidingIntent {
     static let description = IntentDescription(
         LocalizedStringResource(
             "intent.open.country.description",
-            defaultValue: "Open a country’s power information in Voltly."
+            defaultValue: "Open a country’s power information in Socket Buddy."
         )
     )
 

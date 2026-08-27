@@ -34,7 +34,7 @@
     "Type %@" : {
 
     },
-    "Voltly" : {
+    "Socket Buddy" : {
 
     },
     "widget.configuration.description" : {
@@ -77,13 +77,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pick a country in Voltly to keep info one glance away."
+            "value" : "Pick a country in Socket Buddy to keep info one glance away."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli il tuo paese su Voltly per avere tutte le informazioni."
+            "value" : "Scegli il tuo paese su Socket Buddy per avere tutte le informazioni."
           }
         }
       }
@@ -94,13 +94,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Set home country"
+            "value" : "Socket Buddy: Set home country"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Imposta il tuo paese"
+            "value" : "Socket Buddy: Imposta il tuo paese"
           }
         }
       }
@@ -145,13 +145,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Choose a saved country in Voltly."
+            "value" : "Choose a saved country in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scegli un paese salvato in Voltly."
+            "value" : "Scegli un paese salvato in Socket Buddy."
           }
         }
       }
@@ -162,13 +162,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Choose favorite country"
+            "value" : "Socket Buddy: Choose favorite country"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Scegli il paese preferito"
+            "value" : "Socket Buddy: Scegli il paese preferito"
           }
         }
       }
@@ -383,13 +383,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Set your home country in Voltly to check compatibility."
+            "value" : "Set your home country in Socket Buddy to check compatibility."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Imposta il tuo paese di casa in Voltly per verificare la compatibilità."
+            "value" : "Imposta il tuo paese di casa in Socket Buddy per verificare la compatibilità."
           }
         }
       }
@@ -509,13 +509,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add your next trip in Voltly."
+            "value" : "Add your next trip in Socket Buddy."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aggiungi il tuo prossimo viaggio in Voltly."
+            "value" : "Aggiungi il tuo prossimo viaggio in Socket Buddy."
           }
         }
       }
@@ -526,13 +526,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Add next trip"
+            "value" : "Socket Buddy: Add next trip"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voltly: Aggiungi un viaggio"
+            "value" : "Socket Buddy: Aggiungi un viaggio"
           }
         }
       }
