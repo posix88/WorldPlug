@@ -867,6 +867,91 @@
         }
       }
     },
+    "intent.country.power.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get voltage, frequency, and plug types for a country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni tensione, frequenza e tipi di spina per un paese."
+          }
+        }
+      }
+    },
+    "intent.country.power.dialog.full" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@, the electrical supply is %2$@ at %3$@. Plug types: %4$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@, la rete elettrica è a %2$@ e %3$@. Tipi di spina: %4$@."
+          }
+        }
+      }
+    },
+    "intent.country.power.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese"
+          }
+        }
+      }
+    },
+    "intent.country.power.plugs.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponibili"
+          }
+        }
+      }
+    },
+    "intent.country.power.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get country power information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni informazioni elettriche"
+          }
+        }
+      }
+    },
     "intent.open.country.description" : {
       "extractionState" : "manual",
       "localizations" : {

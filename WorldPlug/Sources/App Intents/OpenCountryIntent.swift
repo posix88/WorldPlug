@@ -64,5 +64,18 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
             ),
             systemImageName: "house.fill"
         )
+        AppShortcut(
+            intent: GetCountryPowerIntent(),
+            phrases: [
+                "Get power information for \(\.$country) with \(.applicationName)",
+                "What voltage does \(\.$country) use in \(.applicationName)",
+                "What plug types does \(\.$country) use in \(.applicationName)"
+            ],
+            shortTitle: LocalizedStringResource(
+                "intent.country.power.title",
+                defaultValue: "Get country power information"
+            ),
+            systemImageName: "powerplug.fill"
+        )
     }
 }

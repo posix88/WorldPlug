@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF25621B2362A65CA3678A /* WorldPlugTests.swift */; };
+		C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */; };
 		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
 		4CFD1A0930079D0E003E55E1 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0830079D0E003E55E1 /* Analytics */; };
 		4CFD1A0C30079D53003E55E1 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0B30079D53003E55E1 /* Repository */; };
@@ -66,10 +67,11 @@
 		5B6C7D8E9F00112233445567 /* VoltlyWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VoltlyWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		72DF25621B2362A65CA3678A /* WorldPlugTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldPlugTests.swift; sourceTree = "<group>"; };
 		89D6C6E5649F72BBF01D6E4F /* WorldPlugUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F0848B5A54B54DC3E06CFCF /* SnapshotHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		8F0848B5A54B54DC3E06CFCF /* SnapshotHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		98F93F6C16158F03FCD13907 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		AD511DB7D841AB28D0AD4058 /* WorldPlugUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WorldPlugUITests.swift; path = WorldPlugUITests.swift; sourceTree = "<group>"; };
+		AD511DB7D841AB28D0AD4058 /* WorldPlugUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorldPlugUITests.swift; sourceTree = "<group>"; };
 		BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModelTests.swift; sourceTree = "<group>"; };
+		C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPowerAnswerTests.swift; sourceTree = "<group>"; };
 		BE895993981725173845D8CA /* WorldPlugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88B45CD0740631A00BBE12B /* WorldPlug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldPlug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -77,29 +79,21 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		4C5862312FEC210000B5718C /* Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
 		4C5862452FEC210400B5718C /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
 		5D6E7F809001122334455668 /* VoltlyWidgets/Sources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = VoltlyWidgets/Sources;
 			sourceTree = "<group>";
 		};
 		6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = VoltlyWidgets/Resources;
 			sourceTree = "<group>";
 		};
@@ -149,7 +143,6 @@
 				AD511DB7D841AB28D0AD4058 /* WorldPlugUITests.swift */,
 				8F0848B5A54B54DC3E06CFCF /* SnapshotHelper.swift */,
 			);
-			name = WorldPlugUITests;
 			path = WorldPlugUITests;
 			sourceTree = "<group>";
 		};
@@ -209,6 +202,7 @@
 				BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */,
 				4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */,
 				5A6B7C8D9E0F112233445567 /* UserDefaultsHomeCountryStoreTests.swift */,
+				C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */,
 			);
 			path = WorldPlugTests;
 			sourceTree = "<group>";
@@ -375,6 +369,7 @@
 				AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */,
 				3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */,
 				5A6B7C8D9E0F112233445566 /* UserDefaultsHomeCountryStoreTests.swift in Sources */,
+				C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Get power information for ${country} with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get power information for ${country} with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni informazioni elettriche per ${country} con ${applicationName}"
+          }
+        }
+      }
+    },
+    "What plug types does ${country} use in ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What plug types does ${country} use in ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quali tipi di spina usa ${country} in ${applicationName}"
+          }
+        }
+      }
+    },
+    "What voltage does ${country} use in ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What voltage does ${country} use in ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quale tensione usa ${country} in ${applicationName}"
+          }
+        }
+      }
+    },
     "Open a country in ${applicationName}" : {
       "extractionState" : "stale",
       "localizations" : {
