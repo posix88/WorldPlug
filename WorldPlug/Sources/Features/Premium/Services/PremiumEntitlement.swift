@@ -40,90 +40,47 @@ enum PremiumProductIDs {
 @MainActor
 final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
     private let productIDs: Set<String>
+    private let storeClient: PremiumStoreClient
     private var transactionUpdatesTask: Task<Void, Never>?
 
     private(set) var isPremium = false
 
-    init(productIDs: Set<String> = [PremiumProductIDs.premium]) {
+    init(
+        productIDs: Set<String> = [PremiumProductIDs.premium],
+        storeClient: PremiumStoreClient = .live
+    ) {
         self.productIDs = productIDs
+        self.storeClient = storeClient
         self.transactionUpdatesTask = Task { [weak self] in
-            for await update in StoreKit.Transaction.updates {
+            for await _ in storeClient.transactionUpdates() {
                 guard let self else {
                     return
                 }
-                guard let transaction = try? Self.verifiedTransaction(from: update) else {
-                    continue
-                }
 
-                await transaction.finish()
                 await refreshEntitlements()
             }
         }
     }
 
     func refreshEntitlements() async {
-        var hasPremiumEntitlement = false
-
-        for await entitlement in StoreKit.Transaction.currentEntitlements {
-            guard let transaction = try? Self.verifiedTransaction(from: entitlement),
-                  productIDs.contains(transaction.productID),
-                  transaction.revocationDate == nil,
-                  !transaction.isUpgraded else {
-                continue
-            }
-
-            hasPremiumEntitlement = true
-            break
-        }
-
-        isPremium = hasPremiumEntitlement
+        isPremium = await storeClient.hasActiveEntitlement(productIDs)
     }
 
     func premiumProduct() async throws -> PremiumProduct? {
-        try await storeKitProduct().map { PremiumProduct(displayPrice: $0.displayPrice) }
+        try await storeClient.loadProduct(productIDs)
     }
 
     func purchasePremium() async throws -> PremiumPurchaseResult {
-        guard let product = try await storeKitProduct() else {
-            throw PremiumStoreError.productUnavailable
-        }
-
-        switch try await product.purchase() {
-        case .success(let verification):
-            let transaction = try Self.verifiedTransaction(from: verification)
-            await transaction.finish()
+        let result = try await storeClient.purchase(productIDs)
+        if result == .purchased {
             await refreshEntitlements()
-            return .purchased
-
-        case .pending:
-            return .pending
-
-        case .userCancelled:
-            return .cancelled
-
-        @unknown default:
-            return .cancelled
         }
-    }
-
-    private func storeKitProduct() async throws -> Product? {
-        try await Product.products(for: productIDs).first
+        return result
     }
 
     func restorePurchases() async throws {
-        try await AppStore.sync()
+        try await storeClient.sync()
         await refreshEntitlements()
-    }
-
-    private static func verifiedTransaction(
-        from verification: VerificationResult<StoreKit.Transaction>
-    ) throws -> StoreKit.Transaction {
-        switch verification {
-        case .verified(let transaction):
-            transaction
-        case .unverified:
-            throw PremiumStoreError.unverifiedTransaction
-        }
     }
 }
 

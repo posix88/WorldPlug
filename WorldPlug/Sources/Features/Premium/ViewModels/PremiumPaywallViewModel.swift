@@ -38,7 +38,18 @@ final class PremiumPaywallViewModel {
     }
 
     func loadProduct() async {
-        premiumPrice = try? await premiumEntitlement.premiumProduct()?.displayPrice
+        errorMessage = nil
+        isPurchasePending = false
+        do {
+            guard let product = try await premiumEntitlement.premiumProduct() else {
+                throw PremiumStoreError.productUnavailable
+            }
+
+            premiumPrice = product.displayPrice
+        } catch {
+            premiumPrice = nil
+            errorMessage = error.localizedDescription
+        }
     }
 
     func purchase() async {
@@ -73,6 +84,8 @@ final class PremiumPaywallViewModel {
     }
 
     private func perform(_ operation: () async throws -> Void) async {
+        errorMessage = nil
+        isPurchasePending = false
         isPurchasing = true
         defer { isPurchasing = false }
         do {
