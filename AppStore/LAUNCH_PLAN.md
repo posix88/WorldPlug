@@ -12,14 +12,19 @@ This plan assumes the app itself is code-complete (see the correctness review ab
 
 - [ ] Create the app record in App Store Connect (bundle ID `com.posix88.Voltly`), if not already created.
 - [ ] Create the in-app purchase `com.posix88.voltly.premium` as **Non-Consumable**, display name "Socket Buddy Premium", price tier matching $4.99 — this must be created and in "Ready to Submit" state *before* you submit the app binary that references it, or the binary validation / review can stall.
-- [ ] Fill in the two localizations for the IAP exactly as already drafted in [`WorldPlug/Resources/StoreKit/Voltly.storekit`](../WorldPlug/Resources/StoreKit/Voltly.storekit): EN "Unlock saved countries, trips, and premium widgets.", IT "Sblocca paesi salvati, viaggi e widget premium."
+- [ ] Fill in the two localizations for the IAP exactly as drafted in [`WorldPlug/Resources/StoreKit/Voltly.storekit`](../WorldPlug/Resources/StoreKit/Voltly.storekit): EN "Scan labels, checks, trips, and widgets.", IT "Scansiona etichette, viaggi e widget."
 - [ ] Add **App Privacy** ("nutrition label") answers — see §5 below.
-- [ ] Answer the **Age Rating** questionnaire — nothing in the app suggests anything above 4+ (no user-generated content, no unrestricted web access, no gambling; camera use is for label-scanning only, not photo capture/sharing).
+- [ ] Answer the **Age Rating** questionnaire — nothing in the app suggests anything above 4+ (no user-generated content, no unrestricted web access, no gambling; camera use is only for on-device label scanning, not saving or sharing photos).
 - [ ] Set primary category **Travel**; consider secondary category **Utilities**.
 - [ ] Add support URL and marketing URL (a simple landing page or even a GitHub Pages README works for a v1 — App Store requires a working support URL).
 - [ ] Add a privacy policy URL (**required** because you collect analytics data and sync via iCloud — see §5; a one-page policy is enough, several free generators exist, or write ~1 page by hand covering Firebase Analytics + iCloud KVS + no ad tracking).
 - [ ] Set up App Store Connect **TestFlight** internal testing build first, sanity-check the paywall against a **Sandbox Apple ID**, and confirm `Transaction.updates` + `AppStore.sync()` behave against the sandbox before submitting for review (StoreKit sandbox behaves differently enough from production that this is worth doing even solo).
 - [ ] Localize the App Store *listing itself* for both `en-US` and `it` (App Store Connect lets you pick which locales to support — add both). Note: App Store Connect's locale code for Italian is bare `it`, not `it-IT` — `deliver` rejects `it-IT` as an invalid directory name (confirmed the hard way).
+
+Exact field values, IAP configuration, privacy answers, and submission checks are now documented in
+[`APP_STORE_CONNECT_SETUP.md`](APP_STORE_CONNECT_SETUP.md). The publishable policy and product page
+live in the separate `posix88.github.io` repository, and their public URLs are included in both
+fastlane metadata locales.
 
 ## 2. Metadata copy — English (`en-US`)
 
@@ -59,9 +64,10 @@ SOCKET BUDDY PREMIUM (one-time purchase, no subscription)
 
 • Save unlimited countries
 • Plan your Next Trip and get unlimited Pack Checks
+• Scan device labels with the camera
 • Unlock the Favorite Country and Next Trip widgets
 
-The core country browser, compatibility checks, and camera label scanning are free forever. Premium is a single $4.99 purchase — no subscription, no recurring charge, no ads, ever.
+The country browser, country-level compatibility guidance, and your first Pack Check are free forever. Premium is a single $4.99 purchase — no subscription, no recurring charge, no ads, ever.
 
 Questions or feedback? We'd love to hear from you.
 ```
@@ -107,9 +113,10 @@ SOCKET BUDDY PREMIUM (acquisto una tantum, nessun abbonamento)
 
 • Salva un numero illimitato di paesi
 • Pianifica il tuo Prossimo viaggio e ottieni Trip Check illimitati
+• Scansiona le etichette dei dispositivi con la fotocamera
 • Sblocca i widget Paese preferito e Prossimo viaggio
 
-L'esplorazione dei paesi, i controlli di compatibilità e la scansione delle etichette con la fotocamera sono gratuiti per sempre. Premium è un unico acquisto da 4,99 € — nessun abbonamento, nessun addebito ricorrente, mai pubblicità.
+L'esplorazione dei paesi, le indicazioni di compatibilità tra paesi e il primo Pack Check sono gratuiti per sempre. Premium è un unico acquisto da 4,99 € — nessun abbonamento, nessun addebito ricorrente, mai pubblicità.
 
 Domande o suggerimenti? Ci farebbe piacere sentirti.
 ```
@@ -171,16 +178,17 @@ Based on what's actually in the code (`Analytics` package → Firebase Analytics
 |---|---|---|---|
 | Product interaction / usage data (your `AnalyticsEvent` cases — onboarding, saves, etc.) | Yes (Firebase Analytics) | No (unless you've enabled `setUserID`/`setUserProperty` with identifying data — check `AnalyticsTracker.swift`, it doesn't appear to) | No |
 | Identifiers (Firebase App Instance ID) | Yes, automatically by the SDK | No | No |
-| Diagnostics (crash/performance, if Firebase Analytics' default crash reporting is on) | Possibly — confirm in Firebase console settings | No | No |
-| Location | **No** — `CountryMapGeocoder` does a forward geocode of a *country name*, it never reads the user's device location | — | — |
-| User content (saved countries, next trip, pack devices) | Yes, but stored **only** in the user's own iCloud account (`NSUbiquitousKeyValueStore`) — not sent to your servers | Yes (tied to their Apple ID for their own sync) | No |
-| Camera | Used locally only (label scanning); no images are uploaded or stored | — | — |
+| Purchase history | Yes (Firebase automatically measures in-app purchase events) | No | No |
+| Coarse location | Yes (Firebase may derive approximate location from network information; the app never requests device location) | No | No |
+| Other diagnostic data | Yes (Firebase Installations declares technical diagnostic data for analytics) | No | No |
+| User content (saved countries, next trip, pack devices) | No developer collection — stored only on-device and in the user's own iCloud account (`NSUbiquitousKeyValueStore`) | — | — |
+| Camera | Used locally only (label scanning); a transient image may be processed in memory but is never saved or uploaded | — | — |
 
 Answer "Data Used to Track You": **No** (there's no IDFA/ATT usage found anywhere in the codebase — confirm no `AppTrackingTransparency` import exists, which matches what was found).
 
 Action items:
-- [ ] Double-check the Firebase Analytics initialization (`FirebaseAnalyticsTracker.configure()`) for any `Analytics.setUserID`/custom-dimension calls that might attach identity — none were found in this pass, but re-verify against the actual `AnalyticsTracker.swift` contents before answering App Store Connect's questionnaire, since incorrect answers here are an App Review rejection reason and a legal exposure, not just a formality.
-- [ ] Write the 1-page privacy policy covering: Firebase Analytics (anonymous usage analytics, no ad targeting), iCloud sync (user's own data, Apple's iCloud, not your servers), no data sold/shared with third parties, no location collected, camera used on-device only.
+- [x] Double-check Firebase Analytics initialization for `setUserID`, user properties, ATT, or advertising identifiers — none are present.
+- [x] Write the privacy policy covering Firebase Analytics, iCloud sync, StoreKit, and on-device camera processing.
 
 ## 6. Suggested pre-submission order of operations
 

@@ -10,12 +10,12 @@
       "internalID" : "EC099E46-8DD1-44E1-A128-A2C9F5DF6A8D",
       "localizations" : [
         {
-          "description" : "Unlock saved countries, trips, and premium widgets.",
+          "description" : "Scan labels, checks, trips, and widgets.",
           "displayName" : "Socket Buddy Premium",
           "locale" : "en_US"
         },
         {
-          "description" : "Sblocca paesi salvati, viaggi e widget premium.",
+          "description" : "Scansiona etichette, viaggi e widget.",
           "displayName" : "Socket Buddy Premium",
           "locale" : "it_IT"
         }
