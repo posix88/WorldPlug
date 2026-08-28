@@ -952,6 +952,363 @@
         }
       }
     },
+    "intent.device.compatibility.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check whether a device is safe to use at a destination."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla se un dispositivo è sicuro da usare a destinazione."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.destination.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.device.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dispositivo"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.adapter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is electrically compatible with %2$@, but you need a plug adapter. The destination uses %3$@ at %4$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ è elettricamente compatibile con %2$@, ma serve un adattatore. La destinazione usa %3$@ a %4$@."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.check.label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the label on %1$@ before using it in %2$@. %3$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla l’etichetta di %1$@ prima di usarlo in %2$@. %3$@"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.destination.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I couldn’t load electrical information for %1$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sono riuscito a caricare le informazioni elettriche per %1$@."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.frequency.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the frequency on the label of %1$@ before using it in %2$@. The destination supply is %3$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla la frequenza sull’etichetta di %1$@ prima di usarlo in %2$@. La rete elettrica della destinazione è a %3$@."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.home.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is electrically compatible with %2$@. Set your home country in Socket Buddy to check whether you need a plug adapter."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ è elettricamente compatibile con %2$@. Imposta il paese di origine in Socket Buddy per verificare se serve un adattatore."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.ready" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ is ready for %2$@. Its input supports %3$@ at %4$@, and your home plugs match."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ è pronto per %2$@. Supporta %3$@ a %4$@ e le spine del paese di origine sono compatibili."
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.dialog.unsafe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do not plug %1$@ in while in %2$@. The destination uses %3$@ at %4$@. %5$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non collegare %1$@ alla corrente in %2$@. La destinazione usa %3$@ a %4$@. %5$@"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.frequency.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input frequency"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequenza di ingresso"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.adapter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adapter needed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adattatore necessario"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.check.label" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check device label"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla l’etichetta"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.destination.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione non disponibile"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.home.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di origine necessario"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.frequency.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device frequency required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frequenza del dispositivo richiesta"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.ready" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pronto"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compatibility recommendation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consiglio di compatibilità"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.unsafe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do not use"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non usare"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check a device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla un dispositivo"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.voltage.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Input voltage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tensione di ingresso"
+          }
+        }
+      }
+    },
     "intent.open.country.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1560,6 +1917,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Viaggia sempre senza pensieri."
+          }
+        }
+      }
+    },
+    "Check %@ for %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check %1$@ for %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica %1$@ per %2$@"
           }
         }
       }
@@ -3743,6 +4117,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Puoi usarlo"
+          }
+        }
+      }
+    },
+    "trip.check.status.home.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di origine necessario"
           }
         }
       }

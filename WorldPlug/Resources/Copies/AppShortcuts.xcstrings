@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Can I use a device in ${destination} with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can I use a device in ${destination} with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posso usare un dispositivo in ${destination} con ${applicationName}"
+          }
+        }
+      }
+    },
+    "Check device compatibility for ${destination} with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check device compatibility for ${destination} with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla la compatibilità di un dispositivo per ${destination} con ${applicationName}"
+          }
+        }
+      }
+    },
+    "Is my device safe in ${destination} with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Is my device safe in ${destination} with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il mio dispositivo è sicuro in ${destination} con ${applicationName}"
+          }
+        }
+      }
+    },
     "Get power information for ${country} with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {

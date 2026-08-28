@@ -141,6 +141,7 @@ enum LocalizationKeys {
     static let tripCheckDeviceCPAP = "trip.check.device.cpap"
     static let tripCheckStatusReady = "trip.check.status.ready"
     static let tripCheckStatusAdapter = "trip.check.status.adapter"
+    static let tripCheckStatusHomeCountry = "trip.check.status.home.country"
     static let tripCheckStatusCheckLabel = "trip.check.status.check.label"
     static let tripCheckStatusUnsafe = "trip.check.status.unsafe"
     static let tripCheckMessageSetHome = "trip.check.message.set.home"

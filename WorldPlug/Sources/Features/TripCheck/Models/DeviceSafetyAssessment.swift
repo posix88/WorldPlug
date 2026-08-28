@@ -6,6 +6,7 @@ import Repository
 enum DeviceSafetyStatus: CaseIterable {
     case ready
     case adapterNeeded
+    case homeCountryRequired
     case checkLabel
     case unsafe
 
@@ -13,6 +14,7 @@ enum DeviceSafetyStatus: CaseIterable {
         switch self {
         case .ready: LocalizationKeys.tripCheckStatusReady.localized
         case .adapterNeeded: LocalizationKeys.tripCheckStatusAdapter.localized
+        case .homeCountryRequired: LocalizationKeys.tripCheckStatusHomeCountry.localized
         case .checkLabel: LocalizationKeys.tripCheckStatusCheckLabel.localized
         case .unsafe: LocalizationKeys.tripCheckStatusUnsafe.localized
         }
@@ -22,6 +24,7 @@ enum DeviceSafetyStatus: CaseIterable {
         switch self {
         case .ready: "checkmark.seal.fill"
         case .adapterNeeded: "powerplug.fill"
+        case .homeCountryRequired: "house.fill"
         case .checkLabel: "exclamationmark.triangle.fill"
         case .unsafe: "xmark.octagon.fill"
         }
@@ -67,7 +70,7 @@ enum TripSafetyChecker {
                 message: LocalizationKeys.tripCheckMessageMissingVoltage.localized
             )
         }
-        guard VoltageCompatibility.isCompatible(trimmedVoltage, destination.voltage) else {
+        guard VoltageCompatibility.deviceInputSupports(trimmedVoltage, destinationSupply: destination.voltage) else {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .unsafe,
@@ -91,16 +94,18 @@ enum TripSafetyChecker {
         guard let homeCountry else {
             return DeviceSafetyAssessment(
                 device: device,
-                status: .ready,
-                message: LocalizationKeys.tripCheckMessageReady.localized
+                status: .homeCountryRequired,
+                message: LocalizationKeys.tripCheckMessageSetHome.localized
             )
         }
 
-        let plugMatches = !Set(homeCountry.plugs.map(\.id)).isDisjoint(with: destination.plugs.map(\.id))
+        let homePlugTypes = Set(homeCountry.plugs.map(\.id))
+        let destinationPlugTypes = Set(destination.plugs.map(\.id))
+        let allHomePlugsMatch = homePlugTypes.isSubset(of: destinationPlugTypes)
         return DeviceSafetyAssessment(
             device: device,
-            status: plugMatches ? .ready : .adapterNeeded,
-            message: plugMatches
+            status: allHomePlugsMatch ? .ready : .adapterNeeded,
+            message: allHomePlugsMatch
                 ? LocalizationKeys.tripCheckMessageReady.localized
                 : LocalizationKeys.tripCheckMessageAdapter.localized
         )
@@ -117,8 +122,8 @@ private enum FrequencyCompatibility {
             return true
         }
 
-        return lhsValues.contains { lhsValue in
-            rhsValues.contains { abs($0 - lhsValue) <= tolerance }
+        return rhsValues.allSatisfy { rhsValue in
+            lhsValues.contains { abs($0 - rhsValue) <= tolerance }
         }
     }
 

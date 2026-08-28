@@ -41,6 +41,19 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
 
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: CheckDeviceCompatibilityIntent(),
+            phrases: [
+                "Can I use a device in \(\.$destination) with \(.applicationName)",
+                "Check device compatibility for \(\.$destination) with \(.applicationName)",
+                "Is my device safe in \(\.$destination) with \(.applicationName)"
+            ],
+            shortTitle: LocalizedStringResource(
+                "intent.device.compatibility.title",
+                defaultValue: "Check a device"
+            ),
+            systemImageName: "checkmark.shield.fill"
+        )
+        AppShortcut(
             intent: OpenCountryIntent(),
             phrases: [
                 "Open a country in \(.applicationName)",

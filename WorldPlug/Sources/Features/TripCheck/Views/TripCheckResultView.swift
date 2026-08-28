@@ -85,6 +85,7 @@ struct TripCheckResultView: View {
         switch status {
         case .ready: .statusReady
         case .adapterNeeded: .statusAdapter
+        case .homeCountryRequired: .statusCheck
         case .checkLabel: .statusCheck
         case .unsafe: .statusUnsafe
         }

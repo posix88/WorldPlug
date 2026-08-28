@@ -14,9 +14,28 @@ enum VoltageCompatibility {
             return true
         }
 
-        return lhsVoltages.contains { lhsVoltage in
-            rhsVoltages.contains { rhsVoltage in
+        if Set(lhsVoltages) == Set(rhsVoltages) {
+            return true
+        }
+
+        return lhsVoltages.allSatisfy { lhsVoltage in
+            rhsVoltages.allSatisfy { rhsVoltage in
                 abs(lhsVoltage - rhsVoltage) <= tolerance(for: lhsVoltage, rhsVoltage, minimumTolerance: minimumTolerance)
+            }
+        }
+    }
+
+    static func deviceInputSupports(_ deviceInput: String, destinationSupply: String, minimumTolerance: Int = 10) -> Bool {
+        let supportedRanges = parseSupportedRanges(deviceInput)
+        let destinationVoltages = parseVoltages(destinationSupply)
+
+        guard !supportedRanges.isEmpty, !destinationVoltages.isEmpty else {
+            return true
+        }
+
+        return destinationVoltages.allSatisfy { destinationVoltage in
+            supportedRanges.contains {
+                supports(destinationVoltage, range: $0, minimumTolerance: minimumTolerance)
             }
         }
     }
@@ -38,6 +57,36 @@ enum VoltageCompatibility {
     private static func tolerance(for lhsVoltage: Int, _ rhsVoltage: Int, minimumTolerance: Int) -> Int {
         let nominalVoltage = max(min(lhsVoltage, rhsVoltage), 1)
         return max(minimumTolerance, Int((Double(nominalVoltage) * 0.1).rounded()))
+    }
+
+    private static func supports(_ voltage: Int, range: ClosedRange<Int>, minimumTolerance: Int) -> Bool {
+        if range.contains(voltage) {
+            return true
+        }
+
+        let nearestBound = voltage < range.lowerBound ? range.lowerBound : range.upperBound
+        return abs(nearestBound - voltage) <= tolerance(
+            for: nearestBound,
+            voltage,
+            minimumTolerance: minimumTolerance
+        )
+    }
+
+    private static func parseSupportedRanges(_ string: String) -> [ClosedRange<Int>] {
+        let normalized = string
+            .replacingOccurrences(of: "–", with: "-")
+            .replacingOccurrences(of: "—", with: "-")
+            .replacingOccurrences(of: "−", with: "-")
+            .replacingOccurrences(of: "~", with: "-")
+
+        return normalized.split(separator: "/").flatMap { component in
+            let values = parseVoltages(String(component))
+            guard component.contains("-"), values.count >= 2 else {
+                return values.map { $0 ... $0 }
+            }
+
+            return [min(values[0], values[1]) ... max(values[0], values[1])]
+        }
     }
 
     private static func parseVoltages(_ string: String) -> [Int] {
