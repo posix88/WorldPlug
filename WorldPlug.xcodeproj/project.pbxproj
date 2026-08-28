@@ -11,6 +11,7 @@
 		C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */; };
 		C0A11CE00000000000000003 /* DeviceCompatibilityIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */; };
 		C0A11CE00000000000000005 /* NextTripRequirementsIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */; };
+		C0A11CE00000000000000007 /* AppIntentsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000008 /* AppIntentsIntegrationTests.swift */; };
 		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
 		4CFD1A0930079D0E003E55E1 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0830079D0E003E55E1 /* Analytics */; };
 		4CFD1A0C30079D53003E55E1 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0B30079D53003E55E1 /* Repository */; };
@@ -76,6 +77,7 @@
 		C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPowerAnswerTests.swift; sourceTree = "<group>"; };
 		C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCompatibilityIntentServiceTests.swift; sourceTree = "<group>"; };
 		C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTripRequirementsIntentServiceTests.swift; sourceTree = "<group>"; };
+		C0A11CE00000000000000008 /* AppIntentsIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntentsIntegrationTests.swift; sourceTree = "<group>"; };
 		BE895993981725173845D8CA /* WorldPlugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88B45CD0740631A00BBE12B /* WorldPlug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldPlug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -209,6 +211,7 @@
 				C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */,
 				C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */,
 				C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */,
+				C0A11CE00000000000000008 /* AppIntentsIntegrationTests.swift */,
 			);
 			path = WorldPlugTests;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */,
 				C0A11CE00000000000000003 /* DeviceCompatibilityIntentServiceTests.swift in Sources */,
 				C0A11CE00000000000000005 /* NextTripRequirementsIntentServiceTests.swift in Sources */,
+				C0A11CE00000000000000007 /* AppIntentsIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
