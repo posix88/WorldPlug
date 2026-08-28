@@ -63,6 +63,7 @@ struct CountryEntity: IndexedEntity {
     )
     var electricalInformation: String
     var flag: String
+    var localeIdentifier: String
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
@@ -76,29 +77,57 @@ struct CountryEntity: IndexedEntity {
     init(country: Country, locale: Locale = .current) {
         self.id = country.code
         self.flag = country.flagUnicode
+        self.localeIdentifier = locale.identifier
         self.name = country.localizedName(in: locale)
         self.code = country.code
         self.voltage = country.voltage
         self.frequency = country.frequency
         let plugTypes = country.sortedPlugs.map(\.id)
         self.plugTypes = plugTypes
-        let formattedPlugTypes = plugTypes.isEmpty
-            ? "Plug types unavailable"
-            : "Plug types \(plugTypes.joined(separator: ", "))"
-        self.electricalInformation = [
-            "\(country.localizedName(in: locale)) uses \(country.voltage)",
-            "\(country.frequency) frequency",
-            formattedPlugTypes
-        ]
-        .joined(separator: ". ")
+        self.electricalInformation = Self.formatted(
+            LocalizationKeys.intentCountryEntityElectricalInformation,
+            locale: locale,
+            country.localizedName(in: locale),
+            country.voltage,
+            country.frequency,
+            Self.formattedPlugTypes(plugTypes, locale: locale)
+        )
     }
 
     private var formattedPlugTypes: String {
+        Self.formattedPlugTypes(plugTypes, locale: Locale(identifier: localeIdentifier))
+    }
+
+    private static func formattedPlugTypes(_ plugTypes: [String], locale: Locale) -> String {
         guard !plugTypes.isEmpty else {
-            return "Plug types unavailable"
+            return localizedString(LocalizationKeys.intentCountryEntityPlugTypesUnavailable, locale: locale)
         }
 
-        return "Plug types \(plugTypes.joined(separator: ", "))"
+        return formatted(
+            LocalizationKeys.intentCountryEntityPlugTypes,
+            locale: locale,
+            plugTypes.formatted(.list(type: .and).locale(locale))
+        )
+    }
+
+    private static func formatted(_ key: String, locale: Locale, _ arguments: CVarArg...) -> String {
+        String(
+            format: localizedString(key, locale: locale),
+            locale: locale,
+            arguments: arguments
+        )
+    }
+
+    private static func localizedString(_ key: String, locale: Locale) -> String {
+        let languageCode = locale.language.languageCode?.identifier
+        let localizedBundle = languageCode
+            .flatMap { Bundle.main.url(forResource: $0, withExtension: "lproj") }
+            .flatMap { Bundle(url: $0) }
+        return String(
+            localized: String.LocalizationValue(key),
+            bundle: localizedBundle ?? .main,
+            locale: locale
+        )
     }
 }
 
@@ -136,14 +165,15 @@ struct CountryEntityQuery: EntityStringQuery {
 
     @MainActor
     private func countryEntities(
+        locale: Locale = .current,
         matching predicate: (Country) -> Bool
     ) -> [CountryEntity] {
         let descriptor = FetchDescriptor<Country>()
         let countries = (try? Repository.sharedModelContainer.mainContext.fetch(descriptor)) ?? []
         return countries
             .filter(predicate)
-            .sortedByLocalizedName(in: .current)
-            .map { CountryEntity(country: $0) }
+            .sortedByLocalizedName(in: locale)
+            .map { CountryEntity(country: $0, locale: locale) }
     }
 }
 
@@ -156,13 +186,15 @@ extension CountryEntityQuery: IndexedEntityQuery {
         indexDescription: CSSearchableIndexDescription
     ) async throws {
         let identifiers = Set(identifiers.map { $0.uppercased() })
-        let entities = await countryEntities { identifiers.contains($0.code) }
+        let entities = await countryEntities(locale: CountrySpotlightIndex.indexingLocale) {
+            identifiers.contains($0.code)
+        }
         try await CountrySpotlightIndex.index(entities)
     }
 
     func reindexAllEntities(
         indexDescription: CSSearchableIndexDescription
     ) async throws {
-        try await CountrySpotlightIndex.indexAllCountries()
+        try await CountrySpotlightIndex.indexAllCountries(force: true)
     }
 }

@@ -765,6 +765,57 @@
         }
       }
     },
+    "intent.country.entity.electrical.information" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ uses %2$@ at %3$@. %4$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ usa %2$@ a %3$@. %4$@."
+          }
+        }
+      }
+    },
+    "intent.country.entity.plug.types" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug types: %1$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipi di spina: %1$@"
+          }
+        }
+      }
+    },
+    "intent.country.entity.plug.types.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug types unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipi di spina non disponibili"
+          }
+        }
+      }
+    },
     "intent.country.property.code" : {
       "extractionState" : "manual",
       "localizations" : {
