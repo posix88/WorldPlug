@@ -229,6 +229,8 @@ private struct PlugReferenceImage: View {
                             .font(.caption.weight(.semibold))
                     }
                     .foregroundStyle(.textLighter)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(LocalizationKeys.retry.localized)

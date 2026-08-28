@@ -44,11 +44,7 @@ struct HomeCountryBannerView: View {
         }
         .padding(.horizontal, .xl)
         .padding(.vertical, .lg)
-        .background {
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
-                .fill(.cardSurface.opacity(0.68))
-                .fill(.thinMaterial)
-        }
+        .glassEffect(.regular.tint(.voltTint.opacity(0.14)), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 12, style: .continuous)
                 .strokeBorder(.voltTint.opacity(0.45), lineWidth: 1)

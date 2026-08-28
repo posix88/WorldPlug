@@ -139,7 +139,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             .foregroundStyle(.textRegular)
             .padding(.horizontal, .lg)
             .padding(.vertical, .sm)
-            .background(.regularMaterial, in: Capsule())
+            .glassEffect(.regular, in: .capsule)
     }
 
     private func handleSavedCountryAction() {

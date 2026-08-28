@@ -129,12 +129,11 @@ struct NextTripEditorView: View {
             Label(LocalizationKeys.nextTripRemove.localized, systemImage: "trash")
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.bordered)
+        .buttonStyle(.glass)
         .controlSize(.large)
         .tint(.statusUnsafe)
         .padding(.horizontal, .xxl)
         .padding(.vertical, .md)
-        .background(.regularMaterial)
         .overlay(alignment: .top) {
             Divider()
         }

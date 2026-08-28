@@ -308,7 +308,7 @@ private struct SavedCountriesPremiumPreview: View {
                 .font(.title3)
                 .foregroundStyle(.textLight)
                 .padding(.md)
-                .background(.regularMaterial, in: Circle())
+                .glassEffect(.regular, in: .circle)
         }
         .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
         .accessibilityHidden(true)

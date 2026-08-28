@@ -222,68 +222,47 @@ private struct CompatibilityFilterBar: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: .sm) {
-                ForEach(CountryCompatibilityFilter.allCases) { filter in
-                    Button {
-                        withMotionAwareAnimation(.snappy, reduceMotion: reduceMotion) {
-                            selectedFilter = filter
-                        }
-                    } label: {
-                        HStack(spacing: .xs) {
-                            filter.icon.image
-                                .imageScale(.small)
+            GlassEffectContainer(spacing: .sm) {
+                HStack(spacing: .sm) {
+                    ForEach(CountryCompatibilityFilter.allCases) { filter in
+                        Button {
+                            withMotionAwareAnimation(.snappy, reduceMotion: reduceMotion) {
+                                selectedFilter = filter
+                            }
+                        } label: {
+                            HStack(spacing: .xs) {
+                                filter.icon.image
+                                    .imageScale(.small)
 
-                            Text(filter.title)
+                                Text(filter.title)
 
-                            Text("\(counts[filter, default: 0])")
-                                .font(.caption2)
-                                .fontWeight(.bold)
-                                .monospacedDigit()
-                                .padding(.horizontal, .xs)
-                                .padding(.vertical, 2)
-                                .background(filter.isSelected(selectedFilter) ? .white.opacity(0.22) : .surfaceSecondary)
-                                .clipShape(Capsule())
+                                Text("\(counts[filter, default: 0])")
+                                    .font(.caption2)
+                                    .fontWeight(.bold)
+                                    .monospacedDigit()
+                                    .padding(.horizontal, .xs)
+                                    .padding(.vertical, 2)
+                                    .background(filter.isSelected(selectedFilter) ? .white.opacity(0.22) : .surfaceSecondary)
+                                    .clipShape(Capsule())
+                            }
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(filter.isSelected(selectedFilter) ? .white : filter.color)
+                            .padding(.horizontal, .lg)
+                            .padding(.vertical, .md)
+                            .glassEffect(
+                                filter.isSelected(selectedFilter)
+                                    ? .regular.tint(filter.color.opacity(0.92)).interactive()
+                                    : .regular.tint(filter.color.opacity(0.14)).interactive(),
+                                in: .capsule
+                            )
                         }
-                        .font(.caption)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(filter.isSelected(selectedFilter) ? .white : filter.color)
-                        .padding(.horizontal, .lg)
-                        .padding(.vertical, .md)
-                        .background {
-                            Capsule()
-                                .fill(.thinMaterial)
-                                .overlay(
-                                    Capsule()
-                                        .fill(filter.isSelected(selectedFilter) ? filter.color.opacity(0.92) : filter.color
-                                            .opacity(0.14)
-                                        )
-                                )
-                        }
-                        .overlay {
-                            Capsule()
-                                .strokeBorder(
-                                    filter.color.opacity(filter.isSelected(selectedFilter) ? 0.28 : 0.22),
-                                    lineWidth: 1
-                                )
-                        }
-                        .shadow(
-                            color: filter.color.opacity(filter.isSelected(selectedFilter) ? 0.28 : 0.12),
-                            radius: filter.isSelected(selectedFilter) ? 10 : 6,
-                            x: 0,
-                            y: 2
-                        )
-                        .shadow(
-                            color: filter.color.opacity(filter.isSelected(selectedFilter) ? 0.14 : 0.06),
-                            radius: 3,
-                            x: 0,
-                            y: 0
-                        )
+                        .buttonStyle(.plain)
                     }
-                    .buttonStyle(.plain)
                 }
+                .padding(.horizontal, .xxl)
+                .padding(.vertical, .xs)
             }
-            .padding(.horizontal, .xxl)
-            .padding(.vertical, .xs)
         }
         .popoverTip(tip, arrowEdge: .top)
         .appTipIconTint()

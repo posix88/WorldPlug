@@ -92,7 +92,7 @@ struct DeviceLabelScannerView: View {
             .accessibilityHint(LocalizationKeys.tripCheckScanLabelHint.localized)
         }
         .padding(.lg)
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         .padding(.horizontal, .xxl)
         .padding(.bottom, .lg)
     }
