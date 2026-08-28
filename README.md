@@ -19,7 +19,7 @@ widget extension.
 
 - **Xcode 27** (currently only shipping as a beta) — the project needs the iOS 27 SDK for
   `FoundationModels`; Xcode 26.x fails to build `FoundationModelDeviceLabelInterpreter.swift`.
-- iOS 26.0+ deployment target, Swift 6, strict concurrency.
+- iOS 27.0+ deployment target, Swift 6, strict concurrency.
 
 ## Getting started
 

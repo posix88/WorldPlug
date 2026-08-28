@@ -8,7 +8,7 @@ Read this before touching the code. It describes what actually exists today, not
 
 **Naming**: the App Store / marketing name is "Socket Buddy" — "Voltly" (the original working name) turned out to already be taken. Every internal identifier still says "Voltly" on purpose (Apple only checks the App Store listing name for uniqueness, not any of these): the bundle ID (`com.posix88.Voltly`), the App Group (`group.com.posix88.Voltly`), the URL scheme (`voltly://`), the Xcode project name (`WorldPlug`), the Firebase project (`voltly-1527f`), and every `Voltly*`-prefixed Swift type (`VoltlyApp`, `VoltlyWidgets`, `VoltlyDeepLink`, `VoltlyAppShortcuts`, …). Only user-visible text was changed: `CFBundleDisplayName`, the onboarding/paywall/share-sheet copy, the camera permission string, the widget empty-state text, and the App Store metadata in `fastlane/metadata/`. Don't "fix" the internal naming without a good reason — it's intentionally left alone, not an oversight.
 
-- Target: iOS 26.0+ (`IPHONEOS_DEPLOYMENT_TARGET = 26.0`), universal (iPhone + iPad), Swift 6.0, **strict concurrency = complete**.
+- Target: iOS 27.0+ (`IPHONEOS_DEPLOYMENT_TARGET = 27.0`), universal (iPhone + iPad), Swift 6.0, **strict concurrency = complete**.
 - No `SWIFT_DEFAULT_ACTOR_ISOLATION` override — every `@MainActor` is explicit, by convention. Follow that convention; don't rely on default-MainActor-isolation behavior.
 - State: `@Observable` everywhere (never `ObservableObject`/`@Published`).
 - Persistence: SwiftData, isolated inside the `Repository` Swift package.
@@ -113,7 +113,7 @@ All findings from the original review have been fixed as of 2026-08-19, across t
 
 `.github/copilot-instructions.md` and `.github/instructions/*.md` (gitignored, so they're local-only reference material, not shipped with the repo) describe:
 - `WorldPlug/Sources/Countries List/` and `Plug detail/` as top-level folders — the real layout is `Features/Countries/` and `Features/PlugDetail/` (see module map above).
-- "iOS 17.0 minimum deployment" — the actual project target is **iOS 26.0**.
+- "iOS 17.0 minimum deployment" — the actual project target is **iOS 27.0**.
 - `SchemaV4` as current — the actual current schema is **SchemaV5**.
 They're still accurate on *conventions* (MVVM shape, `XxxViewModelType` protocols, SwiftData rules, testing framework, localization approach) — trust them for "how do we do X here", not for "where does X live" or "what version are we on".
 
