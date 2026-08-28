@@ -16,6 +16,15 @@ auto-generated lane docs — if you ever want that instead, remove `skip_docs` a
    ```sh
    bundle install
    ```
+   Select an Xcode installation containing the iOS 27 SDK. Build, test, and screenshot-capture
+   lanes use `VOLTLY_XCODE_PATH` when set, then `DEVELOPER_DIR`, then the active `xcode-select` path:
+   ```sh
+   sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+   # Or for one run:
+   VOLTLY_XCODE_PATH="/Applications/Xcode.app" bundle exec fastlane test
+   ```
+   Those lanes fail before doing work when the selected Xcode does not provide iOS 27. Metadata
+   upload and screenshot-rendering lanes do not require an iOS SDK.
 1b. **Set a UTF-8 locale** — this machine's shell has `LANG=""`, which breaks fastlane's
    `xcrun simctl` parsing (`"'\xCA' on US-ASCII"`, `"xcrun simctl CLI broken"`). Add this to
    `~/.zshrc` (confirmed to actually fix it — setting it inside the Fastfile is too late, Ruby

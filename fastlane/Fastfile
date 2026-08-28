@@ -7,12 +7,16 @@ require "shellwords"
 # hand-written setup guide instead (see that file).
 skip_docs
 
-# Xcode 27 (currently only shipping as a beta) has the iOS 27 SDK this project needs —
-# `FoundationModelDeviceLabelInterpreter.swift` won't compile against the iOS 26 SDK in
-# Xcode 26.x. Update this path once Xcode 27 ships as a stable release (drop the "-Beta.N"
-# suffix, or point at whichever Xcode has the iOS 27 SDK), or override per-run with:
-#   VOLTLY_XCODE_PATH="/Applications/Xcode.app" bundle exec fastlane beta
-XCODE_PATH = ENV["VOLTLY_XCODE_PATH"] || "/Applications/Xcode-27.0.0-Beta.4.app"
+def resolved_xcode_path
+  override = ENV["VOLTLY_XCODE_PATH"]
+  return override unless override.to_s.empty?
+
+  developer_dir = ENV["DEVELOPER_DIR"]
+  developer_dir = `xcode-select -p`.strip if developer_dir.to_s.empty?
+  File.expand_path("../..", developer_dir)
+end
+
+XCODE_PATH = resolved_xcode_path
 
 SCHEME = "WorldPlug"
 TEST_DEVICE = ENV["VOLTLY_TEST_DEVICE"] || "iPhone 17 Pro"
@@ -20,7 +24,6 @@ BUILD_OUTPUT_DIRECTORY = "./build/fastlane"
 
 platform :ios do
   before_all do
-    ENV["DEVELOPER_DIR"] = "#{XCODE_PATH}/Contents/Developer"
     # Best-effort only — Ruby's own string encoding locks in from the locale at interpreter
     # boot, so mutating ENV here is too late to fix it (unlike DEVELOPER_DIR above, which only
     # subprocesses spawned later ever read). If you see "'\xCA' on US-ASCII" or "xcrun simctl CLI
@@ -30,8 +33,22 @@ platform :ios do
     ENV["LC_ALL"] = "en_US.UTF-8"
   end
 
+  private_lane :ensure_ios27_sdk do
+    developer_dir = "#{XCODE_PATH}/Contents/Developer"
+    unless File.directory?(developer_dir)
+      UI.user_error!("Xcode not found at #{XCODE_PATH}. Select Xcode 27 with xcode-select or set VOLTLY_XCODE_PATH.")
+    end
+
+    ENV["DEVELOPER_DIR"] = developer_dir
+    sdk_version = sh("xcrun --sdk iphoneos --show-sdk-version", log: false).strip
+    if sdk_version.split(".").first.to_i < 27
+      UI.user_error!("Socket Buddy requires the iOS 27 SDK, but #{XCODE_PATH} provides iOS #{sdk_version}.")
+    end
+  end
+
   desc "Run the full test suite (WorldPlugTests) on a simulator"
   lane :test do
+    ensure_ios27_sdk
     run_tests(
       scheme: SCHEME,
       devices: [TEST_DEVICE],
@@ -47,6 +64,7 @@ platform :ios do
 
   desc "Archive + export a release .ipa, signed for App Store distribution"
   private_lane :build_release do
+    ensure_ios27_sdk
     build_app(
       scheme: SCHEME,
       configuration: "Release",
@@ -146,6 +164,7 @@ platform :ios do
   desc "still need a manual `xcrun simctl io booted screenshot` capture into raw/."
   desc "Run `fastlane render_screenshots` afterward to composite captions on top of the new raws."
   lane :capture_screenshots do
+    ensure_ios27_sdk
     snapshot(reinstall_app: true)
 
     raw_dir = File.expand_path("../Scripts/screenshots/raw", __dir__)
