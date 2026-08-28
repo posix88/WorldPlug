@@ -1309,6 +1309,346 @@
         }
       }
     },
+    "Get my next trip requirements" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get my next trip requirements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni i requisiti per il mio prossimo viaggio"
+          }
+        }
+      }
+    },
+    "intent.next.trip.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get plug, voltage, and frequency requirements for your next trip."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni i requisiti di spine, tensione e frequenza per il tuo prossimo viaggio."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.adapter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pack a plug adapter. Check every device label, or ask Socket Buddy whether a device is safe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta un adattatore per la spina. Controlla l’etichetta di ogni dispositivo oppure chiedi a Socket Buddy se un dispositivo è sicuro."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.adapter.not.expected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A plug adapter is not expected based on your home plug types. Still check every device label, or ask Socket Buddy whether a device is safe."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tipi di spina del tuo paese di origine, non dovrebbe servire un adattatore. Controlla comunque l’etichetta di ogni dispositivo oppure chiedi a Socket Buddy se un dispositivo è sicuro."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.date.range" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from %1$@ to %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dal %1$@ al %2$@"
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.destination.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I couldn’t load electrical information for your next trip destination, %1$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sono riuscito a caricare le informazioni elettriche per la destinazione del tuo prossimo viaggio, %1$@."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.details" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@. Electrical supply: %3$@ at %4$@. Plug types: %5$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@. Rete elettrica: %3$@ a %4$@. Tipi di spina: %5$@."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.home.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set your home country to check plug-adapter needs. Check every device label before travel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta il paese di origine per verificare se serve un adattatore. Controlla l’etichetta di ogni dispositivo prima del viaggio."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.home.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I couldn’t load your home country’s plug information. Check every device label and plug type before travel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non sono riuscito a caricare le informazioni sulle spine del tuo paese di origine. Controlla l’etichetta e il tipo di spina di ogni dispositivo prima del viaggio."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.no.trip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You don’t have an upcoming trip in Socket Buddy. Add one to get its plug, voltage, and frequency requirements from Siri."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non hai un viaggio in programma in Socket Buddy. Aggiungine uno per ottenere da Siri i requisiti di spine, tensione e frequenza."
+          }
+        }
+      }
+    },
+    "intent.next.trip.dialog.trip.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The saved dates for your next trip to %1$@ need to be corrected in Socket Buddy."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le date salvate per il tuo prossimo viaggio verso %1$@ devono essere corrette in Socket Buddy."
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.adapter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pack a plug adapter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Porta un adattatore"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.adapter.not.expected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug adapter not expected"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adattatore non previsto"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.destination.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destination unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Destinazione non disponibile"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.home.required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di origine necessario"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.home.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country information unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazioni sul paese di origine non disponibili"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.no.trip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No next trip"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun prossimo viaggio"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.trip.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trip details unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dettagli del viaggio non disponibili"
+          }
+        }
+      }
+    },
+    "intent.next.trip.recommendation.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next trip recommendation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Consiglio per il prossimo viaggio"
+          }
+        }
+      }
+    },
+    "intent.next.trip.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get next trip requirements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni requisiti per il prossimo viaggio"
+          }
+        }
+      }
+    },
     "intent.open.country.description" : {
       "extractionState" : "manual",
       "localizations" : {

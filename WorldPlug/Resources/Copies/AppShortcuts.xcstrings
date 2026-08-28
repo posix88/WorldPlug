@@ -1,6 +1,57 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Get my next trip requirements with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get my next trip requirements with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni i requisiti per il mio prossimo viaggio con ${applicationName}"
+          }
+        }
+      }
+    },
+    "Prepare me for my next trip with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prepare me for my next trip with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparami per il mio prossimo viaggio con ${applicationName}"
+          }
+        }
+      }
+    },
+    "What do I need for my next trip with ${applicationName}" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do I need for my next trip with ${applicationName}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosa mi serve per il mio prossimo viaggio con ${applicationName}"
+          }
+        }
+      }
+    },
     "Can I use a device in ${destination} with ${applicationName}" : {
       "extractionState" : "manual",
       "localizations" : {

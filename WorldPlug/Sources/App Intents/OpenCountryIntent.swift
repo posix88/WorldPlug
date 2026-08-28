@@ -41,6 +41,19 @@ struct VoltlyAppShortcuts: AppShortcutsProvider {
 
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: GetNextTripRequirementsIntent(),
+            phrases: [
+                "What do I need for my next trip with \(.applicationName)",
+                "Get my next trip requirements with \(.applicationName)",
+                "Prepare me for my next trip with \(.applicationName)"
+            ],
+            shortTitle: LocalizedStringResource(
+                "intent.next.trip.title",
+                defaultValue: "Get next trip requirements"
+            ),
+            systemImageName: "suitcase.rolling.fill"
+        )
+        AppShortcut(
             intent: CheckDeviceCompatibilityIntent(),
             phrases: [
                 "Can I use a device in \(\.$destination) with \(.applicationName)",
