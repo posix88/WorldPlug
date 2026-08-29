@@ -3,6 +3,14 @@ import Repository
 import SwiftUI
 import WidgetKit
 
+// MARK: - AppPhase
+
+enum AppPhase: Equatable {
+    case launchExperience
+    case onboarding
+    case main
+}
+
 // MARK: - AppCoordinator
 
 @Observable
@@ -17,16 +25,11 @@ final class AppCoordinator {
     private let navigationModel: AppNavigationModel
     private let appGroupDefaults: UserDefaults
     private let standardDefaults: UserDefaults
-    /// Whether onboarding still needs to run, decided once at launch. Kept separate from
-    /// `isOnboardingPresented` so the onboarding cover doesn't appear until the launch
-    /// splash has finished — see `launchExperienceCompleted()`.
+    /// Whether onboarding still needs to run, decided once at launch.
     private let needsOnboarding: Bool
 
     var premiumPaywallSource: PremiumPaywallSource?
-    var isLaunchExperiencePresented = true
-    /// Only ever flips to `true` from `launchExperienceCompleted()`, never at init, so a
-    /// first-time user sees the launch splash before the onboarding cover appears on top of it.
-    var isOnboardingPresented = false
+    private(set) var phase = AppPhase.launchExperience
     /// Flips to `true` once `premiumEntitlement.refreshEntitlements()` resolves. `LaunchExperienceView`
     /// waits for this (in addition to its minimum splash duration) before dismissing, so the app
     /// is never revealed with a stale/default `isPremium` — without this a genuinely premium user
@@ -66,14 +69,11 @@ final class AppCoordinator {
 
     func onboardingCompleted() {
         standardDefaults.set(true, forKey: Keys.hasSeenOnboarding)
-        isOnboardingPresented = false
+        phase = .main
     }
 
     func launchExperienceCompleted() {
-        isLaunchExperiencePresented = false
-        if needsOnboarding {
-            isOnboardingPresented = true
-        }
+        phase = needsOnboarding ? .onboarding : .main
     }
 
     func open(_ url: URL) {

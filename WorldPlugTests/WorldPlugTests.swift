@@ -50,6 +50,70 @@ struct AppNavigationModelTests {
     }
 }
 
+// MARK: - AppCoordinatorTests
+
+@Suite("AppCoordinator", .serialized)
+@MainActor
+struct AppCoordinatorTests {
+    @Test("first launch transitions directly from launch experience to onboarding")
+    func firstLaunchTransitionsToOnboarding() throws {
+        let defaults = try makeDefaults()
+        defer { defaults.removePersistentDomain(forName: defaultsSuiteName) }
+        let coordinator = makeCoordinator(standardDefaults: defaults)
+
+        #expect(coordinator.phase == .launchExperience)
+
+        coordinator.launchExperienceCompleted()
+
+        #expect(coordinator.phase == .onboarding)
+    }
+
+    @Test("onboarding completion transitions to the main app")
+    func onboardingCompletionTransitionsToMainApp() throws {
+        let defaults = try makeDefaults()
+        defer { defaults.removePersistentDomain(forName: defaultsSuiteName) }
+        let coordinator = makeCoordinator(standardDefaults: defaults)
+        coordinator.launchExperienceCompleted()
+
+        coordinator.onboardingCompleted()
+
+        #expect(coordinator.phase == .main)
+        #expect(defaults.bool(forKey: "hasSeenOnboarding"))
+    }
+
+    @Test("returning users transition directly to the main app")
+    func returningUsersTransitionToMainApp() throws {
+        let defaults = try makeDefaults()
+        defer { defaults.removePersistentDomain(forName: defaultsSuiteName) }
+        defaults.set(true, forKey: "hasSeenOnboarding")
+        let coordinator = makeCoordinator(standardDefaults: defaults)
+
+        coordinator.launchExperienceCompleted()
+
+        #expect(coordinator.phase == .main)
+    }
+
+    private var defaultsSuiteName: String {
+        "AppCoordinatorTests"
+    }
+
+    private func makeDefaults() throws -> UserDefaults {
+        let defaults = try #require(UserDefaults(suiteName: defaultsSuiteName))
+        defaults.removePersistentDomain(forName: defaultsSuiteName)
+        return defaults
+    }
+
+    private func makeCoordinator(standardDefaults: UserDefaults) -> AppCoordinator {
+        AppCoordinator(
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            navigationModel: .shared,
+            appGroupDefaults: standardDefaults,
+            standardDefaults: standardDefaults
+        )
+    }
+}
+
 // MARK: - ViewAnnotationEntityTests
 
 @Suite("View annotation entities")

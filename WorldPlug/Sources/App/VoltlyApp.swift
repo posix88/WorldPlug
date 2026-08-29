@@ -48,31 +48,15 @@ struct VoltlyApp: App {
 
         WindowGroup {
             ZStack {
-                RootTabView(
-                    modelContext: Repository.sharedModelContainer.mainContext,
-                    deepLinkedCountryCode: $navigationModel.deepLinkedCountryCode,
-                    selectedTab: $navigationModel.selectedTab
-                )
-                .environment(\.homeCountryViewModel, homeCountryViewModel)
-                .environment(\.travelPreferencesStore, travelPreferencesStore)
-                .environment(\.premiumEntitlement, premiumEntitlement)
-                .environment(\.analyticsTracker, analyticsTracker)
-                .sheet(item: $coordinator.premiumPaywallSource) { source in
-                    PremiumPaywallView(source: source)
-                }
-                .onChange(of: scenePhase) { _, phase in
-                    if phase == .active {
-                        coordinator.sceneBecameActive()
-                    }
-                }
-                .task {
-                    await coordinator.start()
-                }
-                .onChange(of: premiumEntitlement.isPremium) { _, _ in
-                    coordinator.premiumStatusChanged()
-                }
-                .onOpenURL(perform: coordinator.open)
-                .fullScreenCover(isPresented: $coordinator.isOnboardingPresented) {
+                switch coordinator.phase {
+                case .launchExperience:
+                    LaunchExperienceView(
+                        isReady: coordinator.hasRefreshedEntitlements,
+                        dismiss: coordinator.launchExperienceCompleted
+                    )
+                    .transition(.opacity)
+
+                case .onboarding:
                     OnboardingView(
                         modelContext: Repository.sharedModelContainer.mainContext,
                         homeCountryViewModel: homeCountryViewModel,
@@ -81,16 +65,36 @@ struct VoltlyApp: App {
                         analyticsTracker.track(.onboardingCompleted)
                         coordinator.onboardingCompleted()
                     }
-                }
+                    .transition(.opacity)
 
-                if coordinator.isLaunchExperiencePresented {
-                    LaunchExperienceView(
-                        isReady: coordinator.hasRefreshedEntitlements,
-                        dismiss: coordinator.launchExperienceCompleted
+                case .main:
+                    RootTabView(
+                        modelContext: Repository.sharedModelContainer.mainContext,
+                        deepLinkedCountryCode: $navigationModel.deepLinkedCountryCode,
+                        selectedTab: $navigationModel.selectedTab
                     )
                     .transition(.opacity)
                 }
             }
+            .environment(\.homeCountryViewModel, homeCountryViewModel)
+            .environment(\.travelPreferencesStore, travelPreferencesStore)
+            .environment(\.premiumEntitlement, premiumEntitlement)
+            .environment(\.analyticsTracker, analyticsTracker)
+            .sheet(item: $coordinator.premiumPaywallSource) { source in
+                PremiumPaywallView(source: source)
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active {
+                    coordinator.sceneBecameActive()
+                }
+            }
+            .task {
+                await coordinator.start()
+            }
+            .onChange(of: premiumEntitlement.isPremium) { _, _ in
+                coordinator.premiumStatusChanged()
+            }
+            .onOpenURL(perform: coordinator.open)
         }
         .modelContainer(Repository.sharedModelContainer)
     }

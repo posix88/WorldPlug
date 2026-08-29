@@ -43,12 +43,15 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
 
     func setHome(code: String) {
         let normalizedCode = Self.normalizedCountryCode(code)
-        guard normalizedCode != homeCountryCode else {
+        let codeChanged = normalizedCode != homeCountryCode
+        guard codeChanged || (!normalizedCode.isEmpty && homeCountry?.code != normalizedCode) else {
             return
         }
 
         updateHomeCountry(with: normalizedCode)
-        analyticsTracker.track(.homeCountrySet)
+        if codeChanged {
+            analyticsTracker.track(.homeCountrySet)
+        }
     }
 
     func clearHome() {
@@ -63,7 +66,7 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     func refreshHomeCountry() {
         travelPreferencesStore.reloadFromICloud()
         let countryCode = Self.normalizedCountryCode(travelPreferencesStore.preferences.homeCountryCode)
-        guard countryCode != homeCountryCode else {
+        guard countryCode != homeCountryCode || (!countryCode.isEmpty && homeCountry?.code != countryCode) else {
             return
         }
 

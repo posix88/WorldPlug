@@ -166,7 +166,14 @@ struct HomeCountryViewModelTests {
     private func makeVM(container: ModelContainer, homeCode: String = "") -> (HomeCountryViewModel, InMemoryHomeCountryStore) {
         let store = InMemoryHomeCountryStore()
         store.homeCountryCode = homeCode
-        let vm = HomeCountryViewModel(store: store, modelContext: container.mainContext)
+        let travelPreferencesStore = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(homeCountryCode: homeCode)
+        )
+        let vm = HomeCountryViewModel(
+            store: store,
+            travelPreferencesStore: travelPreferencesStore,
+            modelContext: container.mainContext
+        )
         return (vm, store)
     }
 
@@ -252,6 +259,32 @@ struct HomeCountryViewModelTests {
         vm.setHome(code: " it\n")
         #expect(vm.homeCountryCode == "IT")
         #expect(store.homeCountryCode == "IT")
+    }
+
+    @Test("setHome resolves an unchanged code after the catalogue loads")
+    func setHomeResolvesUnchangedCodeAfterCatalogueLoads() throws {
+        let container = try makeContainer()
+        let (vm, _) = makeVM(container: container, homeCode: "IT")
+        #expect(vm.homeCountry == nil)
+        _ = makeCountry(code: "IT", in: container.mainContext)
+        try container.mainContext.save()
+
+        vm.setHome(code: "IT")
+
+        #expect(vm.homeCountry?.code == "IT")
+    }
+
+    @Test("refresh resolves an unchanged code after the catalogue loads")
+    func refreshResolvesUnchangedCodeAfterCatalogueLoads() throws {
+        let container = try makeContainer()
+        let (vm, _) = makeVM(container: container, homeCode: "IT")
+        #expect(vm.homeCountry == nil)
+        _ = makeCountry(code: "IT", in: container.mainContext)
+        try container.mainContext.save()
+
+        vm.refreshHomeCountry()
+
+        #expect(vm.homeCountry?.code == "IT")
     }
 
     @Test("clearHome persists empty string through the store")
