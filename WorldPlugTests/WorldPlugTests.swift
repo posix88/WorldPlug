@@ -40,12 +40,12 @@ struct AppNavigationModelTests {
     @Test("opening a country routes to its detail")
     func openCountryRoutesToDetail() {
         let navigationModel = AppNavigationModel.shared
-        navigationModel.selectedTab = 2
+        navigationModel.selectedTab = .saved
         navigationModel.deepLinkedCountryCode = nil
 
         navigationModel.openCountry(code: "it")
 
-        #expect(navigationModel.selectedTab == 0)
+        #expect(navigationModel.selectedTab == .countries)
         #expect(navigationModel.deepLinkedCountryCode == "IT")
     }
 }

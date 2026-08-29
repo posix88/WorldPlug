@@ -13,51 +13,51 @@ struct RootTabView: View {
     @Environment(\.analyticsTracker) private var analyticsTracker
     let modelContext: ModelContext
     @Binding var deepLinkedCountryCode: String?
-    @Binding var selectedTab: Int
+    @Binding var selectedTab: AppTab
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            CountriesListView(
-                modelContext: modelContext,
-                homeCountryViewModel: homeCountryViewModel,
-                travelPreferencesStore: travelPreferencesStore,
-                premiumEntitlement: premiumEntitlement,
-                analyticsTracker: analyticsTracker,
-                deepLinkedCountryCode: $deepLinkedCountryCode
-            )
-            .tabItem {
+            Tab(value: AppTab.countries) {
+                CountriesListView(
+                    modelContext: modelContext,
+                    homeCountryViewModel: homeCountryViewModel,
+                    travelPreferencesStore: travelPreferencesStore,
+                    premiumEntitlement: premiumEntitlement,
+                    analyticsTracker: analyticsTracker,
+                    deepLinkedCountryCode: $deepLinkedCountryCode
+                )
+            } label: {
                 Label(LocalizationKeys.countriesTitle.localized, systemImage: "globe.europe.africa.fill")
+                    .accessibilityIdentifier("tab.countries")
             }
-            .tag(0)
-            .accessibilityIdentifier("tab.countries")
 
-            TripCheckView(
-                travelPreferencesStore: travelPreferencesStore,
-                homeCountryViewModel: homeCountryViewModel,
-                premiumEntitlement: premiumEntitlement,
-                analyticsTracker: analyticsTracker
-            )
-            .tabItem {
+            Tab(value: AppTab.tripCheck) {
+                TripCheckView(
+                    travelPreferencesStore: travelPreferencesStore,
+                    homeCountryViewModel: homeCountryViewModel,
+                    premiumEntitlement: premiumEntitlement,
+                    analyticsTracker: analyticsTracker
+                )
+            } label: {
                 Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
+                    .accessibilityIdentifier("tab.tripCheck")
             }
-            .tag(1)
-            .accessibilityIdentifier("tab.tripCheck")
 
-            SavedCountriesView(
-                premiumEntitlement: premiumEntitlement,
-                travelPreferencesStore: travelPreferencesStore,
-                homeCountryViewModel: homeCountryViewModel,
-                analyticsTracker: analyticsTracker
-            )
-            .tabItem {
+            Tab(value: AppTab.saved) {
+                SavedCountriesView(
+                    premiumEntitlement: premiumEntitlement,
+                    travelPreferencesStore: travelPreferencesStore,
+                    homeCountryViewModel: homeCountryViewModel,
+                    analyticsTracker: analyticsTracker
+                )
+            } label: {
                 Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
+                    .accessibilityIdentifier("tab.saved")
             }
-            .tag(2)
-            .accessibilityIdentifier("tab.saved")
         }
         .tint(.voltTint)
         .onAppIntentExecution(OpenCountryIntent.self) { intent in
-            selectedTab = 0
+            selectedTab = .countries
             deepLinkedCountryCode = intent.target.id
         }
     }
@@ -68,7 +68,7 @@ struct RootTabView: View {
     RootTabView(
         modelContext: Repository.sharedModelContainer.mainContext,
         deepLinkedCountryCode: .constant(nil),
-        selectedTab: .constant(0)
+        selectedTab: .constant(.countries)
     )
     .modelContainer(Repository.sharedModelContainer)
     .environment(\.homeCountryViewModel, PreviewHomeCountryViewModel())
