@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - DeviceLabelValues
 
-struct DeviceLabelValues: Equatable, Sendable {
+struct DeviceLabelValues: Codable, Equatable, Sendable {
     let voltage: String
     let frequency: String
 }

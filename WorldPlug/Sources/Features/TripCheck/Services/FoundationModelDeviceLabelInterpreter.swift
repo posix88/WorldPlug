@@ -26,13 +26,15 @@ struct FoundationModelDeviceLabelInterpreter: DeviceLabelInterpreting {
             return nil
         }
 
-        let instructions = """
+        let instructions = Instructions {
+            """
             Read electrical input ratings from device labels.
             Extract only the INPUT voltage and frequency printed in the image.
             Never infer, convert, or invent a missing value.
             Preserve numeric ranges and units.
             Return an empty string when a value is absent or unreadable.
             """
+        }
         #if targetEnvironment(simulator)
         /// Xcode 27 Beta 4 doesn't include Vision's Foundation Models tools in the simulator SDK.
         let session = LanguageModelSession(instructions: instructions)

@@ -1,5 +1,7 @@
 import Analytics
+import Evaluations
 import Foundation
+import FoundationModels
 import Repository
 import Testing
 import UIKit
@@ -194,4 +196,261 @@ private struct DeviceLabelInterpreterStub: DeviceLabelInterpreting {
 
 private enum DeviceLabelInterpreterStubError: Error {
     case interpretationFailed
+}
+
+// MARK: - FoundationModelDeviceLabelEvaluation
+
+private struct FoundationModelDeviceLabelEvaluation: Evaluation {
+    let exactRating = Metric("ExactRating")
+    let voltageAccuracy = Metric("VoltageAccuracy")
+    let frequencyAccuracy = Metric("FrequencyAccuracy")
+    let noInventedVoltage = Metric("NoInventedVoltage")
+    let noInventedFrequency = Metric("NoInventedFrequency")
+
+    let dataset = ArrayLoader(samples: [
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "INPUT 100-240V AC 50/60Hz\nOUTPUT 20V DC 5A",
+                style: .clean
+            ),
+            expected: DeviceLabelValues(voltage: "100-240V", frequency: "50/60Hz")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "AC INPUT: 230 V AC, 50 Hz\nUSB-C OUTPUT: 5V / 3A",
+                style: .lowContrast
+            ),
+            expected: DeviceLabelValues(voltage: "230V", frequency: "50Hz")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "INPUT AC100–240V 50-60Hz 1.5A\nOUTPUT 19.5V 3.34A",
+                style: .smallPrint
+            ),
+            expected: DeviceLabelValues(voltage: "100-240V", frequency: "50-60Hz")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "INGRESSO: 220-240 V~ 50 Hz 0,4 A\nUSCITA: 12 V ⎓ 2 A",
+                style: .clean
+            ),
+            expected: DeviceLabelValues(voltage: "220-240V", frequency: "50Hz")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "Rating label\nInput 120VAC 60Hz 12W\nOutput 9VDC 1A",
+                style: .lowContrast
+            ),
+            expected: DeviceLabelValues(voltage: "120VAC", frequency: "60Hz")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "INPUT: 100-240 V AC\nOUTPUT: 24 V DC",
+                style: .smallPrint
+            ),
+            expected: DeviceLabelValues(voltage: "100-240V", frequency: "")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "MODEL SB-20\nOUTPUT: 20V DC 3.25A\nUSB OUTPUT: 5V DC",
+                style: .clean
+            ),
+            expected: DeviceLabelValues(voltage: "", frequency: "")
+        ),
+        DeviceLabelEvaluationSample(
+            input: .init(
+                text: "CAUTION indoor use only\nPRI: 110/240V~ 50/60Hz\nSEC: 12V 2A",
+                style: .lowContrast
+            ),
+            expected: DeviceLabelValues(voltage: "110/240V", frequency: "50/60Hz")
+        )
+    ])
+
+    func subject(from sample: DeviceLabelEvaluationSample) async throws -> ModelSubject<DeviceLabelValues> {
+        let image = renderLabelImage(sample.input)
+        let values = try await FoundationModelDeviceLabelInterpreter()
+            .values(in: image)
+
+        return ModelSubject(value: values ?? DeviceLabelValues(voltage: "", frequency: ""))
+    }
+
+    var evaluators: Evaluators {
+        Evaluator { input, subject in
+            guard let expected = input.expected else {
+                return exactRating.ignore()
+            }
+
+            return ratingsMatch(subject.value, expected)
+                ? exactRating.passing()
+                : exactRating.failing(rationale: mismatchRationale(actual: subject.value, expected: expected))
+        }
+
+        Evaluator { input, subject in
+            guard let expected = input.expected else {
+                return voltageAccuracy.ignore()
+            }
+
+            return normalizedRating(subject.value.voltage) == normalizedRating(expected.voltage)
+                ? voltageAccuracy.passing()
+                : voltageAccuracy.failing(rationale: mismatchRationale(actual: subject.value, expected: expected))
+        }
+
+        Evaluator { input, subject in
+            guard let expected = input.expected else {
+                return frequencyAccuracy.ignore()
+            }
+
+            return normalizedRating(subject.value.frequency) == normalizedRating(expected.frequency)
+                ? frequencyAccuracy.passing()
+                : frequencyAccuracy.failing(rationale: mismatchRationale(actual: subject.value, expected: expected))
+        }
+
+        Evaluator { input, subject in
+            guard let expected = input.expected, expected.voltage.isEmpty else {
+                return noInventedVoltage.ignore()
+            }
+
+            return subject.value.voltage.isEmpty
+                ? noInventedVoltage.passing()
+                : noInventedVoltage.failing(rationale: "Invented voltage: \(subject.value.voltage)")
+        }
+
+        Evaluator { input, subject in
+            guard let expected = input.expected, expected.frequency.isEmpty else {
+                return noInventedFrequency.ignore()
+            }
+
+            return subject.value.frequency.isEmpty
+                ? noInventedFrequency.passing()
+                : noInventedFrequency.failing(rationale: "Invented frequency: \(subject.value.frequency)")
+        }
+    }
+
+    func aggregateMetrics(using aggregator: inout MetricsAggregator) {
+        aggregator.group("Accuracy") { group in
+            group.computeMean(of: exactRating)
+            group.computeMean(of: voltageAccuracy)
+            group.computeMean(of: frequencyAccuracy)
+        }
+        aggregator.group("Safety") { group in
+            group.computeMean(of: noInventedVoltage)
+            group.computeMean(of: noInventedFrequency)
+        }
+    }
+}
+
+// MARK: - DeviceLabelEvaluationSample
+
+private struct DeviceLabelEvaluationSample: SampleProtocol {
+    let input: DeviceLabelImageInput
+    let expected: DeviceLabelValues?
+}
+
+// MARK: - DeviceLabelImageInput
+
+private struct DeviceLabelImageInput: Codable, CustomStringConvertible, Sendable {
+    let text: String
+    let style: Style
+
+    var description: String {
+        "\(style.rawValue): \(text.replacingOccurrences(of: "\n", with: " | "))"
+    }
+
+    enum Style: String, Codable, Sendable {
+        case clean
+        case lowContrast
+        case smallPrint
+    }
+}
+
+// MARK: - FoundationModelDeviceLabelEvaluationTests
+
+@Suite("Foundation Models device label evaluations", .serialized)
+struct FoundationModelDeviceLabelEvaluationTests {
+    fileprivate static let evaluation = FoundationModelDeviceLabelEvaluation()
+    private static var canRunEvaluation: Bool {
+        #if targetEnvironment(simulator)
+        false
+        #else
+        SystemLanguageModel.default.isAvailable
+        #endif
+    }
+
+    @Test(
+        "extracts electrical input ratings without inventing values",
+        .enabled(
+            if: Self.canRunEvaluation,
+            "Requires an Apple Intelligence device because the simulator doesn't provide the OCR tool"
+        ),
+        .evaluates(Self.evaluation)
+    )
+    func extractsInputRatings() {
+        let result = EvaluationContext.current.result
+
+        #expect(result.aggregateValue(.mean(of: Self.evaluation.exactRating)) >= 0.75)
+        #expect(result.aggregateValue(.mean(of: Self.evaluation.voltageAccuracy)) >= 0.875)
+        #expect(result.aggregateValue(.mean(of: Self.evaluation.frequencyAccuracy)) >= 0.75)
+        #expect(result.aggregateValue(.mean(of: Self.evaluation.noInventedVoltage)) == 1)
+        #expect(result.aggregateValue(.mean(of: Self.evaluation.noInventedFrequency)) == 1)
+    }
+}
+
+// MARK: - Evaluation Helpers
+
+private func ratingsMatch(_ lhs: DeviceLabelValues, _ rhs: DeviceLabelValues) -> Bool {
+    normalizedRating(lhs.voltage) == normalizedRating(rhs.voltage)
+        && normalizedRating(lhs.frequency) == normalizedRating(rhs.frequency)
+}
+
+private func normalizedRating(_ value: String) -> String {
+    value
+        .uppercased()
+        .replacingOccurrences(of: " ", with: "")
+        .replacingOccurrences(of: "–", with: "-")
+}
+
+private func mismatchRationale(actual: DeviceLabelValues, expected: DeviceLabelValues) -> String {
+    "Expected \(expected.voltage) / \(expected.frequency), got \(actual.voltage) / \(actual.frequency)"
+}
+
+private func renderLabelImage(_ input: DeviceLabelImageInput) -> UIImage {
+    let size = CGSize(width: 1200, height: 800)
+    let renderer = UIGraphicsImageRenderer(size: size)
+
+    return renderer.image { context in
+        let backgroundColor: UIColor
+        let textColor: UIColor
+        let fontSize: CGFloat
+
+        switch input.style {
+        case .clean:
+            backgroundColor = .white
+            textColor = .black
+            fontSize = 54
+
+        case .lowContrast:
+            backgroundColor = UIColor(white: 0.82, alpha: 1)
+            textColor = UIColor(white: 0.28, alpha: 1)
+            fontSize = 48
+
+        case .smallPrint:
+            backgroundColor = UIColor(white: 0.92, alpha: 1)
+            textColor = UIColor(white: 0.15, alpha: 1)
+            fontSize = 34
+        }
+
+        context.cgContext.setFillColor(backgroundColor.cgColor)
+        context.cgContext.fill(CGRect(origin: .zero, size: size))
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 16
+        input.text.draw(
+            in: CGRect(x: 70, y: 70, width: size.width - 140, height: size.height - 140),
+            withAttributes: [
+                .font: UIFont.monospacedSystemFont(ofSize: fontSize, weight: .medium),
+                .foregroundColor: textColor,
+                .paragraphStyle: paragraphStyle
+            ]
+        )
+    }
 }
