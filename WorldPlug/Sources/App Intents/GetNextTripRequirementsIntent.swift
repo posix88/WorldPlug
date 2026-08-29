@@ -22,7 +22,8 @@ struct GetNextTripRequirementsIntent: AppIntent {
     }
 
     @MainActor
-    func perform() async throws -> some IntentResult & ReturnsValue<NextTripRequirementRecommendation> & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<NextTripRequirementRecommendation> & ProvidesDialog &
+        ShowsSnippetView {
         let preferences = ICloudTravelPreferencesStore().preferences
         let countryProvider = SwiftDataNextTripCountryRepository(
             modelContext: Repository.sharedModelContainer.mainContext
@@ -33,6 +34,10 @@ struct GetNextTripRequirementsIntent: AppIntent {
             fallbackHomeCountryCode: UserDefaultsHomeCountryStore().homeCountryCode
         )
         let answer = NextTripRequirementsAnswer(result: result)
-        return .result(value: result.recommendation, dialog: answer.dialog)
+        return .result(
+            value: result.recommendation,
+            dialog: answer.dialog,
+            view: NextTripRequirementsSnippet(result: result)
+        )
     }
 }

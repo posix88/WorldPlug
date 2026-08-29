@@ -30,8 +30,12 @@ struct GetCountryPowerIntent: AppIntent {
         Summary("Get power information for \(\.$country)")
     }
 
-    func perform() async throws -> some IntentResult & ReturnsValue<CountryEntity> & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<CountryEntity> & ProvidesDialog & ShowsSnippetView {
         let answer = CountryPowerAnswer(country: country)
-        return .result(value: country, dialog: answer.dialog)
+        return .result(
+            value: country,
+            dialog: answer.dialog,
+            view: CountryPowerSnippet(country: country)
+        )
     }
 }

@@ -59,7 +59,8 @@ struct CheckDeviceCompatibilityIntent: AppIntent {
     }
 
     @MainActor
-    func perform() async throws -> some IntentResult & ReturnsValue<DeviceCompatibilityRecommendation> & ProvidesDialog {
+    func perform() async throws -> some IntentResult & ReturnsValue<DeviceCompatibilityRecommendation> & ProvidesDialog &
+        ShowsSnippetView {
         let service = DeviceCompatibilityIntentService(
             modelContext: Repository.sharedModelContainer.mainContext,
             homeCountryStore: UserDefaultsHomeCountryStore()
@@ -71,6 +72,10 @@ struct CheckDeviceCompatibilityIntent: AppIntent {
             destinationEntity: destination
         )
         let answer = DeviceCompatibilityAnswer(result: result)
-        return .result(value: result.recommendation, dialog: answer.dialog)
+        return .result(
+            value: result.recommendation,
+            dialog: answer.dialog,
+            view: DeviceCompatibilitySnippet(result: result)
+        )
     }
 }
