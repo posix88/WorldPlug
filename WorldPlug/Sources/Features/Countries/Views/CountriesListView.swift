@@ -8,6 +8,7 @@ import TipKit
 
 struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var viewModel: ViewModel
+    @State private var isHomeCountryRemovalConfirmationPresented = false
     @Binding private var deepLinkedCountryCode: String?
     @Environment(\.locale) private var locale
     @Environment(\.premiumEntitlement) private var premiumEntitlement
@@ -45,7 +46,9 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     summaries: viewModel.compatibilitySummaries,
                     selectedFilter: $viewModel.selectedFilter,
                     tip: compatibilityFilterTip,
-                    onClearHomeCountry: viewModel.clearHomeCountry,
+                    onClearHomeCountry: {
+                        isHomeCountryRemovalConfirmationPresented = true
+                    },
                     onFilterSelected: viewModel.filterSelected
                 )
             }
@@ -73,6 +76,18 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             }
             .onChange(of: viewModel.homeCountry?.code) { _, _ in
                 viewModel.homeCountryChanged()
+            }
+            .confirmationDialog(
+                LocalizationKeys.homeCountryRemoveConfirmationTitle.localized,
+                isPresented: $isHomeCountryRemovalConfirmationPresented,
+                titleVisibility: .visible
+            ) {
+                Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                    viewModel.clearHomeCountry()
+                }
+                Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+            } message: {
+                Text(LocalizationKeys.homeCountryRemoveConfirmationMessage.localized)
             }
             .navigationDestination(for: Country.self) { country in
                 CountryDetailView(

@@ -246,6 +246,8 @@ enum LocalizationKeys {
     static let homeCountryCompatible = "home.country.compatible"
     static let homeCountryAdapterNeeded = "home.country.adapter.needed"
     static let homeCountryComparingWith = "home.country.comparing.with"
+    static let homeCountryRemoveConfirmationTitle = "home.country.remove.confirmation.title"
+    static let homeCountryRemoveConfirmationMessage = "home.country.remove.confirmation.message"
 
     // MARK: - Compatibility Legend
 
@@ -262,6 +264,7 @@ enum LocalizationKeys {
     static let loading = "loading"
     static let error = "error"
     static let retry = "retry"
+    static let generalCancel = "general.cancel"
     static let generalClose = "general.close"
     static let navigationBack = "navigation.back"
 

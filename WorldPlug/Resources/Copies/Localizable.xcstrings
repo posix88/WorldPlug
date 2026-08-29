@@ -646,6 +646,23 @@
         }
       }
     },
+    "general.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annulla"
+          }
+        }
+      }
+    },
     "general.close" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -761,6 +778,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rimuovi Paese di origine"
+          }
+        }
+      }
+    },
+    "home.country.remove.confirmation.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Socket Buddy will stop showing plug compatibility until you choose another home country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Socket Buddy non mostrerà più la compatibilità delle prese finché non scegli un altro Paese di origine."
+          }
+        }
+      }
+    },
+    "home.country.remove.confirmation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove your home country?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovere il Paese di origine?"
           }
         }
       }
