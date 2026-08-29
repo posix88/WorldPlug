@@ -58,7 +58,7 @@ struct TripCheckView: View {
                             }
                             .buttonStyle(.plain)
                             .appEntityIdentifier(
-                                EntityIdentifier(for: CountryEntity.self, identifier: row.country.code)
+                                EntityIdentifier(for: TripCheckEntity.self, identifier: row.tripCheck.id)
                             )
                         }
                         .onDelete(perform: viewModel.delete)

@@ -41,6 +41,9 @@ struct TripCheckResultView: View {
                             Text("\(destination.voltage) · \(destination.frequency)")
                                 .foregroundStyle(.secondary)
                         }
+                        .appEntityIdentifier(
+                            EntityIdentifier(for: CountryEntity.self, identifier: destination.code)
+                        )
                     }
                     Section(LocalizationKeys.tripCheckSafetySection.localized) {
                         ForEach(viewModel.assessments) { result in
@@ -54,6 +57,9 @@ struct TripCheckResultView: View {
                                 Image(systemName: result.device.symbolName)
                                     .foregroundStyle(statusColor(result.status))
                             }
+                            .appEntityIdentifier(
+                                EntityIdentifier(for: PackDeviceEntity.self, identifier: result.device.id)
+                            )
                         }
                     }
                 }
@@ -69,9 +75,7 @@ struct TripCheckResultView: View {
         }
         .navigationTitle(LocalizationKeys.tripCheckResultTitle.localized)
         .appEntityIdentifier(
-            viewModel.destination.map {
-                EntityIdentifier(for: CountryEntity.self, identifier: $0.code)
-            }
+            EntityIdentifier(for: TripCheckEntity.self, identifier: viewModel.tripCheck.id)
         )
         .onAppear {
             viewModel.screenAppeared(requestReview: { requestReview() })

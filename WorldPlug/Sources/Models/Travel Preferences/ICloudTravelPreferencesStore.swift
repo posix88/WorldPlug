@@ -206,6 +206,13 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         WidgetCenter.shared.reloadAllTimelines()
     }
 
+    static func readPreferencesSnapshot(
+        from store: NSUbiquitousKeyValueStore = .default
+    ) -> TravelPreferences {
+        store.synchronize()
+        return removingExpiredTrip(from: loadPreferences(from: store))
+    }
+
     private static func loadPreferences(
         from store: NSUbiquitousKeyValueStore
     ) -> TravelPreferences {

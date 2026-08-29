@@ -1,4 +1,5 @@
 import Analytics
+import AppIntents
 import Repository
 import SwiftUI
 
@@ -30,6 +31,9 @@ struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
         .scrollContentBackground(.hidden)
         .scrollIndicators(.hidden)
         .scrollBounceBehavior(.basedOnSize)
+        .appEntityIdentifier(
+            EntityIdentifier(for: PlugEntity.self, identifier: viewModel.plug.id)
+        )
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 ShareLink(

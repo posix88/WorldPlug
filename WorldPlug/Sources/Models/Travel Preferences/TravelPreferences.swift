@@ -1,3 +1,4 @@
+import CryptoKit
 import Foundation
 
 // MARK: - TravelPreferences
@@ -80,7 +81,8 @@ struct TripCheck: Codable, Equatable, Hashable, Identifiable, Sendable {
 
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        let decodedID = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
+        self.id = decodedID
         self.countryCode = try container.decodeIfPresent(String.self, forKey: .countryCode) ?? ""
         self.departureDate = try container.decodeIfPresent(Date.self, forKey: .departureDate) ?? .now
         self.returnDate = try container.decodeIfPresent(Date.self, forKey: .returnDate) ?? departureDate
@@ -90,7 +92,9 @@ struct TripCheck: Codable, Equatable, Hashable, Identifiable, Sendable {
             self.devices = savedDevices
         } else {
             let legacyDevices = try container.decodeIfPresent([TravelDevice].self, forKey: .devices) ?? []
-            self.devices = legacyDevices.map(PackDevice.init(legacyDevice:))
+            self.devices = legacyDevices.enumerated().map { index, device in
+                PackDevice(legacyDevice: device, tripID: decodedID, index: index)
+            }
         }
     }
 }
@@ -118,8 +122,28 @@ struct PackDevice: Codable, Equatable, Hashable, Identifiable, Sendable {
         self.frequency = frequency
     }
 
-    init(legacyDevice: TravelDevice) {
-        self.init(name: legacyDevice.title, symbolName: legacyDevice.symbolName, voltage: "")
+    init(legacyDevice: TravelDevice, tripID: UUID, index: Int) {
+        self.init(
+            id: Self.legacyIdentifier(device: legacyDevice, tripID: tripID, index: index),
+            name: legacyDevice.title,
+            symbolName: legacyDevice.symbolName,
+            voltage: ""
+        )
+    }
+
+    private static func legacyIdentifier(device: TravelDevice, tripID: UUID, index: Int) -> UUID {
+        let input = Data("\(tripID.uuidString)|\(index)|\(device.rawValue)".utf8)
+        var bytes = Array(SHA256.hash(data: input).prefix(16))
+        bytes[6] = (bytes[6] & 0x0F) | 0x50
+        bytes[8] = (bytes[8] & 0x3F) | 0x80
+        return UUID(
+            uuid: (
+                bytes[0], bytes[1], bytes[2], bytes[3],
+                bytes[4], bytes[5], bytes[6], bytes[7],
+                bytes[8], bytes[9], bytes[10], bytes[11],
+                bytes[12], bytes[13], bytes[14], bytes[15]
+            )
+        )
     }
 }
 
