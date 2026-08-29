@@ -134,6 +134,8 @@ struct CountryEntity: IndexedEntity {
 // MARK: - CountryEntityQuery
 
 struct CountryEntityQuery: EntityStringQuery {
+    init() {}
+
     func entities(for identifiers: [CountryEntity.ID]) async throws -> [CountryEntity] {
         let identifiers = Set(identifiers.map { $0.uppercased() })
         return await countryEntities { identifiers.contains($0.code) }
