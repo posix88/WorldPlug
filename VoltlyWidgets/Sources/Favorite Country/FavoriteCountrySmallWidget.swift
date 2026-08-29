@@ -8,22 +8,17 @@ struct FavoriteCountrySmallWidget: View {
     let country: CountrySnapshot
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
+        VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+            FavoriteCountryHeader()
 
-            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                FavoriteCountryHeader()
+            WidgetFlag(flagUnicode: country.flagUnicode, pointSize: 30)
 
-                Text(country.flagUnicode)
-                    .font(.system(size: 30))
-
-                WidgetChips(country: country)
-                WidgetPlugs(country: country, limit: 4, type: .small)
-            }
-            .padding(WidgetLayout.compactPadding)
+            WidgetChips(country: country)
+            WidgetPlugs(country: country, limit: 4, type: .small)
         }
+        .padding(WidgetLayout.compactPadding)
         .containerBackground(for: .widget) {
-            Color.clear
+            WidgetBackground()
         }
     }
 }

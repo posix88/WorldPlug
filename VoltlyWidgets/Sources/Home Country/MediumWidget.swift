@@ -7,30 +7,26 @@ struct MediumWidget: View {
     let entry: HomeCountryEntry
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
+        HStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
+                WidgetHeader()
 
-            HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
-                    WidgetHeader()
+                if let country = entry.country {
+                    WidgetCountryIdentity(country: country)
 
-                    if let country = entry.country {
-                        WidgetCountryIdentity(country: country)
+                    WidgetChips(country: country)
 
-                        WidgetChips(country: country)
-
-                        WidgetPlugs(country: country, limit: 6, type: .large)
-                    } else {
-                        WidgetEmptyState()
-                    }
+                    WidgetPlugs(country: country, limit: 6, type: .large)
+                } else {
+                    WidgetEmptyState()
                 }
-
-                Spacer(minLength: 0)
             }
-            .padding(WidgetLayout.expandedPadding)
+
+            Spacer(minLength: 0)
         }
+        .padding(WidgetLayout.expandedPadding)
         .containerBackground(for: .widget) {
-            Color.clear
+            WidgetBackground()
         }
     }
 }

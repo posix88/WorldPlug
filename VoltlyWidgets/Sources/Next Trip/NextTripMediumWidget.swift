@@ -19,27 +19,24 @@ struct NextTripMediumWidget: View {
     }
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
-            VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
-                HStack(alignment: .top) {
-                    Label(WidgetStrings.string(countdown.titleKey), systemImage: countdown.symbolName)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.accent)
+        VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
+            HStack(alignment: .top) {
+                Label(WidgetStrings.string(countdown.titleKey), systemImage: countdown.symbolName)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(WidgetPalette.accent)
 
-                    Spacer()
+                Spacer()
 
-                    Text(countdown.displayText)
-                        .font(.headline.weight(.bold))
-                        .foregroundStyle(WidgetPalette.frequency)
-                }
-
-                WidgetCountryIdentity(country: country)
-                NextTripCompactCompatibility(compatibility: compatibility)
+                Text(countdown.displayText)
+                    .font(.headline.weight(.bold))
+                    .foregroundStyle(WidgetPalette.frequency)
             }
-            .padding(WidgetLayout.expandedPadding)
+
+            WidgetCountryIdentity(country: country)
+            NextTripCompactCompatibility(compatibility: compatibility)
         }
-        .containerBackground(for: .widget) { Color.clear }
+        .padding(WidgetLayout.expandedPadding)
+        .containerBackground(for: .widget) { WidgetBackground() }
     }
 }
 

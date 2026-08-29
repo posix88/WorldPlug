@@ -14,30 +14,26 @@ struct NextTripSmallWidget: View {
     }
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
-            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                Image(systemName: countdown.symbolName)
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(WidgetPalette.accent)
+        VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+            Image(systemName: countdown.symbolName)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(WidgetPalette.accent)
 
-                Text(country.flagUnicode)
-                    .font(.system(size: 34))
+            WidgetFlag(flagUnicode: country.flagUnicode, pointSize: 34)
 
-                Text(countdown.shortDisplayText)
-                    .font(.title3.weight(.bold))
-                    .foregroundStyle(WidgetPalette.primaryText)
+            Text(countdown.shortDisplayText)
+                .font(.title3.weight(.bold))
+                .foregroundStyle(WidgetPalette.primaryText)
 
-                if !countdown.isOnVacation {
-                    Text(departureDate, format: .dateTime.day().month(.abbreviated))
-                        .font(.caption)
-                        .foregroundStyle(WidgetPalette.secondaryText)
-                }
+            if !countdown.isOnVacation {
+                Text(departureDate, format: .dateTime.day().month(.abbreviated))
+                    .font(.caption)
+                    .foregroundStyle(WidgetPalette.secondaryText)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(WidgetLayout.compactPadding)
         }
-        .containerBackground(for: .widget) { Color.clear }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(WidgetLayout.compactPadding)
+        .containerBackground(for: .widget) { WidgetBackground() }
     }
 }
 

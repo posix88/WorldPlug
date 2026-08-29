@@ -77,24 +77,20 @@ private struct FavoriteCountryEmptyWidgetView: View {
             }
 
         default:
-            ZStack {
-                WidgetBackground()
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+                WidgetStrings.text("widget.favorite.empty.title")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(WidgetPalette.primaryText)
 
-                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                    WidgetStrings.text("widget.favorite.empty.title")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.primaryText)
-
-                    WidgetStrings.text("widget.favorite.empty.description")
-                        .font(.caption)
-                        .foregroundStyle(WidgetPalette.secondaryText)
-                        .lineLimit(3)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(WidgetLayout.compactPadding)
+                WidgetStrings.text("widget.favorite.empty.description")
+                    .font(.caption)
+                    .foregroundStyle(WidgetPalette.secondaryText)
+                    .lineLimit(3)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(WidgetLayout.compactPadding)
             .containerBackground(for: .widget) {
-                Color.clear
+                WidgetBackground()
             }
         }
     }
@@ -121,24 +117,20 @@ private struct FavoriteCountryLockedWidgetView: View {
             }
 
         default:
-            ZStack {
-                WidgetBackground()
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+                Label(WidgetStrings.string("widget.favorite.locked.title"), systemImage: "lock.fill")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(WidgetPalette.primaryText)
 
-                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                    Label(WidgetStrings.string("widget.favorite.locked.title"), systemImage: "lock.fill")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.primaryText)
-
-                    WidgetStrings.text("widget.favorite.locked.description")
-                        .font(.caption)
-                        .foregroundStyle(WidgetPalette.secondaryText)
-                        .lineLimit(3)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(WidgetLayout.compactPadding)
+                WidgetStrings.text("widget.favorite.locked.description")
+                    .font(.caption)
+                    .foregroundStyle(WidgetPalette.secondaryText)
+                    .lineLimit(3)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(WidgetLayout.compactPadding)
             .containerBackground(for: .widget) {
-                Color.clear
+                WidgetBackground()
             }
         }
     }

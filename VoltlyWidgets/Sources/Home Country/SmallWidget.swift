@@ -7,27 +7,22 @@ struct SmallWidget: View {
     let entry: HomeCountryEntry
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
+        VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+            WidgetHeader()
 
-            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                WidgetHeader()
+            if let country = entry.country {
+                WidgetFlag(flagUnicode: country.flagUnicode, pointSize: 30)
 
-                if let country = entry.country {
-                    Text(country.flagUnicode)
-                        .font(.system(size: 30))
+                WidgetChips(country: country)
 
-                    WidgetChips(country: country)
-
-                    WidgetPlugs(country: country, limit: 4, type: .small)
-                } else {
-                    WidgetEmptyState()
-                }
+                WidgetPlugs(country: country, limit: 4, type: .small)
+            } else {
+                WidgetEmptyState()
             }
-            .padding(WidgetLayout.compactPadding)
         }
+        .padding(WidgetLayout.compactPadding)
         .containerBackground(for: .widget) {
-            Color.clear
+            WidgetBackground()
         }
     }
 }

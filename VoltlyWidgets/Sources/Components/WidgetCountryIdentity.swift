@@ -18,8 +18,7 @@ struct WidgetCountryIdentity: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Text(country.flagUnicode)
-                .font(.system(size: 38))
+            WidgetFlag(flagUnicode: country.flagUnicode, pointSize: 38)
 
             Text(country.widgetLocalizedName)
                 .font(.title3.weight(.semibold))

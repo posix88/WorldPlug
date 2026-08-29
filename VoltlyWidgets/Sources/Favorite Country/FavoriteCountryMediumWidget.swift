@@ -8,22 +8,18 @@ struct FavoriteCountryMediumWidget: View {
     let country: CountrySnapshot
 
     var body: some View {
-        ZStack {
-            WidgetBackground()
+        VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
+            FavoriteCountryHeader()
 
-            VStack(alignment: .leading, spacing: WidgetLayout.sectionSpacing) {
-                FavoriteCountryHeader()
+            WidgetCountryIdentity(country: country)
 
-                WidgetCountryIdentity(country: country)
-
-                WidgetChips(country: country)
-                WidgetPlugs(country: country, limit: 6, type: .large)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(WidgetLayout.expandedPadding)
+            WidgetChips(country: country)
+            WidgetPlugs(country: country, limit: 6, type: .large)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(WidgetLayout.expandedPadding)
         .containerBackground(for: .widget) {
-            Color.clear
+            WidgetBackground()
         }
     }
 }

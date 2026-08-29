@@ -8,13 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		092B261D25D414598BDAE5A7 /* WorldPlugTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DF25621B2362A65CA3678A /* WorldPlugTests.swift */; };
-		C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */; };
-		C0A11CE00000000000000003 /* DeviceCompatibilityIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */; };
-		C0A11CE00000000000000005 /* NextTripRequirementsIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */; };
-		C0A11CE00000000000000007 /* AppIntentsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000008 /* AppIntentsIntegrationTests.swift */; };
-		C0A11CE00000000000000009 /* CountryEntityLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000A /* CountryEntityLocalizationTests.swift */; };
-		C0A11CE0000000000000000B /* PremiumEntitlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000C /* PremiumEntitlementTests.swift */; };
-		C0A11CE0000000000000000D /* PremiumPaywallViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000E /* PremiumPaywallViewModelTests.swift */; };
 		3C4D5E6F7A8B9C0D1E2F3A4B /* PlugDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F3A4B5C /* PlugDetailViewModelTests.swift */; };
 		4CFD1A0930079D0E003E55E1 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0830079D0E003E55E1 /* Analytics */; };
 		4CFD1A0C30079D53003E55E1 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0B30079D53003E55E1 /* Repository */; };
@@ -27,6 +20,13 @@
 		93CF2727EB3B0282CA2CF8F3 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0848B5A54B54DC3E06CFCF /* SnapshotHelper.swift */; };
 		A6182C10B0968F70ADF5BF82 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = E4D17D6D811CF8CEEDE7ED8E /* Repository */; };
 		AA00BB11CC22DD33EE44FF55 /* CountriesListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */; };
+		C0A11CE00000000000000001 /* CountryPowerAnswerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */; };
+		C0A11CE00000000000000003 /* DeviceCompatibilityIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */; };
+		C0A11CE00000000000000005 /* NextTripRequirementsIntentServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */; };
+		C0A11CE00000000000000007 /* AppIntentsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000008 /* AppIntentsIntegrationTests.swift */; };
+		C0A11CE00000000000000009 /* CountryEntityLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000A /* CountryEntityLocalizationTests.swift */; };
+		C0A11CE0000000000000000B /* PremiumEntitlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000C /* PremiumEntitlementTests.swift */; };
+		C0A11CE0000000000000000D /* PremiumPaywallViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000E /* PremiumPaywallViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +77,7 @@
 		98F93F6C16158F03FCD13907 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		AD511DB7D841AB28D0AD4058 /* WorldPlugUITests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WorldPlugUITests.swift; sourceTree = "<group>"; };
 		BB11CC22DD33EE44FF55AA00 /* CountriesListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesListViewModelTests.swift; sourceTree = "<group>"; };
+		BE895993981725173845D8CA /* WorldPlugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A11CE00000000000000002 /* CountryPowerAnswerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPowerAnswerTests.swift; sourceTree = "<group>"; };
 		C0A11CE00000000000000004 /* DeviceCompatibilityIntentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCompatibilityIntentServiceTests.swift; sourceTree = "<group>"; };
 		C0A11CE00000000000000006 /* NextTripRequirementsIntentServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextTripRequirementsIntentServiceTests.swift; sourceTree = "<group>"; };
@@ -84,7 +85,6 @@
 		C0A11CE0000000000000000A /* CountryEntityLocalizationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryEntityLocalizationTests.swift; sourceTree = "<group>"; };
 		C0A11CE0000000000000000C /* PremiumEntitlementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumEntitlementTests.swift; sourceTree = "<group>"; };
 		C0A11CE0000000000000000E /* PremiumPaywallViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallViewModelTests.swift; sourceTree = "<group>"; };
-		BE895993981725173845D8CA /* WorldPlugTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WorldPlugTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88B45CD0740631A00BBE12B /* WorldPlug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldPlug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 

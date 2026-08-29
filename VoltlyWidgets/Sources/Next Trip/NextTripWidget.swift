@@ -160,21 +160,18 @@ private struct NextTripEmptyWidgetView: View {
             }
 
         default:
-            ZStack {
-                WidgetBackground()
-                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                    WidgetStrings.text("widget.next.trip.empty.title")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.primaryText)
-                    WidgetStrings.text("widget.next.trip.empty.description")
-                        .font(.caption)
-                        .foregroundStyle(WidgetPalette.secondaryText)
-                        .lineLimit(3)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(WidgetLayout.compactPadding)
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+                WidgetStrings.text("widget.next.trip.empty.title")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(WidgetPalette.primaryText)
+                WidgetStrings.text("widget.next.trip.empty.description")
+                    .font(.caption)
+                    .foregroundStyle(WidgetPalette.secondaryText)
+                    .lineLimit(3)
             }
-            .containerBackground(for: .widget) { Color.clear }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(WidgetLayout.compactPadding)
+            .containerBackground(for: .widget) { WidgetBackground() }
         }
     }
 }
@@ -199,21 +196,18 @@ private struct NextTripLockedWidgetView: View {
             }
 
         default:
-            ZStack {
-                WidgetBackground()
-                VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
-                    Label(WidgetStrings.string("widget.next.trip.locked.title"), systemImage: "lock.fill")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(WidgetPalette.primaryText)
-                    WidgetStrings.text("widget.next.trip.locked.description")
-                        .font(.caption)
-                        .foregroundStyle(WidgetPalette.secondaryText)
-                        .lineLimit(3)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(WidgetLayout.compactPadding)
+            VStack(alignment: .leading, spacing: WidgetLayout.compactSpacing) {
+                Label(WidgetStrings.string("widget.next.trip.locked.title"), systemImage: "lock.fill")
+                    .font(.headline.weight(.semibold))
+                    .foregroundStyle(WidgetPalette.primaryText)
+                WidgetStrings.text("widget.next.trip.locked.description")
+                    .font(.caption)
+                    .foregroundStyle(WidgetPalette.secondaryText)
+                    .lineLimit(3)
             }
-            .containerBackground(for: .widget) { Color.clear }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(WidgetLayout.compactPadding)
+            .containerBackground(for: .widget) { WidgetBackground() }
         }
     }
 }

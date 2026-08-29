@@ -78,6 +78,23 @@
         }
       }
     },
+    "Check %@ for %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check %1$@ for %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verifica %1$@ per %2$@"
+          }
+        }
+      }
+    },
     "Code" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -646,6 +663,23 @@
         }
       }
     },
+    "Get my next trip requirements" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get my next trip requirements"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni i requisiti per il mio prossimo viaggio"
+          }
+        }
+      }
+    },
     "home.country.adapter.needed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -748,91 +782,6 @@
         }
       }
     },
-    "intent.device.entity.type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Device"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dispositivo"
-          }
-        }
-      }
-    },
-    "intent.plug.entity.type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plug"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spina"
-          }
-        }
-      }
-    },
-    "intent.plug.property.type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Plug type"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tipo di spina"
-          }
-        }
-      }
-    },
-    "intent.trip.check.entity.type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trip Check"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controllo viaggio"
-          }
-        }
-      }
-    },
-    "intent.country.entity.type" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Country"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paese"
-          }
-        }
-      }
-    },
     "intent.country.entity.electrical.information" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -880,6 +829,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tipi di spina non disponibili"
+          }
+        }
+      }
+    },
+    "intent.country.entity.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese"
+          }
+        }
+      }
+    },
+    "intent.country.power.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get voltage, frequency, and plug types for a country."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni tensione, frequenza e tipi di spina per un paese."
+          }
+        }
+      }
+    },
+    "intent.country.power.dialog.full" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@, the electrical supply is %2$@ at %3$@. Plug types: %4$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@, la rete elettrica è a %2$@ e %3$@. Tipi di spina: %4$@."
+          }
+        }
+      }
+    },
+    "intent.country.power.parameter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese"
+          }
+        }
+      }
+    },
+    "intent.country.power.plugs.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unavailable"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non disponibili"
+          }
+        }
+      }
+    },
+    "intent.country.power.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get country power information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ottieni informazioni elettriche"
           }
         }
       }
@@ -982,91 +1033,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tensione"
-          }
-        }
-      }
-    },
-    "intent.country.power.description" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Get voltage, frequency, and plug types for a country."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ottieni tensione, frequenza e tipi di spina per un paese."
-          }
-        }
-      }
-    },
-    "intent.country.power.dialog.full" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %1$@, the electrical supply is %2$@ at %3$@. Plug types: %4$@."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In %1$@, la rete elettrica è a %2$@ e %3$@. Tipi di spina: %4$@."
-          }
-        }
-      }
-    },
-    "intent.country.power.parameter" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Country"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paese"
-          }
-        }
-      }
-    },
-    "intent.country.power.plugs.unavailable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unavailable"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Non disponibili"
-          }
-        }
-      }
-    },
-    "intent.country.power.title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Get country power information"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ottieni informazioni elettriche"
           }
         }
       }
@@ -1309,23 +1275,6 @@
         }
       }
     },
-    "intent.device.compatibility.recommendation.home.country" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Home country required"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Paese di origine necessario"
-          }
-        }
-      }
-    },
     "intent.device.compatibility.recommendation.frequency.required" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1339,6 +1288,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Frequenza del dispositivo richiesta"
+          }
+        }
+      }
+    },
+    "intent.device.compatibility.recommendation.home.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home country required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paese di origine necessario"
           }
         }
       }
@@ -1428,19 +1394,19 @@
         }
       }
     },
-    "Get my next trip requirements" : {
+    "intent.device.entity.type" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Get my next trip requirements"
+            "value" : "Device"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ottieni i requisiti per il mio prossimo viaggio"
+            "value" : "Dispositivo"
           }
         }
       }
@@ -1883,6 +1849,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apri il paese di origine"
+          }
+        }
+      }
+    },
+    "intent.plug.entity.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spina"
+          }
+        }
+      }
+    },
+    "intent.plug.property.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plug type"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo di spina"
+          }
+        }
+      }
+    },
+    "intent.trip.check.entity.type" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trip Check"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controllo viaggio"
           }
         }
       }
@@ -2376,23 +2393,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Viaggia sempre senza pensieri."
-          }
-        }
-      }
-    },
-    "Check %@ for %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Check %1$@ for %2$@"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verifica %1$@ per %2$@"
           }
         }
       }
@@ -3696,23 +3696,6 @@
         }
       }
     },
-    "trip.check.remove.device" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove device"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rimuovi dispositivo"
-          }
-        }
-      }
-    },
     "trip.check.cancel" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3781,6 +3764,23 @@
         }
       }
     },
+    "trip.check.device.choose.icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose an icon"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un’icona"
+          }
+        }
+      }
+    },
     "trip.check.device.cpap" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3832,6 +3832,23 @@
         }
       }
     },
+    "trip.check.device.game.controller" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game controller"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controller di gioco"
+          }
+        }
+      }
+    },
     "trip.check.device.hair.dryer" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -3866,23 +3883,6 @@
         }
       }
     },
-    "trip.check.device.game.controller" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Game controller"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Controller di gioco"
-          }
-        }
-      }
-    },
     "trip.check.device.headphones" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3896,57 +3896,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cuffie"
-          }
-        }
-      }
-    },
-    "trip.check.device.smartwatch" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Smartwatch"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Smartwatch"
-          }
-        }
-      }
-    },
-    "trip.check.device.speaker" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Speaker"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Altoparlante"
-          }
-        }
-      }
-    },
-    "trip.check.device.choose.icon" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose an icon"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegli un’icona"
           }
         }
       }
@@ -4083,6 +4032,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rasoio elettrico"
+          }
+        }
+      }
+    },
+    "trip.check.device.smartwatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smartwatch"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smartwatch"
+          }
+        }
+      }
+    },
+    "trip.check.device.speaker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speaker"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altoparlante"
           }
         }
       }
@@ -4376,6 +4359,23 @@
         }
       }
     },
+    "trip.check.remove.device" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove device"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimuovi dispositivo"
+          }
+        }
+      }
+    },
     "trip.check.result.title" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -4563,23 +4563,6 @@
         }
       }
     },
-    "trip.check.status.ready" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Safe to use"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Puoi usarlo"
-          }
-        }
-      }
-    },
     "trip.check.status.home.country" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4593,6 +4576,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paese di origine necessario"
+          }
+        }
+      }
+    },
+    "trip.check.status.ready" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safe to use"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi usarlo"
           }
         }
       }
@@ -4715,9 +4715,6 @@
           }
         }
       }
-    },
-    "Socket Buddy" : {
-
     }
   },
   "version" : "1.0"
