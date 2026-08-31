@@ -1,10 +1,10 @@
 import XCTest
 
-// Drives the App Store screenshot pipeline: `fastlane snapshot` runs this test on every
-// device/locale combination in `Snapfile`, writing raw PNGs into `Scripts/screenshots/raw/`
-// (via `output_directory`). `render-all.mjs` then composites captions on top — see
-// `Scripts/screenshots/README.md`. Accessibility identifiers used below (`tab.*`,
-// `countryRow.*`) live on `RootTabView`/`CountryBrowserRow` — keep them in sync if those change.
+/// Drives the App Store screenshot pipeline: `fastlane snapshot` runs this test on every
+/// device/locale combination in `Snapfile`, writing raw PNGs into `Scripts/screenshots/raw/`
+/// (via `output_directory`). `render-all.mjs` then composites captions on top — see
+/// `Scripts/screenshots/README.md`. Accessibility identifiers used below (`tab.*`,
+/// `countryRow.*`) live on `RootTabView`/`CountryBrowserRow` — keep them in sync if those change.
 final class WorldPlugUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -14,49 +14,62 @@ final class WorldPlugUITests: XCTestCase {
     func testCaptureAppStoreScreenshots() {
         let app = XCUIApplication()
         setupSnapshot(app)
-        app.launch()
+        let language = isItalianSnapshot ? "it" : "en"
+        app.launchArguments += [
+            "-AppleLanguages", "(\(language))",
+            "-AppleLocale", isItalianSnapshot ? "it_IT" : "en_US",
+            "-hasSeenOnboarding", "YES",
+            "-home.country.code", "GB"
+        ]
 
-        // 01 — Countries tab: the default launch screen.
-        let countriesTab = app.tabBars.buttons["tab.countries"]
-        if countriesTab.waitForExistence(timeout: 10) {
-            countriesTab.tap()
-        }
+        // 01 — Countries tab.
+        launchMainApp(app)
         snapshot("01_countries")
 
         // 03 — Country Detail: search for a visually distinctive destination (Japan) so it's
         // findable regardless of scroll position in the 200+-country list, then tap its row.
         let searchField = app.searchFields.firstMatch
-        if searchField.waitForExistence(timeout: 5) {
-            searchField.tap()
-            searchField.typeText("Japan")
+        XCTAssertTrue(searchField.waitForExistence(timeout: 5))
+        searchField.tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 5))
+        searchField.typeText(isItalianSnapshot ? "Giappone" : "Japan")
 
-            let japanRow = app.buttons["countryRow.JP"]
-            if japanRow.waitForExistence(timeout: 5) {
-                japanRow.tap()
-                snapshot("03_countrydetail")
-                if app.navigationBars.buttons.element(boundBy: 0).exists {
-                    app.navigationBars.buttons.element(boundBy: 0).tap()
-                }
-            }
+        let japanRow = app.buttons["countryRow.JP"]
+        XCTAssertTrue(japanRow.waitForExistence(timeout: 5))
+        japanRow.tap()
 
-            // Clear the search so later tabs don't reopen to a filtered list next launch.
-            if let clearButton = searchField.buttons.allElementsBoundByIndex.first, clearButton.exists {
-                clearButton.tap()
-            }
-        }
+        XCTAssertTrue(app.navigationBars.staticTexts[isItalianSnapshot ? "Giappone" : "Japan"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["100V"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts[isItalianSnapshot ? "Tipo A" : "Type A"].waitForExistence(timeout: 5))
+        snapshot("03_countrydetail", waitForLoadingIndicator: true)
 
         // 02 — Trip Check tab.
+        launchMainApp(app)
         let tripCheckTab = app.tabBars.buttons["tab.tripCheck"]
-        if tripCheckTab.waitForExistence(timeout: 5) {
-            tripCheckTab.tap()
-            snapshot("02_tripcheck")
-        }
+        XCTAssertTrue(tripCheckTab.waitForExistence(timeout: 5))
+        tripCheckTab.tap()
+        snapshot("02_tripcheck")
 
         // 05 — Saved Countries tab (Premium features shown, not purchased in this flow).
+        launchMainApp(app)
         let savedTab = app.tabBars.buttons["tab.saved"]
-        if savedTab.waitForExistence(timeout: 5) {
-            savedTab.tap()
-            snapshot("05_saved")
+        XCTAssertTrue(savedTab.waitForExistence(timeout: 5))
+        savedTab.tap()
+        snapshot("05_saved")
+    }
+
+    @MainActor
+    private func launchMainApp(_ app: XCUIApplication) {
+        if app.state != .notRunning {
+            app.terminate()
         }
+        app.launch()
+
+        XCTAssertTrue(app.tabBars.buttons["tab.countries"].waitForExistence(timeout: 15))
+    }
+
+    @MainActor
+    private var isItalianSnapshot: Bool {
+        Snapshot.deviceLanguage.localizedCaseInsensitiveContains("it")
     }
 }

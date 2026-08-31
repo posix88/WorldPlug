@@ -14,18 +14,10 @@ protocol DeviceLabelInterpreting: Sendable {
 
 struct FoundationModelDeviceLabelInterpreter: DeviceLabelInterpreting {
     var isAvailable: Bool {
-        guard #available(iOS 27.0, *) else {
-            return false
-        }
-
-        return SystemLanguageModel.default.isAvailable
+       SystemLanguageModel.default.isAvailable
     }
 
     func values(in image: UIImage) async throws -> DeviceLabelValues? {
-        guard #available(iOS 27.0, *) else {
-            return nil
-        }
-
         let instructions = Instructions {
             """
             Read electrical input ratings from device labels.
@@ -61,7 +53,6 @@ struct FoundationModelDeviceLabelInterpreter: DeviceLabelInterpreting {
 
 // MARK: - ElectricalInputRating
 
-@available(iOS 27.0, *)
 @Generable
 private struct ElectricalInputRating {
     @Guide(description: "Exact INPUT voltage with unit, such as 100-240V. Empty when absent or unreadable.")

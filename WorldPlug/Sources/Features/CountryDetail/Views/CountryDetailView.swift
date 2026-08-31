@@ -55,7 +55,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    viewModel.toggleHomeCountry(using: homeCountryViewModel)
+                    viewModel.handleHomeCountryAction(using: homeCountryViewModel)
                 } label: {
                     Image(systemName: viewModel.isHomeCountry ? "house.slash.fill" : "house.fill")
                         .imageScale(.medium)
@@ -100,6 +100,24 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
         .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: handleInfoSheetDismissed) {
             countryInfoSheet
+                .alert(
+                    homeCountryConfirmationTitle,
+                    isPresented: $viewModel.isHomeCountryConfirmationPresented
+                ) {
+                    if viewModel.isHomeCountry {
+                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+                        }
+                    } else {
+                        Button(LocalizationKeys.homeCountryUpdate.localized) {
+                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+                        }
+                    }
+
+                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+                } message: {
+                    Text(homeCountryConfirmationMessage)
+                }
                 .presentationDetents(
                     [
                         .custom(CountryHeaderDetent.self),
@@ -131,6 +149,18 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
     private var countryName: String {
         viewModel.country.localizedName(in: locale)
+    }
+
+    private var homeCountryConfirmationTitle: String {
+        viewModel.isHomeCountry
+            ? LocalizationKeys.homeCountryRemoveConfirmationTitle.localized
+            : LocalizationKeys.homeCountryUpdateConfirmationTitle.localized
+    }
+
+    private var homeCountryConfirmationMessage: String {
+        viewModel.isHomeCountry
+            ? LocalizationKeys.homeCountryRemoveConfirmationMessage.localized
+            : LocalizationKeys.homeCountryUpdateConfirmationMessage.localized(countryName)
     }
 
     private var mapUnavailableNotice: some View {
@@ -208,6 +238,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             reduceMotion ? nil : .smooth(duration: 0.28, extraBounce: 0),
             value: viewModel.selectedDetent
         )
+        .accessibilityIdentifier("countryDetail.infoSheet")
     }
 
     private var sheetHeader: some View {

@@ -157,7 +157,6 @@ struct CountryEntityQuery: EntityStringQuery {
         await countryEntities { _ in true }
     }
 
-    @available(iOS 27.0, *)
     func displayRepresentations(
         for identifiers: [CountryEntity.ID]
     ) async throws -> [CountryEntity.ID: DisplayRepresentation] {
@@ -181,7 +180,6 @@ struct CountryEntityQuery: EntityStringQuery {
 
 // MARK: IndexedEntityQuery
 
-@available(iOS 27.0, *)
 extension CountryEntityQuery: IndexedEntityQuery {
     func reindexEntities(
         for identifiers: [CountryEntity.ID],

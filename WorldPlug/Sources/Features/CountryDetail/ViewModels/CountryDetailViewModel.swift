@@ -35,14 +35,16 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var isExpandedDetent: Bool { get }
     var showsCompatibilityOverview: Bool { get }
     var isPremiumPaywallPresented: Bool { get set }
+    var isHomeCountryConfirmationPresented: Bool { get set }
     var savedCountrySymbolName: String { get }
     var savedCountryAccessibilityLabel: String { get }
     var isPremium: Bool { get }
 
     func screenAppeared(using homeCountryViewModel: any HomeCountryViewModelType)
     func handleSavedCountryAction()
+    func handleHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType)
+    func confirmHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType)
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType)
-    func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType)
     func toggleSheetExpansion(reduceMotion: Bool)
     func loadMapFocus(reduceMotion: Bool) async
 }
@@ -69,6 +71,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     private let travelPreferencesStore: any TravelPreferencesStoring
     private let analyticsTracker: any AnalyticsTracker
     var isPremiumPaywallPresented = false
+    var isHomeCountryConfirmationPresented = false
 
     var isLargeDetent: Bool {
         selectedDetent == .large
@@ -153,12 +156,22 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
             .filter { plugCompatibility(for: $0, using: homeCountryViewModel) == .converterRequired }
     }
 
-    func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType) {
-        if isHomeCountry {
+    func handleHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType) {
+        guard homeCountryViewModel.homeCountryCode.isEmpty else {
+            isHomeCountryConfirmationPresented = true
+            return
+        }
+
+        homeCountryViewModel.setHome(code: country.code)
+    }
+
+    func confirmHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType) {
+        if homeCountryViewModel.homeCountryCode == country.code {
             homeCountryViewModel.clearHome()
         } else {
             homeCountryViewModel.setHome(code: country.code)
         }
+        isHomeCountryConfirmationPresented = false
     }
 
     func toggleSheetExpansion(reduceMotion: Bool) {
@@ -227,6 +240,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var allPlugs: [Plug] { country.sortedPlugs }
     var shouldShowCompatibilityOverview = false
     var isPremiumPaywallPresented = false
+    var isHomeCountryConfirmationPresented = false
 
     var isLargeDetent: Bool {
         selectedDetent == .large
@@ -278,7 +292,24 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     func syncHomeCountry(with homeCountryViewModel: any HomeCountryViewModelType) {}
     func screenAppeared(using homeCountryViewModel: any HomeCountryViewModelType) {}
     func handleSavedCountryAction() {}
-    func toggleHomeCountry(using homeCountryViewModel: any HomeCountryViewModelType) {}
+
+    func handleHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType) {
+        guard homeCountryViewModel.homeCountryCode.isEmpty else {
+            isHomeCountryConfirmationPresented = true
+            return
+        }
+
+        homeCountryViewModel.setHome(code: country.code)
+    }
+
+    func confirmHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType) {
+        if homeCountryViewModel.homeCountryCode == country.code {
+            homeCountryViewModel.clearHome()
+        } else {
+            homeCountryViewModel.setHome(code: country.code)
+        }
+        isHomeCountryConfirmationPresented = false
+    }
 
     func toggleSheetExpansion(reduceMotion: Bool) {
         selectedDetent = isExpandedDetent ? .custom(CountryHeaderDetent.self) : .large

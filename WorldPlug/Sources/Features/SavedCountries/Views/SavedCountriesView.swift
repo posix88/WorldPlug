@@ -134,7 +134,7 @@ struct SavedCountriesView: View {
             .padding(.horizontal, .xxl)
             .padding(.vertical, .md)
         }
-        .savedCountriesSwipeActionsContainer()
+        .swipeActionsContainer()
         .scrollBounceBehavior(.basedOnSize)
         .navigationDestination(item: $viewModel.selectedCountry) { country in
             CountryDetailView(
@@ -276,17 +276,6 @@ struct SavedCountriesView: View {
     private func removeSavedCountry(code: String) {
         viewModel.removeSavedCountry(code: code)
         removalFeedbackTrigger += 1
-    }
-}
-
-private extension View {
-    @ViewBuilder
-    func savedCountriesSwipeActionsContainer() -> some View {
-        if #available(iOS 27.0, *) {
-            swipeActionsContainer()
-        } else {
-            self
-        }
     }
 }
 

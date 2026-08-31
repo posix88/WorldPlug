@@ -14,7 +14,6 @@ struct OpenCountryIntent: OpenIntent, TargetContentProvidingIntent {
         )
     )
 
-    @available(iOS 27.0, *)
     static var allowedExecutionTargets: IntentExecutionTargets {
         .main
     }

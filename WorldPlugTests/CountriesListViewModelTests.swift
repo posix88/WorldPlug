@@ -125,6 +125,56 @@ struct CountriesListViewModelTests {
         #expect(viewModel.compatibilitySummaries["JP"] == .converterRequired)
     }
 
+    // MARK: - Home Country
+
+    @Test("first home country selection applies immediately")
+    func firstHomeCountrySelectionAppliesImmediately() throws {
+        let italy = try #require(viewModel.filteredCountries.first { $0.code == "IT" })
+
+        viewModel.handleHomeCountryAction(for: italy)
+
+        #expect(homeCountryViewModel.homeCountryCode == italy.code)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+        #expect(viewModel.pendingHomeCountry == nil)
+    }
+
+    @Test("replacing the home country requires confirmation")
+    func replacingHomeCountryRequiresConfirmation() throws {
+        let italy = try #require(viewModel.filteredCountries.first { $0.code == "IT" })
+        homeCountryViewModel.setHome(code: "GB")
+
+        viewModel.handleHomeCountryAction(for: italy)
+
+        #expect(homeCountryViewModel.homeCountryCode == "GB")
+        #expect(viewModel.pendingHomeCountry?.code == italy.code)
+        #expect(viewModel.isHomeCountryConfirmationPresented)
+        #expect(!viewModel.isPendingHomeCountryRemoval)
+
+        viewModel.confirmHomeCountryAction()
+
+        #expect(homeCountryViewModel.homeCountryCode == italy.code)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+        #expect(viewModel.pendingHomeCountry == nil)
+    }
+
+    @Test("removing the home country requires confirmation")
+    func removingHomeCountryRequiresConfirmation() throws {
+        let italy = try #require(viewModel.filteredCountries.first { $0.code == "IT" })
+        homeCountryViewModel.setHome(code: italy.code)
+
+        viewModel.handleHomeCountryAction(for: italy)
+
+        #expect(homeCountryViewModel.homeCountryCode == italy.code)
+        #expect(viewModel.isHomeCountryConfirmationPresented)
+        #expect(viewModel.isPendingHomeCountryRemoval)
+
+        viewModel.confirmHomeCountryAction()
+
+        #expect(homeCountryViewModel.homeCountryCode.isEmpty)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+        #expect(viewModel.pendingHomeCountry == nil)
+    }
+
     // MARK: Deep links
 
     @Test("deep link opens country hidden by search and resets browsing state")
@@ -211,6 +261,29 @@ struct HomeCountryViewModelTests {
         try container.mainContext.save()
         let (vm, _) = makeVM(container: container, homeCode: "IT")
         #expect(vm.homeCountry?.code == "IT")
+    }
+
+    @Test("launch home country overrides existing iCloud preference")
+    func launchHomeCountryOverridesICloudPreference() throws {
+        let container = try makeContainer()
+        _ = makeCountry(code: "GB", in: container.mainContext)
+        try container.mainContext.save()
+        let store = InMemoryHomeCountryStore()
+        let travelPreferencesStore = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(homeCountryCode: "IT")
+        )
+
+        let vm = HomeCountryViewModel(
+            store: store,
+            travelPreferencesStore: travelPreferencesStore,
+            launchHomeCountryCode: "GB",
+            modelContext: container.mainContext
+        )
+
+        #expect(vm.homeCountryCode == "GB")
+        #expect(vm.homeCountry?.code == "GB")
+        #expect(store.homeCountryCode == "GB")
+        #expect(travelPreferencesStore.preferences.homeCountryCode == "GB")
     }
 
     @Test("homeCountry is nil for unknown code")

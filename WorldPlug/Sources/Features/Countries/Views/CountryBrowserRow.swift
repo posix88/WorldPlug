@@ -7,6 +7,7 @@ import SwiftUI
 struct CountryBrowserRowModel {
     let country: Country
     let isHomeCountry: Bool
+    let hasHomeCountry: Bool
     let isSavedCountry: Bool
     let isPremium: Bool
 }
@@ -16,7 +17,7 @@ struct CountryBrowserRowModel {
 struct CountryBrowserRow: View {
     let model: CountryBrowserRowModel
     let compatibility: CountryCompatibilitySummary?
-    let onToggleHomeCountry: (String) -> Void
+    let onToggleHomeCountry: (Country) -> Void
     let onToggleSavedCountry: (String) -> Bool
     @State private var isPremiumPaywallPresented = false
     @State private var actionFeedbackTrigger = 0
@@ -30,7 +31,7 @@ struct CountryBrowserRow: View {
             )
         }
         .buttonStyle(.plain)
-        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+        .swipeActions(edge: .leading, allowsFullSwipe: !model.hasHomeCountry) {
             Button {
                 toggleHomeCountry()
             } label: {
@@ -80,7 +81,7 @@ struct CountryBrowserRow: View {
     }
 
     private func toggleHomeCountry() {
-        onToggleHomeCountry(model.country.code)
+        onToggleHomeCountry(model.country)
         actionFeedbackTrigger += 1
     }
 
@@ -150,6 +151,7 @@ import SwiftData
             model: CountryBrowserRowModel(
                 country: country,
                 isHomeCountry: false,
+                hasHomeCountry: true,
                 isSavedCountry: false,
                 isPremium: true
             ),

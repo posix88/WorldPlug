@@ -833,6 +833,57 @@
         }
       }
     },
+    "home.country.update" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update Home Country"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiorna Paese di origine"
+          }
+        }
+      }
+    },
+    "home.country.update.confirmation.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ will replace your current home country. Plug compatibility will update automatically."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sostituirà il tuo attuale Paese di origine. La compatibilità delle prese verrà aggiornata automaticamente."
+          }
+        }
+      }
+    },
+    "home.country.update.confirmation.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Update your home country?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiornare il Paese di origine?"
+          }
+        }
+      }
+    },
     "intent.country.entity.electrical.information" : {
       "extractionState" : "manual",
       "localizations" : {

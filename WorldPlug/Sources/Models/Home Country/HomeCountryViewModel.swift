@@ -16,6 +16,7 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     private var travelPreferencesStore: any TravelPreferencesStoring
     private let modelContext: ModelContext
     private let analyticsTracker: any AnalyticsTracker
+    private let launchHomeCountryCode: String?
 
     var homeCountryCode: String
     private(set) var homeCountry: Country?
@@ -25,15 +26,18 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         store: some HomeCountryStoring = UserDefaultsHomeCountryStore(),
         travelPreferencesStore: some TravelPreferencesStoring = ICloudTravelPreferencesStore(),
         analyticsTracker: any AnalyticsTracker = NoopAnalyticsTracker(),
+        launchHomeCountryCode: String? = nil,
         modelContext: ModelContext
     ) {
         self.store = store
         self.travelPreferencesStore = travelPreferencesStore
         self.analyticsTracker = analyticsTracker
+        self.launchHomeCountryCode = launchHomeCountryCode.map(Self.normalizedCountryCode)
         self.modelContext = modelContext
         let countryCode = Self.initialHomeCountryCode(
             from: store,
-            travelPreferencesStore: travelPreferencesStore
+            travelPreferencesStore: travelPreferencesStore,
+            preferredCountryCode: launchHomeCountryCode
         )
         let country = Self.country(for: countryCode, in: modelContext)
         self.homeCountryCode = countryCode
@@ -64,6 +68,10 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
     }
 
     func refreshHomeCountry() {
+        guard launchHomeCountryCode == nil else {
+            return
+        }
+
         travelPreferencesStore.reloadFromICloud()
         let countryCode = Self.normalizedCountryCode(travelPreferencesStore.preferences.homeCountryCode)
         guard countryCode != homeCountryCode || (!countryCode.isEmpty && homeCountry?.code != countryCode) else {
@@ -102,9 +110,18 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
 
     private static func initialHomeCountryCode(
         from store: some HomeCountryStoring,
-        travelPreferencesStore: some TravelPreferencesStoring
+        travelPreferencesStore: some TravelPreferencesStoring,
+        preferredCountryCode: String?
     ) -> String {
         var preferences = travelPreferencesStore.preferences
+        let preferredCountryCode = Self.normalizedCountryCode(preferredCountryCode ?? "")
+        if !preferredCountryCode.isEmpty {
+            store.homeCountryCode = preferredCountryCode
+            preferences.homeCountryCode = preferredCountryCode
+            travelPreferencesStore.preferences = preferences
+            return preferredCountryCode
+        }
+
         let iCloudCountryCode = Self.normalizedCountryCode(preferences.homeCountryCode)
 
         if !iCloudCountryCode.isEmpty {

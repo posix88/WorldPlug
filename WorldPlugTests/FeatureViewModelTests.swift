@@ -12,6 +12,54 @@ import UIKit
 @Suite("Feature view models")
 @MainActor
 struct FeatureViewModelTests {
+    @Test("country detail sets the first home country immediately")
+    func countryDetailSetsFirstHomeCountryImmediately() {
+        let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let homeCountryViewModel = PreviewHomeCountryViewModel()
+        let viewModel = makeCountryDetailViewModel(country: country)
+
+        viewModel.handleHomeCountryAction(using: homeCountryViewModel)
+
+        #expect(homeCountryViewModel.homeCountryCode == country.code)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+    }
+
+    @Test("country detail confirms replacing the home country")
+    func countryDetailConfirmsReplacingHomeCountry() {
+        let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let homeCountryViewModel = PreviewHomeCountryViewModel(homeCountryCode: "GB")
+        let viewModel = makeCountryDetailViewModel(country: country)
+        viewModel.syncHomeCountry(with: homeCountryViewModel)
+
+        viewModel.handleHomeCountryAction(using: homeCountryViewModel)
+
+        #expect(viewModel.isHomeCountryConfirmationPresented)
+        #expect(homeCountryViewModel.homeCountryCode == "GB")
+
+        viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+
+        #expect(homeCountryViewModel.homeCountryCode == country.code)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+    }
+
+    @Test("country detail confirms removing the home country")
+    func countryDetailConfirmsRemovingHomeCountry() {
+        let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let homeCountryViewModel = PreviewHomeCountryViewModel(homeCountryCode: country.code)
+        let viewModel = makeCountryDetailViewModel(country: country)
+        viewModel.syncHomeCountry(with: homeCountryViewModel)
+
+        viewModel.handleHomeCountryAction(using: homeCountryViewModel)
+
+        #expect(viewModel.isHomeCountryConfirmationPresented)
+        #expect(homeCountryViewModel.homeCountryCode == country.code)
+
+        viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+
+        #expect(homeCountryViewModel.homeCountryCode.isEmpty)
+        #expect(!viewModel.isHomeCountryConfirmationPresented)
+    }
+
     @Test("trip check free limit presents paywall")
     func tripCheckFreeLimit() {
         let trip = TripCheck(countryCode: "JP")
@@ -136,6 +184,15 @@ struct FeatureViewModelTests {
 
         #expect(values == expectedValues)
         #expect(viewModel.state == .idle)
+    }
+
+    private func makeCountryDetailViewModel(country: Country) -> CountryDetailViewModel {
+        CountryDetailViewModel(
+            country: country,
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            travelPreferencesStore: PreviewTravelPreferencesStore(),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
     }
 
     @Test("device label scanner falls back to recognized text after model failure")

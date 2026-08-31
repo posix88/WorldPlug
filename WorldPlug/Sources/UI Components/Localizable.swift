@@ -243,11 +243,14 @@ enum LocalizationKeys {
     static let homeCountryBadge = "home.country.badge"
     static let homeCountrySet = "home.country.set"
     static let homeCountryRemove = "home.country.remove"
+    static let homeCountryUpdate = "home.country.update"
     static let homeCountryCompatible = "home.country.compatible"
     static let homeCountryAdapterNeeded = "home.country.adapter.needed"
     static let homeCountryComparingWith = "home.country.comparing.with"
     static let homeCountryRemoveConfirmationTitle = "home.country.remove.confirmation.title"
     static let homeCountryRemoveConfirmationMessage = "home.country.remove.confirmation.message"
+    static let homeCountryUpdateConfirmationTitle = "home.country.update.confirmation.title"
+    static let homeCountryUpdateConfirmationMessage = "home.country.update.confirmation.message"
 
     // MARK: - Compatibility Legend
 

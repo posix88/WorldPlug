@@ -34,7 +34,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 searchQuery: viewModel.searchQuery,
                 selectedFilter: viewModel.selectedFilter,
                 rowModel: viewModel.rowModel,
-                onToggleHomeCountry: viewModel.toggleHomeCountry,
+                onToggleHomeCountry: viewModel.handleHomeCountryAction,
                 onToggleSavedCountry: viewModel.toggleSavedCountry
             )
             .background { AppMeshBackground() }
@@ -47,7 +47,11 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     selectedFilter: $viewModel.selectedFilter,
                     tip: compatibilityFilterTip,
                     onClearHomeCountry: {
-                        isHomeCountryRemovalConfirmationPresented = true
+                        guard let homeCountry = viewModel.homeCountry else {
+                            return
+                        }
+
+                        viewModel.handleHomeCountryAction(for: homeCountry)
                     },
                     onFilterSelected: viewModel.filterSelected
                 )
@@ -77,17 +81,23 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             .onChange(of: viewModel.homeCountry?.code) { _, _ in
                 viewModel.homeCountryChanged()
             }
-            .confirmationDialog(
-                LocalizationKeys.homeCountryRemoveConfirmationTitle.localized,
-                isPresented: $isHomeCountryRemovalConfirmationPresented,
-                titleVisibility: .visible
+            .alert(
+                homeCountryConfirmationTitle,
+                isPresented: $viewModel.isHomeCountryConfirmationPresented
             ) {
-                Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
-                    viewModel.clearHomeCountry()
+                if viewModel.isPendingHomeCountryRemoval {
+                    Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                        viewModel.confirmHomeCountryAction()
+                    }
+                } else {
+                    Button(LocalizationKeys.homeCountryUpdate.localized) {
+                        viewModel.confirmHomeCountryAction()
+                    }
                 }
+
                 Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
             } message: {
-                Text(LocalizationKeys.homeCountryRemoveConfirmationMessage.localized)
+                Text(homeCountryConfirmationMessage)
             }
             .navigationDestination(for: Country.self) { country in
                 CountryDetailView(
@@ -109,6 +119,23 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
 
         deepLinkedCountryCode = nil
     }
+
+    private var homeCountryConfirmationTitle: String {
+        viewModel.isPendingHomeCountryRemoval
+            ? LocalizationKeys.homeCountryRemoveConfirmationTitle.localized
+            : LocalizationKeys.homeCountryUpdateConfirmationTitle.localized
+    }
+
+    private var homeCountryConfirmationMessage: String {
+        guard !viewModel.isPendingHomeCountryRemoval,
+              let pendingHomeCountry = viewModel.pendingHomeCountry else {
+            return LocalizationKeys.homeCountryRemoveConfirmationMessage.localized
+        }
+
+        return LocalizationKeys.homeCountryUpdateConfirmationMessage.localized(
+            pendingHomeCountry.localizedName(in: locale)
+        )
+    }
 }
 
 // MARK: - CountryResultsView
@@ -119,31 +146,18 @@ private struct CountryResultsView: View {
     let searchQuery: String
     let selectedFilter: CountryCompatibilityFilter
     let rowModel: (Country) -> CountryBrowserRowModel
-    let onToggleHomeCountry: (String) -> Void
+    let onToggleHomeCountry: (Country) -> Void
     let onToggleSavedCountry: (String) -> Bool
 
     var body: some View {
-        Group {
-            if #available(iOS 27.0, *) {
-                ScrollView {
-                    LazyVStack(spacing: .md) {
-                        countryRows
-                    }
-                    .padding(.horizontal, .xxl)
-                    .padding(.bottom, .xxl)
-                }
-                .swipeActionsContainer()
-            } else {
-                List {
-                    countryRows
-                        .listRowInsets(.init(top: 0, leading: .xxl, bottom: .md, trailing: .xxl))
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                }
-                .listStyle(.plain)
-                .navigationLinkIndicatorVisibility(.hidden)
+        ScrollView {
+            LazyVStack(spacing: .md) {
+                countryRows
             }
+            .padding(.horizontal, .xxl)
+            .padding(.bottom, .xxl)
         }
+        .swipeActionsContainer()
         .accessibilityElement(children: .contain)
         .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
         .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
@@ -191,7 +205,7 @@ private struct CountriesListCompatibilityHeader: View {
     let countriesCount: Int
     let summaries: [String: CountryCompatibilitySummary]
     @Binding var selectedFilter: CountryCompatibilityFilter
-    let tip: CompatibilityFilterTip
+    let tip: CompatibilityFilterTip?
     let onClearHomeCountry: () -> Void
     let onFilterSelected: () -> Void
 
@@ -208,7 +222,7 @@ private struct CountriesListCompatibilityHeader: View {
                             return
                         }
 
-                        tip.invalidate(reason: .actionPerformed)
+                        tip?.invalidate(reason: .actionPerformed)
                         onFilterSelected()
                     }
                     .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))

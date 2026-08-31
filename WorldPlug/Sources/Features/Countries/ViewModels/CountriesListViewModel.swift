@@ -14,10 +14,14 @@ protocol CountriesListViewModelType: AnyObject, Observable {
     var selectedFilter: CountryCompatibilityFilter { get set }
     var navigationPath: [Country] { get set }
     var homeCountry: Country? { get }
+    var pendingHomeCountry: Country? { get }
+    var isHomeCountryConfirmationPresented: Bool { get set }
+    var isPendingHomeCountryRemoval: Bool { get }
     var displayedCountries: [Country] { get }
     var filterCounts: [CountryCompatibilityFilter: Int] { get }
     func rowModel(for country: Country) -> CountryBrowserRowModel
-    func toggleHomeCountry(code: String)
+    func handleHomeCountryAction(for country: Country)
+    func confirmHomeCountryAction()
     func toggleSavedCountry(code: String) -> Bool
     func search(query: String)
     func search(query: String, locale: Locale)
@@ -26,7 +30,6 @@ protocol CountriesListViewModelType: AnyObject, Observable {
     func homeCountryChanged()
     func filterSelected()
     func openDeepLinkedCountry(code: String) -> Bool
-    func clearHomeCountry()
 }
 
 // MARK: - CountriesListViewModel
@@ -46,6 +49,14 @@ final class CountriesListViewModel: CountriesListViewModelType {
     var searchQuery = ""
     var selectedFilter: CountryCompatibilityFilter = .all
     var navigationPath: [Country] = []
+    private(set) var pendingHomeCountry: Country?
+    var isHomeCountryConfirmationPresented = false {
+        didSet {
+            if !isHomeCountryConfirmationPresented {
+                pendingHomeCountry = nil
+            }
+        }
+    }
 
     init(
         modelContext: ModelContext,
@@ -63,6 +74,10 @@ final class CountriesListViewModel: CountriesListViewModelType {
     }
 
     var homeCountry: Country? { homeCountryViewModel.homeCountry }
+
+    var isPendingHomeCountryRemoval: Bool {
+        pendingHomeCountry?.code == homeCountryViewModel.homeCountryCode
+    }
 
     var displayedCountries: [Country] {
         guard selectedFilter != .all, !homeCountryViewModel.homeCountryCode.isEmpty else {
@@ -143,25 +158,39 @@ final class CountriesListViewModel: CountriesListViewModelType {
         return true
     }
 
-    func clearHomeCountry() {
-        homeCountryViewModel.clearHome()
-    }
-
     func rowModel(for country: Country) -> CountryBrowserRowModel {
         CountryBrowserRowModel(
             country: country,
             isHomeCountry: country.code == homeCountryViewModel.homeCountryCode,
+            hasHomeCountry: !homeCountryViewModel.homeCountryCode.isEmpty,
             isSavedCountry: travelPreferencesStore.isSavedCountry(code: country.code),
             isPremium: premiumEntitlement.isPremium
         )
     }
 
-    func toggleHomeCountry(code: String) {
-        if code == homeCountryViewModel.homeCountryCode {
+    func handleHomeCountryAction(for country: Country) {
+        guard !homeCountryViewModel.homeCountryCode.isEmpty else {
+            homeCountryViewModel.setHome(code: country.code)
+            return
+        }
+
+        pendingHomeCountry = country
+        isHomeCountryConfirmationPresented = true
+    }
+
+    func confirmHomeCountryAction() {
+        guard let pendingHomeCountry else {
+            assertionFailure("Cannot confirm a home-country action without a pending country.")
+            isHomeCountryConfirmationPresented = false
+            return
+        }
+
+        if pendingHomeCountry.code == homeCountryViewModel.homeCountryCode {
             homeCountryViewModel.clearHome()
         } else {
-            homeCountryViewModel.setHome(code: code)
+            homeCountryViewModel.setHome(code: pendingHomeCountry.code)
         }
+        isHomeCountryConfirmationPresented = false
     }
 
     func toggleSavedCountry(code: String) -> Bool {
@@ -195,6 +224,14 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     var selectedFilter: CountryCompatibilityFilter = .all
     var navigationPath: [Country] = []
     var homeCountry: Country?
+    var pendingHomeCountry: Country?
+    var isHomeCountryConfirmationPresented = false {
+        didSet {
+            if !isHomeCountryConfirmationPresented {
+                pendingHomeCountry = nil
+            }
+        }
+    }
 
     init(countries: [Country] = []) {
         self.allCountries = countries
@@ -214,22 +251,37 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
 
     var displayedCountries: [Country] { filteredCountries }
     var filterCounts: [CountryCompatibilityFilter: Int] { [.all: filteredCountries.count] }
+    var isPendingHomeCountryRemoval: Bool { pendingHomeCountry?.code == homeCountry?.code }
 
     func screenAppeared(locale: Locale) { search(query: searchQuery, locale: locale) }
     func localeChanged(_ locale: Locale) { search(query: searchQuery, locale: locale) }
     func homeCountryChanged() {}
     func filterSelected() {}
-    func clearHomeCountry() {}
     func rowModel(for country: Country) -> CountryBrowserRowModel {
         CountryBrowserRowModel(
             country: country,
-            isHomeCountry: false,
+            isHomeCountry: country.code == homeCountry?.code,
+            hasHomeCountry: homeCountry != nil,
             isSavedCountry: false,
             isPremium: true
         )
     }
 
-    func toggleHomeCountry(code: String) {}
+    func handleHomeCountryAction(for country: Country) {
+        guard homeCountry != nil else {
+            homeCountry = country
+            return
+        }
+
+        pendingHomeCountry = country
+        isHomeCountryConfirmationPresented = true
+    }
+
+    func confirmHomeCountryAction() {
+        homeCountry = isPendingHomeCountryRemoval ? nil : pendingHomeCountry
+        isHomeCountryConfirmationPresented = false
+    }
+
     func toggleSavedCountry(code: String) -> Bool { true }
 
     func openDeepLinkedCountry(code: String) -> Bool {
