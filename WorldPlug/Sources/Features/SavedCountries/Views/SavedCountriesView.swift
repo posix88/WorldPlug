@@ -17,8 +17,13 @@ struct SavedCountriesView: View {
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: SavedCountriesViewModel
     @State private var removalFeedbackTrigger = 0
-    private let nextTripTip = NextTripTip()
-    private let favoriteWidgetSelectorTip = FavoriteWidgetSelectorTip()
+    private var nextTripTip: NextTripTip? {
+        AppDebugOverrides.isEnabled ? nil : NextTripTip()
+    }
+
+    private var favoriteWidgetSelectorTip: FavoriteWidgetSelectorTip? {
+        AppDebugOverrides.isEnabled ? nil : FavoriteWidgetSelectorTip()
+    }
 
     init(
         premiumEntitlement: any PremiumEntitlementProviding,
@@ -47,7 +52,7 @@ struct SavedCountriesView: View {
                         ToolbarItem(placement: .topBarTrailing) {
                             Button {
                                 viewModel.presentTripEditor()
-                                nextTripTip.invalidate(reason: .actionPerformed)
+                                nextTripTip?.invalidate(reason: .actionPerformed)
                             } label: {
                                 Image(systemName: viewModel.nextTrip == nil ? "calendar.badge.plus" : "calendar")
                             }
@@ -118,6 +123,7 @@ struct SavedCountriesView: View {
                             )
                         }
                         .buttonStyle(.plain)
+                        .accessibilityIdentifier("savedCountry.\(country.code)")
                         .appEntityIdentifier(
                             EntityIdentifier(for: CountryEntity.self, identifier: country.code)
                         )
@@ -136,6 +142,7 @@ struct SavedCountriesView: View {
         }
         .swipeActionsContainer()
         .scrollBounceBehavior(.basedOnSize)
+        .accessibilityIdentifier("savedCountries.premiumContent")
         .navigationDestination(item: $viewModel.selectedCountry) { country in
             CountryDetailView(
                 country: country,
@@ -214,13 +221,13 @@ struct SavedCountriesView: View {
         Menu {
             Button(LocalizationKeys.favoriteWidgetNoSelection.localized) {
                 viewModel.selectFavoriteWidgetCountry(code: nil)
-                favoriteWidgetSelectorTip.invalidate(reason: .actionPerformed)
+                favoriteWidgetSelectorTip?.invalidate(reason: .actionPerformed)
             }
 
             ForEach(viewModel.savedCountries) { country in
                 Button("\(country.flagUnicode) \(country.localizedName(in: locale))") {
                     viewModel.selectFavoriteWidgetCountry(code: country.code)
-                    favoriteWidgetSelectorTip.invalidate(reason: .actionPerformed)
+                    favoriteWidgetSelectorTip?.invalidate(reason: .actionPerformed)
                 }
             }
         } label: {

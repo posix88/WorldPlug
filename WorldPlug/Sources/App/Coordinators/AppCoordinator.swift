@@ -25,17 +25,18 @@ final class AppCoordinator {
     private let navigationModel: AppNavigationModel
     private let appGroupDefaults: UserDefaults
     private let standardDefaults: UserDefaults
+    private let usesDebugOverrides: Bool
     /// Whether onboarding still needs to run, decided once at launch.
     private let needsOnboarding: Bool
 
     var premiumPaywallSource: PremiumPaywallSource?
-    private(set) var phase = AppPhase.launchExperience
+    private(set) var phase: AppPhase
     /// Flips to `true` once `premiumEntitlement.refreshEntitlements()` resolves. `LaunchExperienceView`
     /// waits for this (in addition to its minimum splash duration) before dismissing, so the app
     /// is never revealed with a stale/default `isPremium` — without this a genuinely premium user
     /// could briefly see locked content, or even have a tap during that window misrouted to the
     /// paywall, right after a cold launch.
-    private(set) var hasRefreshedEntitlements = false
+    private(set) var hasRefreshedEntitlements: Bool
 
     init(
         homeCountryViewModel: any HomeCountryViewModelType,
@@ -49,13 +50,21 @@ final class AppCoordinator {
         self.navigationModel = navigationModel
         self.appGroupDefaults = appGroupDefaults
         self.standardDefaults = standardDefaults
-        self.needsOnboarding = !standardDefaults.bool(forKey: Keys.hasSeenOnboarding)
+        self.usesDebugOverrides = AppDebugOverrides.isEnabled
+        self.needsOnboarding = !usesDebugOverrides
+            && !standardDefaults.bool(forKey: Keys.hasSeenOnboarding)
+        self.phase = usesDebugOverrides ? .main : .launchExperience
+        self.hasRefreshedEntitlements = usesDebugOverrides
     }
 
     func start() async {
         syncPremiumWidgetAccess()
         await premiumEntitlement.refreshEntitlements()
         hasRefreshedEntitlements = true
+        guard !usesDebugOverrides else {
+            return
+        }
+
         try? await CountrySpotlightIndex.indexAllCountries()
     }
 

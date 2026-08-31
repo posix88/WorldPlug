@@ -59,11 +59,8 @@ Add a device (e.g. `"ipad": { "width": 2064, "height": 2752 }`) once you have a 
 that resolution, and reference it in a shot's `raw` map — the renderer fans out over every
 device × locale combination it finds captures/captions for.
 
-**Current limitation**: there's only one raw capture per shot (captured in English), reused for
-every locale — so an `it` render gets the Italian caption composited over a screenshot whose
-on-screen app UI is still in English. The renderer prints a reminder about this every run. Fix it
-per-shot by capturing the real screen with the simulator's language set to Italian and pointing
-that shot's `raw` entry at the new file — no schema changes needed.
+`bundle exec fastlane screenshots` captures separate English and Italian UI images before
+rendering, so both the marketing caption and the app UI use the destination locale.
 
 ## One-off rendering — `render.mjs`
 
@@ -104,45 +101,16 @@ to the screen you want, then run the command above.
 **From `fastlane snapshot`** — see below. Same `render.mjs` command either way; `snapshot` just
 automates driving the simulator through every screen/device/locale instead of doing it by hand.
 
-## Combining with fastlane snapshot
+## Automated App Store captures
 
-`snapshot` needs a UI Testing target, which this repo doesn't have yet. Adding one is safest done
-in Xcode itself (File → New → Target → UI Testing Bundle) rather than hand-editing
-`project.pbxproj`. Once you've added it:
+`WorldPlugUITests` follows the same deterministic approach as WashMe: each screenshot test launches
+a fresh app process with `UI_TEST_SEED_DATA`. The app uses in-memory travel preferences, premium
+access, localized sample trips, and saved countries. Country Detail expands its bottom sheet and
+does not start MapKit lookup because maps are unreliable on the current iOS 27 beta.
 
-1. Drop fastlane's `SnapshotHelper.swift` into the new UI test target (`fastlane snapshot init`
-   generates it, or copy it from the fastlane repo).
-2. Write a UI test that navigates to each screen and calls `Snapshot.snapshot("name")`:
+```sh
+bundle exec fastlane screenshots
+```
 
-   ```swift
-   import XCTest
-
-   final class VoltlyScreenshotTests: XCTestCase {
-       func testCaptureScreenshots() {
-           let app = XCUIApplication()
-           setupSnapshot(app)
-           app.launch()
-
-           snapshot("01_countries")
-
-           app.tabBars.buttons["Pack Check"].tap()
-           snapshot("02_tripcheck")
-
-           // ...remaining screens
-       }
-   }
-   ```
-3. Add a `Snapfile` (repo root or `Scripts/`):
-
-   ```ruby
-   scheme "WorldPlug"
-   devices(["iPhone 17 Pro Max", "iPad Pro 13-inch (M4)"])
-   languages(["en-US", "it-IT"])
-   output_directory "./Scripts/screenshots/raw"
-   clear_previous_screenshots true
-   ```
-4. Point `captions.json`'s shot entries at `snapshot`'s output filenames (it names files
-   `<locale>/<device>-<name>.png` under `output_directory`), then `bundle exec fastlane
-   screenshots` renders and copies them exactly as it does today for hand-captured raw
-   screenshots — no changes needed to `render-all.mjs` or the `screenshots` lane itself, just to
-   which files `raw/` (or wherever `snapshot` writes to) actually contains.
+This captures raw English and Italian screenshots on iPhone 17 Pro Max, normalizes their filenames,
+renders the marketing frames, and refreshes `AppStore/Screenshots/{en-US,it}/`.

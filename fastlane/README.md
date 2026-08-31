@@ -58,6 +58,8 @@ bundle exec fastlane beta                # test → bump build number → archiv
 bundle exec fastlane release             # test → bump build number → archive → upload build + metadata + screenshots
                                           # (does NOT submit for review — that's a deliberate separate step,
                                           # flip `submit_for_review: true` in the Fastfile once you're sure)
+bundle exec fastlane screenshots          # capture localized iPhone screenshots with mock data, then render them
+bundle exec fastlane capture_raw_screenshots # capture localized raw screenshots only
 bundle exec fastlane render_screenshots  # render Scripts/screenshots/captions.json into AppStore/Screenshots/ (local only, no upload)
 bundle exec fastlane upload_metadata     # push ONLY fastlane/metadata/{en-US,it}/ to App Store Connect
 bundle exec fastlane upload_screenshots  # push ONLY AppStore/Screenshots/{en-US,it}/ to App Store Connect
@@ -66,6 +68,11 @@ bundle exec fastlane metadata            # convenience: upload_metadata + upload
 
 `upload_metadata`/`upload_screenshots`/`metadata` all skip the binary — none of them build or touch
 TestFlight. Run `render_screenshots` first if `AppStore/Screenshots/{en-US,it}/` is stale.
+
+The screenshot lanes enable a DEBUG-only deterministic app mode through `UI_TEST_SEED_DATA`.
+It skips onboarding and the launch splash, grants premium, disables tips and MapKit loading, and
+seeds a home country, saved countries, a next trip, and populated Pack Checks. For manual simulator
+testing, temporarily set `AppDebugOverrides.isManuallyEnabled` to `true`.
 
 ## What's NOT handled here
 

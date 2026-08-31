@@ -14,7 +14,9 @@ struct TripCheckView: View {
     private let premiumEntitlement: any PremiumEntitlementProviding
     private let homeCountryViewModel: any HomeCountryViewModelType
     private let analyticsTracker: any AnalyticsTracker
-    private let tripCheckTip = TripCheckTip()
+    private var tripCheckTip: TripCheckTip? {
+        AppDebugOverrides.isEnabled ? nil : TripCheckTip()
+    }
 
     init(
         travelPreferencesStore: any TravelPreferencesStoring,
@@ -57,6 +59,7 @@ struct TripCheckView: View {
                                 TripCheckRow(row: row)
                             }
                             .buttonStyle(.plain)
+                            .accessibilityIdentifier("tripCheck.row.\(row.country.code)")
                             .appEntityIdentifier(
                                 EntityIdentifier(for: TripCheckEntity.self, identifier: row.tripCheck.id)
                             )
@@ -71,12 +74,13 @@ struct TripCheckView: View {
             .background { AppMeshBackground() }
             .scrollBounceBehavior(.basedOnSize)
             .navigationTitle(LocalizationKeys.tripCheckTitle.localized)
+            .accessibilityIdentifier("tripCheck.list")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         viewModel.beginTripCheck()
                         if viewModel.isEditorPresented {
-                            tripCheckTip.invalidate(reason: .actionPerformed)
+                            tripCheckTip?.invalidate(reason: .actionPerformed)
                         }
                     } label: {
                         Image(systemName: "plus")

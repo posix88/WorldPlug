@@ -5,22 +5,25 @@
 
 scheme("WorldPlug")
 
-# iPhone 6.9" is the baseline size Apple requires; iPad 13" is required too since the app is
-# universal (TARGETED_DEVICE_FAMILY = "1,2"). See AppStore/LAUNCH_PLAN.md §4.
+# This framing set targets the App Store's 6.9" iPhone slot. iPad uses a different tab
+# presentation and needs its own layout/caption manifest rather than being mixed into this lane.
 devices([
-  "iPhone 17 Pro Max",
-  "iPad Pro 13-inch (M5)"
+  "iPhone 17 Pro Max"
 ])
 
 languages([
   "en-US",
-  "it-IT"
+  "it"
 ])
 
 output_directory("./Scripts/screenshots/raw")
-clear_previous_screenshots(true)
 override_status_bar(true)
 concurrent_simulators(false)
+derived_data_path(File.expand_path("~/AI_Pod_DerivedData/WorldPlugSnapshots"))
+disable_package_automatic_updates(true)
+skip_package_repository_fetches(true)
+number_of_retries(0)
+stop_after_first_error(true)
 
 # Only drive WorldPlugUITests here — excludes WorldPlugTests (unit tests) from the scheme's
 # Testables, since capturing screenshots doesn't need them and they'd only slow this down.

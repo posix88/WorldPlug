@@ -25,8 +25,8 @@
       "id": "03_countrydetail",
       "raw": { "iphone": "countrydetail_demo.png" },
       "captions": {
-        "en-US": "Every plug, voltage & socket — mapped",
-        "it": "Ogni presa, voltaggio e standard, a colpo d'occhio"
+        "en-US": "Voltage, frequency and every plug",
+        "it": "Voltaggio, frequenza e ogni presa"
       }
     },
     {

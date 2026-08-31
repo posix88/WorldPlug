@@ -6,6 +6,22 @@ import Testing
 @Suite("Premium entitlement")
 @MainActor
 struct PremiumEntitlementTests {
+    @Test("debug premium override bypasses StoreKit refresh")
+    func debugPremiumOverrideBypassesStoreKitRefresh() async {
+        let recorder = PremiumStoreRecorder(entitlementResults: [false])
+        let entitlement = StoreKitPremiumEntitlement(
+            storeClient: recorder.client,
+            isPremiumOverride: true
+        )
+
+        #expect(entitlement.isPremium)
+
+        await entitlement.refreshEntitlements()
+
+        #expect(entitlement.isPremium)
+        #expect(recorder.entitlementCalls == 0)
+    }
+
     @Test("successful purchase refreshes premium state")
     func successfulPurchaseRefreshesState() async throws {
         let recorder = PremiumStoreRecorder(purchaseResult: .purchased, entitlementResults: [true])

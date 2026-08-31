@@ -41,16 +41,25 @@ enum PremiumProductIDs {
 final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
     private let productIDs: Set<String>
     private let storeClient: PremiumStoreClient
+    private let isPremiumOverride: Bool?
     private var transactionUpdatesTask: Task<Void, Never>?
 
-    private(set) var isPremium = false
+    private(set) var isPremium: Bool
 
     init(
         productIDs: Set<String> = [PremiumProductIDs.premium],
-        storeClient: PremiumStoreClient = .live
+        storeClient: PremiumStoreClient = .live,
+        isPremiumOverride: Bool? = nil
     ) {
         self.productIDs = productIDs
         self.storeClient = storeClient
+        self.isPremiumOverride = isPremiumOverride
+        self.isPremium = isPremiumOverride ?? false
+
+        guard isPremiumOverride == nil else {
+            return
+        }
+
         self.transactionUpdatesTask = Task { [weak self] in
             for await _ in storeClient.transactionUpdates() {
                 guard let self else {
@@ -63,7 +72,12 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
     }
 
     func refreshEntitlements() async {
-        isPremium = await storeClient.hasActiveEntitlement(productIDs)
+        guard let isPremiumOverride else {
+            isPremium = await storeClient.hasActiveEntitlement(productIDs)
+            return
+        }
+
+        isPremium = isPremiumOverride
     }
 
     func premiumProduct() async throws -> PremiumProduct? {

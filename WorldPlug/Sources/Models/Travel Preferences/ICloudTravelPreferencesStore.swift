@@ -33,6 +33,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private let iCloudStore: NSUbiquitousKeyValueStore
     private let appGroupDefaults: UserDefaults
     private let analyticsTracker: any AnalyticsTracker
+    private let usesICloudPersistence: Bool
     /// `nonisolated(unsafe)`: written exactly once in `init` and read exactly once in `deinit`.
     /// Both run at a point where no other code can be concurrently touching `self`, so no
     /// additional synchronization is needed even though the class is `@MainActor`-isolated
@@ -56,11 +57,20 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     init(
         iCloudStore: NSUbiquitousKeyValueStore = .default,
         appGroupDefaults: UserDefaults? = UserDefaults(suiteName: AppGroup.identifier),
-        analyticsTracker: any AnalyticsTracker = NoopAnalyticsTracker()
+        analyticsTracker: any AnalyticsTracker = NoopAnalyticsTracker(),
+        inMemoryPreferences: TravelPreferences? = nil
     ) {
         self.iCloudStore = iCloudStore
         self.appGroupDefaults = appGroupDefaults ?? .standard
         self.analyticsTracker = analyticsTracker
+        self.usesICloudPersistence = inMemoryPreferences == nil
+
+        if let inMemoryPreferences {
+            self.preferences = inMemoryPreferences
+            mirrorWidgetValues()
+            return
+        }
+
         iCloudStore.synchronize()
         let loadedPreferences = Self.loadPreferences(from: iCloudStore)
         self.preferences = Self.removingExpiredTrip(from: loadedPreferences)
@@ -98,6 +108,10 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     }
 
     func reloadFromICloud() {
+        guard usesICloudPersistence else {
+            return
+        }
+
         iCloudStore.synchronize()
         preferences = Self.removingExpiredTrip(from: Self.loadPreferences(from: iCloudStore))
     }
@@ -189,6 +203,10 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     }
 
     private func persist() {
+        guard usesICloudPersistence else {
+            mirrorWidgetValues()
+            return
+        }
         guard let data = try? JSONEncoder().encode(preferences) else {
             return
         }

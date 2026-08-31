@@ -21,6 +21,8 @@ XCODE_PATH = resolved_xcode_path
 SCHEME = "WorldPlug"
 TEST_DEVICE = ENV["VOLTLY_TEST_DEVICE"] || "iPhone 17 Pro"
 BUILD_OUTPUT_DIRECTORY = "./build/fastlane"
+FASTLANE_DIRECTORY = Dir.pwd
+SCREENSHOT_RAW_DIRECTORY = File.expand_path("../Scripts/screenshots/raw", FASTLANE_DIRECTORY)
 
 platform :ios do
   before_all do
@@ -52,7 +54,7 @@ platform :ios do
     run_tests(
       scheme: SCHEME,
       devices: [TEST_DEVICE],
-      only_testing: ["WorldPlugTests"], # excludes WorldPlugUITests (screenshot pipeline) — see :capture_screenshots
+      only_testing: ["WorldPlugTests"], # excludes WorldPlugUITests (screenshot pipeline) — see :screenshots
       clean: true
     )
   end
@@ -157,17 +159,20 @@ platform :ios do
     upload_screenshots
   end
 
+  desc "Capture and render all App Store screenshots using deterministic DEBUG-only sample data"
+  lane :screenshots do
+    capture_raw_screenshots
+    render_screenshots
+  end
+
   desc "Drive WorldPlugUITests on the simulator via `snapshot` (see fastlane/Snapfile) and refresh"
   desc "Scripts/screenshots/raw/ with fresh captures for every shot the test covers (countries"
-  desc "list, country detail, trip check, saved countries). Does NOT capture the label scanner or"
+  desc "list, country detail sheet, trip check, saved countries). Does NOT capture the label scanner or"
   desc "widget gallery shots (camera + Home Screen widgets aren't automatable via XCUITest) — those"
   desc "still need a manual `xcrun simctl io booted screenshot` capture into raw/."
   desc "Run `fastlane render_screenshots` afterward to composite captions on top of the new raws."
-  lane :capture_screenshots do
+  lane :capture_raw_screenshots do
     ensure_ios27_sdk
-    snapshot(reinstall_app: true)
-
-    raw_dir = File.expand_path("../Scripts/screenshots/raw", __dir__)
 
     # Maps each `snapshot("...")` call in WorldPlugUITests.swift to the raw filename
     # Scripts/screenshots/captions.json expects for that shot.
@@ -178,32 +183,60 @@ platform :ios do
       "05_saved" => "saved_demo.png"
     }
 
+    language_to_locale = {
+      "en-US" => "en-US",
+      "it" => "it"
+    }
+
+    # Snapshot output shares this root with normalized/manual raw captures. Remove only the
+    # generated language directories so scanner/widget captures in raw/ survive.
+    language_to_locale.keys.each do |language|
+      FileUtils.rm_rf(File.join(SCREENSHOT_RAW_DIRECTORY, language))
+    end
+
+    capture_screenshots(
+      output_directory: SCREENSHOT_RAW_DIRECTORY,
+      reinstall_app: true
+    )
+
+    language_directories = language_to_locale.keys.to_h do |language|
+      [language, File.join(SCREENSHOT_RAW_DIRECTORY, language)]
+    end
+    missing_captures = language_directories.flat_map do |language, language_dir|
+      shot_name_to_raw_filename.keys.filter_map do |snapshot_name|
+        matches = Dir.glob(File.join(language_dir, "*-#{snapshot_name}.png"))
+        "#{language}/#{snapshot_name}" if matches.empty?
+      end
+    end
+
+    unless missing_captures.empty?
+      UI.user_error!("Snapshot failed to produce required captures: #{missing_captures.uniq.join(", ")}")
+    end
+
     copied = 0
-    Dir.glob(File.join(raw_dir, "*")).select { |entry| File.directory?(entry) }.each do |language_dir|
-      language = File.basename(language_dir)
-      # `snapshot`'s language folders (e.g. "it-IT") don't match captions.json's locale keys (e.g.
-      # "it") — English becomes the shared flat raw/ fallback every locale renders from by
-      # default; every language also gets its own raw/<locale>/ copy so render-all.mjs picks up a
-      # real localized capture for that locale instead of falling back to English.
+    language_directories.each do |language, language_dir|
+      # English becomes the shared flat raw/ fallback; every language also gets its own
+      # raw/<locale>/ copy so render-all.mjs always uses the localized app UI.
       is_english = language.start_with?("en")
-      locale_key = is_english ? "en-US" : "it"
+      locale_key = language_to_locale.fetch(language)
 
       shot_name_to_raw_filename.each do |snapshot_name, raw_filename|
         match = Dir.glob(File.join(language_dir, "*-#{snapshot_name}.png")).first
         next unless match
 
         if is_english
-          FileUtils.cp(match, File.join(raw_dir, raw_filename))
+          FileUtils.cp(match, File.join(SCREENSHOT_RAW_DIRECTORY, raw_filename))
           copied += 1
         end
 
-        locale_dir = File.join(raw_dir, locale_key)
+        locale_dir = File.join(SCREENSHOT_RAW_DIRECTORY, locale_key)
         FileUtils.mkdir_p(locale_dir)
         FileUtils.cp(match, File.join(locale_dir, raw_filename))
         copied += 1
       end
     end
 
+    UI.user_error!("Snapshot produced no captures.") if copied.zero?
     UI.success("Copied #{copied} fresh capture(s) into Scripts/screenshots/raw/. Run `fastlane render_screenshots` next.")
   end
 
@@ -211,7 +244,7 @@ platform :ios do
   desc "Scripts/screenshots/raw/) and copy the results into AppStore/Screenshots/. Does NOT touch"
   desc "App Store Connect — run `fastlane upload_screenshots` (or `fastlane metadata`/`release`)"
   desc "afterward to upload them."
-  desc "Doesn't capture raw screenshots itself: run `fastlane capture_screenshots` first, or add"
+  desc "Doesn't capture raw screenshots itself: run `fastlane capture_raw_screenshots` first, or add"
   desc "PNGs to raw/ and an entry to captions.json by hand."
   lane :render_screenshots do
     screenshots_dir = File.expand_path("../Scripts/screenshots", __dir__)
@@ -226,6 +259,12 @@ platform :ios do
     rendered_root = File.join(screenshots_dir, "out")
     destination_root = File.expand_path("../AppStore/Screenshots", __dir__)
     copied = 0
+
+    # AppStore/Screenshots is generated output. Mirror the current render exactly so stale shots
+    # or invalid locale folders such as `it-IT` can never survive and be uploaded by deliver.
+    Dir.glob(File.join(destination_root, "*")).select { |entry| File.directory?(entry) }.each do |directory|
+      FileUtils.rm_rf(directory)
+    end
 
     Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
       locale = File.basename(locale_dir)

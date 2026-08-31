@@ -8,13 +8,14 @@ import TipKit
 
 struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var viewModel: ViewModel
-    @State private var isHomeCountryRemovalConfirmationPresented = false
     @Binding private var deepLinkedCountryCode: String?
     @Environment(\.locale) private var locale
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.analyticsTracker) private var analyticsTracker
-    private let compatibilityFilterTip = CompatibilityFilterTip()
+    private var compatibilityFilterTip: CompatibilityFilterTip? {
+        AppDebugOverrides.isEnabled ? nil : CompatibilityFilterTip()
+    }
 
     init(
         viewModel: ViewModel,
@@ -158,6 +159,7 @@ private struct CountryResultsView: View {
             .padding(.bottom, .xxl)
         }
         .swipeActionsContainer()
+        .accessibilityIdentifier("countries.list")
         .accessibilityElement(children: .contain)
         .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
         .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))

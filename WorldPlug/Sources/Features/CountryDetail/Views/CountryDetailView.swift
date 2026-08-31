@@ -83,9 +83,16 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             }
         }
         .task(id: viewModel.country.code) {
+            guard !AppDebugOverrides.isEnabled else {
+                return
+            }
+
             await viewModel.loadMapFocus(reduceMotion: reduceMotion)
         }
         .onAppear {
+            if AppDebugOverrides.isEnabled {
+                viewModel.selectedDetent = .large
+            }
             viewModel.screenAppeared(using: homeCountryViewModel)
         }
         .onDisappear {

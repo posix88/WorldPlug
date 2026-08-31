@@ -17,17 +17,26 @@ struct VoltlyApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
-        let analyticsTracker = FirebaseAnalyticsTracker()
+        let analyticsTracker: any AnalyticsTracker = AppDebugOverrides.isEnabled
+            ? NoopAnalyticsTracker()
+            : FirebaseAnalyticsTracker()
         self.analyticsTracker = analyticsTracker
-        let travelPreferencesStore = ICloudTravelPreferencesStore(analyticsTracker: analyticsTracker)
+        let snapshotHomeCountryCode = AppDebugOverrides.homeCountryCode
+        let travelPreferencesStore = ICloudTravelPreferencesStore(
+            analyticsTracker: analyticsTracker,
+            inMemoryPreferences: AppDebugOverrides.travelPreferences
+        )
         _travelPreferencesStore = State(initialValue: travelPreferencesStore)
         let homeCountryViewModel = HomeCountryViewModel(
             travelPreferencesStore: travelPreferencesStore,
             analyticsTracker: analyticsTracker,
+            launchHomeCountryCode: snapshotHomeCountryCode,
             modelContext: Repository.sharedModelContainer.mainContext
         )
         _homeCountryViewModel = State(initialValue: homeCountryViewModel)
-        let premiumEntitlement = StoreKitPremiumEntitlement()
+        let premiumEntitlement = StoreKitPremiumEntitlement(
+            isPremiumOverride: AppDebugOverrides.premiumStatus
+        )
         _premiumEntitlement = State(initialValue: premiumEntitlement)
         let navigationModel = AppNavigationModel.shared
         _navigationModel = State(initialValue: navigationModel)

@@ -12,6 +12,20 @@ import UIKit
 @Suite("Feature view models")
 @MainActor
 struct FeatureViewModelTests {
+    @Test("debug overrides seed premium travel content")
+    func debugOverridesSeedPremiumTravelContent() {
+        let preferences = AppDebugOverrides.makeTravelPreferences(
+            now: Date(timeIntervalSince1970: 1_788_134_400)
+        )
+
+        #expect(preferences.homeCountryCode == "GB")
+        #expect(preferences.savedCountryCodes == ["JP", "IT", "US"])
+        #expect(preferences.nextTrip?.countryCode == "JP")
+        #expect(preferences.favoriteWidgetCountryCode == "JP")
+        #expect(preferences.tripChecks.map(\.countryCode) == ["JP", "IT"])
+        #expect(preferences.tripChecks.first?.devices.count == 2)
+    }
+
     @Test("country detail sets the first home country immediately")
     func countryDetailSetsFirstHomeCountryImmediately() {
         let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")

@@ -17,6 +17,11 @@ const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
 const rawDir = path.join(__dirname, "raw");
 const outDir = path.join(__dirname, "out");
 
+// Keep output deterministic: files for shots whose raw captures were removed must not survive
+// and accidentally get copied or uploaded as if they came from the current render.
+fs.rmSync(outDir, { recursive: true, force: true });
+fs.mkdirSync(outDir, { recursive: true });
+
 let rendered = 0;
 let skipped = 0;
 let usedNonEnglishRawForNonEnglishLocale = false;
@@ -43,7 +48,7 @@ try {
 
       for (const [locale, caption] of Object.entries(shot.captions)) {
         // Prefer a locale-specific raw capture (raw/<locale>/<rawFile>, e.g. what
-        // `fastlane capture_screenshots` writes) if one exists, so a real localized UI capture is
+        // `fastlane capture_raw_screenshots` writes) if one exists, so a real localized UI capture is
         // used instead of the English one. Falls back to the shared English raw/ file otherwise.
         const localizedInputPath = path.join(rawDir, locale, rawFile);
         const inputPath = fs.existsSync(localizedInputPath) ? localizedInputPath : fallbackInputPath;
@@ -51,7 +56,7 @@ try {
         if (locale !== "en-US" && inputPath === fallbackInputPath) {
           // No locale-specific raw capture yet, so a non-English caption is composited over the
           // English screenshot — almost certainly still showing English UI text underneath. Fine
-          // as a placeholder; run `fastlane capture_screenshots` (or drop a manual capture into
+          // as a placeholder; run `fastlane capture_raw_screenshots` (or drop a manual capture into
           // raw/<locale>/) to fix this for a given shot.
           usedNonEnglishRawForNonEnglishLocale = true;
         }
@@ -74,6 +79,10 @@ try {
   }
 } finally {
   await browser.close();
+}
+
+if (rendered === 0) {
+  throw new Error("No screenshots rendered. Existing App Store screenshots were left unchanged.");
 }
 
 console.log(`\n${rendered} rendered, ${skipped} skipped.`);
