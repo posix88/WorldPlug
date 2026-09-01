@@ -54,6 +54,8 @@ auto-generated lane docs — if you ever want that instead, remove `skip_docs` a
 
 ```sh
 bundle exec fastlane test               # run the WorldPlugTests suite on a simulator
+bundle exec fastlane bump_version version:1.2.3 # bump the marketing version — run this once, before `release`,
+                                          # only when that release needs a new marketing version (not just a new build)
 bundle exec fastlane beta                # test → bump build number → archive → upload to TestFlight
 bundle exec fastlane release             # test → bump build number → archive → upload build + metadata + screenshots
                                           # (does NOT submit for review — that's a deliberate separate step,

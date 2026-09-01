@@ -3,6 +3,104 @@ default_platform(:ios)
 require "fileutils"
 require "shellwords"
 
+# --- Workaround for `deliver` uploading every App Store Connect screenshot
+# twice. The observed flow is: "Uploaded ..." for every file, then
+# "<file> is missing on App Store Connect.", then a full re-upload — leaving
+# two copies of each screenshot in the version.
+#
+# Cause: `Deliver::UploadScreenshots#verify_local_screenshots_are_uploaded`
+# decides whether a local file made it to ASC *only* by matching MD5s against
+# the remote `sourceFileChecksum`. fastlane sets that field itself when it
+# PATCHes the upload as finished, but ASC frequently hands it back blank on
+# the subsequent GET (either permanently, or for a window after the asset has
+# already flipped to COMPLETE). A blank checksum matches nothing, so every
+# screenshot is declared missing and `retry_upload_screenshots_if_needed`
+# fires. The retry then re-runs the *same* checksum comparison for its
+# "already uploaded, skip it" test, which also can't match — so it uploads a
+# second copy. The retry's "delete anything not COMPLETE" cleanup can't
+# remove the first copy either, because that one IS complete. Both survive.
+# (https://github.com/fastlane/fastlane/issues/30094)
+#
+# Fix: when a remote screenshot has no checksum to compare against, fall back
+# to identifying it by file name + byte size *within its own screenshot set*.
+# Both come straight from the local file at upload time (see
+# Spaceship::ConnectAPI::AppScreenshot.create), a set holds at most 10
+# screenshots for one locale/device pair, and every file in a set has a
+# distinct name — so the pair identifies a screenshot unambiguously here.
+# Verification then passes, no retry fires, and nothing is uploaded twice.
+# Deliberately does NOT wait for the checksum to show up: when ASC withholds
+# it for good, waiting just stalls the lane for `screenshot_processing_timeout`
+# (an hour by default) and duplicates anyway.
+#
+# Safe to delete once fastlane matches screenshots by something other than a
+# checksum ASC may never return.
+require "deliver/upload_screenshots"
+
+# NOTE: the leading `::` is load-bearing. The Fastfile is eval'd inside a
+# binding whose lexical scope is Fastlane::FastFile, so a bare `module
+# Deliver` here silently defines Fastlane::FastFile::Deliver — a phantom
+# nested module — instead of reopening the real top-level `Deliver` from the
+# `deliver` gem. The patch then "looks" applied (source_location shows this
+# file) while `upload_to_app_store` keeps calling the original, unpatched
+# method and screenshots get duplicated anyway. Confirmed by direct testing:
+# without `::`, Fastlane::FastFile.const_defined?(:Deliver) becomes true and
+# ::Deliver::UploadScreenshots#verify_local_screenshots_are_uploaded still
+# points at the gem file, not here.
+module ::Deliver
+  class UploadScreenshots
+    # Return `true` if all the local screenshots are uploaded to App Store Connect
+    def verify_local_screenshots_are_uploaded(iterator, screenshots_per_language)
+      # Check if local screenshots' checksum exist on App Store Connect
+      checksum_to_app_screenshot = iterator.each_app_screenshot.map { |_, _, app_screenshot| [app_screenshot.source_file_checksum, app_screenshot] }.to_h
+
+      number_of_screenshots_per_set = {}
+      missing_local_screenshots = iterator.each_local_screenshot(screenshots_per_language).select do |_, app_screenshot_set, local_screenshot|
+        number_of_screenshots_per_set[app_screenshot_set] ||= (app_screenshot_set.app_screenshots || []).count
+        checksum = UploadScreenshots.calculate_checksum(local_screenshot.path)
+
+        next(false) if checksum_to_app_screenshot[checksum]
+
+        # No checksum match — before calling it missing, see whether this set
+        # already holds a finished screenshot that ASC simply didn't give us a
+        # checksum for. Only blank-checksum remotes are eligible: a remote that
+        # *did* report a checksum has already been compared above, and matching
+        # it by name here would let a genuinely different file pass.
+        file_name = File.basename(local_screenshot.path)
+        file_size = File.size(local_screenshot.path)
+        already_uploaded = (app_screenshot_set.app_screenshots || []).any? do |app_screenshot|
+          app_screenshot.complete? &&
+            app_screenshot.source_file_checksum.to_s.empty? &&
+            app_screenshot.file_name == file_name &&
+            app_screenshot.file_size.to_i == file_size
+        end
+
+        if already_uploaded
+          UI.verbose("#{local_screenshot.path} matched on App Store Connect by file name + size (no checksum reported).")
+          next(false)
+        end
+
+        is_missing = number_of_screenshots_per_set[app_screenshot_set] < 10 # if it's more than 10, it's skipped
+        number_of_screenshots_per_set[app_screenshot_set] += 1
+        next(is_missing)
+      end
+
+      missing_local_screenshots.each do |_, _, screenshot|
+        UI.error("#{screenshot.path} is missing on App Store Connect.")
+      end
+
+      missing_local_screenshots.empty?
+    end
+  end
+end
+
+# Fail loudly at parse time if the patch above landed on a phantom class
+# instead of the real one, rather than silently duplicating screenshots.
+if ::Deliver::UploadScreenshots
+   .instance_method(:verify_local_screenshots_are_uploaded)
+   .source_location.to_a.first.to_s.include?("/gems/")
+  UI.user_error!("Fastfile: the Deliver::UploadScreenshots patch did not take effect — screenshots would be uploaded twice. Check the leading `::` on `module ::Deliver`.")
+end
+
 # Don't let fastlane overwrite fastlane/README.md with its auto-generated lane docs — it has a
 # hand-written setup guide instead (see that file).
 skip_docs
@@ -62,6 +160,20 @@ platform :ios do
   desc "Bump the build number (CURRENT_PROJECT_VERSION) across every target"
   lane :bump_build_number do
     increment_build_number(xcodeproj: "WorldPlug.xcodeproj")
+  end
+
+  desc "Bump the marketing version (CFBundleShortVersionString) across every target"
+  desc "Usage: fastlane bump_version version:1.2.3"
+  desc "Call this once, ahead of a `release` run, whenever that run needs to ship a new"
+  desc "marketing version instead of just another build of the current one."
+  lane :bump_version do |options|
+    version = options[:version]
+    UI.user_error!("Version is required. Example: fastlane bump_version version:1.2.3") if version.to_s.empty?
+
+    increment_version_number(
+      version_number: version,
+      xcodeproj: "WorldPlug.xcodeproj"
+    )
   end
 
   desc "Archive + export a release .ipa, signed for App Store distribution"
