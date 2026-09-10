@@ -22,7 +22,13 @@ final class WorldPlugUITests: XCTestCase {
         }
         app.launch()
 
-        XCTAssertTrue(app.tabBars.buttons["tab.countries"].waitForExistence(timeout: 15))
+        // Generous on purpose. `fastlane capture_raw_screenshots` runs with `reinstall_app: true`,
+        // so every test here cold-launches the app, and the launch splash waits on
+        // `premiumEntitlement.refreshEntitlements()` (with its own ~3s safety net) before it
+        // dismisses. At 15s this assertion failed intermittently on a loaded machine — always in
+        // setUp, before any test body ran — which took the whole screenshot lane down with it
+        // (`stop_after_first_error`). 60s still fails fast if the app genuinely never launches.
+        XCTAssertTrue(app.tabBars.buttons["tab.countries"].waitForExistence(timeout: 60))
     }
 
     func testCountries() {

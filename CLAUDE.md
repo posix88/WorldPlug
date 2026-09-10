@@ -194,7 +194,23 @@ The store listing had gone factually wrong, not just stale, so this is worth fla
 - **`fastlane/README.md`** — the debug-seed description mentioned "populated Pack Checks".
 - Untouched on purpose: `subtitle.txt`, `promotional_text.txt`, `keywords.txt` in both locales — checked, and none of them referenced the old feature names.
 
-**Still open**: the captured screenshots themselves are stale. `snapshot("02_tripcheck")` keeps its name so `fastlane/Fastfile` and `Scripts/screenshots/captions.json` still resolve, but the *image* shows the old Pack Check screen, and the tab bar in every shot now reads "Trips". They need recapturing before submission.
+**Screenshots were recaptured** — see the screenshot-pipeline entry below.
+
+## 2026-09-10 — screenshot pipeline: verified end to end, and two fixes it needed
+
+`fastlane capture_raw_screenshots` + `render_screenshots` were run for real (not just read) and now produce correct captures for both locales. Two things had to be fixed first, and they had **different causes** — worth separating, because conflating them sent me down the wrong path once already.
+
+**Xcode 27 targeting is correct**, confirmed at runtime rather than by reading code: the lane logs `xcode_path | /Applications/Xcode-27.0.0-Release.Candidate.app`, and every compile line shows `-isysroot .../iPhoneSimulator27.0.sdk -target arm64-apple-ios27.0-simulator`. Resolution order is `VOLTLY_XCODE_PATH` → `DEVELOPER_DIR` → `xcode-select -p` (`Fastfile:108`), and `ensure_ios27_sdk` hard-fails when the SDK major is below 27 — so it cannot silently build against the Xcode 26.3 that is also installed on this machine.
+
+**Fix 1 — `WorldPlugUITests.setUpWithError` waited only 15s for the tab bar.** That is a genuine `XCTAssertTrue` failure when it trips, and it tripped: `snapshot` runs with `reinstall_app: true`, so every test cold-launches, and the launch splash waits on `premiumEntitlement.refreshEntitlements()` before dismissing. Raised to 60s, which still fails fast if the app truly never launches. The per-test 5s waits were deliberately left alone — those run against an already-launched app and should stay tight enough to catch real regressions.
+
+**Fix 2 — `Snapfile` had `number_of_retries(0)`.** A later run failed differently: no assertion failure at all, but `XCTest` logging "Restarting after unexpected exit, crash, or test timeout". The cause was **Xcode 27's own `testmanagerd` being SIGKILLed by launchd** (`XPC_EXIT_REASON_SIGTERM_TIMEOUT`, confirmed in `~/Library/Logs/DiagnosticReports/testmanagerd-*.ips`) — not the app, and not any one test: it landed on `testCountries` on one run and `testSavedCountries` on two others, which is the signature of infrastructure flakiness rather than a screen-specific defect. Retries are now 2, with `stop_after_first_error(true)` kept so a genuine app failure still fails every retry and halts the lane. **Caveat worth knowing: the successful run used zero retries**, so this setting is insurance — it has not itself been observed to rescue a run.
+
+**Also cleaned**: `Scripts/screenshots/raw/it-IT/` was stale output from before the locale-folder fix. `render-all.mjs` drives locales from `captions.json` (`en-US`, `it`) and reads `raw/<locale>/`, so it was never read; `render_screenshots` also wipes `AppStore/Screenshots/*` before mirroring, so it could not have leaked into an upload either. Removed (it is gitignored, so this is local-only).
+
+**Result**: 12 raw captures → 8 rendered shots at 1320×2868 in `AppStore/Screenshots/{en-US,it}/`. The Trips shot now shows the real new UI in both languages — "Trips"/"Viaggi", an Upcoming section with the NEXT/PROSSIMO badge and date ranges, and a dimmed Past section. That Past row exists because Chunk A added a third, already-finished trip to `AppDebugOverrides`; it earns its keep here.
+
+**One judgement call left to the owner**: `Scripts/screenshots/captions.json` still captions this shot "Know before you plug in", written when it was the Pack Check *result* screen. It still reads correctly over a trip list with verdicts, so it was left as-is rather than rewritten unasked.
 
 ## Known doc drift (`.github/` is not authoritative)
 

@@ -22,7 +22,13 @@ concurrent_simulators(false)
 derived_data_path(File.expand_path("~/AI_Pod_DerivedData/WorldPlugSnapshots"))
 disable_package_automatic_updates(true)
 skip_package_repository_fetches(true)
-number_of_retries(0)
+# Not 0. Xcode 27's `testmanagerd` gets SIGKILLed by launchd on a SIGTERM shutdown timeout
+# (XPC_EXIT_REASON_SIGTERM_TIMEOUT) often enough to matter here, and XCTest reports it as
+# "Restarting after unexpected exit, crash, or test timeout" against whichever test happened to be
+# running — it has landed on testCountries and on testSavedCountries on different runs. With 0
+# retries plus stop_after_first_error, one daemon hiccup takes the whole two-language capture down.
+# A genuine app failure still fails every retry and stops the lane.
+number_of_retries(2)
 stop_after_first_error(true)
 
 # Only drive WorldPlugUITests here — excludes WorldPlugTests (unit tests) from the scheme's
