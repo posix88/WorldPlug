@@ -88,6 +88,7 @@ public enum AnalyticsScreen: String, Sendable {
     case onboarding
     case premiumPaywall = "premium_paywall"
     case plugDetail = "plug_detail"
+    case settings
 }
 
 // MARK: - AnalyticsEvent
@@ -112,6 +113,7 @@ public enum AnalyticsEvent: String, Sendable {
     case tripCheckStarted = "trip_check_started"
     case tripCheckCompleted = "trip_check_completed"
     case tripLimitReached = "trip_limit_reached"
+    case savedCountryLimitReached = "saved_country_limit_reached"
     case deviceSafetyResultViewed = "device_safety_result_viewed"
     case catalogFetchFailed = "catalog_fetch_failed"
     case deviceLabelSmartAnalysisFailed = "device_label_smart_analysis_failed"

@@ -64,6 +64,7 @@ enum LocalizationKeys {
     static let savedCountriesTitle = "saved.countries.title"
     static let savedCountriesEmptyTitle = "saved.countries.empty.title"
     static let savedCountriesEmptyDescription = "saved.countries.empty.description"
+    static let savedCountriesFreeLimit = "saved.countries.free.limit"
     static let savedCountriesPremiumTitle = "saved.countries.premium.title"
     static let savedCountriesPremiumDescription = "saved.countries.premium.description"
     static let savedCountriesAdd = "saved.countries.add"
@@ -175,6 +176,32 @@ enum LocalizationKeys {
     static let tripDetailEdit = "trip.detail.edit"
     static let tripDetailDevicesEmptyTitle = "trip.detail.devices.empty.title"
     static let tripDetailDevicesEmptyDescription = "trip.detail.devices.empty.description"
+
+    // MARK: - Settings
+
+    static let settingsTitle = "settings.title"
+    static let settingsOpen = "settings.open"
+    static let settingsDone = "settings.done"
+    static let settingsSectionTravel = "settings.section.travel"
+    static let settingsSectionWidgets = "settings.section.widgets"
+    static let settingsSectionPremium = "settings.section.premium"
+    static let settingsSectionAbout = "settings.section.about"
+    static let settingsHomeCountry = "settings.home.country"
+    static let settingsHomeCountryNone = "settings.home.country.none"
+    static let settingsHomeCountryFooter = "settings.home.country.footer"
+    static let settingsHomeCountryClear = "settings.home.country.clear"
+    static let settingsFavoriteWidgetFooter = "settings.favorite.widget.footer"
+    static let settingsFavoriteWidgetNeedsSaved = "settings.favorite.widget.needs.saved"
+    static let settingsPremiumActive = "settings.premium.active"
+    static let settingsPremiumActiveFooter = "settings.premium.active.footer"
+    static let settingsPremiumInactive = "settings.premium.inactive"
+    static let settingsRestoreFailed = "settings.restore.failed"
+    static let settingsVersion = "settings.version"
+    static let settingsRate = "settings.rate"
+    static let settingsShare = "settings.share"
+    static let settingsShareText = "settings.share.text"
+    static let settingsDebug = "settings.debug"
+    static let settingsDebugSeededData = "settings.debug.seeded.data"
 
     // MARK: - Favorite Widget
 

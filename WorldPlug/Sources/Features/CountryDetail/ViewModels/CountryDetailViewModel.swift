@@ -105,21 +105,13 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     }
 
     var savedCountrySymbolName: String {
-        guard premiumEntitlement.isPremium else {
-            return "star.fill"
-        }
-
-        return travelPreferencesStore.isSavedCountry(code: country.code) ? "star.fill" : "star"
+        travelPreferencesStore.isSavedCountry(code: country.code) ? "star.fill" : "star"
     }
 
     var isPremium: Bool { premiumEntitlement.isPremium }
 
     var savedCountryAccessibilityLabel: String {
-        guard premiumEntitlement.isPremium else {
-            return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
-        }
-
-        return travelPreferencesStore.isSavedCountry(code: country.code)
+        travelPreferencesStore.isSavedCountry(code: country.code)
             ? LocalizationKeys.savedCountriesRemove.localized
             : LocalizationKeys.savedCountriesAdd.localized
     }
@@ -131,7 +123,12 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     }
 
     func handleSavedCountryAction() {
-        guard premiumEntitlement.isPremium else {
+        guard SavedCountryLimit.allowsToggling(
+            code: country.code,
+            preferences: travelPreferencesStore.preferences,
+            isPremium: premiumEntitlement.isPremium
+        ) else {
+            analyticsTracker.track(.savedCountryLimitReached)
             isPremiumPaywallPresented = true
             return
         }

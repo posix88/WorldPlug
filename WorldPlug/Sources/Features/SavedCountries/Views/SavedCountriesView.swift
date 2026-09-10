@@ -3,21 +3,20 @@ import AppIntents
 import Repository
 import SwiftData
 import SwiftUI
-import TipKit
 
 // MARK: - SavedCountriesView
 
+/// Just the list of starred countries. It used to also host the trip planner and the
+/// favorite-widget picker, and to be locked wholesale behind premium — the trip planner moved to
+/// the Trips tab, the widget picker moved to Settings, and the premium gate moved to the *saving*
+/// action (see `SavedCountryLimit`), so there is nothing left here but the list.
 struct SavedCountriesView: View {
-    @Environment(\.locale) private var locale
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: SavedCountriesViewModel
     @State private var removalFeedbackTrigger = 0
-    private var favoriteWidgetSelectorTip: FavoriteWidgetSelectorTip? {
-        AppDebugOverrides.isEnabled ? nil : FavoriteWidgetSelectorTip()
-    }
 
     init(
         premiumEntitlement: any PremiumEntitlementProviding,
@@ -39,7 +38,7 @@ struct SavedCountriesView: View {
         @Bindable var viewModel = viewModel
 
         NavigationStack {
-            savedCountriesContent
+            content
                 .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
                 .background { AppMeshBackground() }
                 .onAppear {
@@ -49,27 +48,13 @@ struct SavedCountriesView: View {
                 .onChange(of: countries.map(\.code)) { _, _ in
                     viewModel.updateCountries(countries)
                 }
-                .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
-                    PremiumPaywallView(source: .savedCountries)
-                }
         }
         .sensoryFeedback(.success, trigger: removalFeedbackTrigger)
     }
 
-    @ViewBuilder
-    private var savedCountriesContent: some View {
-        if viewModel.isPremium {
-            premiumContent
-        } else {
-            lockedContent
-        }
-    }
-
-    private var premiumContent: some View {
+    private var content: some View {
         ScrollView {
             LazyVStack(spacing: .md) {
-                favoriteWidgetCard
-
                 if viewModel.savedCountries.isEmpty {
                     ContentUnavailableView(
                         LocalizationKeys.savedCountriesEmptyTitle.localized,
@@ -79,27 +64,15 @@ struct SavedCountriesView: View {
                     .padding(.top, .special)
                 } else {
                     ForEach(viewModel.savedCountries) { country in
-                        Button {
-                            viewModel.selectedCountry = country
-                        } label: {
-                            CountrySummaryCard(
-                                country: country,
-                                compatibility: nil,
-                                isHomeCountry: country.code == viewModel.homeCountryCode
-                            )
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("savedCountry.\(country.code)")
-                        .appEntityIdentifier(
-                            EntityIdentifier(for: CountryEntity.self, identifier: country.code)
-                        )
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                removeSavedCountry(code: country.code)
-                            } label: {
-                                Image(systemName: "star.slash.fill")
-                            }
-                        }
+                        savedCountryRow(country)
+                    }
+
+                    if let hint = viewModel.freeLimitHint {
+                        Text(hint)
+                            .font(.caption)
+                            .foregroundStyle(.textLight)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, .sm)
                     }
                 }
             }
@@ -119,86 +92,28 @@ struct SavedCountriesView: View {
         }
     }
 
-    private var lockedContent: some View {
-        ScrollView {
-            VStack(spacing: .xl) {
-                ContentUnavailableView {
-                    Label(LocalizationKeys.savedCountriesPremiumTitle.localized, systemImage: "lock.fill")
-                } description: {
-                    Text(LocalizationKeys.savedCountriesPremiumDescription.localized)
-                }
-
-                SavedCountriesPremiumPreview()
-
-                Button(LocalizationKeys.premiumPaywallPurchase.localized) {
-                    viewModel.isPremiumPaywallPresented = true
-                }
-                .buttonStyle(.glassProminent)
-                .tint(.premiumTint)
-                .controlSize(.regular)
-            }
-            .padding(.horizontal, .xxl)
-            .padding(.top, .special)
-        }
-        .scrollBounceBehavior(.basedOnSize)
-    }
-
-    private var favoriteWidgetCard: some View {
-        Menu {
-            Button(LocalizationKeys.favoriteWidgetNoSelection.localized) {
-                viewModel.selectFavoriteWidgetCountry(code: nil)
-                favoriteWidgetSelectorTip?.invalidate(reason: .actionPerformed)
-            }
-
-            ForEach(viewModel.savedCountries) { country in
-                Button("\(country.flagUnicode) \(country.localizedName(in: locale))") {
-                    viewModel.selectFavoriteWidgetCountry(code: country.code)
-                    favoriteWidgetSelectorTip?.invalidate(reason: .actionPerformed)
-                }
-            }
+    private func savedCountryRow(_ country: Country) -> some View {
+        Button {
+            viewModel.selectedCountry = country
         } label: {
-            HStack(spacing: .md) {
-                Image(systemName: "rectangle.on.rectangle")
-                    .foregroundStyle(.premiumTint)
-
-                VStack(alignment: .leading, spacing: .xxs) {
-                    Text(LocalizationKeys.favoriteWidgetTitle.localized)
-                        .font(.body.weight(.semibold))
-                        .foregroundStyle(.textRegular)
-
-                    Text(favoriteWidgetCountryName)
-                        .font(.caption)
-                        .foregroundStyle(.textLight)
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.up.chevron.down")
-                    .foregroundStyle(.textLighter)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.lg)
-            .background(.surfaceSecondary)
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            CountrySummaryCard(
+                country: country,
+                compatibility: nil,
+                isHomeCountry: country.code == viewModel.homeCountryCode
+            )
         }
-        .disabled(viewModel.savedCountries.isEmpty)
-        .popoverTip(viewModel.savedCountries.isEmpty ? nil : favoriteWidgetSelectorTip, arrowEdge: .bottom)
-        .appTipIconTint()
-        .accessibilityLabel(LocalizationKeys.favoriteWidgetTitle.localized)
-        .accessibilityValue(favoriteWidgetCountryName)
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("savedCountry.\(country.code)")
         .appEntityIdentifier(
-            viewModel.favoriteWidgetCountry.map {
-                EntityIdentifier(for: CountryEntity.self, identifier: $0.code)
-            }
+            EntityIdentifier(for: CountryEntity.self, identifier: country.code)
         )
-    }
-
-    private var favoriteWidgetCountryName: String {
-        guard let country = viewModel.favoriteWidgetCountry else {
-            return LocalizationKeys.favoriteWidgetNoSelection.localized
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) {
+                removeSavedCountry(code: country.code)
+            } label: {
+                Image(systemName: "star.slash.fill")
+            }
         }
-
-        return "\(country.flagUnicode) \(country.localizedName(in: locale))"
     }
 
     private func removeSavedCountry(code: String) {
@@ -207,64 +122,8 @@ struct SavedCountriesView: View {
     }
 }
 
-// MARK: - SavedCountriesPremiumPreview
-
-private struct SavedCountriesPremiumPreview: View {
-    @Environment(\.locale) private var locale
-
-    var body: some View {
-        ZStack {
-            VStack(spacing: .md) {
-                previewRow(flag: "🇯🇵", countryCode: "JP")
-                previewRow(flag: "🇬🇧", countryCode: "GB")
-            }
-            .padding(.lg)
-            .blur(radius: 4)
-
-            Image(systemName: "lock.fill")
-                .font(.title3)
-                .foregroundStyle(.textLight)
-                .padding(.md)
-                .glassEffect(.regular, in: .circle)
-        }
-        .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .accessibilityHidden(true)
-    }
-
-    private func previewRow(flag: String, countryCode: String) -> some View {
-        HStack(spacing: .md) {
-            Text(flag)
-                .font(.title2)
-
-            Text(locale.localizedString(forRegionCode: countryCode) ?? countryCode)
-                .font(.body.weight(.semibold))
-
-            Spacer()
-
-            Image(systemName: "star.fill")
-                .foregroundStyle(.premiumTint)
-        }
-    }
-}
-
-// MARK: - FavoriteWidgetSelectorTip
-
-private struct FavoriteWidgetSelectorTip: Tip {
-    var title: Text {
-        Text(LocalizationKeys.favoriteWidgetTipTitle.localized)
-    }
-
-    var message: Text? {
-        Text(LocalizationKeys.favoriteWidgetTipMessage.localized)
-    }
-
-    var image: Image? {
-        Image(systemName: "rectangle.on.rectangle")
-    }
-}
-
 #if DEBUG
-#Preview("Premium locked") {
+#Preview("Empty") {
     SavedCountriesView(
         premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
         travelPreferencesStore: PreviewTravelPreferencesStore(),
@@ -273,16 +132,28 @@ private struct FavoriteWidgetSelectorTip: Tip {
     )
 }
 
-#Preview("Premium empty") {
-    SavedCountriesView(
-        premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
-        travelPreferencesStore: PreviewTravelPreferencesStore(),
+#Preview("Free tier, at the limit") {
+    let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Country.self, configurations: configuration)
+    let codes = ["IT", "JP", "GB"]
+    for code in codes {
+        container.mainContext.insert(
+            Country(code: code, voltage: "230V", frequency: "50Hz", flagUnicode: "🏳️")
+        )
+    }
+
+    return SavedCountriesView(
+        premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+        travelPreferencesStore: PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: codes)
+        ),
         homeCountryViewModel: PreviewHomeCountryViewModel(),
         analyticsTracker: NoopAnalyticsTracker()
     )
+    .modelContainer(container)
 }
 
-#Preview {
+#Preview("Premium") {
     let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: Country.self, configurations: configuration)
     let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")

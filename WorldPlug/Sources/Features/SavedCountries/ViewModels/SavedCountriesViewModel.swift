@@ -13,7 +13,6 @@ final class SavedCountriesViewModel {
     private let analyticsTracker: any AnalyticsTracker
 
     private(set) var countries: [Country] = []
-    var isPremiumPaywallPresented = false
     var selectedCountry: Country?
 
     init(
@@ -28,7 +27,6 @@ final class SavedCountriesViewModel {
         self.analyticsTracker = analyticsTracker
     }
 
-    var isPremium: Bool { premiumEntitlement.isPremium }
     var homeCountryCode: String { homeCountryViewModel.homeCountryCode }
 
     var savedCountries: [Country] {
@@ -36,12 +34,21 @@ final class SavedCountriesViewModel {
         return travelPreferencesStore.preferences.savedCountryCodes.compactMap { countriesByCode[$0] }
     }
 
-    var favoriteWidgetCountry: Country? {
-        guard let code = travelPreferencesStore.preferences.favoriteWidgetCountryCode else {
+    /// "2 of 3 saved", so a free user discovers the ceiling here rather than being surprised by a
+    /// paywall on their fourth star. `nil` for premium, which has no ceiling to report.
+    var freeLimitHint: String? {
+        guard SavedCountryLimit.remaining(
+            preferences: travelPreferencesStore.preferences,
+            isPremium: premiumEntitlement.isPremium
+        ) != nil else {
             return nil
         }
 
-        return countries.first(where: { $0.code == code })
+        return String(
+            format: LocalizationKeys.savedCountriesFreeLimit.localized,
+            travelPreferencesStore.preferences.savedCountryCodes.count,
+            SavedCountryLimit.free
+        )
     }
 
     func updateCountries(_ countries: [Country]) {
@@ -58,9 +65,5 @@ final class SavedCountriesViewModel {
         }
 
         travelPreferencesStore.toggleSavedCountry(code: code)
-    }
-
-    func selectFavoriteWidgetCountry(code: String?) {
-        travelPreferencesStore.setFavoriteWidgetCountry(code: code)
     }
 }

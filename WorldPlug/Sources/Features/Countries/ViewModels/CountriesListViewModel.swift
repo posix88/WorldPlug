@@ -23,6 +23,7 @@ protocol CountriesListViewModelType: AnyObject, Observable {
     func handleHomeCountryAction(for country: Country)
     func confirmHomeCountryAction()
     func toggleSavedCountry(code: String) -> Bool
+    var canSaveMoreCountries: Bool { get }
     func search(query: String)
     func search(query: String, locale: Locale)
     func screenAppeared(locale: Locale)
@@ -163,8 +164,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
             country: country,
             isHomeCountry: country.code == homeCountryViewModel.homeCountryCode,
             hasHomeCountry: !homeCountryViewModel.homeCountryCode.isEmpty,
-            isSavedCountry: travelPreferencesStore.isSavedCountry(code: country.code),
-            isPremium: premiumEntitlement.isPremium
+            isSavedCountry: travelPreferencesStore.isSavedCountry(code: country.code)
         )
     }
 
@@ -193,8 +193,24 @@ final class CountriesListViewModel: CountriesListViewModelType {
         isHomeCountryConfirmationPresented = false
     }
 
+    /// Whether the saved-country limit still has room, for the list's lock badge. Read from the
+    /// list's own body (not from the lazily-built row model) so filling the last slot re-renders
+    /// every row, not just the one that was tapped.
+    var canSaveMoreCountries: Bool {
+        premiumEntitlement.isPremium
+            || travelPreferencesStore.preferences.savedCountryCodes.count < SavedCountryLimit.free
+    }
+
+    /// Returns `false` when the caller should show the paywall instead. A free user gets
+    /// `SavedCountryLimit.free` saves before that happens, rather than the star being inert from
+    /// the first tap.
     func toggleSavedCountry(code: String) -> Bool {
-        guard premiumEntitlement.isPremium else {
+        guard SavedCountryLimit.allowsToggling(
+            code: code,
+            preferences: travelPreferencesStore.preferences,
+            isPremium: premiumEntitlement.isPremium
+        ) else {
+            analyticsTracker.track(.savedCountryLimitReached)
             return false
         }
 
@@ -262,8 +278,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
             country: country,
             isHomeCountry: country.code == homeCountry?.code,
             hasHomeCountry: homeCountry != nil,
-            isSavedCountry: false,
-            isPremium: true
+            isSavedCountry: false
         )
     }
 
@@ -283,6 +298,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     }
 
     func toggleSavedCountry(code: String) -> Bool { true }
+    var canSaveMoreCountries: Bool { true }
 
     func openDeepLinkedCountry(code: String) -> Bool {
         let normalizedCode = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

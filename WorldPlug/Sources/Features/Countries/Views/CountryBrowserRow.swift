@@ -9,7 +9,6 @@ struct CountryBrowserRowModel {
     let isHomeCountry: Bool
     let hasHomeCountry: Bool
     let isSavedCountry: Bool
-    let isPremium: Bool
 }
 
 // MARK: - CountryBrowserRow
@@ -17,6 +16,12 @@ struct CountryBrowserRowModel {
 struct CountryBrowserRow: View {
     let model: CountryBrowserRowModel
     let compatibility: CountryCompatibilitySummary?
+    /// Whether the saved-country limit still has room. Passed in from the list rather than baked
+    /// into `model`, because `model` is produced lazily per row inside a `LazyVStack`: a row that
+    /// is already on screen is not rebuilt when *another* row's save fills the last free slot, so
+    /// deriving the lock inside `rowModel(for:)` left stale stars behind. As a plain property it
+    /// is read in the list's own body, which does re-run.
+    let canSaveMoreCountries: Bool
     let onToggleHomeCountry: (Country) -> Void
     let onToggleSavedCountry: (String) -> Bool
     @State private var isPremiumPaywallPresented = false
@@ -85,8 +90,13 @@ struct CountryBrowserRow: View {
         actionFeedbackTrigger += 1
     }
 
+    /// Un-starring is always allowed, so a saved row never shows the lock.
+    private var canToggleSavedCountry: Bool {
+        model.isSavedCountry || canSaveMoreCountries
+    }
+
     private var savedCountrySymbolName: String {
-        guard model.isPremium else {
+        guard canToggleSavedCountry else {
             return "star.fill"
         }
 
@@ -97,7 +107,7 @@ struct CountryBrowserRow: View {
     private var savedCountryIcon: some View {
         Image(systemName: savedCountrySymbolName)
             .overlay(alignment: .bottomTrailing) {
-                if !model.isPremium {
+                if !canToggleSavedCountry {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 7, weight: .bold))
                         .foregroundStyle(.white, .premiumTint)
@@ -106,7 +116,7 @@ struct CountryBrowserRow: View {
     }
 
     private var savedCountryAccessibilityLabel: String {
-        guard model.isPremium else {
+        guard canToggleSavedCountry else {
             return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
         }
 
@@ -152,10 +162,10 @@ import SwiftData
                 country: country,
                 isHomeCountry: false,
                 hasHomeCountry: true,
-                isSavedCountry: false,
-                isPremium: true
+                isSavedCountry: false
             ),
             compatibility: .compatible,
+            canSaveMoreCountries: true,
             onToggleHomeCountry: { _ in },
             onToggleSavedCountry: { _ in true }
         )

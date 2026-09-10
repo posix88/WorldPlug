@@ -339,6 +339,188 @@ struct FeatureViewModelTests {
         )
     }
 
+    // MARK: - Saved country soft lock
+
+    @Test("a free user can save up to the limit")
+    func freeUserCanSaveUpToTheLimit() {
+        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP"])
+
+        #expect(
+            SavedCountryLimit.allowsToggling(code: "GB", preferences: preferences, isPremium: false)
+        )
+        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: false) == 1)
+    }
+
+    @Test("a free user at the limit cannot save another country")
+    func freeUserAtTheLimitCannotSaveAnother() {
+        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB"])
+
+        #expect(
+            !SavedCountryLimit.allowsToggling(code: "US", preferences: preferences, isPremium: false)
+        )
+        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: false) == 0)
+    }
+
+    @Test("unsaving is always allowed, even over the limit")
+    func unsavingIsAlwaysAllowed() {
+        // Over the limit on purpose: a refunded premium user must still be able to clear their list.
+        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB", "US"])
+
+        #expect(
+            SavedCountryLimit.allowsToggling(code: "it", preferences: preferences, isPremium: false)
+        )
+        #expect(
+            !SavedCountryLimit.allowsToggling(code: "FR", preferences: preferences, isPremium: false)
+        )
+    }
+
+    @Test("premium has no saved-country ceiling")
+    func premiumHasNoCeiling() {
+        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB", "US", "FR"])
+
+        #expect(
+            SavedCountryLimit.allowsToggling(code: "DE", preferences: preferences, isPremium: true)
+        )
+        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: true) == nil)
+    }
+
+    @Test("the country list refuses the save that would exceed the free limit")
+    func countryListRefusesSaveOverTheFreeLimit() {
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["IT", "JP", "GB"])
+        )
+        let viewModel = CountriesListViewModel(
+            modelContext: Repository.sharedModelContainer.mainContext,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            travelPreferencesStore: store,
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        #expect(!viewModel.toggleSavedCountry(code: "US"))
+        #expect(store.preferences.savedCountryCodes == ["IT", "JP", "GB"])
+
+        // Still allowed to unstar one, and that frees a slot.
+        #expect(viewModel.toggleSavedCountry(code: "IT"))
+        #expect(viewModel.toggleSavedCountry(code: "US"))
+        #expect(store.preferences.savedCountryCodes == ["JP", "GB", "US"])
+    }
+
+    @Test("the list reports whether there is room to save, so every row's lock can update")
+    func countryListReportsRoomToSave() {
+        // Read from the list's own body rather than baked into the per-row model: the rows live in
+        // a `LazyVStack`, so a row already on screen isn't rebuilt when *another* row's save fills
+        // the last free slot, and the lock badge went stale.
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["IT", "JP"])
+        )
+        let viewModel = CountriesListViewModel(
+            modelContext: Repository.sharedModelContainer.mainContext,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            travelPreferencesStore: store,
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        #expect(viewModel.canSaveMoreCountries)
+
+        _ = viewModel.toggleSavedCountry(code: "GB")
+
+        #expect(!viewModel.canSaveMoreCountries)
+    }
+
+    @Test("premium always reports room to save")
+    func premiumAlwaysReportsRoomToSave() {
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["IT", "JP", "GB", "US"])
+        )
+        let viewModel = CountriesListViewModel(
+            modelContext: Repository.sharedModelContainer.mainContext,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            travelPreferencesStore: store,
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        #expect(viewModel.canSaveMoreCountries)
+    }
+
+    @Test("settings offers only the saved countries for the widget")
+    func settingsWidgetPickerOffersOnlySavedCountries() {
+        let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let japan = Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["JP"])
+        )
+        let viewModel = SettingsViewModel(
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            travelPreferencesStore: store,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+        viewModel.updateCountries([italy, japan])
+
+        #expect(viewModel.savedCountries.map(\.code) == ["JP"])
+        #expect(viewModel.canChooseFavoriteWidgetCountry)
+
+        viewModel.selectFavoriteWidgetCountry(code: "JP")
+        #expect(viewModel.favoriteWidgetCountry?.code == "JP")
+
+        viewModel.selectFavoriteWidgetCountry(code: nil)
+        #expect(viewModel.favoriteWidgetCountry == nil)
+    }
+
+    @Test("settings disables the widget picker when nothing is saved")
+    func settingsWidgetPickerDisabledWithoutSavedCountries() {
+        let viewModel = SettingsViewModel(
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            travelPreferencesStore: PreviewTravelPreferencesStore(),
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        #expect(!viewModel.canChooseFavoriteWidgetCountry)
+        #expect(viewModel.savedCountries.isEmpty)
+    }
+
+    @Test("settings sets and clears the home country")
+    func settingsSetsAndClearsHomeCountry() {
+        let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let homeCountryViewModel = PreviewHomeCountryViewModel()
+        let viewModel = SettingsViewModel(
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            travelPreferencesStore: PreviewTravelPreferencesStore(),
+            homeCountryViewModel: homeCountryViewModel,
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+        viewModel.updateCountries([italy])
+
+        viewModel.setHomeCountry(code: "IT")
+        #expect(viewModel.homeCountry?.code == "IT")
+
+        viewModel.clearHomeCountry()
+        #expect(viewModel.homeCountry == nil)
+    }
+
+    @Test("country detail shows the paywall instead of a silently inert star")
+    func countryDetailShowsPaywallAtTheLimit() {
+        let country = Country(code: "US", voltage: "120V", frequency: "60Hz", flagUnicode: "🇺🇸")
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["IT", "JP", "GB"])
+        )
+        let viewModel = CountryDetailViewModel(
+            country: country,
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            travelPreferencesStore: store,
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        viewModel.handleSavedCountryAction()
+
+        #expect(viewModel.isPremiumPaywallPresented)
+        #expect(store.preferences.savedCountryCodes == ["IT", "JP", "GB"])
+    }
+
     @Test("device label scanner falls back to recognized text after model failure")
     func deviceLabelScannerFallsBackAfterModelFailure() async {
         let viewModel = DeviceLabelScannerViewModel(

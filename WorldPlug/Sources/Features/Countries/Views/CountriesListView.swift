@@ -13,6 +13,8 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.analyticsTracker) private var analyticsTracker
+    @Environment(\.homeCountryViewModel) private var homeCountryViewModel
+    @State private var isSettingsPresented = false
     private var compatibilityFilterTip: CompatibilityFilterTip? {
         AppDebugOverrides.isEnabled ? nil : CompatibilityFilterTip()
     }
@@ -35,6 +37,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 searchQuery: viewModel.searchQuery,
                 selectedFilter: viewModel.selectedFilter,
                 rowModel: viewModel.rowModel,
+                canSaveMoreCountries: viewModel.canSaveMoreCountries,
                 onToggleHomeCountry: viewModel.handleHomeCountryAction,
                 onToggleSavedCountry: viewModel.toggleSavedCountry
             )
@@ -109,6 +112,25 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 )
                 .toolbarVisibility(.hidden, for: .tabBar)
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        isSettingsPresented = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityIdentifier("countries.settings")
+                    .accessibilityLabel(LocalizationKeys.settingsOpen.localized)
+                }
+            }
+            .fullScreenCover(isPresented: $isSettingsPresented) {
+                SettingsView(
+                    premiumEntitlement: premiumEntitlement,
+                    travelPreferencesStore: travelPreferencesStore,
+                    homeCountryViewModel: homeCountryViewModel,
+                    analyticsTracker: analyticsTracker
+                )
+            }
         }
     }
 
@@ -147,6 +169,7 @@ private struct CountryResultsView: View {
     let searchQuery: String
     let selectedFilter: CountryCompatibilityFilter
     let rowModel: (Country) -> CountryBrowserRowModel
+    let canSaveMoreCountries: Bool
     let onToggleHomeCountry: (Country) -> Void
     let onToggleSavedCountry: (String) -> Bool
 
@@ -171,6 +194,7 @@ private struct CountryResultsView: View {
             CountryBrowserRow(
                 model: rowModel(country),
                 compatibility: compatibilitySummaries[country.code],
+                canSaveMoreCountries: canSaveMoreCountries,
                 onToggleHomeCountry: onToggleHomeCountry,
                 onToggleSavedCountry: onToggleSavedCountry
             )
