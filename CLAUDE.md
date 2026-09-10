@@ -159,7 +159,7 @@ The old flow made you fill in destination *and* at least one device in a single 
 - **Localization**: 17 new keys added to `Localizable.xcstrings` (EN + IT) under `trips.*`/`trip.*`, and 17 dead ones removed (`trip.check.title`, `trip.check.tab.title`, `trip.check.your.trips`, `trip.check.new.title`, `trip.check.result.title`, the `next.trip.title`/`edit`/`remove`/`tip.*`/`cancel`/`save` set, and `intent.trip.check.entity.type`). The `next.trip.dates`/`departure`/`return.date`/`name`/`name.placeholder`/`destination`/`search.destination` **string keys are deliberately kept** — their copy is still exactly right and a string key is an internal identifier the user never sees, same reasoning as the "Voltly" naming policy; only their Swift constants were renamed to `tripDates`, `tripDeparture`, etc. Three strings whose copy had gone stale were rewritten from "Pack Check(s)" to "trip(s)" in both languages: `premium.paywall.benefit.next.trip`, `trip.check.unlimited`, `trip.check.unlock`.
 - **UI test**: `testTripCheck` → `testTrips`, identifiers `tripCheck.list`/`tripCheck.row.JP`/`tab.tripCheck` → `trips.list`/`trips.row.JP`/`tab.trips`. The `snapshot("02_tripcheck")` name is unchanged on purpose — `fastlane/Fastfile` and `Scripts/screenshots/captions.json` key off it.
 
-**Open, needs the owner's call**: `fastlane/metadata/{en-US,it}/description.txt` still sells "Pack Checks" and "Next Trip" as two separate features (en-US lines 20 and 23, it line 23). That copy no longer matches the app. Left alone deliberately rather than rewriting App Store listing copy unasked. `AppStore/LAUNCH_PLAN.md` and `AppStore/REVIEW_NOTES.md` mention "Pack Check" too.
+**App Store copy was updated separately** — see the 2026-09-10 store-copy entry below.
 
 **Verified on device, not just in tests.** The flow was driven end to end in an iPhone 17 Pro simulator: tab reads "Trips"; the new-trip form opens with no destination and a today → +7 days range, and its Save button is genuinely disabled until a destination is picked; saving pushes straight to the detail screen; adding a device persists it and the verdict renders immediately (a 100–120V hair dryer against Argentina's 220V correctly reads "Do not use without a voltage converter"); the list row shows the date range and the NEXT badge; a second trip on the free tier hits the paywall with the corrected "Save unlimited trips" copy.
 
@@ -182,6 +182,19 @@ The old flow made you fill in destination *and* at least one device in a single 
 **Note on a flaky UI test**: `testSavedCountries` failed once in a full run with `XCTAssertTrue failed` at `WorldPlugUITests.swift:25` — that assertion is in `setUpWithError`, i.e. the app's tab bar did not appear within 15s. It passes in isolation and the other three tests share the same setUp, so this is a launch-timeout flake (the simulator had an app instance left running from manual verification), not a defect. If it recurs outside that situation, raise the timeout rather than assuming the Saved tab is broken.
 
 
+
+## 2026-09-10 — App Store copy brought in line with the app
+
+The store listing had gone factually wrong, not just stale, so this is worth flagging rather than filing as a wording tweak: it advertised "Pack Checks" and "Next Trip" as two separate features (they are one Trip now), and it said Premium unlocks "saved countries" when saving is free up to three. Shipping that would have been a claim the app doesn't honour.
+
+- **`fastlane/metadata/{en-US,it}/description.txt`** rewritten in both languages: the trip bullet now describes the real flow (pick destination and dates, then add devices), and a new "WHAT'S FREE" section states the actual free tier — full browsing, compatibility badges everywhere, three saved countries, one trip with one device. The Premium list is now unlimited countries / unlimited trips and devices / label scanning / the two widgets.
+- **`AppStore/REVIEW_NOTES.md`** — the reviewer's paywall instructions said "Saved tab → tap any lock icon", which no longer exists; a reviewer following it would have concluded the IAP was unreachable. Replaced with four routes that actually hit the paywall (fourth star in the country list, second trip, second device on a trip, label scanner), and the free/premium split corrected. Also notes that the Favorite Country widget is configured in Settings and that the Next Trip widget derives its trip, so there is nothing to configure on it.
+- **`AppStore/LAUNCH_PLAN.md`** duplicated the whole description inline in both languages — which is *why* it drifted. Both blocks now point at the `fastlane/metadata/` files as canonical, with a note to edit those and not a copy. Its screenshot shot-list and the two "What to Test" blurbs were updated to the new screens.
+- **`fastlane/metadata/{en-US,it}/release_notes.txt`** — the "What's New" text both locales will actually ship said "run a Trip Check on everything you're packing". Caught on a second sweep, after the descriptions were already done: `release_notes.txt` is easy to forget because it isn't part of the listing body.
+- **`fastlane/README.md`** — the debug-seed description mentioned "populated Pack Checks".
+- Untouched on purpose: `subtitle.txt`, `promotional_text.txt`, `keywords.txt` in both locales — checked, and none of them referenced the old feature names.
+
+**Still open**: the captured screenshots themselves are stale. `snapshot("02_tripcheck")` keeps its name so `fastlane/Fastfile` and `Scripts/screenshots/captions.json` still resolve, but the *image* shows the old Pack Check screen, and the tab bar in every shot now reads "Trips". They need recapturing before submission.
 
 ## Known doc drift (`.github/` is not authoritative)
 

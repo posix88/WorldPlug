@@ -73,7 +73,7 @@ TestFlight. Run `render_screenshots` first if `AppStore/Screenshots/{en-US,it}/`
 
 The screenshot lanes enable a DEBUG-only deterministic app mode through `UI_TEST_SEED_DATA`.
 It skips onboarding and the launch splash, grants premium, disables tips and MapKit loading, and
-seeds a home country, saved countries, a next trip, and populated Pack Checks. For manual simulator
+seeds a home country, saved countries, and trips with packed devices. For manual simulator
 testing, temporarily set `AppDebugOverrides.isManuallyEnabled` to `true`.
 
 ## What's NOT handled here

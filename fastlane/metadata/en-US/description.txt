@@ -4,9 +4,9 @@ WHAT SOCKET BUDDY DOES
 
 • Browse plug types & sockets for 200+ countries — clear diagrams, voltage, frequency, and every plug standard in use there.
 • Set your home country once and get instant compatibility badges everywhere: Compatible, Adapter needed, or Converter required.
-• Trip Check — add every device you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for your destination.
+• Plan a trip — pick your destination and dates, then add the devices you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for where you're going.
 • Scan a device's label with your camera — Socket Buddy reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
-• Save your favorite countries and plan your Next Trip, with home-screen and lock-screen widgets that always show the right plug at a glance.
+• Star the countries you keep coming back to, with home-screen and lock-screen widgets that always show the right plug at a glance — plus a countdown to whichever trip is next.
 • Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "What's my home country's plug type" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
@@ -14,12 +14,17 @@ WHY SOCKET BUDDY
 
 Socket Buddy was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.
 
+WHAT'S FREE
+
+Browsing all 200+ countries and every plug type, home-country compatibility badges everywhere, three saved countries, and one trip with one device checked — free forever, no ads, no account.
+
 SOCKET BUDDY PREMIUM (one-time purchase, no subscription)
 
-• Save unlimited countries
-• Plan your Next Trip and get unlimited Pack Checks
+• Save as many countries as you like
+• Unlimited trips, and as many devices as you want checked on each one
+• Scan device labels with the camera
 • Unlock the Favorite Country and Next Trip widgets
 
-The country browser, country-level compatibility guidance, and your first Pack Check are free forever. Premium unlocks device-label scanning, unlimited Pack Checks, saved countries, trip planning, and premium widgets with one $4.99 purchase — no subscription, no recurring charge, no ads, ever.
+One $4.99 purchase — no subscription, no recurring charge, no ads, ever.
 
 Questions or feedback? We'd love to hear from you.

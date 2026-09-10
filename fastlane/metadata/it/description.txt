@@ -4,9 +4,9 @@ COSA FA SOCKET BUDDY
 
 • Sfoglia i tipi di presa e spina per oltre 200 paesi — schemi chiari, voltaggio, frequenza e tutti gli standard di spina in uso.
 • Imposta il tuo paese di origine una volta sola e ottieni badge di compatibilità istantanei ovunque: Compatibile, Adattatore necessario o Convertitore necessario.
-• Trip Check — aggiungi ogni dispositivo che porti in valigia (caricabatterie, asciugacapelli, CPAP, laptop, attrezzatura fotografica…) e ottieni un verdetto di sicurezza per ogni dispositivo in base alla tua destinazione.
+• Pianifica un viaggio — scegli destinazione e date, poi aggiungi i dispositivi che porti in valigia (caricabatterie, asciugacapelli, CPAP, laptop, attrezzatura fotografica…) e ottieni un verdetto di sicurezza per ogni dispositivo in base a dove vai.
 • Scansiona l'etichetta di un dispositivo con la fotocamera — Socket Buddy legge voltaggio e frequenza stampati sull'etichetta usando il riconoscimento testo on-device e Apple Intelligence dove disponibile. Nessun dato lascia il tuo iPhone.
-• Salva i tuoi paesi preferiti e pianifica il tuo Prossimo viaggio, con widget per la schermata Home e il Lock Screen che mostrano sempre la presa giusta a colpo d'occhio.
+• Salva i paesi in cui torni più spesso, con widget per la schermata Home e il Lock Screen che mostrano sempre la presa giusta a colpo d'occhio — più il conto alla rovescia per il viaggio più vicino.
 • Chiedi a Siri o cerca con Spotlight — "Apri Giappone in Socket Buddy" o "Qual è la presa del mio paese" funziona subito.
 • Funziona completamente offline. I tuoi dati si sincronizzano in privato tra i tuoi dispositivi tramite iCloud — mai condivisi con nessun altro.
 
@@ -14,12 +14,17 @@ PERCHÉ SOCKET BUDDY
 
 Socket Buddy è nato dall'esigenza di un viaggiatore stanco di indovinare se una presa sarebbe entrata, o se "230V" sarebbe stato un problema. È veloce, funziona offline ed è pensato per fare bene una cosa sola: dirti tutto su prese e voltaggio.
 
+COS'È GRATUITO
+
+Sfogliare tutti gli oltre 200 paesi e ogni tipo di presa, i badge di compatibilità con il tuo paese di origine, tre paesi salvati e un viaggio con un dispositivo verificato — gratis per sempre, senza pubblicità e senza account.
+
 SOCKET BUDDY PREMIUM (acquisto una tantum, nessun abbonamento)
 
-• Salva un numero illimitato di paesi
-• Pianifica il tuo Prossimo viaggio e ottieni Trip Check illimitati
+• Salva tutti i paesi che vuoi
+• Viaggi illimitati, con quanti dispositivi vuoi verificare su ognuno
+• Scansiona le etichette dei dispositivi con la fotocamera
 • Sblocca i widget Paese preferito e Prossimo viaggio
 
-L'esplorazione dei paesi, le indicazioni di compatibilità tra paesi e il primo Pack Check sono gratuiti per sempre. Premium sblocca scansione etichette, Pack Check illimitati, paesi salvati, pianificazione viaggi e widget premium con un unico acquisto da 4,99 € — nessun abbonamento, nessun addebito ricorrente, mai pubblicità.
+Un unico acquisto da 4,99 € — nessun abbonamento, nessun addebito ricorrente, mai pubblicità.
 
 Domande o suggerimenti? Ci farebbe piacere sentirti.
