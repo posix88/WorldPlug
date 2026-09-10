@@ -4,20 +4,22 @@ import Testing
 
 struct UserDefaultsHomeCountryStoreTests {
     @Test
-    func migratesLegacyValueIntoSharedDefaults() {
+    func roundTripsAndClearsTheStoredCode() {
         let suiteName = "UserDefaultsHomeCountryStoreTests.shared"
-        let legacySuiteName = "UserDefaultsHomeCountryStoreTests.legacy"
-        let sharedDefaults = UserDefaults(suiteName: suiteName)!
-        let legacyDefaults = UserDefaults(suiteName: legacySuiteName)!
+        let defaults = UserDefaults(suiteName: suiteName)!
         let key = "home.country.code"
 
-        sharedDefaults.removePersistentDomain(forName: suiteName)
-        legacyDefaults.removePersistentDomain(forName: legacySuiteName)
-        legacyDefaults.set("IT", forKey: key)
+        defaults.removePersistentDomain(forName: suiteName)
 
-        let store = UserDefaultsHomeCountryStore(defaults: sharedDefaults, legacyDefaults: legacyDefaults)
+        let store = UserDefaultsHomeCountryStore(defaults: defaults)
+        #expect(store.homeCountryCode.isEmpty)
 
+        store.homeCountryCode = "IT"
         #expect(store.homeCountryCode == "IT")
-        #expect(sharedDefaults.string(forKey: key) == "IT")
+        #expect(defaults.string(forKey: key) == "IT")
+
+        store.homeCountryCode = ""
+        #expect(store.homeCountryCode.isEmpty)
+        #expect(defaults.string(forKey: key) == nil)
     }
 }

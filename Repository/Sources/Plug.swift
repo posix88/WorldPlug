@@ -24,38 +24,36 @@ public struct PlugSpecifications: Codable {
     }
 }
 
-// MARK: - SchemaV5.Plug
+// MARK: - Plug
 
-extension SchemaV5 {
-    @Model
-    public final class Plug: Identifiable, Hashable {
-        @Attribute(.unique)
-        public var id: String
+@Model
+public final class Plug: Identifiable, Hashable {
+    @Attribute(.unique)
+    public var id: String
 
-        public var images: [URL]
-        public var pinDiameter: String
-        public var pinSpacing: String
-        public var ratedAmperage: String
-        public var alsoKnownAs: String
-        @Relationship(inverse: \Country.plugs) var countries: [Country]
+    public var images: [URL]
+    public var pinDiameter: String
+    public var pinSpacing: String
+    public var ratedAmperage: String
+    public var alsoKnownAs: String
+    @Relationship(inverse: \Country.plugs) var countries: [Country]
 
-        @Transient
-        public var plugType: PlugType { PlugType(rawValue: id) ?? .unknown }
+    @Transient
+    public var plugType: PlugType { PlugType(rawValue: id) ?? .unknown }
 
-        public init(
-            id: String,
-            images: [URL],
-            specifications: PlugSpecifications,
-            countries: [Country] = []
-        ) {
-            self.id = id
-            self.images = images
-            self.pinDiameter = specifications.pinDiameter
-            self.pinSpacing = specifications.pinSpacing
-            self.ratedAmperage = specifications.ratedAmperage
-            self.alsoKnownAs = specifications.alsoKnownAs
-            self.countries = countries
-        }
+    public init(
+        id: String,
+        images: [URL],
+        specifications: PlugSpecifications,
+        countries: [Country] = []
+    ) {
+        self.id = id
+        self.images = images
+        self.pinDiameter = specifications.pinDiameter
+        self.pinSpacing = specifications.pinSpacing
+        self.ratedAmperage = specifications.ratedAmperage
+        self.alsoKnownAs = specifications.alsoKnownAs
+        self.countries = countries
     }
 }
 

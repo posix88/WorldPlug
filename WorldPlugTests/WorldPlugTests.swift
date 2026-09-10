@@ -181,18 +181,6 @@ struct ViewAnnotationEntityTests {
         #expect(entity.frequency == "50/60 Hz")
     }
 
-    @Test("legacy device identifiers are stable and distinct")
-    func legacyDeviceIdentifiersAreStableAndDistinct() {
-        let tripID = UUID()
-
-        let first = PackDevice(legacyDevice: .phone, tripID: tripID, index: 0)
-        let repeated = PackDevice(legacyDevice: .phone, tripID: tripID, index: 0)
-        let duplicateAtNextIndex = PackDevice(legacyDevice: .phone, tripID: tripID, index: 1)
-
-        #expect(first.id == repeated.id)
-        #expect(first.id != duplicateAtNextIndex.id)
-    }
-
     @Test("device query resolves the identifier used by the view annotation")
     func deviceQueryResolvesAnnotatedIdentifier() async throws {
         let device = PackDevice(

@@ -2,9 +2,6 @@ import Foundation
 import os
 import SwiftData
 
-public typealias Plug = SchemaV5.Plug
-public typealias Country = SchemaV5.Country
-
 // MARK: - Repository
 
 public enum Repository {
@@ -13,28 +10,27 @@ public enum Repository {
     /// both would otherwise leave the app silently running with an empty catalog.
     private static let logger = Logger(subsystem: "com.posix88.Voltly.Repository", category: "Repository")
 
+    /// There is deliberately no `VersionedSchema`/`SchemaMigrationPlan` here. `Country`/`Plug`
+    /// are a read-only catalog reseeded from bundled JSON in `preloadData()` — never
+    /// user-generated data — so the cheapest correct answer to any schema change is to discard
+    /// the store and reseed, which is exactly what the recovery path below does. Introduce real
+    /// versioning only if this container ever starts holding data that can't be regenerated.
     @MainActor
     public static var sharedModelContainer: ModelContainer = {
         do {
-            return try ModelContainer(
-                for: Plug.self, Country.self,
-                migrationPlan: MigrationPlan.self
-            )
+            return try ModelContainer(for: Plug.self, Country.self)
         } catch {
-            // `Country`/`Plug` are a read-only catalog reseeded from bundled JSON in
-            // `preloadData()` — never user-generated data — so an unopenable store (a corrupted
-            // file, or an install stuck on a schema version with no migration path from here) is
+            // An unopenable store (a corrupted file, or one written by an older model layout) is
             // recoverable by discarding it and starting fresh, rather than a hard `fatalError`
-            // that would crash every subsequent launch with no way out.
+            // that would crash every subsequent launch with no way out. No `assertionFailure`
+            // here on purpose: hitting this path is expected — not a programmer error — every
+            // time the model layout changes, and trapping the debugger on a failure the code
+            // then correctly recovers from is pure noise.
             logger.fault("Could not open ModelContainer, discarding the store and recreating: \(error)")
-            assertionFailure("Could not open ModelContainer, discarding the store and recreating: \(error)")
             removeDefaultStore()
 
             do {
-                return try ModelContainer(
-                    for: Plug.self, Country.self,
-                    migrationPlan: MigrationPlan.self
-                )
+                return try ModelContainer(for: Plug.self, Country.self)
             } catch {
                 fatalError("Could not create ModelContainer even after discarding the existing store: \(error)")
             }
@@ -42,8 +38,8 @@ public enum Repository {
     }()
 
     /// Deletes the default SwiftData store file (and its `-wal`/`-shm` sidecars) so the next
-    /// `ModelContainer` creation starts from an empty, unmigrated store. Safe only because the
-    /// data this container holds is a reseedable catalog, not user content.
+    /// `ModelContainer` creation starts from an empty store. Safe only because the data this
+    /// container holds is a reseedable catalog, not user content.
     private static func removeDefaultStore() {
         let storeURL = ModelConfiguration().url
         let fileManager = FileManager.default

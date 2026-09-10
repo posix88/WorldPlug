@@ -24,20 +24,4 @@ struct TravelPreferencesTests {
 
         #expect(decodedPreferences == preferences)
     }
-
-    @Test
-    func decodesPreferencesStoredBeforeHomeCountrySync() throws {
-        let data = """
-            {
-              "savedCountryCodes": ["JP"],
-              "favoriteWidgetCountryCode": "JP"
-            }
-            """.data(using: .utf8)!
-
-        let preferences = try JSONDecoder().decode(TravelPreferences.self, from: data)
-
-        #expect(preferences.homeCountryCode.isEmpty)
-        #expect(preferences.savedCountryCodes == ["JP"])
-        #expect(preferences.favoriteWidgetCountryCode == "JP")
-    }
 }

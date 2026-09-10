@@ -129,14 +129,16 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
             return iCloudCountryCode
         }
 
-        let legacyCountryCode = Self.normalizedCountryCode(store.homeCountryCode)
-        guard !legacyCountryCode.isEmpty else {
+        // iCloud has nothing but the local App Group store does — iCloud hasn't synced yet, or
+        // the user isn't signed in. Adopt the local value and push it up.
+        let localCountryCode = Self.normalizedCountryCode(store.homeCountryCode)
+        guard !localCountryCode.isEmpty else {
             return ""
         }
 
-        preferences.homeCountryCode = legacyCountryCode
+        preferences.homeCountryCode = localCountryCode
         travelPreferencesStore.preferences = preferences
-        return legacyCountryCode
+        return localCountryCode
     }
 }
 

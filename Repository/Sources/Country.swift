@@ -1,35 +1,33 @@
 import Foundation
 import SwiftData
 
-// MARK: - SchemaV5.Country
+// MARK: - Country
 
-extension SchemaV5 {
-    @Model
-    public final class Country: Identifiable, Hashable {
-        @Attribute(.unique)
-        public var code: String
-        public var voltage: String
-        public var frequency: String
-        public var flagUnicode: String
-        public var plugs: [Plug]
+@Model
+public final class Country: Identifiable, Hashable {
+    @Attribute(.unique)
+    public var code: String
+    public var voltage: String
+    public var frequency: String
+    public var flagUnicode: String
+    public var plugs: [Plug]
 
-        @Transient
-        public var id: String { code }
+    @Transient
+    public var id: String { code }
 
-        @Transient
-        public var sortedPlugs: [Plug] { plugs.sorted { $0.id < $1.id } }
+    @Transient
+    public var sortedPlugs: [Plug] { plugs.sorted { $0.id < $1.id } }
 
-        public func localizedName(in locale: Locale) -> String {
-            locale.localizedString(forRegionCode: code) ?? code
-        }
+    public func localizedName(in locale: Locale) -> String {
+        locale.localizedString(forRegionCode: code) ?? code
+    }
 
-        public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
-            self.code = code
-            self.voltage = voltage
-            self.frequency = frequency
-            self.flagUnicode = flagUnicode
-            self.plugs = plugs
-        }
+    public init(code: String, voltage: String, frequency: String, flagUnicode: String, plugs: [Plug] = []) {
+        self.code = code
+        self.voltage = voltage
+        self.frequency = frequency
+        self.flagUnicode = flagUnicode
+        self.plugs = plugs
     }
 }
 
