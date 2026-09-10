@@ -13,7 +13,6 @@ final class SavedCountriesViewModel {
     private let analyticsTracker: any AnalyticsTracker
 
     private(set) var countries: [Country] = []
-    var isTripEditorPresented = false
     var isPremiumPaywallPresented = false
     var selectedCountry: Country?
 
@@ -30,7 +29,6 @@ final class SavedCountriesViewModel {
     }
 
     var isPremium: Bool { premiumEntitlement.isPremium }
-    var nextTrip: NextTrip? { travelPreferencesStore.preferences.nextTrip }
     var homeCountryCode: String { homeCountryViewModel.homeCountryCode }
 
     var savedCountries: [Country] {
@@ -52,20 +50,6 @@ final class SavedCountriesViewModel {
 
     func screenAppeared() {
         analyticsTracker.screen(.savedCountries)
-    }
-
-    func presentTripEditor() {
-        isTripEditorPresented = true
-    }
-
-    func saveNextTrip(_ trip: NextTrip) -> Bool {
-        let isNewTrip = nextTrip == nil
-        travelPreferencesStore.setNextTrip(trip)
-        return isNewTrip
-    }
-
-    func deleteNextTrip() {
-        travelPreferencesStore.setNextTrip(nil)
     }
 
     func removeSavedCountry(code: String) {

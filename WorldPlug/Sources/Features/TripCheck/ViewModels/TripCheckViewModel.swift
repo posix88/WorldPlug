@@ -6,11 +6,11 @@ import Repository
 // MARK: - TripCheckRowModel
 
 struct TripCheckRowModel: Identifiable {
-    let tripCheck: TripCheck
+    let trip: Trip
     let country: Country
     let safetySummary: String
 
-    var id: UUID { tripCheck.id }
+    var id: UUID { trip.id }
 }
 
 // MARK: - TripCheckViewModel
@@ -26,7 +26,7 @@ final class TripCheckViewModel {
     private(set) var countries: [Country] = []
     var isEditorPresented = false
     var isPremiumPaywallPresented = false
-    var selectedTripCheck: TripCheck?
+    var selectedTrip: Trip?
     var requestsReviewForSelectedTrip = false
 
     init(
@@ -41,33 +41,24 @@ final class TripCheckViewModel {
         self.analyticsTracker = analyticsTracker
     }
 
-    var tripChecks: [TripCheck] {
-        travelPreferencesStore.preferences.tripChecks.sorted { $0.departureDate < $1.departureDate }
-    }
-
-    var initialCountryCode: String? {
-        guard let countryCode = travelPreferencesStore.preferences.nextTrip?.countryCode,
-              countries.contains(where: { $0.code == countryCode }) else {
-            return nil
-        }
-
-        return countryCode
+    var trips: [Trip] {
+        travelPreferencesStore.preferences.trips.sorted { $0.departureDate < $1.departureDate }
     }
 
     var rows: [TripCheckRowModel] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
-        return tripChecks.compactMap { tripCheck in
-            guard let country = countriesByCode[tripCheck.countryCode] else {
+        return trips.compactMap { trip in
+            guard let country = countriesByCode[trip.countryCode] else {
                 return nil
             }
 
             let assessments = TripSafetyChecker.assessments(
-                devices: tripCheck.devices,
+                devices: trip.devices,
                 homeCountry: homeCountryViewModel.homeCountry,
                 destination: country
             )
             return TripCheckRowModel(
-                tripCheck: tripCheck,
+                trip: trip,
                 country: country,
                 safetySummary: Self.safetySummary(assessments)
             )
@@ -79,12 +70,12 @@ final class TripCheckViewModel {
     }
 
     func screenAppeared() {
-        analyticsTracker.screen(.nextTrip)
+        analyticsTracker.screen(.trips)
     }
 
     func beginTripCheck() {
-        guard premiumEntitlement.isPremium || tripChecks.count < 1 else {
-            analyticsTracker.track(.tripCheckLimitReached)
+        guard premiumEntitlement.isPremium || trips.count(where: { !$0.isPast() }) < 1 else {
+            analyticsTracker.track(.tripLimitReached)
             isPremiumPaywallPresented = true
             return
         }
@@ -93,21 +84,21 @@ final class TripCheckViewModel {
         isEditorPresented = true
     }
 
-    func select(_ tripCheck: TripCheck) {
+    func select(_ trip: Trip) {
         requestsReviewForSelectedTrip = false
-        selectedTripCheck = tripCheck
+        selectedTrip = trip
     }
 
-    func save(_ tripCheck: TripCheck) {
-        travelPreferencesStore.saveTripCheck(tripCheck)
+    func save(_ trip: Trip) {
+        travelPreferencesStore.saveTrip(trip)
         analyticsTracker.track(.tripCheckCompleted)
         requestsReviewForSelectedTrip = true
-        selectedTripCheck = tripCheck
+        selectedTrip = trip
     }
 
     func delete(at offsets: IndexSet) {
         for index in offsets {
-            travelPreferencesStore.removeTripCheck(id: tripChecks[index].id)
+            travelPreferencesStore.removeTrip(id: trips[index].id)
         }
     }
 

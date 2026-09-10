@@ -68,16 +68,16 @@ struct PlugEntityQuery: EntityStringQuery {
     }
 }
 
-// MARK: - TripCheckEntity
+// MARK: - TripEntity
 
-struct TripCheckEntity: AppEntity {
+struct TripEntity: AppEntity {
     static let typeDisplayRepresentation = TypeDisplayRepresentation(
         name: LocalizedStringResource(
-            "intent.trip.check.entity.type",
-            defaultValue: "Trip Check"
+            "intent.trip.entity.type",
+            defaultValue: "Trip"
         )
     )
-    static let defaultQuery = TripCheckEntityQuery()
+    static let defaultQuery = TripEntityQuery()
 
     let id: UUID
     @Property(title: LocalizedStringResource("next.trip.name", defaultValue: "Trip name"))
@@ -99,19 +99,19 @@ struct TripCheckEntity: AppEntity {
         )
     }
 
-    init(tripCheck: TripCheck) {
-        self.id = tripCheck.id
-        self.name = tripCheck.name?.nilIfBlank ?? tripCheck.countryCode
-        self.destinationCode = tripCheck.countryCode
-        self.departureDate = tripCheck.departureDate
-        self.returnDate = tripCheck.returnDate
-        self.deviceCount = tripCheck.devices.count
+    init(trip: Trip) {
+        self.id = trip.id
+        self.name = trip.name?.nilIfBlank ?? trip.countryCode
+        self.destinationCode = trip.countryCode
+        self.departureDate = trip.departureDate
+        self.returnDate = trip.returnDate
+        self.deviceCount = trip.devices.count
     }
 }
 
-// MARK: - TripCheckEntityQuery
+// MARK: - TripEntityQuery
 
-struct TripCheckEntityQuery: EntityStringQuery {
+struct TripEntityQuery: EntityStringQuery {
     private let preferencesProvider: @MainActor @Sendable () -> TravelPreferences
 
     init() {
@@ -124,33 +124,33 @@ struct TripCheckEntityQuery: EntityStringQuery {
         self.preferencesProvider = preferencesProvider
     }
 
-    func entities(for identifiers: [TripCheckEntity.ID]) async throws -> [TripCheckEntity] {
+    func entities(for identifiers: [TripEntity.ID]) async throws -> [TripEntity] {
         let identifiers = Set(identifiers)
-        return await tripCheckEntities { identifiers.contains($0.id) }
+        return await tripEntities { identifiers.contains($0.id) }
     }
 
-    func entities(matching string: String) async throws -> [TripCheckEntity] {
+    func entities(matching string: String) async throws -> [TripEntity] {
         let query = string.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else {
             return try await suggestedEntities()
         }
 
-        return await tripCheckEntities {
+        return await tripEntities {
             $0.name?.localizedCaseInsensitiveContains(query) == true ||
                 $0.countryCode.localizedCaseInsensitiveContains(query)
         }
     }
 
-    func suggestedEntities() async throws -> [TripCheckEntity] {
-        await tripCheckEntities { _ in true }
+    func suggestedEntities() async throws -> [TripEntity] {
+        await tripEntities { _ in true }
     }
 
     @MainActor
-    private func tripCheckEntities(matching predicate: (TripCheck) -> Bool) -> [TripCheckEntity] {
-        preferencesProvider().tripChecks
+    private func tripEntities(matching predicate: (Trip) -> Bool) -> [TripEntity] {
+        preferencesProvider().trips
             .filter(predicate)
             .sorted { $0.departureDate > $1.departureDate }
-            .map(TripCheckEntity.init)
+            .map(TripEntity.init)
     }
 }
 
@@ -234,7 +234,7 @@ struct PackDeviceEntityQuery: EntityStringQuery {
 
     @MainActor
     private func deviceEntities(matching predicate: (PackDevice) -> Bool) -> [PackDeviceEntity] {
-        preferencesProvider().tripChecks
+        preferencesProvider().trips
             .flatMap(\.devices)
             .filter(predicate)
             .map(PackDeviceEntity.init)

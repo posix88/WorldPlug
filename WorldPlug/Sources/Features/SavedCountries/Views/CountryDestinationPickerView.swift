@@ -54,7 +54,7 @@ struct CountryDestinationPickerView: View {
         .background { AppMeshBackground() }
         .navigationTitle(LocalizationKeys.nextTripDestination.localized)
         .onAppear {
-            analyticsTracker.screen(.nextTripDestination)
+            analyticsTracker.screen(.tripDestination)
         }
         .tint(.voltTint)
         .searchable(

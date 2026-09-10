@@ -13,7 +13,7 @@ struct TripCheckResultView: View {
     @State private var isDisclaimerPresented = false
 
     init(
-        tripCheck: TripCheck,
+        trip: Trip,
         countries: [Country],
         homeCountry: Country?,
         requestsReviewAfterAppearance: Bool,
@@ -21,7 +21,7 @@ struct TripCheckResultView: View {
     ) {
         _viewModel = State(
             initialValue: TripCheckResultViewModel(
-                tripCheck: tripCheck,
+                trip: trip,
                 countries: countries,
                 homeCountry: homeCountry,
                 requestsReviewAfterAppearance: requestsReviewAfterAppearance,
@@ -75,7 +75,7 @@ struct TripCheckResultView: View {
         }
         .navigationTitle(LocalizationKeys.tripCheckResultTitle.localized)
         .appEntityIdentifier(
-            EntityIdentifier(for: TripCheckEntity.self, identifier: viewModel.tripCheck.id)
+            EntityIdentifier(for: TripEntity.self, identifier: viewModel.trip.id)
         )
         .onAppear {
             viewModel.screenAppeared(requestReview: { requestReview() })
@@ -170,7 +170,7 @@ private struct TripCheckDisclaimerView: View {
     let destination = Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
     return NavigationStack {
         TripCheckResultView(
-            tripCheck: TripCheck(
+            trip: Trip(
                 countryCode: "JP",
                 devices: [
                     PackDevice(name: "MacBook charger", symbolName: "laptopcomputer", voltage: "100-240V", frequency: "50/60Hz"),

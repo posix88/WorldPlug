@@ -60,7 +60,7 @@ struct NextTripRequirementsIntentService {
         now: Date = .now,
         calendar: Calendar = .current
     ) throws -> NextTripRequirementsResult {
-        guard let trip = preferences.nextTrip else {
+        guard let trip = preferences.currentTrip(now: now, calendar: calendar) else {
             return emptyResult(recommendation: .noTrip)
         }
 
@@ -108,7 +108,7 @@ struct NextTripRequirementsIntentService {
     }
 
     private func result(
-        for trip: NextTrip,
+        for trip: Trip,
         destination: CountryElectricalProfile? = nil,
         recommendation: NextTripRequirementRecommendation
     ) -> NextTripRequirementsResult {

@@ -10,20 +10,15 @@ struct TripCheckEditorView: View {
     @State private var viewModel: TripCheckEditorViewModel
     private let premiumEntitlement: any PremiumEntitlementProviding
     let countries: [Country]
-    let onSave: (TripCheck) -> Void
+    let onSave: (Trip) -> Void
 
     init(
         countries: [Country],
-        initialCountryCode: String? = nil,
         premiumEntitlement: any PremiumEntitlementProviding,
-        onSave: @escaping (TripCheck) -> Void
+        onSave: @escaping (Trip) -> Void
     ) {
         _viewModel = State(
-            initialValue: TripCheckEditorViewModel(
-                countries: countries,
-                initialCountryCode: initialCountryCode,
-                premiumEntitlement: premiumEntitlement
-            )
+            initialValue: TripCheckEditorViewModel(premiumEntitlement: premiumEntitlement)
         )
         self.premiumEntitlement = premiumEntitlement
         self.countries = countries
@@ -86,12 +81,12 @@ struct TripCheckEditorView: View {
         TripCheckEditorCard(title: LocalizationKeys.tripCheckDestination.localized) {
             NavigationLink {
                 CountryDestinationPickerView(
-                    selectedCountryCode: $viewModel.tripCheck.countryCode,
+                    selectedCountryCode: $viewModel.trip.countryCode,
                     countries: countries
                 )
             } label: {
                 HStack(spacing: .md) {
-                    if let country = countries.first(where: { $0.code == viewModel.tripCheck.countryCode }) {
+                    if let country = countries.first(where: { $0.code == viewModel.trip.countryCode }) {
                         Text("\(country.flagUnicode) \(country.localizedName(in: locale))")
                             .foregroundStyle(.textRegular)
                     }
@@ -110,12 +105,12 @@ struct TripCheckEditorView: View {
 
     private var devicesCard: some View {
         TripCheckEditorCard(title: LocalizationKeys.tripCheckDevices.localized) {
-            if viewModel.tripCheck.devices.isEmpty {
+            if viewModel.trip.devices.isEmpty {
                 Text(LocalizationKeys.tripCheckDevicesEmpty.localized)
                     .font(.subheadline)
                     .foregroundStyle(.textLight)
             } else {
-                ForEach(viewModel.tripCheck.devices) { device in
+                ForEach(viewModel.trip.devices) { device in
                     HStack(spacing: .md) {
                         deviceRow(device)
 
@@ -138,7 +133,7 @@ struct TripCheckEditorView: View {
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.voltTint)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.top, viewModel.tripCheck.devices.isEmpty ? .xs : .sm)
+                    .padding(.top, viewModel.trip.devices.isEmpty ? .xs : .sm)
             }
             .buttonStyle(.plain)
         }

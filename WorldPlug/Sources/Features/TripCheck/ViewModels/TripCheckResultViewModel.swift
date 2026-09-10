@@ -10,24 +10,24 @@ final class TripCheckResultViewModel {
     private let analyticsTracker: any AnalyticsTracker
     private let requestsReviewAfterAppearance: Bool
 
-    let tripCheck: TripCheck
+    let trip: Trip
     let destination: Country?
     let assessments: [DeviceSafetyAssessment]
 
     init(
-        tripCheck: TripCheck,
+        trip: Trip,
         countries: [Country],
         homeCountry: Country?,
         requestsReviewAfterAppearance: Bool,
         analyticsTracker: any AnalyticsTracker
     ) {
-        self.tripCheck = tripCheck
-        self.destination = countries.first(where: { $0.code == tripCheck.countryCode })
+        self.trip = trip
+        self.destination = countries.first(where: { $0.code == trip.countryCode })
         self.requestsReviewAfterAppearance = requestsReviewAfterAppearance
         self.analyticsTracker = analyticsTracker
         self.assessments = destination.map {
             TripSafetyChecker.assessments(
-                devices: tripCheck.devices,
+                devices: trip.devices,
                 homeCountry: homeCountry,
                 destination: $0
             )

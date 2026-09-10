@@ -41,14 +41,9 @@ enum AppDebugOverrides {
         return TravelPreferences(
             homeCountryCode: "GB",
             savedCountryCodes: ["JP", "IT", "US"],
-            nextTrip: NextTrip(
-                countryCode: "JP",
-                departureDate: departureDate,
-                returnDate: returnDate
-            ),
             favoriteWidgetCountryCode: "JP",
-            tripChecks: [
-                TripCheck(
+            trips: [
+                Trip(
                     countryCode: "JP",
                     departureDate: departureDate,
                     returnDate: returnDate,
@@ -67,7 +62,7 @@ enum AppDebugOverrides {
                         )
                     ]
                 ),
-                TripCheck(
+                Trip(
                     countryCode: "IT",
                     departureDate: calendar.date(byAdding: .day, value: 45, to: now) ?? departureDate,
                     returnDate: calendar.date(byAdding: .day, value: 50, to: now) ?? returnDate,
@@ -75,6 +70,21 @@ enum AppDebugOverrides {
                         PackDevice(
                             name: LocalizationKeys.tripCheckDeviceLaptop.localized,
                             symbolName: "laptopcomputer",
+                            voltage: "100-240V",
+                            frequency: "50/60Hz"
+                        )
+                    ]
+                ),
+                // Already over, so the list's dimmed "past" treatment and the
+                // "past trips don't count against the free limit" rule are both exercisable.
+                Trip(
+                    countryCode: "US",
+                    departureDate: calendar.date(byAdding: .day, value: -30, to: now) ?? now,
+                    returnDate: calendar.date(byAdding: .day, value: -21, to: now) ?? now,
+                    devices: [
+                        PackDevice(
+                            name: LocalizationKeys.tripCheckDeviceCamera.localized,
+                            symbolName: "camera",
                             voltage: "100-240V",
                             frequency: "50/60Hz"
                         )

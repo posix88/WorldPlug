@@ -15,9 +15,8 @@ protocol TravelPreferencesStoring: AnyObject {
     func reloadFromICloud()
     func toggleSavedCountry(code: String)
     func isSavedCountry(code: String) -> Bool
-    func setNextTrip(_ trip: NextTrip?)
-    func saveTripCheck(_ tripCheck: TripCheck)
-    func removeTripCheck(id: UUID)
+    func saveTrip(_ trip: Trip)
+    func removeTrip(id: UUID)
     func setFavoriteWidgetCountry(code: String?)
 }
 
@@ -72,15 +71,8 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         }
 
         iCloudStore.synchronize()
-        let loadedPreferences = Self.loadPreferences(from: iCloudStore)
-        self.preferences = Self.removingExpiredTrip(from: loadedPreferences)
-
-        if preferences != loadedPreferences {
-            persist()
-        } else {
-            mirrorWidgetValues()
-        }
-
+        self.preferences = Self.loadPreferences(from: iCloudStore)
+        mirrorWidgetValues()
         observeExternalChanges()
     }
 
@@ -113,7 +105,20 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         }
 
         iCloudStore.synchronize()
-        preferences = Self.removingExpiredTrip(from: Self.loadPreferences(from: iCloudStore))
+        let loadedPreferences = Self.loadPreferences(from: iCloudStore)
+
+        guard loadedPreferences != preferences else {
+            // Nothing changed, so `preferences`' `didSet` won't fire — but the widgets' trip is
+            // *derived* from today's date, so it can go stale purely through the passage of time
+            // (a trip ends, the one after it becomes current). Re-mirror anyway: this runs on
+            // every foreground (`AppCoordinator.sceneBecameActive()` →
+            // `HomeCountryViewModel.refreshHomeCountry()` → here), which is the cheapest place to
+            // notice that the calendar moved on without us.
+            mirrorWidgetValues()
+            return
+        }
+
+        preferences = loadedPreferences
     }
 
     func toggleSavedCountry(code: String) {
@@ -142,38 +147,33 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         preferences.savedCountryCodes.contains(Self.normalizedCountryCode(code))
     }
 
-    func setNextTrip(_ trip: NextTrip?) {
-        let previousTrip = preferences.nextTrip
+    func saveTrip(_ trip: Trip) {
         var updatedPreferences = preferences
-        updatedPreferences.nextTrip = trip
-        preferences = Self.removingExpiredTrip(from: updatedPreferences)
+        if let index = updatedPreferences.trips.firstIndex(where: { $0.id == trip.id }) {
+            guard updatedPreferences.trips[index] != trip else {
+                return
+            }
 
-        switch (previousTrip == nil, trip == nil) {
-        case (true, false):
-            analyticsTracker.track(.nextTripCreated)
-        case (false, false):
-            analyticsTracker.track(.nextTripUpdated)
-        case (false, true):
-            analyticsTracker.track(.nextTripRemoved)
-        case (true, true):
-            break
-        }
-    }
-
-    func saveTripCheck(_ tripCheck: TripCheck) {
-        var updatedPreferences = preferences
-        if let index = updatedPreferences.tripChecks.firstIndex(where: { $0.id == tripCheck.id }) {
-            updatedPreferences.tripChecks[index] = tripCheck
+            updatedPreferences.trips[index] = trip
+            preferences = updatedPreferences
+            analyticsTracker.track(.tripUpdated)
         } else {
-            updatedPreferences.tripChecks.append(tripCheck)
+            updatedPreferences.trips.append(trip)
+            preferences = updatedPreferences
+            analyticsTracker.track(.tripCreated)
         }
-        preferences = updatedPreferences
     }
 
-    func removeTripCheck(id: UUID) {
+    func removeTrip(id: UUID) {
         var updatedPreferences = preferences
-        updatedPreferences.tripChecks.removeAll { $0.id == id }
+        updatedPreferences.trips.removeAll { $0.id == id }
+
+        guard updatedPreferences != preferences else {
+            return
+        }
+
         preferences = updatedPreferences
+        analyticsTracker.track(.tripRemoved)
     }
 
     func setFavoriteWidgetCountry(code: String?) {
@@ -217,10 +217,13 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     }
 
     private func mirrorWidgetValues() {
+        // The widgets read a single trip from the App Group. Which one that is is derived here
+        // rather than stored, so nothing needs to be re-written when a trip simply starts or ends.
+        let currentTrip = preferences.currentTrip()
         appGroupDefaults.set(preferences.favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
-        appGroupDefaults.set(preferences.nextTrip?.countryCode, forKey: AppGroup.nextTripCountryCodeKey)
-        appGroupDefaults.set(preferences.nextTrip?.departureDate, forKey: AppGroup.nextTripDepartureDateKey)
-        appGroupDefaults.set(preferences.nextTrip?.returnDate, forKey: AppGroup.nextTripReturnDateKey)
+        appGroupDefaults.set(currentTrip?.countryCode, forKey: AppGroup.nextTripCountryCodeKey)
+        appGroupDefaults.set(currentTrip?.departureDate, forKey: AppGroup.nextTripDepartureDateKey)
+        appGroupDefaults.set(currentTrip?.returnDate, forKey: AppGroup.nextTripReturnDateKey)
         WidgetCenter.shared.reloadAllTimelines()
     }
 
@@ -228,7 +231,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         from store: NSUbiquitousKeyValueStore = .default
     ) -> TravelPreferences {
         store.synchronize()
-        return removingExpiredTrip(from: loadPreferences(from: store))
+        return loadPreferences(from: store)
     }
 
     private static func loadPreferences(
@@ -245,21 +248,6 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private static func normalizedCountryCode(_ code: String) -> String {
         code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     }
-
-    private static func removingExpiredTrip(
-        from preferences: TravelPreferences,
-        now: Date = .now,
-        calendar: Calendar = .current
-    ) -> TravelPreferences {
-        guard let returnDate = preferences.nextTrip?.returnDate,
-              calendar.startOfDay(for: now) > calendar.startOfDay(for: returnDate) else {
-            return preferences
-        }
-
-        var updatedPreferences = preferences
-        updatedPreferences.nextTrip = nil
-        return updatedPreferences
-    }
 }
 
 // MARK: - NullTravelPreferencesStore
@@ -270,9 +258,8 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
     @MainActor func reloadFromICloud() {}
     @MainActor func toggleSavedCountry(code: String) {}
     @MainActor func isSavedCountry(code: String) -> Bool { false }
-    @MainActor func setNextTrip(_ trip: NextTrip?) {}
-    @MainActor func saveTripCheck(_ tripCheck: TripCheck) {}
-    @MainActor func removeTripCheck(id: UUID) {}
+    @MainActor func saveTrip(_ trip: Trip) {}
+    @MainActor func removeTrip(id: UUID) {}
     @MainActor func setFavoriteWidgetCountry(code: String?) {}
 }
 
@@ -301,20 +288,16 @@ final class PreviewTravelPreferencesStore: TravelPreferencesStoring {
         preferences.savedCountryCodes.contains(code.uppercased())
     }
 
-    func setNextTrip(_ trip: NextTrip?) {
-        preferences.nextTrip = trip
-    }
-
-    func saveTripCheck(_ tripCheck: TripCheck) {
-        if let index = preferences.tripChecks.firstIndex(where: { $0.id == tripCheck.id }) {
-            preferences.tripChecks[index] = tripCheck
+    func saveTrip(_ trip: Trip) {
+        if let index = preferences.trips.firstIndex(where: { $0.id == trip.id }) {
+            preferences.trips[index] = trip
         } else {
-            preferences.tripChecks.append(tripCheck)
+            preferences.trips.append(trip)
         }
     }
 
-    func removeTripCheck(id: UUID) {
-        preferences.tripChecks.removeAll { $0.id == id }
+    func removeTrip(id: UUID) {
+        preferences.trips.removeAll { $0.id == id }
     }
 
     func setFavoriteWidgetCountry(code: String?) {

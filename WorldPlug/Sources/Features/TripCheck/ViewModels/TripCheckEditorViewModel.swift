@@ -16,33 +16,29 @@ enum TripCheckEditorRoute: Hashable {
 final class TripCheckEditorViewModel {
     private let premiumEntitlement: any PremiumEntitlementProviding
 
-    var tripCheck: TripCheck
+    var trip: Trip
     var navigationPath: [TripCheckEditorRoute] = []
     var isPremiumPaywallPresented = false
     var scannedValues: DeviceLabelValues?
 
-    init(
-        countries: [Country],
-        initialCountryCode: String? = nil,
-        premiumEntitlement: any PremiumEntitlementProviding
-    ) {
-        let countryCode = initialCountryCode.flatMap { code in
-            countries.contains(where: { $0.code == code }) ? code : nil
-        } ?? countries.first?.code ?? ""
-        self.tripCheck = TripCheck(countryCode: countryCode)
+    /// A new trip starts with **no** destination. There used to be a prefill that fell back to
+    /// `countries.first`, which silently proposed Andorra; an unset destination keeps `canSave`
+    /// false until the user picks one on purpose.
+    init(premiumEntitlement: any PremiumEntitlementProviding) {
+        self.trip = Trip(countryCode: "")
         self.premiumEntitlement = premiumEntitlement
     }
 
     var canSave: Bool {
-        !tripCheck.countryCode.isEmpty && !tripCheck.devices.isEmpty
+        !trip.countryCode.isEmpty && !trip.devices.isEmpty
     }
 
-    func save() -> TripCheck {
-        tripCheck
+    func save() -> Trip {
+        trip
     }
 
     func addDevice() {
-        guard premiumEntitlement.isPremium || tripCheck.devices.isEmpty else {
+        guard premiumEntitlement.isPremium || trip.devices.isEmpty else {
             isPremiumPaywallPresented = true
             return
         }
@@ -51,11 +47,11 @@ final class TripCheckEditorViewModel {
     }
 
     func appendDevice(_ device: PackDevice) {
-        tripCheck.devices.append(device)
+        trip.devices.append(device)
     }
 
     func removeDevice(id: UUID) {
-        tripCheck.devices.removeAll { $0.id == id }
+        trip.devices.removeAll { $0.id == id }
     }
 
     func requestLabelScan() {

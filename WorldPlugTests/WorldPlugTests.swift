@@ -147,14 +147,14 @@ struct ViewAnnotationEntityTests {
             voltage: "100-240 V",
             frequency: "50/60 Hz"
         )
-        let trip = TripCheck(
+        let trip = Trip(
             id: tripID,
             countryCode: "JP",
             name: "Tokyo",
             devices: [device]
         )
 
-        let entity = TripCheckEntity(tripCheck: trip)
+        let entity = TripEntity(trip: trip)
 
         #expect(entity.id == tripID)
         #expect(entity.name == "Tokyo")
@@ -190,8 +190,8 @@ struct ViewAnnotationEntityTests {
             frequency: "50/60 Hz"
         )
         let preferences = TravelPreferences(
-            tripChecks: [
-                TripCheck(countryCode: "JP", devices: [device])
+            trips: [
+                Trip(countryCode: "JP", devices: [device])
             ]
         )
         let query = PackDeviceEntityQuery {

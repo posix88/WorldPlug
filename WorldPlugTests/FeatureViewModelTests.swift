@@ -20,10 +20,9 @@ struct FeatureViewModelTests {
 
         #expect(preferences.homeCountryCode == "GB")
         #expect(preferences.savedCountryCodes == ["JP", "IT", "US"])
-        #expect(preferences.nextTrip?.countryCode == "JP")
         #expect(preferences.favoriteWidgetCountryCode == "JP")
-        #expect(preferences.tripChecks.map(\.countryCode) == ["JP", "IT"])
-        #expect(preferences.tripChecks.first?.devices.count == 2)
+        #expect(preferences.trips.map(\.countryCode) == ["JP", "IT", "US"])
+        #expect(preferences.trips.first?.devices.count == 2)
     }
 
     @Test("country detail sets the first home country immediately")
@@ -76,9 +75,9 @@ struct FeatureViewModelTests {
 
     @Test("trip check free limit presents paywall")
     func tripCheckFreeLimit() {
-        let trip = TripCheck(countryCode: "JP")
+        let trip = Trip(countryCode: "JP")
         let store = PreviewTravelPreferencesStore(
-            preferences: TravelPreferences(tripChecks: [trip])
+            preferences: TravelPreferences(trips: [trip])
         )
         let viewModel = TripCheckViewModel(
             travelPreferencesStore: store,
@@ -102,43 +101,46 @@ struct FeatureViewModelTests {
             premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
             analyticsTracker: NoopAnalyticsTracker()
         )
-        let trip = TripCheck(countryCode: "IT")
+        let trip = Trip(countryCode: "IT")
 
         viewModel.save(trip)
 
-        #expect(store.preferences.tripChecks == [trip])
-        #expect(viewModel.selectedTripCheck == trip)
+        #expect(store.preferences.trips == [trip])
+        #expect(viewModel.selectedTrip == trip)
         #expect(viewModel.requestsReviewForSelectedTrip)
     }
 
-    @Test("new pack check preselects the next trip country")
-    func tripCheckPreselectsNextTripCountry() {
-        let italy = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
-        let japan = Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
-        let store = PreviewTravelPreferencesStore(
-            preferences: TravelPreferences(
-                nextTrip: NextTrip(
-                    countryCode: japan.code,
-                    departureDate: .now,
-                    returnDate: .now
-                )
-            )
-        )
-        let tripCheckViewModel = TripCheckViewModel(
-            travelPreferencesStore: store,
-            homeCountryViewModel: PreviewHomeCountryViewModel(),
-            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
-            analyticsTracker: NoopAnalyticsTracker()
-        )
-        tripCheckViewModel.updateCountries([italy, japan])
-
+    @Test("a new trip starts with no destination selected")
+    func tripEditorHasNoDefaultDestination() {
         let editorViewModel = TripCheckEditorViewModel(
-            countries: [italy, japan],
-            initialCountryCode: tripCheckViewModel.initialCountryCode,
             premiumEntitlement: PreviewPremiumEntitlement(isPremium: true)
         )
 
-        #expect(editorViewModel.tripCheck.countryCode == japan.code)
+        #expect(editorViewModel.trip.countryCode.isEmpty)
+        #expect(!editorViewModel.canSave)
+    }
+
+    @Test("past trips do not count against the free trip limit")
+    func pastTripsDoNotCountAgainstFreeLimit() {
+        let pastTrip = Trip(
+            countryCode: "JP",
+            departureDate: .now - 30 * 24 * 60 * 60,
+            returnDate: .now - 21 * 24 * 60 * 60
+        )
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(trips: [pastTrip])
+        )
+        let viewModel = TripCheckViewModel(
+            travelPreferencesStore: store,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        viewModel.beginTripCheck()
+
+        #expect(viewModel.isEditorPresented)
+        #expect(!viewModel.isPremiumPaywallPresented)
     }
 
     @Test("pack device view model normalizes saved name")
@@ -149,16 +151,6 @@ struct FeatureViewModelTests {
         viewModel.name = "  Laptop  "
 
         #expect(viewModel.makeDevice().name == "Laptop")
-    }
-
-    @Test("next trip view model keeps return date after departure")
-    func nextTripNormalizesDates() {
-        let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
-        let viewModel = NextTripEditorViewModel(trip: nil, countries: [country])
-        viewModel.returnDate = .distantPast
-        viewModel.departureDateChanged()
-
-        #expect(viewModel.returnDate == viewModel.trip.departureDate)
     }
 
     @Test("saved countries removal does not toggle a removed country back on")

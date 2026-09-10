@@ -40,36 +40,9 @@ struct TripCheckView: View {
     var body: some View {
         NavigationStack {
             List {
-                if viewModel.tripChecks.isEmpty {
-                    ContentUnavailableView(
-                        LocalizationKeys.tripCheckEmptyTitle.localized,
-                        systemImage: "suitcase.rolling",
-                        description: Text(LocalizationKeys.tripCheckEmptyDescription.localized)
-                    )
-                    .padding(.top, .special)
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                    .transition(.opacity.combined(with: .scale(scale: 0.96)))
-                } else {
-                    Section(LocalizationKeys.tripCheckYourTrips.localized) {
-                        ForEach(viewModel.rows) { row in
-                            Button {
-                                viewModel.select(row.tripCheck)
-                            } label: {
-                                TripCheckRow(row: row)
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("tripCheck.row.\(row.country.code)")
-                            .appEntityIdentifier(
-                                EntityIdentifier(for: TripCheckEntity.self, identifier: row.tripCheck.id)
-                            )
-                        }
-                        .onDelete(perform: viewModel.delete)
-                        .transition(.opacity.combined(with: .move(edge: .bottom)))
-                    }
-                }
+                listContent
             }
-            .animation(reduceMotion ? nil : .snappy, value: viewModel.tripChecks.isEmpty)
+            .animation(reduceMotion ? nil : .snappy, value: viewModel.trips.isEmpty)
             .scrollContentBackground(.hidden)
             .background { AppMeshBackground() }
             .scrollBounceBehavior(.basedOnSize)
@@ -93,7 +66,6 @@ struct TripCheckView: View {
             .sheet(isPresented: $viewModel.isEditorPresented) {
                 TripCheckEditorView(
                     countries: countries,
-                    initialCountryCode: viewModel.initialCountryCode,
                     premiumEntitlement: premiumEntitlement
                 ) {
                     viewModel.save($0)
@@ -102,9 +74,9 @@ struct TripCheckView: View {
             .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
                 PremiumPaywallView(source: .tripCheck)
             }
-            .navigationDestination(item: $viewModel.selectedTripCheck) { tripCheck in
+            .navigationDestination(item: $viewModel.selectedTrip) { trip in
                 TripCheckResultView(
-                    tripCheck: tripCheck,
+                    trip: trip,
                     countries: countries,
                     homeCountry: homeCountryViewModel.homeCountry,
                     requestsReviewAfterAppearance: viewModel.requestsReviewForSelectedTrip,
@@ -121,6 +93,44 @@ struct TripCheckView: View {
             }
         }
     }
+
+    @ViewBuilder
+    private var listContent: some View {
+        if viewModel.trips.isEmpty {
+            ContentUnavailableView(
+                LocalizationKeys.tripCheckEmptyTitle.localized,
+                systemImage: "suitcase.rolling",
+                description: Text(LocalizationKeys.tripCheckEmptyDescription.localized)
+            )
+            .padding(.top, .special)
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+            .transition(.opacity.combined(with: .scale(scale: 0.96)))
+        } else {
+            Section(LocalizationKeys.tripCheckYourTrips.localized) {
+                ForEach(viewModel.rows) { row in
+                    tripRow(row)
+                }
+                .onDelete(perform: viewModel.delete)
+                .transition(.opacity.combined(with: .move(edge: .bottom)))
+            }
+        }
+    }
+
+    private func tripRow(_ row: TripCheckRowModel) -> some View {
+        let identifier = "tripCheck.row.\(row.country.code)"
+
+        return Button {
+            viewModel.select(row.trip)
+        } label: {
+            TripCheckRow(row: row)
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier(identifier)
+        .appEntityIdentifier(
+            EntityIdentifier(for: TripEntity.self, identifier: row.trip.id)
+        )
+    }
 }
 
 // MARK: - TripCheckRow
@@ -135,11 +145,11 @@ private struct TripCheckRow: View {
                 .font(.title2)
 
             VStack(alignment: .leading) {
-                Text(row.tripCheck.name ?? row.country.localizedName(in: locale))
+                Text(row.trip.name ?? row.country.localizedName(in: locale))
                     .font(.body.weight(.semibold))
 
                 HStack(spacing: -CGFloat.xs) {
-                    ForEach(Array(row.tripCheck.devices.prefix(4))) { device in
+                    ForEach(Array(row.trip.devices.prefix(4))) { device in
                         Image(systemName: device.symbolName)
                             .font(.caption2.weight(.semibold))
                             .foregroundStyle(.tint)
@@ -189,8 +199,8 @@ private struct TripCheckTip: Tip {
 
     let travelPreferencesStore = PreviewTravelPreferencesStore(
         preferences: TravelPreferences(
-            tripChecks: [
-                TripCheck(
+            trips: [
+                Trip(
                     countryCode: "JP",
                     devices: [
                         PackDevice(

@@ -1,7 +1,6 @@
 import Analytics
 import AppIntents
 import Repository
-import StoreKit
 import SwiftData
 import SwiftUI
 import TipKit
@@ -10,17 +9,12 @@ import TipKit
 
 struct SavedCountriesView: View {
     @Environment(\.locale) private var locale
-    @Environment(\.requestReview) private var requestReview
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: SavedCountriesViewModel
     @State private var removalFeedbackTrigger = 0
-    private var nextTripTip: NextTripTip? {
-        AppDebugOverrides.isEnabled ? nil : NextTripTip()
-    }
-
     private var favoriteWidgetSelectorTip: FavoriteWidgetSelectorTip? {
         AppDebugOverrides.isEnabled ? nil : FavoriteWidgetSelectorTip()
     }
@@ -47,21 +41,6 @@ struct SavedCountriesView: View {
         NavigationStack {
             savedCountriesContent
                 .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
-                .toolbar {
-                    if viewModel.isPremium {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                viewModel.presentTripEditor()
-                                nextTripTip?.invalidate(reason: .actionPerformed)
-                            } label: {
-                                Image(systemName: viewModel.nextTrip == nil ? "calendar.badge.plus" : "calendar")
-                            }
-                            .accessibilityLabel(LocalizationKeys.nextTripEdit.localized)
-                            .popoverTip(nextTripTip, arrowEdge: .top)
-                            .appTipIconTint()
-                        }
-                    }
-                }
                 .background { AppMeshBackground() }
                 .onAppear {
                     viewModel.updateCountries(countries)
@@ -69,18 +48,6 @@ struct SavedCountriesView: View {
                 }
                 .onChange(of: countries.map(\.code)) { _, _ in
                     viewModel.updateCountries(countries)
-                }
-                .sheet(isPresented: $viewModel.isTripEditorPresented) {
-                    NextTripEditorView(
-                        trip: viewModel.nextTrip,
-                        countries: countries,
-                        onSave: { trip in
-                            if viewModel.saveNextTrip(trip) {
-                                AppReviewPrompt.requestAfterSuccessfulAction(using: { requestReview() })
-                            }
-                        },
-                        onDelete: viewModel.deleteNextTrip
-                    )
                 }
                 .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
                     PremiumPaywallView(source: .savedCountries)
@@ -101,7 +68,6 @@ struct SavedCountriesView: View {
     private var premiumContent: some View {
         ScrollView {
             LazyVStack(spacing: .md) {
-                nextTripCard
                 favoriteWidgetCard
 
                 if viewModel.savedCountries.isEmpty {
@@ -177,46 +143,6 @@ struct SavedCountriesView: View {
         .scrollBounceBehavior(.basedOnSize)
     }
 
-    @ViewBuilder
-    private var nextTripCard: some View {
-        if let trip = viewModel.nextTrip,
-           let country = countries.first(where: { $0.code == trip.countryCode }) {
-            Button {
-                viewModel.presentTripEditor()
-            } label: {
-                VStack(alignment: .leading, spacing: .sm) {
-                    Text(LocalizationKeys.nextTripTitle.localized)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(.textLight)
-                        .textCase(.uppercase)
-
-                    Text(trip.name ?? "\(country.flagUnicode) \(country.localizedName(in: locale))")
-                        .font(.headline.weight(.semibold))
-                        .foregroundStyle(.textRegular)
-
-                    Text(trip.departureDate, format: .dateTime.day().month().year())
-                        .font(.subheadline)
-                        .foregroundStyle(.textLight)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.lg)
-                .background(.surfaceSecondary)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-            }
-            .buttonStyle(.plain)
-            .appEntityIdentifier(
-                EntityIdentifier(for: CountryEntity.self, identifier: country.code)
-            )
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                Button(role: .destructive) {
-                    deleteNextTrip()
-                } label: {
-                    Image(systemName: "trash")
-                }
-            }
-        }
-    }
-
     private var favoriteWidgetCard: some View {
         Menu {
             Button(LocalizationKeys.favoriteWidgetNoSelection.localized) {
@@ -275,11 +201,6 @@ struct SavedCountriesView: View {
         return "\(country.flagUnicode) \(country.localizedName(in: locale))"
     }
 
-    private func deleteNextTrip() {
-        viewModel.deleteNextTrip()
-        removalFeedbackTrigger += 1
-    }
-
     private func removeSavedCountry(code: String) {
         viewModel.removeSavedCountry(code: code)
         removalFeedbackTrigger += 1
@@ -323,22 +244,6 @@ private struct SavedCountriesPremiumPreview: View {
             Image(systemName: "star.fill")
                 .foregroundStyle(.premiumTint)
         }
-    }
-}
-
-// MARK: - NextTripTip
-
-private struct NextTripTip: Tip {
-    var title: Text {
-        Text(LocalizationKeys.nextTripTipTitle.localized)
-    }
-
-    var message: Text? {
-        Text(LocalizationKeys.nextTripTipMessage.localized)
-    }
-
-    var image: Image? {
-        Image(systemName: "calendar.badge.plus")
     }
 }
 

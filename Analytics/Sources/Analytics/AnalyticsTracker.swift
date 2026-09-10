@@ -82,8 +82,9 @@ public enum AnalyticsScreen: String, Sendable {
     case countries
     case countryDetail = "country_detail"
     case savedCountries = "saved_countries"
-    case nextTrip = "next_trip"
-    case nextTripDestination = "next_trip_destination"
+    case trips
+    case tripEditor = "trip_editor"
+    case tripDestination = "trip_destination"
     case onboarding
     case premiumPaywall = "premium_paywall"
     case plugDetail = "plug_detail"
@@ -98,9 +99,9 @@ public enum AnalyticsEvent: String, Sendable {
     case countrySaved = "country_saved"
     case countryUnsaved = "country_unsaved"
     case compatibilityFilterSelected = "compatibility_filter_selected"
-    case nextTripCreated = "next_trip_created"
-    case nextTripUpdated = "next_trip_updated"
-    case nextTripRemoved = "next_trip_removed"
+    case tripCreated = "trip_created"
+    case tripUpdated = "trip_updated"
+    case tripRemoved = "trip_removed"
     case premiumPaywallPresented = "premium_paywall_presented"
     case premiumPurchaseStarted = "premium_purchase_started"
     case premiumPurchaseCompleted = "premium_purchase_completed"
@@ -110,7 +111,7 @@ public enum AnalyticsEvent: String, Sendable {
     case favoriteWidgetCountryCleared = "favorite_widget_country_cleared"
     case tripCheckStarted = "trip_check_started"
     case tripCheckCompleted = "trip_check_completed"
-    case tripCheckLimitReached = "trip_check_limit_reached"
+    case tripLimitReached = "trip_limit_reached"
     case deviceSafetyResultViewed = "device_safety_result_viewed"
     case catalogFetchFailed = "catalog_fetch_failed"
     case deviceLabelSmartAnalysisFailed = "device_label_smart_analysis_failed"

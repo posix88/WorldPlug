@@ -159,12 +159,14 @@ struct NextTripRequirementsIntentServiceTests {
         let returnDate = returnDate ?? departure.addingTimeInterval(604_800)
         return TravelPreferences(
             homeCountryCode: homeCountryCode,
-            nextTrip: NextTrip(
-                countryCode: "IT",
-                departureDate: departure,
-                returnDate: returnDate,
-                name: "Rome"
-            )
+            trips: [
+                Trip(
+                    countryCode: "IT",
+                    departureDate: departure,
+                    returnDate: returnDate,
+                    name: "Rome"
+                )
+            ]
         )
     }
 }
