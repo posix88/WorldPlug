@@ -6,7 +6,7 @@ import SwiftUI
 enum PremiumPaywallSource: String, Identifiable {
     case savedCountries = "saved_countries"
     case countryDetailSave = "country_detail_save"
-    case tripCheck = "trip_check"
+    case trips
     case widget
 
     var id: String { rawValue }
@@ -15,7 +15,7 @@ enum PremiumPaywallSource: String, Identifiable {
         switch self {
         case .countryDetailSave:
             LocalizationKeys.premiumPaywallCountrySaveMessage
-        case .savedCountries, .tripCheck, .widget:
+        case .savedCountries, .trips, .widget:
             LocalizationKeys.premiumPaywallMessage
         }
     }
@@ -49,10 +49,10 @@ private struct PremiumPaywallContent: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: PremiumPaywallViewModel
 
-    // Marking `viewModel` `private` narrows the auto-synthesized memberwise init's access to
-    // inside this type only — a top-level `private struct` alone would be file-scoped, but a
-    // `private` *member* caps the init to the enclosing type itself. An explicit init (not
-    // marked `private`) restores the file-wide access `PremiumPaywallView.body` below needs.
+    /// Marking `viewModel` `private` narrows the auto-synthesized memberwise init's access to
+    /// inside this type only — a top-level `private struct` alone would be file-scoped, but a
+    /// `private` *member* caps the init to the enclosing type itself. An explicit init (not
+    /// marked `private`) restores the file-wide access `PremiumPaywallView.body` below needs.
     init(viewModel: PremiumPaywallViewModel) {
         _viewModel = State(initialValue: viewModel)
     }

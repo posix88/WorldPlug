@@ -14,7 +14,7 @@ protocol DeviceLabelInterpreting: Sendable {
 
 struct FoundationModelDeviceLabelInterpreter: DeviceLabelInterpreting {
     var isAvailable: Bool {
-       SystemLanguageModel.default.isAvailable
+        SystemLanguageModel.default.isAvailable
     }
 
     func values(in image: UIImage) async throws -> DeviceLabelValues? {

@@ -52,14 +52,14 @@ struct CountryDestinationPickerView: View {
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
         .background { AppMeshBackground() }
-        .navigationTitle(LocalizationKeys.nextTripDestination.localized)
+        .navigationTitle(LocalizationKeys.tripDestination.localized)
         .onAppear {
             analyticsTracker.screen(.tripDestination)
         }
         .tint(.voltTint)
         .searchable(
             text: $viewModel.searchQuery,
-            prompt: Text(LocalizationKeys.nextTripSearchDestination.localized)
+            prompt: Text(LocalizationKeys.tripSearchDestination.localized)
         )
     }
 }

@@ -71,7 +71,7 @@ struct PackDeviceEditorView: View {
             scannerValues = nil
         }
         .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
-            PremiumPaywallView(source: .tripCheck)
+            PremiumPaywallView(source: .trips)
         }
         .sheet(
             isPresented: $viewModel.isIconPickerPresented,

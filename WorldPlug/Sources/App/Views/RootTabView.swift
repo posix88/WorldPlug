@@ -31,16 +31,16 @@ struct RootTabView: View {
                     .accessibilityIdentifier("tab.countries")
             }
 
-            Tab(value: AppTab.tripCheck) {
-                TripCheckView(
+            Tab(value: AppTab.trips) {
+                TripsView(
                     travelPreferencesStore: travelPreferencesStore,
                     homeCountryViewModel: homeCountryViewModel,
                     premiumEntitlement: premiumEntitlement,
                     analyticsTracker: analyticsTracker
                 )
             } label: {
-                Label(LocalizationKeys.tripCheckTabTitle.localized, systemImage: "suitcase.rolling.fill")
-                    .accessibilityIdentifier("tab.tripCheck")
+                Label(LocalizationKeys.tripsTabTitle.localized, systemImage: "suitcase.rolling.fill")
+                    .accessibilityIdentifier("tab.trips")
             }
 
             Tab(value: AppTab.saved) {

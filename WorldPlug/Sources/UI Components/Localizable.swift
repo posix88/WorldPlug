@@ -88,15 +88,8 @@ enum LocalizationKeys {
 
     // MARK: - Trip Check
 
-    static let tripCheckTitle = "trip.check.title"
-    static let tripCheckTabTitle = "trip.check.tab.title"
-    static let tripCheckIntroduction = "trip.check.introduction"
-    static let tripCheckEmptyTitle = "trip.check.empty.title"
-    static let tripCheckEmptyDescription = "trip.check.empty.description"
-    static let tripCheckYourTrips = "trip.check.your.trips"
     static let tripCheckUnlimited = "trip.check.unlimited"
     static let tripCheckUnlock = "trip.check.unlock"
-    static let tripCheckAdd = "trip.check.add"
     static let tripCheckDevices = "trip.check.devices"
     static let tripCheckDevicesEmpty = "trip.check.devices.empty"
     static let tripCheckAddDevice = "trip.check.add.device"
@@ -116,13 +109,11 @@ enum LocalizationKeys {
     static let tripCheckScanNoValues = "trip.check.scan.no.values"
     static let tripCheckScanUnavailable = "trip.check.scan.unavailable"
     static let tripCheckScanUnavailableDescription = "trip.check.scan.unavailable.description"
-    static let tripCheckNewTitle = "trip.check.new.title"
     static let tripCheckDestination = "trip.check.destination"
     static let tripCheckCountry = "trip.check.country"
     static let tripCheckDeviceSection = "trip.check.device.section"
     static let tripCheckCancel = "trip.check.cancel"
     static let tripCheckAction = "trip.check.action"
-    static let tripCheckResultTitle = "trip.check.result.title"
     static let tripCheckSafetySection = "trip.check.safety.section"
     static let tripCheckUnavailable = "trip.check.unavailable"
     static let tripCheckDisclaimer = "trip.check.disclaimer"
@@ -155,22 +146,35 @@ enum LocalizationKeys {
     static let tripCheckMessageMissingVoltage = "trip.check.message.missing.voltage"
     static let tripCheckMessageFrequency = "trip.check.message.frequency"
 
-    // MARK: - Next Trip
+    // MARK: - Trips
 
-    static let nextTripTitle = "next.trip.title"
-    static let nextTripEdit = "next.trip.edit"
-    static let nextTripDestination = "next.trip.destination"
-    static let nextTripDates = "next.trip.dates"
-    static let nextTripDeparture = "next.trip.departure"
-    static let nextTripReturnDate = "next.trip.return.date"
-    static let nextTripName = "next.trip.name"
-    static let nextTripNamePlaceholder = "next.trip.name.placeholder"
-    static let nextTripCancel = "next.trip.cancel"
-    static let nextTripSave = "next.trip.save"
-    static let nextTripRemove = "next.trip.remove"
-    static let nextTripSearchDestination = "next.trip.search.destination"
-    static let nextTripTipTitle = "next.trip.tip.title"
-    static let nextTripTipMessage = "next.trip.tip.message"
+    // The `next.trip.*` string keys are kept as-is: their copy ("Dates", "Departure",
+    // "Return date", "Trip name", "Destination") is still exactly right, and a string key is an
+    // internal identifier the user never sees — same reasoning as the "Voltly" naming policy.
+    static let tripsTabTitle = "trips.tab.title"
+    static let tripsTitle = "trips.title"
+    static let tripsAdd = "trips.add"
+    static let tripsEmptyTitle = "trips.empty.title"
+    static let tripsEmptyDescription = "trips.empty.description"
+    static let tripsIntroduction = "trips.introduction"
+    static let tripsSectionUpcoming = "trips.section.upcoming"
+    static let tripsSectionPast = "trips.section.past"
+    static let tripsBadgeNext = "trips.badge.next"
+    static let tripsRowNoDevices = "trips.row.no.devices"
+    static let tripDestination = "next.trip.destination"
+    static let tripDates = "next.trip.dates"
+    static let tripDeparture = "next.trip.departure"
+    static let tripReturnDate = "next.trip.return.date"
+    static let tripName = "next.trip.name"
+    static let tripNamePlaceholder = "next.trip.name.placeholder"
+    static let tripSearchDestination = "next.trip.search.destination"
+    static let tripRemove = "trip.remove"
+    static let tripEditorNewTitle = "trip.editor.new.title"
+    static let tripEditorEditTitle = "trip.editor.edit.title"
+    static let tripEditorDestinationPlaceholder = "trip.editor.destination.placeholder"
+    static let tripDetailEdit = "trip.detail.edit"
+    static let tripDetailDevicesEmptyTitle = "trip.detail.devices.empty.title"
+    static let tripDetailDevicesEmptyDescription = "trip.detail.devices.empty.description"
 
     // MARK: - Favorite Widget
 

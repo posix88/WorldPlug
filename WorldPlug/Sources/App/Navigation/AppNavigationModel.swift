@@ -5,7 +5,7 @@ import Observation
 
 enum AppTab: Hashable {
     case countries
-    case tripCheck
+    case trips
     case saved
 }
 

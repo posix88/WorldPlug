@@ -50,13 +50,13 @@ final class WorldPlugUITests: XCTestCase {
         snapshot("03_countrydetail")
     }
 
-    func testTripCheck() {
+    func testTrips() {
         let app = XCUIApplication()
-        let tripCheckTab = app.tabBars.buttons["tab.tripCheck"]
-        XCTAssertTrue(tripCheckTab.waitForExistence(timeout: 5))
-        tripCheckTab.tap()
-        XCTAssertTrue(app.descendants(matching: .any)["tripCheck.list"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["tripCheck.row.JP"].waitForExistence(timeout: 5))
+        let tripsTab = app.tabBars.buttons["tab.trips"]
+        XCTAssertTrue(tripsTab.waitForExistence(timeout: 5))
+        tripsTab.tap()
+        XCTAssertTrue(app.descendants(matching: .any)["trips.list"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["trips.row.JP"].waitForExistence(timeout: 5))
         snapshot("02_tripcheck")
     }
 
