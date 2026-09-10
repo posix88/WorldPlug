@@ -1,29 +1,38 @@
 {
   "_comment": "Shot manifest for render-all.mjs / `bundle exec fastlane screenshots`. Add a shot once you have a raw capture for it in raw/; add a device once you have a raw capture at that device's resolution. Devices/sizes per AppStore/LAUNCH_PLAN.md §4 — App Store Connect's upload screen is the source of truth if these ever drift.",
   "devices": {
-    "iphone": { "width": 1320, "height": 2868 }
+    "iphone": {
+      "width": 1320,
+      "height": 2868
+    }
   },
   "shots": [
     {
       "id": "01_countries",
-      "raw": { "iphone": "countries_demo.png" },
+      "raw": {
+        "iphone": "countries_demo.png"
+      },
       "captions": {
         "en-US": "200+ countries, one glance",
         "it": "Oltre 200 paesi, un solo sguardo"
       }
     },
     {
+      "_comment": "Shows the Trips list. The `02_tripcheck` id and `tripcheck_demo.png` filename are legacy names kept on purpose: they must stay in sync with `snapshot(\"02_tripcheck\")` in WorldPlugUITests and with shot_name_to_raw_filename in fastlane/Fastfile. Renaming them buys nothing and breaks all three.",
       "id": "02_tripcheck",
-      "raw": { "iphone": "tripcheck_demo.png" },
+      "raw": {
+        "iphone": "tripcheck_demo.png"
+      },
       "captions": {
-        "en-US": "Know before you plug in",
-        "it": "Scoprilo prima di collegarlo"
+        "en-US": "Plan a trip. Check every device.",
+        "it": "Pianifica il viaggio. Verifica tutto."
       }
     },
     {
-      "_comment": "Add raw/countrydetail_demo.png (Country Detail screen, e.g. Japan or UK) before this renders.",
       "id": "03_countrydetail",
-      "raw": { "iphone": "countrydetail_demo.png" },
+      "raw": {
+        "iphone": "countrydetail_demo.png"
+      },
       "captions": {
         "en-US": "Voltage, frequency and every plug",
         "it": "Voltaggio, frequenza e ogni presa"
@@ -32,25 +41,31 @@
     {
       "_comment": "Add raw/scanner_demo.png (device label scanner mid-scan) before this renders.",
       "id": "04_scanner",
-      "raw": { "iphone": "scanner_demo.png" },
+      "raw": {
+        "iphone": "scanner_demo.png"
+      },
       "captions": {
         "en-US": "Just scan the label. We do the math.",
         "it": "Inquadra l'etichetta. Pensiamo noi al resto."
       }
     },
     {
-      "_comment": "Add raw/saved_demo.png (Saved Countries + Next Trip, Premium) before this renders.",
+      "_comment": "Shows the Saved tab: starred countries only. Trip planning is shot 02.",
       "id": "05_saved",
-      "raw": { "iphone": "saved_demo.png" },
+      "raw": {
+        "iphone": "saved_demo.png"
+      },
       "captions": {
-        "en-US": "Save it. Plan it. Never pack blind.",
-        "it": "Salva. Pianifica. Parti senza sorprese."
+        "en-US": "The places you keep going back to",
+        "it": "I posti dove torni sempre"
       }
     },
     {
       "_comment": "Add raw/widgets_demo.png (Home Screen with the 3 widget families) before this renders.",
       "id": "06_widgets",
-      "raw": { "iphone": "widgets_demo.png" },
+      "raw": {
+        "iphone": "widgets_demo.png"
+      },
       "captions": {
         "en-US": "Your plug, one glance from Home",
         "it": "La tua presa, a un'occhiata dalla Home"
