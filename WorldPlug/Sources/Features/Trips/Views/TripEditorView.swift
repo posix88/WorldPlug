@@ -114,7 +114,7 @@ struct TripEditorView: View {
     @ViewBuilder
     private var destinationLabel: some View {
         if let country = countries.first(where: { $0.code == viewModel.trip.countryCode }) {
-            Text("\(country.flagUnicode) \(country.localizedName(in: locale))")
+            Text(verbatim: "\(country.flagUnicode) \(country.localizedName(in: locale))")
         } else {
             Text(LocalizationKeys.tripEditorDestinationPlaceholder.localized)
                 .foregroundStyle(.textLight)

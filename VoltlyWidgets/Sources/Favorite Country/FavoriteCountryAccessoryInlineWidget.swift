@@ -8,7 +8,9 @@ struct FavoriteCountryAccessoryInlineWidget: View {
     let country: CountrySnapshot
 
     var body: some View {
-        Text("★ \(country.flagUnicode) \(country.voltage) \(country.frequency)")
+        // `verbatim`: a star, a flag and two catalog-supplied ratings. Without it the literal is
+        // a `LocalizedStringKey` and Xcode extracts "★ %@ %@ %@" into the widget catalog.
+        Text(verbatim: "★ \(country.flagUnicode) \(country.voltage) \(country.frequency)")
     }
 }
 

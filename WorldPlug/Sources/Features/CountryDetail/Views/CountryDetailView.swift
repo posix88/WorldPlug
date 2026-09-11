@@ -250,7 +250,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
 
     private var sheetHeader: some View {
         HStack(alignment: .center, spacing: .md) {
-            Text("\(viewModel.country.flagUnicode) \(countryName)")
+            // `verbatim`: a flag emoji next to an already-localized country name is data, not a
+            // translatable phrase. Without it the literal is a `LocalizedStringKey` and Xcode
+            // extracts "%@ %@" into the catalog as a key.
+            Text(verbatim: "\(viewModel.country.flagUnicode) \(countryName)")
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(.textRegular)
                 .lineLimit(1)
@@ -317,8 +320,16 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         if !plugs.isEmpty {
             VStack(alignment: .leading, spacing: .sm) {
                 Label {
-                    Text("\(compatibility.title) (\(plugs.count))")
-                        .font(.subheadline.weight(.semibold))
+                    // A real key rather than an inline `"\(title) (\(count))"`: the latter
+                    // registered "%@ (%@)" as a catalog key and hard-coded the parenthesized
+                    // order. `count.formatted()` keeps the numeral locale-aware.
+                    Text(
+                        LocalizationKeys.compatibilityGroupCount.localized(
+                            compatibility.title,
+                            plugs.count.formatted()
+                        )
+                    )
+                    .font(.subheadline.weight(.semibold))
                 } icon: {
                     Image(systemName: compatibility.symbolName)
                 }

@@ -71,7 +71,6 @@ final class CountriesListViewModel: CountriesListViewModelType {
         self.travelPreferencesStore = travelPreferencesStore
         self.premiumEntitlement = premiumEntitlement
         self.analyticsTracker = analyticsTracker
-        fetchData()
     }
 
     var homeCountry: Country? { homeCountryViewModel.homeCountry }
@@ -99,10 +98,24 @@ final class CountriesListViewModel: CountriesListViewModelType {
         return counts
     }
 
-    func fetchData() {
+    /// Reads the catalog once per view-model lifetime.
+    ///
+    /// Deliberately *not* called from `init`. A view's `init` runs every time its parent's body
+    /// does, and `RootTabView` rebuilds all three `Tab` contents on every tab switch (and on
+    /// every write to the four environment values it reads) — so a fetch in `init` meant a full
+    /// 200-country SwiftData read, a localized sort and a compatibility pass, all thrown away by
+    /// `@State`, on every tab tap.
+    ///
+    /// Retrying while `countries` is empty is intentional: the catalog is read-only and reseeded
+    /// from bundled JSON, so "empty" only ever means "not loaded yet" or "the last fetch failed",
+    /// and both want another attempt on the next appearance.
+    func loadCatalogIfNeeded() {
+        guard countries.isEmpty else {
+            return
+        }
+
         do {
             countries = try modelContext.fetch(FetchDescriptor<Country>())
-            search(query: "", locale: .current)
         } catch {
             // `assertionFailure` is compiled out in release, so without this the entire
             // catalog silently going empty (every feature depends on it) would be invisible
@@ -129,6 +142,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
 
     func screenAppeared(locale: Locale) {
         analyticsTracker.screen(.countries)
+        loadCatalogIfNeeded()
         search(query: searchQuery, locale: locale)
     }
 

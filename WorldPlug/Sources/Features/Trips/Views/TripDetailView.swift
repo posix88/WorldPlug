@@ -120,7 +120,7 @@ struct TripDetailView: View {
         if let destination = viewModel.destination {
             Section {
                 VStack(alignment: .leading, spacing: .lg) {
-                    Text("\(destination.flagUnicode) \(destination.localizedName(in: locale))")
+                    Text(verbatim: "\(destination.flagUnicode) \(destination.localizedName(in: locale))")
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.textRegular)
 
@@ -189,28 +189,26 @@ struct TripDetailView: View {
     }
 
     private func assessmentRow(_ assessment: DeviceSafetyAssessment) -> some View {
-        let color = Self.statusColor(assessment.status)
-        
-        return Button { viewModel.editDevice(assessment.device)  } label: {
+        Button { viewModel.editDevice(assessment.device) } label: {
             Label {
                 VStack(alignment: .leading, spacing: .xs) {
                     HStack(spacing: .sm) {
                         Text(assessment.device.name)
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.textRegular)
-                        
+
                         Spacer(minLength: .xs)
-                        
+
                         Image(systemName: "chevron.right")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(.tertiary)
                     }
-                    
+
                     deviceRatings(assessment.device)
-                    
+
                     Text(assessment.status.title)
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(color)
+                        .foregroundStyle(statusColor(assessment.status))
                     Text(assessment.message)
                         .font(.caption)
                         .foregroundStyle(.textLight)
@@ -218,7 +216,7 @@ struct TripDetailView: View {
                 }
             } icon: {
                 Image(systemName: assessment.device.symbolName)
-                    .foregroundStyle(color)
+                    .foregroundStyle(statusColor(assessment.status))
             }
             .contentShape(Rectangle())
         }
@@ -232,7 +230,7 @@ struct TripDetailView: View {
                 Image(systemName: "trash")
             }
             .accessibilityLabel(LocalizationKeys.tripCheckRemoveDevice.localized)
-            
+
             Button {
                 viewModel.editDevice(assessment.device)
             } label: {
@@ -312,7 +310,7 @@ struct TripDetailView: View {
         .padding([.horizontal, .bottom])
     }
 
-    private static func statusColor(_ status: DeviceSafetyStatus) -> Color {
+    private func statusColor(_ status: DeviceSafetyStatus) -> Color {
         switch status {
         case .ready: .statusReady
         case .adapterNeeded: .statusAdapter

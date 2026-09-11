@@ -13,7 +13,7 @@ struct AccessoryRectangularWidget: View {
                     .font(.caption.weight(.semibold))
                     .lineLimit(1)
 
-                Text("\(country.voltage) • \(country.frequency)")
+                Text(verbatim: "\(country.voltage) • \(country.frequency)")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
 

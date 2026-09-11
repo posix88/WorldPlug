@@ -24,7 +24,7 @@ struct HomeCountryBannerView: View {
                     .font(.caption)
                     .foregroundStyle(.textLight)
 
-                Text("\(country.flagUnicode)  \(country.localizedName(in: locale))")
+                Text(verbatim: "\(country.flagUnicode)  \(country.localizedName(in: locale))")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(.textRegular)

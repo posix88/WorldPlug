@@ -8,7 +8,7 @@ struct AccessoryInlineWidget: View {
 
     var body: some View {
         if let country = entry.country {
-            Text("\(country.flagUnicode) \(country.voltage) \(country.frequency)")
+            Text(verbatim: "\(country.flagUnicode) \(country.voltage) \(country.frequency)")
         } else {
             WidgetStrings.text("widget.empty.inline")
         }

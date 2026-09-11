@@ -82,7 +82,7 @@ struct SettingsView: View {
                 viewModel.updateCountries(countries)
                 viewModel.screenAppeared()
             }
-            .onChange(of: countries.map(\.code)) { _, _ in
+            .onChange(of: countries.count) { _, _ in
                 viewModel.updateCountries(countries)
             }
         }

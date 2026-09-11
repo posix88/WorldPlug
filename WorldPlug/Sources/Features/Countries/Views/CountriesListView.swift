@@ -291,7 +291,10 @@ private struct CompatibilityFilterBar: View {
 
                                 Text(filter.title)
 
-                                Text("\(counts[filter, default: 0])")
+                                // `format:` rather than an interpolated literal: the literal was a
+                                // `LocalizedStringKey`, so Xcode extracted "%@" into the catalog
+                                // as a key. `.number` also localizes the digits.
+                                Text(counts[filter, default: 0], format: .number)
                                     .font(.caption2)
                                     .fontWeight(.bold)
                                     .monospacedDigit()

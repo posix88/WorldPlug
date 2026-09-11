@@ -60,17 +60,43 @@ struct CountriesListViewModelTests {
             premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
             analyticsTracker: NoopAnalyticsTracker()
         )
+        // The catalog is loaded on appearance, not in `init` — see `loadCatalogIfNeeded()`. Going
+        // through `screenAppeared` rather than calling the loader directly keeps these tests on
+        // the same entry point the view uses.
+        self.viewModel.screenAppeared(locale: .current)
     }
 
     // MARK: Fetch
 
-    @Test("fetchData populates filteredCountries on init")
-    func fetchDataOnInit() {
+    @Test("init does not read the catalog")
+    func initDoesNotReadCatalog() {
+        let freshViewModel = CountriesListViewModel(
+            modelContext: context,
+            homeCountryViewModel: homeCountryViewModel,
+            travelPreferencesStore: PreviewTravelPreferencesStore(),
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: true),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        // `init` runs every time the parent view's body does, so it must stay a property copy.
+        #expect(freshViewModel.filteredCountries.isEmpty)
+    }
+
+    @Test("screenAppeared populates filteredCountries")
+    func screenAppearedPopulatesCountries() {
         #expect(viewModel.filteredCountries.isEmpty == false)
     }
 
-    @Test("filteredCountries count matches inserted country count after init")
+    @Test("filteredCountries count matches inserted country count after loading")
     func countMatchesInserted() {
+        #expect(viewModel.filteredCountries.count == 3)
+    }
+
+    @Test("loading the catalog twice does not duplicate countries")
+    func repeatedLoadIsIdempotent() {
+        viewModel.screenAppeared(locale: .current)
+        viewModel.loadCatalogIfNeeded()
+
         #expect(viewModel.filteredCountries.count == 3)
     }
 

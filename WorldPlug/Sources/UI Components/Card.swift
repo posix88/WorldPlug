@@ -71,7 +71,7 @@ struct Card<Content>: View where Content: View {
         }
         .padding(insets)
         .background(background)
-        .mask(
+        .clipShape(
             RoundedRectangle(cornerRadius: radius)
         )
         .contentShape(

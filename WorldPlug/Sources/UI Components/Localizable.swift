@@ -293,6 +293,10 @@ enum LocalizationKeys {
     static let compatibilityLegendAdapterDesc = "compatibility.legend.adapter.desc"
     static let compatibilityLegendConverterTitle = "compatibility.legend.converter.title"
     static let compatibilityLegendConverterDesc = "compatibility.legend.converter.desc"
+    /// A compatibility group heading and how many plugs are in it. Was assembled inline as
+    /// `"\(title) (\(count))"`, which made the format string itself a catalog key and left
+    /// translators no way to move the count.
+    static let compatibilityGroupCount = "compatibility.group.count"
 
     // MARK: - General
 

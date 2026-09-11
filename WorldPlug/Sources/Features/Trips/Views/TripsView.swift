@@ -78,7 +78,7 @@ struct TripsView: View {
                 viewModel.updateCountries(countries)
                 viewModel.screenAppeared()
             }
-            .onChange(of: countries.map(\.code)) { _, _ in
+            .onChange(of: countries.count) { _, _ in
                 viewModel.updateCountries(countries)
             }
         }
@@ -220,7 +220,10 @@ private struct TripRow: View {
                     .foregroundStyle(.tint)
                     .frame(width: DesignTokens.Size.smallIcon, height: DesignTokens.Size.smallIcon)
                     .background(.tint.opacity(0.12), in: Circle())
-                    .overlay(Circle().stroke(.background, lineWidth: 1))
+                    .overlay {
+                        Circle()
+                            .stroke(.background, lineWidth: 1)
+                    }
             }
         }
     }
