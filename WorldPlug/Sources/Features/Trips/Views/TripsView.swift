@@ -200,11 +200,18 @@ private struct TripsSection: View {
 private struct TripRow: View {
     let row: TripRowModel
     @Environment(\.locale) private var locale
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
+        // Subtractive at accessibility sizes: the flag, the chevron and the per-device icon row
+        // are all dropped. None of them carries information the text doesn't — the destination is
+        // in the title, the row is already a button, and `safetySummary` counts the devices and
+        // their verdicts in words. Keeping them only made the row three screens tall.
         HStack(spacing: .lg) {
-            Text(row.country.flagUnicode)
-                .font(.title2)
+            if !dynamicTypeSize.isAccessibilitySize {
+                Text(row.country.flagUnicode)
+                    .font(.title2)
+            }
 
             VStack(alignment: .leading, spacing: .xxs) {
                 TripRowTitle(
@@ -216,20 +223,23 @@ private struct TripRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
-                if !row.trip.devices.isEmpty {
+                if !row.trip.devices.isEmpty, !dynamicTypeSize.isAccessibilitySize {
                     TripRowDeviceIcons(devices: row.trip.devices)
                 }
 
                 Text(row.safetySummary)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Spacer()
 
-            Image(systemName: "chevron.right")
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(.tertiary)
+            if !dynamicTypeSize.isAccessibilitySize {
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
         }
         .contentShape(Rectangle())
     }
@@ -241,15 +251,40 @@ private struct TripRowTitle: View {
     let title: String
     let isNext: Bool
 
-    var body: some View {
-        HStack(spacing: .sm) {
-            Text(title)
-                .font(.body.weight(.semibold))
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-            if isNext {
-                NextTripBadge()
+    var body: some View {
+        // The badge sits under the title at accessibility sizes. Beside it, the title took the
+        // width and the badge was compressed until "NEXT" wrapped inside its own capsule.
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(alignment: .leading, spacing: .xs) {
+                TripRowTitleText(title: title)
+
+                if isNext {
+                    NextTripBadge()
+                }
+            }
+        } else {
+            HStack(spacing: .sm) {
+                TripRowTitleText(title: title)
+
+                if isNext {
+                    NextTripBadge()
+                }
             }
         }
+    }
+}
+
+// MARK: - TripRowTitleText
+
+private struct TripRowTitleText: View {
+    let title: String
+
+    var body: some View {
+        Text(title)
+            .font(.body.weight(.semibold))
+            .fixedSize(horizontal: false, vertical: true)
     }
 }
 
@@ -258,14 +293,16 @@ private struct TripRowTitle: View {
 private struct TripRowDeviceIcons: View {
     let devices: [PackDevice]
 
+    @ScaledMetric(relativeTo: .caption2) private var iconSize: CGFloat = DesignTokens.Size.smallIcon
+
     var body: some View {
-        HStack(spacing: -CGFloat.xs) {
+        HStack(spacing: .xs) {
             // `prefix(4)` is a cheap slice, fine to take inline.
             ForEach(devices.prefix(4)) { device in
                 Image(systemName: device.symbolName)
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(.tint)
-                    .frame(width: DesignTokens.Size.smallIcon, height: DesignTokens.Size.smallIcon)
+                    .frame(width: iconSize, height: iconSize)
                     .background(.tint.opacity(0.12), in: Circle())
                     .overlay {
                         Circle()
@@ -285,6 +322,7 @@ private struct NextTripBadge: View {
         Text(LocalizationKeys.tripsBadgeNext)
             .font(.caption2.weight(.semibold))
             .foregroundStyle(.voltTint)
+            .fixedSize()
             .padding(.horizontal, .sm)
             .padding(.vertical, 2)
             .background(.voltTint.opacity(0.14), in: Capsule())

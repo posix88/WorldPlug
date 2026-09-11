@@ -212,6 +212,19 @@ The store listing had gone factually wrong, not just stale, so this is worth fla
 
 **One judgement call left to the owner**: `Scripts/screenshots/captions.json` still captions this shot "Know before you plug in", written when it was the Pack Check *result* screen. It still reads correctly over a trip list with verdicts, so it was left as-is rather than rewritten unasked.
 
+## 2026-09-11 — submission rejected: `UILaunchStoryboardName` carried a file extension
+
+The first App Store upload came back with *"Invalid bundle. Because your app supports Multitasking on iPad, you need to include the LaunchScreen.storyboard launch storyboard file in your com.posix88.Voltly bundle."* The storyboard was never missing — the **reference** was.
+
+- **Cause**: `WorldPlug-Info.plist` declared `UILaunchStoryboardName = LaunchScreen.storyboard`. The compiled resource in the bundle is `LaunchScreen.storyboardc`, and the validator resolves the declared value to `<value>.storyboardc` — so it looked for `LaunchScreen.storyboard.storyboardc` and concluded the launch screen was absent. **The value must be the bare base name, `LaunchScreen`, with no extension.** UIKit is lenient about this at runtime (the splash rendered fine on device and in every simulator run), so nothing locally would ever have caught it; only the delivery validator is strict. Confirmed by inspecting the rejected archive's `Info.plist` against its own bundle contents, and cross-checked against every other app on this machine that has passed validation — all of them use the bare name.
+- **Why it surfaced only at the end**: the check is gated on the app being iPad-multitasking-capable, which requires all four `UISupportedInterfaceOrientations~ipad` values and no `UIRequiresFullScreen`. iPad was portrait-only until shortly before submission, so the validator had never applied the rule. The broken reference itself is much older than the orientation change. **If you ever narrow the iPad orientations again, this class of error goes quiet without the underlying config becoming correct.**
+- **Also bumped** `CFBundleVersion` 3 → 4 in `WorldPlug/WorldPlug-Info.plist` and `VoltlyWidgets/Info.plist`, plus `CURRENT_PROJECT_VERSION` in all four project configs (app + widget × Debug/Release). A number that reached App Store Connect is consumed even when the bundle is rejected, and the app and its extension must agree.
+- **Diff noise warning**: the version bump was applied with `PlistBuddy`, which rewrites the whole file and re-sorts keys alphabetically. `WorldPlug-Info.plist` therefore shows a much larger diff than the two values that actually changed. Nothing semantic moved.
+
+Verified: `xcodebuild build` on Xcode 27 / iPhone 17 Pro succeeds, and the built bundle declares `LaunchScreen` against a present `LaunchScreen.storyboardc`, with app and widget both at build 4.
+
+**Also fixed in the same pass**: `UIRequiredDeviceCapabilities` in `WorldPlug-Info.plist` said `armv7`, which is meaningless for an arm64-only iOS 27 app — a leftover from the original project template. Xcode was silently rewriting it to `arm64` in the built bundle (verified in both the rejected archive and a fresh build), so it was never a submission blocker; it is now `arm64` at the source instead of depending on that rewrite. No build-number bump was needed for this one — it landed in build 4 alongside the launch-screen fix, before build 4 was uploaded.
+
 ## Known doc drift (`.github/` is not authoritative)
 
 `.github/copilot-instructions.md` and `.github/instructions/*.md` (gitignored, so they're local-only reference material, not shipped with the repo) describe:

@@ -10,6 +10,15 @@ WHAT SOCKET BUDDY DOES
 • Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "What's my home country's plug type" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
+ACCESSIBILITY
+
+Socket Buddy is built to work with the accessibility features you already rely on:
+
+• VoiceOver — country rows, plug details and device verdicts are read as complete sentences instead of a pile of fragments, and the spoken labels are translated, not just the text on screen.
+• Dynamic Type right up to the largest accessibility sizes — flags and icons scale with your text, and screens reflow rather than truncating what matters.
+• Compatibility never relies on colour alone — every verdict carries its own symbol and wording alongside the colour.
+• Reduce Motion is respected throughout.
+
 WHY SOCKET BUDDY
 
 Socket Buddy was built by a solo traveler tired of guessing whether a socket would fit, or whether "230V" was going to be a problem. It's fast, offline-first, and doesn't try to be anything other than the plug-and-voltage app it needs to be.

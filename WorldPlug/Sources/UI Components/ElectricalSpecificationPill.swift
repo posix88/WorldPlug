@@ -13,8 +13,10 @@ struct ElectricalSpecificationPill: View {
             icon.image
                 .imageScale(.small)
 
+            // No `lineLimit(1)`: at accessibility text sizes this pill is narrower than its own
+            // value, and a single line truncated the voltage away entirely — "⚡ …" instead of
+            // "⚡ 220V". Wrapping is ugly; hiding the number the whole app exists to show is worse.
             Text(value)
-                .lineLimit(1)
         }
         .font(.caption2.weight(.semibold))
         .foregroundStyle(color)

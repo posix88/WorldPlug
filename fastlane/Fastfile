@@ -1,6 +1,7 @@
 default_platform(:ios)
 
 require "fileutils"
+require "json"
 require "shellwords"
 
 # --- Workaround for `deliver` uploading every App Store Connect screenshot
@@ -121,6 +122,26 @@ TEST_DEVICE = ENV["VOLTLY_TEST_DEVICE"] || "iPhone 17 Pro"
 BUILD_OUTPUT_DIRECTORY = "./build/fastlane"
 FASTLANE_DIRECTORY = Dir.pwd
 SCREENSHOT_RAW_DIRECTORY = File.expand_path("../Scripts/screenshots/raw", FASTLANE_DIRECTORY)
+
+# The Home Screen widget shot (06_widgets) can't go through `snapshot`: XCUITest drives the app
+# under test, not SpringBoard, so it can neither open the widget gallery nor place a widget. That
+# capture uses a dedicated, long-lived simulator whose Home Screen holds the three Socket Buddy
+# widgets — see :prepare_widget_device (one-time, manual) and :capture_widget_screenshots (the
+# repeatable part). Everything except placing the widgets that one time is automated.
+WIDGET_DEVICE_NAME = ENV["VOLTLY_WIDGET_DEVICE"] || "Voltly Shots 17 Pro Max"
+# Must match the device the rest of the pipeline frames for — the App Store's 6.9" iPhone slot,
+# 1320x2868 (see fastlane/Snapfile and Scripts/screenshots/captions.json).
+WIDGET_DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro-Max"
+WIDGET_DEVICE_RUNTIME = "com.apple.CoreSimulator.SimRuntime.iOS-27-0"
+WIDGET_RAW_FILENAME = "widgets_demo.png"
+WIDGET_DERIVED_DATA = File.expand_path("~/AI_Pod_DerivedData/WorldPlugWidgetShot")
+# Set by :prepare_widget_device once a human has confirmed the widgets are on the Home Screen.
+# Without it, :capture_widget_screenshots would happily photograph an empty Home Screen.
+WIDGET_MARKER_DOMAIN = "com.posix88.Voltly.screenshots"
+WIDGET_MARKER_KEY = "widgetsPlaced"
+# App language -> App Store Connect locale directory. The locale keys must match
+# Scripts/screenshots/captions.json (note: `it`, not `it-IT` — deliver rejects the latter).
+WIDGET_LANGUAGES = { "en-US" => "en-US", "it-IT" => "it" }.freeze
 
 platform :ios do
   before_all do
@@ -272,16 +293,20 @@ platform :ios do
   end
 
   desc "Capture and render all App Store screenshots using deterministic DEBUG-only sample data"
+  desc "The Home Screen widget shot needs a one-off `fastlane prepare_widget_device`; without it"
+  desc "that single shot is skipped with a warning and the other five still render."
   lane :screenshots do
     capture_raw_screenshots
+    capture_widget_screenshots(optional: true)
     render_screenshots
   end
 
   desc "Drive WorldPlugUITests on the simulator via `snapshot` (see fastlane/Snapfile) and refresh"
   desc "Scripts/screenshots/raw/ with fresh captures for every shot the test covers (countries"
-  desc "list, country detail sheet, trip check, saved countries). Does NOT capture the label scanner or"
-  desc "widget gallery shots (camera + Home Screen widgets aren't automatable via XCUITest) — those"
-  desc "still need a manual `xcrun simctl io booted screenshot` capture into raw/."
+  desc "list, country detail sheet, trip check, saved countries). Does NOT capture the label scanner"
+  desc "shot (the camera isn't automatable via XCUITest) — that one still needs a manual"
+  desc "`xcrun simctl io booted screenshot` capture into raw/. The Home Screen widget shot has its"
+  desc "own lane: `fastlane capture_widget_screenshots`."
   desc "Run `fastlane render_screenshots` afterward to composite captions on top of the new raws."
   lane :capture_raw_screenshots do
     ensure_ios27_sdk
@@ -350,6 +375,173 @@ platform :ios do
 
     UI.user_error!("Snapshot produced no captures.") if copied.zero?
     UI.success("Copied #{copied} fresh capture(s) into Scripts/screenshots/raw/. Run `fastlane render_screenshots` next.")
+  end
+
+  # --- Home Screen widget shot (06_widgets) ------------------------------------------------
+  # Helpers below shell out to simctl rather than using fastlane actions: none of the stock
+  # actions can boot a named device, swap its system language, or take a raw device screenshot.
+
+  private_lane :widget_device_udid do
+    devices = JSON.parse(sh("xcrun simctl list devices --json", log: false))["devices"]
+    match = devices.values.flatten.find { |device| device["name"] == WIDGET_DEVICE_NAME && device["isAvailable"] }
+    match && match["udid"]
+  end
+
+  private_lane :boot_widget_device do |options|
+    udid = options[:udid]
+    sh("xcrun simctl boot #{udid} || true", log: false)
+    # Waits for SpringBoard, so the launch below can't race the boot.
+    sh("xcrun simctl bootstatus #{udid} -b", log: false)
+  end
+
+  # Launches the app with the same deterministic seed the UI tests use and waits until it has
+  # mirrored the values into the App Group. The widgets read that suite directly, so capturing
+  # before the mirror lands photographs empty widgets — it takes ~15s on a first launch.
+  private_lane :seed_widget_device do |options|
+    udid = options[:udid]
+    sh("xcrun simctl launch #{udid} com.posix88.Voltly -FASTLANE_SNAPSHOT YES", log: false)
+
+    container = sh("xcrun simctl get_app_container #{udid} com.posix88.Voltly groups", log: false)
+      .lines.map(&:strip).find { |line| line.include?("group.com.posix88.Voltly") }
+      &.split(/\s+/)&.last
+    UI.user_error!("Could not resolve the App Group container on #{WIDGET_DEVICE_NAME}.") if container.to_s.empty?
+
+    plist = File.join(container, "Library/Preferences/group.com.posix88.Voltly.plist")
+    required = ["home.country.code", "favorite.country.code", "next.trip.country.code"]
+    deadline = Time.now + 90
+    until Time.now > deadline
+      if File.exist?(plist)
+        dump = sh("plutil -p #{plist.shellescape}", log: false)
+        break if required.all? { |key| dump.include?(key) }
+      end
+      sleep(2)
+    end
+
+    unless File.exist?(plist) && required.all? { |key| sh("plutil -p #{plist.shellescape}", log: false).include?(key) }
+      UI.user_error!("#{WIDGET_DEVICE_NAME} never wrote the App Group widget values — the widgets would render empty.")
+    end
+
+    sh("xcrun simctl terminate #{udid} com.posix88.Voltly", log: false)
+    # Give WidgetKit a beat to reload the timelines the app just invalidated.
+    sleep(5)
+  end
+
+  desc "One-time setup for the Home Screen widget shot (06_widgets). Creates the dedicated"
+  desc "simulator if needed, installs a seeded build, then walks you through placing the three"
+  desc "Socket Buddy widgets on its Home Screen and records that you did. XCUITest cannot drive"
+  desc "SpringBoard, so this single step is manual — everything after it is not."
+  desc "Re-run it only if the device is deleted or the widget layout needs to change."
+  lane :prepare_widget_device do
+    ensure_ios27_sdk
+
+    udid = widget_device_udid
+    if udid.nil?
+      UI.message("Creating simulator \"#{WIDGET_DEVICE_NAME}\"...")
+      udid = sh("xcrun simctl create #{WIDGET_DEVICE_NAME.shellescape} #{WIDGET_DEVICE_TYPE} #{WIDGET_DEVICE_RUNTIME}", log: false).strip
+    end
+
+    boot_widget_device(udid: udid)
+    build_widget_app(udid: udid)
+    seed_widget_device(udid: udid)
+    sh("xcrun simctl launch #{udid} com.posix88.Voltly -FASTLANE_SNAPSHOT YES", log: false)
+    sh("xcrun simctl terminate #{udid} com.posix88.Voltly", log: false)
+
+    UI.important("Now place the widgets on #{WIDGET_DEVICE_NAME}'s Home Screen, by hand, once:")
+    UI.message("  1. Clear the first Home Screen page (remove the stock apps/widgets from it).")
+    UI.message("  2. Long-press an empty spot -> the pill top-left -> Add Widget -> search \"Socket\".")
+    UI.message("  3. Add, in this order: Next trip (large), My country (small), Favorite country (small).")
+    UI.message("     Order matters: it puts the two small widgets on the top row and the large one below,")
+    UI.message("     which is what the caption template frames (its bottom ~14% is cropped).")
+    UI.message("  4. Leave the Home Screen showing that page.")
+
+    unless UI.confirm("Are the three Socket Buddy widgets showing on the Home Screen now?")
+      UI.user_error!("Aborted — nothing recorded. Re-run `fastlane prepare_widget_device` when the widgets are placed.")
+    end
+
+    sh("xcrun simctl spawn #{udid} defaults write #{WIDGET_MARKER_DOMAIN} #{WIDGET_MARKER_KEY} -bool YES", log: false)
+    UI.success("#{WIDGET_DEVICE_NAME} is ready. `fastlane capture_widget_screenshots` can now run unattended.")
+  end
+
+  private_lane :build_widget_app do |options|
+    udid = options[:udid]
+    UI.message("Building #{SCHEME} for #{WIDGET_DEVICE_NAME}...")
+    sh("xcodebuild -project #{File.expand_path('../WorldPlug.xcodeproj', __dir__).shellescape} " \
+       "-scheme #{SCHEME} -configuration Debug -destination id=#{udid} " \
+       "-derivedDataPath #{WIDGET_DERIVED_DATA.shellescape} -quiet build")
+
+    app = File.join(WIDGET_DERIVED_DATA, "Build/Products/Debug-iphonesimulator/WorldPlug.app")
+    UI.user_error!("Build produced no app at #{app}.") unless File.directory?(app)
+    sh("xcrun simctl install #{udid} #{app.shellescape}", log: false)
+  end
+
+  desc "Capture the Home Screen widget shot (06_widgets) in every language, into"
+  desc "Scripts/screenshots/raw/. Builds and installs a seeded build on the dedicated widget"
+  desc "simulator, switches its system language per locale so the widgets themselves are"
+  desc "localized, waits for the App Group mirror, cleans the status bar and screenshots it."
+  desc "Requires a one-off `fastlane prepare_widget_device` first (widgets must already be on"
+  desc "that device's Home Screen). Run `fastlane render_screenshots` afterward."
+  lane :capture_widget_screenshots do |options|
+    ensure_ios27_sdk
+
+    udid = widget_device_udid
+    marker = udid && sh("xcrun simctl spawn #{udid} defaults read #{WIDGET_MARKER_DOMAIN} #{WIDGET_MARKER_KEY} 2>/dev/null || true", log: false).strip
+
+    if udid.nil? || marker != "1"
+      message = "The widget capture device \"#{WIDGET_DEVICE_NAME}\" is not prepared. " \
+                "Run `fastlane prepare_widget_device` once (it places the widgets on its Home Screen)."
+      # `screenshots` passes optional:true so a missing device degrades to a warning instead of
+      # taking the whole run down — the other five shots don't depend on it.
+      if options[:optional]
+        UI.important("Skipping the widget shot: #{message}")
+        next
+      end
+      UI.user_error!(message)
+    end
+
+    boot_widget_device(udid: udid)
+    build_widget_app(udid: udid)
+
+    captured = []
+    WIDGET_LANGUAGES.each do |language, locale|
+      UI.message("Capturing the widget shot in #{language}...")
+      # The widgets run in their own process and read the *device* language, so a per-app
+      # -AppleLanguages launch argument (what `snapshot` uses) would not localize them.
+      sh("xcrun simctl shutdown #{udid}", log: false)
+      sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLanguages -array #{language.shellescape}", log: false)
+      sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLocale -string #{language.tr('-', '_').shellescape}", log: false)
+      boot_widget_device(udid: udid)
+
+      seed_widget_device(udid: udid)
+
+      # Matches Snapfile's override_status_bar, which only applies to `snapshot`-driven runs.
+      sh("xcrun simctl status_bar #{udid} override --time 9:41 --dataNetwork wifi --wifiMode active " \
+         "--wifiBars 3 --cellularMode active --cellularBars 4 --batteryState charged --batteryLevel 100 " \
+         "--operatorName ''", log: false)
+      sleep(2)
+
+      locale_directory = File.join(SCREENSHOT_RAW_DIRECTORY, locale)
+      FileUtils.mkdir_p(locale_directory)
+      destination = File.join(locale_directory, WIDGET_RAW_FILENAME)
+      sh("xcrun simctl io #{udid} screenshot #{destination.shellescape}", log: false)
+
+      dimensions = sh("sips -g pixelWidth -g pixelHeight #{destination.shellescape}", log: false)
+      width = dimensions[/pixelWidth: (\d+)/, 1].to_i
+      height = dimensions[/pixelHeight: (\d+)/, 1].to_i
+      unless width == 1320 && height == 2868
+        UI.user_error!("#{locale} widget capture is #{width}x#{height}, expected 1320x2868 — is #{WIDGET_DEVICE_NAME} still a 6.9\" iPhone?")
+      end
+
+      # English doubles as the flat raw/ fallback render-all.mjs uses for any locale that has no
+      # capture of its own, exactly like capture_raw_screenshots does.
+      FileUtils.cp(destination, File.join(SCREENSHOT_RAW_DIRECTORY, WIDGET_RAW_FILENAME)) if language.start_with?("en")
+      captured << locale
+    end
+
+    # Leave the device in English so a later manual look at it isn't confusingly Italian.
+    sh("xcrun simctl shutdown #{udid}", log: false)
+    sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLanguages -array en-US", log: false)
+
+    UI.success("Captured the widget shot for: #{captured.join(', ')}. Run `fastlane render_screenshots` next.")
   end
 
   desc "Render every shot in Scripts/screenshots/captions.json (from raw captures already in"

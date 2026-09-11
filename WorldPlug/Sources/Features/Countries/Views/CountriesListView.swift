@@ -47,6 +47,18 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                         viewModel: viewModel,
                         tip: compatibilityFilterTip
                     )
+                    .background {
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                            .mask {
+                                LinearGradient(
+                                    colors: [.black, .black.opacity(0.8), .clear],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            }
+                            .ignoresSafeArea(edges: .top)
+                    }
                 }
                 .searchable(
                     text: $viewModel.searchQuery,
@@ -165,6 +177,7 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
             .padding(.horizontal, .xxl)
             .padding(.bottom, .xxl)
         }
+        .scrollEdgeEffectStyle(.soft, for: .top)
         .swipeActionsContainer()
         .accessibilityIdentifier("countries.list")
         .accessibilityElement(children: .contain)

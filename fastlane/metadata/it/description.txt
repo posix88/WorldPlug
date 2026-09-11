@@ -10,6 +10,15 @@ COSA FA SOCKET BUDDY
 • Chiedi a Siri o cerca con Spotlight — "Apri Giappone in Socket Buddy" o "Qual è la presa del mio paese" funziona subito.
 • Funziona completamente offline. I tuoi dati si sincronizzano in privato tra i tuoi dispositivi tramite iCloud — mai condivisi con nessun altro.
 
+ACCESSIBILITÀ
+
+Socket Buddy è pensato per funzionare con le funzioni di accessibilità che già usi:
+
+• VoiceOver — le righe dei paesi, i dettagli delle spine e i verdetti sui dispositivi vengono letti come frasi complete invece che a frammenti, e le etichette vocali sono tradotte, non solo il testo a schermo.
+• Testo dinamico fino alle dimensioni di accessibilità più grandi — bandiere e icone si adattano al testo e le schermate si riorganizzano invece di troncare ciò che conta.
+• La compatibilità non si affida mai al solo colore — ogni verdetto ha un simbolo e una dicitura propri, oltre al colore.
+• Riduci movimento è rispettato in tutta l'app.
+
 PERCHÉ SOCKET BUDDY
 
 Socket Buddy è nato dall'esigenza di un viaggiatore stanco di indovinare se una presa sarebbe entrata, o se "230V" sarebbe stato un problema. È veloce, funziona offline ed è pensato per fare bene una cosa sola: dirti tutto su prese e voltaggio.
