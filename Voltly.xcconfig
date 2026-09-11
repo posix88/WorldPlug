@@ -1,0 +1,4 @@
+// Fix for ITMS-90863: Explicitly declare iOS-only platform support
+// This prevents Xcode from including macOS slices and linking against iOS-only frameworks
+
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
