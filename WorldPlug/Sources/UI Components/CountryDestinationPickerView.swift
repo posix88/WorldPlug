@@ -15,19 +15,21 @@ struct CountryDestinationPickerView: View {
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Binding var selectedCountryCode: String
     @State private var viewModel: CountryDestinationPickerViewModel
-    private let title: String
+    /// `LocalizedStringResource`, not `String`: user-facing text stays unresolved until it is
+    /// rendered, so it keeps honouring the `\.locale` environment override.
+    private let title: LocalizedStringResource
     private let screen: AnalyticsScreen
     /// When true, an empty `selectedCountryCode` is a valid state and a "None" row is offered.
     private let allowsNoSelection: Bool
-    private let noSelectionTitle: String
+    private let noSelectionTitle: LocalizedStringResource
 
     init(
         selectedCountryCode: Binding<String>,
         countries: [Country],
-        title: String = LocalizationKeys.tripDestination.localized,
+        title: LocalizedStringResource = LocalizationKeys.tripDestination,
         screen: AnalyticsScreen = .tripDestination,
         allowsNoSelection: Bool = false,
-        noSelectionTitle: String = LocalizationKeys.favoriteWidgetNoSelection.localized
+        noSelectionTitle: LocalizedStringResource = LocalizationKeys.favoriteWidgetNoSelection
     ) {
         _selectedCountryCode = selectedCountryCode
         _viewModel = State(initialValue: CountryDestinationPickerViewModel(countries: countries))
@@ -59,7 +61,7 @@ struct CountryDestinationPickerView: View {
         .tint(.voltTint)
         .searchable(
             text: $viewModel.searchQuery,
-            prompt: Text(LocalizationKeys.tripSearchDestination.localized)
+            prompt: Text(LocalizationKeys.tripSearchDestination)
         )
     }
 
@@ -141,7 +143,7 @@ struct CountryDestinationPickerView: View {
                 Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹"),
                 Country(code: "JP", voltage: "100V", frequency: "50/60Hz", flagUnicode: "🇯🇵")
             ],
-            title: LocalizationKeys.favoriteWidgetTitle.localized,
+            title: LocalizationKeys.favoriteWidgetTitle,
             screen: .settings,
             allowsNoSelection: true
         )

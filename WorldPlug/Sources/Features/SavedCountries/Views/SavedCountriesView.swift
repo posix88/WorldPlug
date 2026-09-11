@@ -39,7 +39,7 @@ struct SavedCountriesView: View {
 
         NavigationStack {
             content
-                .navigationTitle(LocalizationKeys.savedCountriesTitle.localized)
+                .navigationTitle(LocalizationKeys.savedCountriesTitle)
                 .background { AppMeshBackground() }
                 .onAppear {
                     viewModel.updateCountries(countries)
@@ -57,9 +57,9 @@ struct SavedCountriesView: View {
             LazyVStack(spacing: .md) {
                 if viewModel.savedCountries.isEmpty {
                     ContentUnavailableView(
-                        LocalizationKeys.savedCountriesEmptyTitle.localized,
+                        LocalizationKeys.savedCountriesEmptyTitle,
                         systemImage: "star",
-                        description: Text(LocalizationKeys.savedCountriesEmptyDescription.localized)
+                        description: Text(LocalizationKeys.savedCountriesEmptyDescription)
                     )
                     .padding(.top, .special)
                 } else {

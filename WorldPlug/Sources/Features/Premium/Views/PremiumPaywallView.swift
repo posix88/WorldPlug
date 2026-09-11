@@ -11,7 +11,7 @@ enum PremiumPaywallSource: String, Identifiable {
 
     var id: String { rawValue }
 
-    var messageKey: String {
+    var message: LocalizedStringResource {
         switch self {
         case .countryDetailSave:
             LocalizationKeys.premiumPaywallCountrySaveMessage
@@ -24,11 +24,11 @@ enum PremiumPaywallSource: String, Identifiable {
 // MARK: - PremiumBenefitRow
 
 private struct PremiumBenefitRow: View {
-    let key: String
+    let text: LocalizedStringResource
     let icon: String
 
     var body: some View {
-        Label(key.localized, systemImage: icon)
+        Label(text, systemImage: icon)
             .font(.body.weight(.medium))
             .foregroundStyle(.textRegular)
     }
@@ -81,20 +81,20 @@ private struct PremiumPaywallContent: View {
                     .foregroundStyle(.premiumTint)
 
                 VStack(spacing: .sm) {
-                    Text(LocalizationKeys.premiumPaywallTitle.localized)
+                    Text(LocalizationKeys.premiumPaywallTitle)
                         .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.textRegular)
 
-                    Text(viewModel.source.messageKey.localized)
+                    Text(viewModel.source.message)
                         .font(.title3)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.textLight)
                 }
 
                 VStack(alignment: .leading, spacing: .lg) {
-                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
-                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
-                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
+                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
+                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
+                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -105,9 +105,9 @@ private struct PremiumPaywallContent: View {
                         if viewModel.isPurchasing {
                             ProgressView()
                         } else if let premiumPrice = viewModel.premiumPrice {
-                            Text(LocalizationKeys.premiumPaywallPurchaseWithPrice.localized(premiumPrice))
+                            Text(LocalizationKeys.premiumPaywallPurchaseWithPrice.string(premiumPrice))
                         } else {
-                            Text(LocalizationKeys.premiumPaywallPurchase.localized)
+                            Text(LocalizationKeys.premiumPaywallPurchase)
                         }
                     }
                     .frame(minWidth: 260)
@@ -117,7 +117,7 @@ private struct PremiumPaywallContent: View {
                 .controlSize(.large)
                 .disabled(viewModel.isPurchasing)
 
-                Button(LocalizationKeys.premiumPaywallRestore.localized, action: restorePurchases)
+                Button(LocalizationKeys.premiumPaywallRestore, action: restorePurchases)
                     .buttonStyle(.glass)
                     .tint(.textRegular)
                     .disabled(viewModel.isPurchasing)
@@ -133,24 +133,24 @@ private struct PremiumPaywallContent: View {
                     } label: {
                         Image(systemName: "xmark")
                     }
-                    .accessibilityLabel(LocalizationKeys.generalClose.localized)
+                    .accessibilityLabel(LocalizationKeys.generalClose)
                 }
             }
             .alert(
-                LocalizationKeys.premiumPaywallErrorTitle.localized,
+                LocalizationKeys.premiumPaywallErrorTitle,
                 isPresented: $viewModel.isErrorAlertPresented
             ) {
-                Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {}
+                Button(LocalizationKeys.premiumPaywallDismiss, role: .cancel) {}
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }
             .alert(
-                LocalizationKeys.premiumPaywallPendingTitle.localized,
+                LocalizationKeys.premiumPaywallPendingTitle,
                 isPresented: $viewModel.isPendingAlertPresented
             ) {
-                Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {}
+                Button(LocalizationKeys.premiumPaywallDismiss, role: .cancel) {}
             } message: {
-                Text(LocalizationKeys.premiumPaywallPendingMessage.localized)
+                Text(LocalizationKeys.premiumPaywallPendingMessage)
             }
             .onChange(of: viewModel.isPremium) { _, isPremium in
                 if isPremium {

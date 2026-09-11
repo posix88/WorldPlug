@@ -25,7 +25,7 @@ struct PlugEntity: AppEntity {
 
     var displayRepresentation: DisplayRepresentation {
         DisplayRepresentation(
-            title: "\(LocalizationKeys.plugTypePrefix.localized(type))",
+            title: "\(LocalizationKeys.plugTypePrefix.string(type))",
             image: .init(systemName: "powerplug.fill")
         )
     }

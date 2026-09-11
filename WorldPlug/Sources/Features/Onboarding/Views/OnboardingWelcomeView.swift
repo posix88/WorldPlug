@@ -42,11 +42,11 @@ struct OnboardingWelcomeView: View {
                 .opacity(logoOpacity)
 
                 VStack(spacing: .md) {
-                    Text(LocalizationKeys.appTitle.localized)
+                    Text(LocalizationKeys.appTitle)
                         .font(.largeTitle.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text(LocalizationKeys.onboardingTagline.localized)
+                    Text(LocalizationKeys.onboardingTagline)
                         .font(.title3)
                         .foregroundStyle(.white.opacity(0.65))
                 }
@@ -59,18 +59,18 @@ struct OnboardingWelcomeView: View {
             VStack(alignment: .leading, spacing: .xxl) {
                 OnboardingFeatureRow(
                     icon: "globe.europe.africa.fill",
-                    title: LocalizationKeys.onboardingCountriesTitle.localized,
-                    subtitle: LocalizationKeys.onboardingCountriesSubtitle.localized
+                    title: LocalizationKeys.onboardingCountriesTitle,
+                    subtitle: LocalizationKeys.onboardingCountriesSubtitle
                 )
                 OnboardingFeatureRow(
                     icon: "house.fill",
-                    title: LocalizationKeys.onboardingHomeCountryTitle.localized,
-                    subtitle: LocalizationKeys.onboardingHomeCountrySubtitle.localized
+                    title: LocalizationKeys.onboardingHomeCountryTitle,
+                    subtitle: LocalizationKeys.onboardingHomeCountrySubtitle
                 )
                 OnboardingFeatureRow(
                     icon: "bolt.shield.fill",
-                    title: LocalizationKeys.onboardingAdapterInfoTitle.localized,
-                    subtitle: LocalizationKeys.onboardingAdapterInfoSubtitle.localized
+                    title: LocalizationKeys.onboardingAdapterInfoTitle,
+                    subtitle: LocalizationKeys.onboardingAdapterInfoSubtitle
                 )
             }
             .padding(.horizontal, .max)
@@ -81,7 +81,7 @@ struct OnboardingWelcomeView: View {
 
             // CTA
             Button(action: onGetStarted) {
-                Text(LocalizationKeys.onboardingGetStarted.localized)
+                Text(LocalizationKeys.onboardingGetStarted)
                     .font(.headline)
                     .foregroundStyle(Color.deepNavy)
                     .frame(maxWidth: .infinity)
@@ -124,8 +124,8 @@ struct OnboardingWelcomeView: View {
 
 struct OnboardingFeatureRow: View {
     let icon: String
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringResource
+    let subtitle: LocalizedStringResource
 
     var body: some View {
         HStack(alignment: .top, spacing: .xl) {

@@ -37,13 +37,13 @@ struct DeviceLabelScannerView: View {
                 }
             } else {
                 ContentUnavailableView(
-                    LocalizationKeys.tripCheckScanUnavailable.localized,
+                    LocalizationKeys.tripCheckScanUnavailable,
                     systemImage: "camera.fill",
-                    description: Text(LocalizationKeys.tripCheckScanUnavailableDescription.localized)
+                    description: Text(LocalizationKeys.tripCheckScanUnavailableDescription)
                 )
             }
         }
-        .navigationTitle(LocalizationKeys.tripCheckScanLabel.localized)
+        .navigationTitle(LocalizationKeys.tripCheckScanLabel)
         .navigationBarTitleDisplayMode(.inline)
         .onDisappear {
             analyzeTask?.cancel()
@@ -54,7 +54,7 @@ struct DeviceLabelScannerView: View {
         VStack(spacing: .md) {
             if viewModel.state == .noValuesFound {
                 Label(
-                    LocalizationKeys.tripCheckScanNoValues.localized,
+                    LocalizationKeys.tripCheckScanNoValues,
                     systemImage: "exclamationmark.triangle.fill"
                 )
                 .font(.footnote.weight(.medium))
@@ -62,8 +62,8 @@ struct DeviceLabelScannerView: View {
             } else {
                 Text(
                     viewModel.usesFoundationModel
-                        ? LocalizationKeys.tripCheckScanSmartHint.localized
-                        : LocalizationKeys.tripCheckScanLabelHint.localized
+                        ? LocalizationKeys.tripCheckScanSmartHint
+                        : LocalizationKeys.tripCheckScanLabelHint
                 )
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -78,7 +78,7 @@ struct DeviceLabelScannerView: View {
                         ProgressView()
                     } else {
                         Label(
-                            LocalizationKeys.tripCheckScanAnalyze.localized,
+                            LocalizationKeys.tripCheckScanAnalyze,
                             systemImage: viewModel.usesFoundationModel ? "sparkles" : "viewfinder"
                         )
                     }
@@ -89,7 +89,7 @@ struct DeviceLabelScannerView: View {
             }
             .buttonStyle(.borderedProminent)
             .disabled(viewModel.state == .analyzing)
-            .accessibilityHint(LocalizationKeys.tripCheckScanLabelHint.localized)
+            .accessibilityHint(LocalizationKeys.tripCheckScanLabelHint)
         }
         .padding(.lg)
         .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 18, style: .continuous))

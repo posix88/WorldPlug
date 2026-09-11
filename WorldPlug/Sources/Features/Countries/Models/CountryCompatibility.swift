@@ -16,7 +16,7 @@ enum CountryCompatibilitySummary: Equatable {
         }
     }
 
-    var title: String { filter.title }
+    var title: LocalizedStringResource { filter.title }
     var icon: SFSymbols { filter.icon }
     var color: Color { filter.color }
 }

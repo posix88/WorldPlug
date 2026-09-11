@@ -20,7 +20,6 @@ struct CountryPowerSnippet: View {
                 snippetMetric(
                     title: localizedString(
                         LocalizationKeys.accessibilityVoltage,
-                        table: .accessibility,
                         locale: locale
                     ),
                     value: country.voltage,
@@ -29,7 +28,6 @@ struct CountryPowerSnippet: View {
                 snippetMetric(
                     title: localizedString(
                         LocalizationKeys.accessibilityFrequency,
-                        table: .accessibility,
                         locale: locale
                     ),
                     value: country.frequency,
@@ -85,7 +83,6 @@ struct DeviceCompatibilitySnippet: View {
                     snippetMetric(
                         title: localizedString(
                             LocalizationKeys.accessibilityVoltage,
-                            table: .accessibility,
                             locale: locale
                         ),
                         value: result.destinationVoltage,
@@ -94,7 +91,6 @@ struct DeviceCompatibilitySnippet: View {
                     snippetMetric(
                         title: localizedString(
                             LocalizationKeys.accessibilityFrequency,
-                            table: .accessibility,
                             locale: locale
                         ),
                         value: result.destinationFrequency,
@@ -147,7 +143,6 @@ struct NextTripRequirementsSnippet: View {
                     snippetMetric(
                         title: localizedString(
                             LocalizationKeys.accessibilityVoltage,
-                            table: .accessibility,
                             locale: locale
                         ),
                         value: result.voltage,
@@ -156,7 +151,6 @@ struct NextTripRequirementsSnippet: View {
                     snippetMetric(
                         title: localizedString(
                             LocalizationKeys.accessibilityFrequency,
-                            table: .accessibility,
                             locale: locale
                         ),
                         value: result.frequency,
@@ -180,7 +174,6 @@ struct NextTripRequirementsSnippet: View {
         guard result.recommendation != .tripDataUnavailable else {
             return nil
         }
-
         guard let departureDate = result.departureDate, let returnDate = result.returnDate else {
             return nil
         }
@@ -224,9 +217,11 @@ private func snippetMetric(title: String, value: String, systemImage: String) ->
     .frame(maxWidth: .infinity, alignment: .leading)
 }
 
+/// Resolves against an explicitly supplied locale rather than the environment: a Siri snippet has
+/// to answer in the language the request was made in, which is not necessarily the app's current
+/// one. The `table` now travels with the resource, so the parameter is gone.
 private func localizedString(
-    _ key: String,
-    table: StringCatalog = .main,
+    _ resource: LocalizedStringResource,
     locale: Locale
 ) -> String {
     let languageCode = locale.language.languageCode?.identifier
@@ -234,8 +229,8 @@ private func localizedString(
         .flatMap { Bundle.main.url(forResource: $0, withExtension: "lproj") }
         .flatMap { Bundle(url: $0) }
     return String(
-        localized: String.LocalizationValue(key),
-        table: table.rawValue,
+        localized: String.LocalizationValue(resource.key),
+        table: resource.table,
         bundle: localizedBundle ?? .main,
         locale: locale
     )

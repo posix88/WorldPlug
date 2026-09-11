@@ -45,10 +45,11 @@ final class SavedCountriesViewModel {
             return nil
         }
 
-        return String(
-            format: LocalizationKeys.savedCountriesFreeLimit.localized,
-            savedCountryCodes.count,
-            SavedCountryLimit.free
+        // `.string(_:)` goes through `String(format:locale:)`, and each count is pre-formatted,
+        // so both numbers render in the user's own numerals rather than ASCII 0-9.
+        return LocalizationKeys.savedCountriesFreeLimit.string(
+            savedCountryCodes.count.formatted(),
+            SavedCountryLimit.free.formatted()
         )
     }
 

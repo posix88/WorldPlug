@@ -55,21 +55,21 @@ struct TripEditorView: View {
                 analyticsTracker.screen(.tripEditor)
             }
             .confirmationDialog(
-                LocalizationKeys.tripRemove.localized,
+                LocalizationKeys.tripRemove,
                 isPresented: $isDeleteConfirmationPresented,
                 titleVisibility: .visible
             ) {
-                Button(LocalizationKeys.tripRemove.localized, role: .destructive) {
+                Button(LocalizationKeys.tripRemove, role: .destructive) {
                     onDelete?()
                     dismiss()
                 }
 
-                Button(LocalizationKeys.tripCheckCancel.localized, role: .cancel) {}
+                Button(LocalizationKeys.tripCheckCancel, role: .cancel) {}
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel(LocalizationKeys.tripCheckCancel.localized)
+                        .accessibilityLabel(LocalizationKeys.tripCheckCancel)
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
@@ -81,16 +81,16 @@ struct TripEditorView: View {
                     }
                     .disabled(!viewModel.canSave)
                     .accessibilityIdentifier("trip.editor.save")
-                    .accessibilityLabel(LocalizationKeys.tripCheckAction.localized)
+                    .accessibilityLabel(LocalizationKeys.tripCheckAction)
                 }
             }
         }
     }
 
-    private var navigationTitle: String {
+    private var navigationTitle: LocalizedStringResource {
         viewModel.isExisting
-            ? LocalizationKeys.tripEditorEditTitle.localized
-            : LocalizationKeys.tripEditorNewTitle.localized
+            ? LocalizationKeys.tripEditorEditTitle
+            : LocalizationKeys.tripEditorNewTitle
     }
 }
 
@@ -106,7 +106,7 @@ private struct TripEditorDestinationSection: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        Section(LocalizationKeys.tripDestination.localized) {
+        Section(LocalizationKeys.tripDestination) {
             NavigationLink {
                 CountryDestinationPickerView(
                     selectedCountryCode: $viewModel.trip.countryCode,
@@ -120,7 +120,7 @@ private struct TripEditorDestinationSection: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
-            .accessibilityLabel(LocalizationKeys.tripDestination.localized)
+            .accessibilityLabel(LocalizationKeys.tripDestination)
             .accessibilityIdentifier("trip.editor.destination")
         }
     }
@@ -136,7 +136,7 @@ private struct TripEditorDestinationLabel: View {
         if let destination {
             Text(verbatim: "\(destination.flagUnicode) \(destination.localizedName(in: locale))")
         } else {
-            Text(LocalizationKeys.tripEditorDestinationPlaceholder.localized)
+            Text(LocalizationKeys.tripEditorDestinationPlaceholder)
                 .foregroundStyle(.textLight)
         }
     }
@@ -150,15 +150,15 @@ private struct TripEditorDatesSection: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        Section(LocalizationKeys.tripDates.localized) {
+        Section(LocalizationKeys.tripDates) {
             DatePicker(
-                LocalizationKeys.tripDeparture.localized,
+                LocalizationKeys.tripDeparture,
                 selection: $viewModel.trip.departureDate,
                 displayedComponents: .date
             )
 
             DatePicker(
-                LocalizationKeys.tripReturnDate.localized,
+                LocalizationKeys.tripReturnDate,
                 selection: $viewModel.returnDate,
                 in: viewModel.trip.departureDate...,
                 displayedComponents: .date
@@ -175,10 +175,10 @@ private struct TripEditorNameSection: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        Section(LocalizationKeys.tripName.localized) {
+        Section(LocalizationKeys.tripName) {
             // `$viewModel.name` — the optional-to-empty-string projection lives on the view model
             // (see `TripEditorViewModel.name`) instead of a `Binding(get:set:)` built here.
-            TextField(LocalizationKeys.tripNamePlaceholder.localized, text: $viewModel.name)
+            TextField(LocalizationKeys.tripNamePlaceholder, text: $viewModel.name)
         }
     }
 }
@@ -192,7 +192,7 @@ private struct TripEditorRemoveButton: View {
         Button(role: .destructive) {
             isConfirmationPresented = true
         } label: {
-            Label(LocalizationKeys.tripRemove.localized, systemImage: "trash")
+            Label(LocalizationKeys.tripRemove, systemImage: "trash")
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.glass)

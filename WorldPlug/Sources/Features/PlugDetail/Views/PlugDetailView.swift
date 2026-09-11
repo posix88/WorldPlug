@@ -38,9 +38,9 @@ struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
             ToolbarItem(placement: .topBarTrailing) {
                 ShareLink(
                     item: viewModel.shareText,
-                    subject: Text(LocalizationKeys.plugTypePrefix.localized(viewModel.plug.id))
+                    subject: Text(LocalizationKeys.plugTypePrefix.string(viewModel.plug.id))
                 ) {
-                    Label(LocalizationKeys.plugShare.localized, systemImage: "square.and.arrow.up")
+                    Label(LocalizationKeys.plugShare, systemImage: "square.and.arrow.up")
                 }
             }
         }
@@ -63,7 +63,7 @@ private struct PlugDetailHero: View {
                 .clipShape(Circle())
                 .shadow(color: .black.opacity(0.1), radius: DesignTokens.Radius.small, x: 0, y: 4)
 
-            Text(LocalizationKeys.plugTypePrefix.localized(plugID))
+            Text(LocalizationKeys.plugTypePrefix.string(plugID))
                 .font(.title.weight(.bold))
                 .foregroundStyle(.textRegular)
         }
@@ -74,14 +74,14 @@ private struct PlugDetailHero: View {
 // MARK: - PlugDetailOverview
 
 private struct PlugDetailOverview: View {
-    let description: String
+    let description: LocalizedStringResource
 
     var body: some View {
         Card(shadow: .subtle) {
             VStack(alignment: .leading, spacing: .lg) {
                 PlugDetailSectionHeader(
                     icon: .infoCircleFill,
-                    title: LocalizationKeys.plugOverview.localized,
+                    title: LocalizationKeys.plugOverview,
                     color: .buttonInfoTint
                 )
 
@@ -105,31 +105,31 @@ private struct PlugDetailSpecifications: View {
             VStack(alignment: .leading, spacing: .lg) {
                 PlugDetailSectionHeader(
                     icon: .boltCircleFill,
-                    title: LocalizationKeys.plugSpecifications.localized,
+                    title: LocalizationKeys.plugSpecifications,
                     color: .voltTint
                 )
 
                 SpecificationRow(
                     icon: .powerPlug,
-                    title: LocalizationKeys.pinDiameter.localized,
+                    title: LocalizationKeys.pinDiameter,
                     value: plug.pinDiameter,
                     color: .voltTint
                 )
                 SpecificationRow(
                     icon: .waveform,
-                    title: LocalizationKeys.pinSpacing.localized,
+                    title: LocalizationKeys.pinSpacing,
                     value: plug.pinSpacing,
                     color: .frequencyTint
                 )
                 SpecificationRow(
                     icon: .batteryFull,
-                    title: LocalizationKeys.ratedAmperage.localized,
+                    title: LocalizationKeys.ratedAmperage,
                     value: plug.ratedAmperage,
                     color: .buttonInfoTint
                 )
 
                 VStack(alignment: .leading, spacing: .sm) {
-                    Text(LocalizationKeys.alsoKnownAs.localized)
+                    Text(LocalizationKeys.alsoKnownAs)
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(.textLight)
 
@@ -151,7 +151,7 @@ private struct PlugDetailSpecifications: View {
 
 private struct PlugDetailSectionHeader: View {
     let icon: SFSymbols
-    let title: String
+    let title: LocalizedStringResource
     let color: Color
 
     var body: some View {
@@ -185,7 +185,7 @@ extension PlugDetailView {
                             .imageScale(.medium)
                             .foregroundStyle(.textLight)
 
-                        Text(LocalizationKeys.plugImages.localized)
+                        Text(LocalizationKeys.plugImages)
                             .font(.headline)
                             .fontWeight(.semibold)
                             .foregroundStyle(.textRegular)
@@ -237,7 +237,7 @@ private struct PlugReferenceImage: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel(LocalizationKeys.retry.localized)
+                .accessibilityLabel(LocalizationKeys.retry)
 
             case .empty:
                 ProgressView()
@@ -258,7 +258,7 @@ private struct PlugReferenceImage: View {
 
 private struct SpecificationRow: View {
     let icon: SFSymbols
-    let title: String
+    let title: LocalizedStringResource
     let value: String
     let color: Color
 

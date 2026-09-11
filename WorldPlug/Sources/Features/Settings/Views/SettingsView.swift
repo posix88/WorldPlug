@@ -47,7 +47,7 @@ struct SettingsView: View {
             }
             .scrollContentBackground(.hidden)
             .background { AppMeshBackground() }
-            .navigationTitle(LocalizationKeys.settingsTitle.localized)
+            .navigationTitle(LocalizationKeys.settingsTitle)
             .accessibilityIdentifier("settings.form")
             .navigationDestination(for: SettingsRoute.self) { route in
                 destination(for: route)
@@ -56,10 +56,10 @@ struct SettingsView: View {
                 PremiumPaywallView(source: .savedCountries)
             }
             .alert(
-                LocalizationKeys.settingsRestoreFailed.localized,
+                LocalizationKeys.settingsRestoreFailed,
                 isPresented: $viewModel.isRestoreFailureAlertPresented
             ) {
-                Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {
+                Button(LocalizationKeys.premiumPaywallDismiss, role: .cancel) {
                     viewModel.restoreFailureMessage = nil
                 }
             } message: {
@@ -99,10 +99,10 @@ struct SettingsView: View {
             CountryDestinationPickerView(
                 selectedCountryCode: $viewModel.selectedHomeCountryCode,
                 countries: countries,
-                title: LocalizationKeys.settingsHomeCountry.localized,
+                title: LocalizationKeys.settingsHomeCountry,
                 screen: .settings,
                 allowsNoSelection: true,
-                noSelectionTitle: LocalizationKeys.settingsHomeCountryNone.localized
+                noSelectionTitle: LocalizationKeys.settingsHomeCountryNone
             )
 
         case .favoriteWidgetPicker:
@@ -111,7 +111,7 @@ struct SettingsView: View {
                 // Deliberately only the saved countries: the widget can't show one the user
                 // hasn't starred, so offering the full catalogue here would offer a dead end.
                 countries: viewModel.savedCountries,
-                title: LocalizationKeys.favoriteWidgetTitle.localized,
+                title: LocalizationKeys.favoriteWidgetTitle,
                 screen: .settings,
                 allowsNoSelection: true
             )
@@ -142,24 +142,24 @@ private struct SettingsTravelSection: View {
     var body: some View {
         Section {
             NavigationLink(value: SettingsRoute.homeCountryPicker) {
-                LabeledContent(LocalizationKeys.settingsHomeCountry.localized) {
+                LabeledContent(LocalizationKeys.settingsHomeCountry) {
                     Text(
                         settingsCountryName(viewModel.homeCountry, locale: locale)
-                            ?? LocalizationKeys.settingsHomeCountryNone.localized
+                            ?? String(localized: LocalizationKeys.settingsHomeCountryNone)
                     )
                 }
             }
             .accessibilityIdentifier("settings.homeCountry")
 
             if viewModel.homeCountry != nil {
-                Button(LocalizationKeys.settingsHomeCountryClear.localized, role: .destructive) {
+                Button(LocalizationKeys.settingsHomeCountryClear, role: .destructive) {
                     viewModel.clearHomeCountry()
                 }
             }
         } header: {
-            Text(LocalizationKeys.settingsSectionTravel.localized)
+            Text(LocalizationKeys.settingsSectionTravel)
         } footer: {
-            Text(LocalizationKeys.settingsHomeCountryFooter.localized)
+            Text(LocalizationKeys.settingsHomeCountryFooter)
         }
     }
 }
@@ -173,22 +173,22 @@ private struct SettingsWidgetsSection: View {
     var body: some View {
         Section {
             NavigationLink(value: SettingsRoute.favoriteWidgetPicker) {
-                LabeledContent(LocalizationKeys.favoriteWidgetTitle.localized) {
+                LabeledContent(LocalizationKeys.favoriteWidgetTitle) {
                     Text(
                         settingsCountryName(viewModel.favoriteWidgetCountry, locale: locale)
-                            ?? LocalizationKeys.favoriteWidgetNoSelection.localized
+                            ?? String(localized: LocalizationKeys.favoriteWidgetNoSelection)
                     )
                 }
             }
             .disabled(!viewModel.canChooseFavoriteWidgetCountry)
             .accessibilityIdentifier("settings.favoriteWidgetCountry")
         } header: {
-            Text(LocalizationKeys.settingsSectionWidgets.localized)
+            Text(LocalizationKeys.settingsSectionWidgets)
         } footer: {
             Text(
                 viewModel.canChooseFavoriteWidgetCountry
-                    ? LocalizationKeys.settingsFavoriteWidgetFooter.localized
-                    : LocalizationKeys.settingsFavoriteWidgetNeedsSaved.localized
+                    ? LocalizationKeys.settingsFavoriteWidgetFooter
+                    : LocalizationKeys.settingsFavoriteWidgetNeedsSaved
             )
         }
     }
@@ -202,15 +202,15 @@ private struct SettingsPremiumSection: View {
     var body: some View {
         Section {
             if viewModel.isPremium {
-                Label(LocalizationKeys.settingsPremiumActive.localized, systemImage: "checkmark.seal.fill")
+                Label(LocalizationKeys.settingsPremiumActive, systemImage: "checkmark.seal.fill")
                     .foregroundStyle(.premiumTint)
             } else {
                 // Just the status, not "Socket Buddy Premium — Free version": the section header
                 // already carries the name, and repeating it read as a stutter on device.
-                Label(LocalizationKeys.settingsPremiumInactive.localized, systemImage: "star")
+                Label(LocalizationKeys.settingsPremiumInactive, systemImage: "star")
                     .foregroundStyle(.textLight)
 
-                Button(LocalizationKeys.premiumPaywallPurchase.localized) {
+                Button(LocalizationKeys.premiumPaywallPurchase) {
                     viewModel.presentPaywall()
                 }
                 .accessibilityIdentifier("settings.unlockPremium")
@@ -218,10 +218,10 @@ private struct SettingsPremiumSection: View {
                 SettingsRestoreButton(viewModel: viewModel)
             }
         } header: {
-            Text(LocalizationKeys.settingsSectionPremium.localized)
+            Text(LocalizationKeys.settingsSectionPremium)
         } footer: {
             if viewModel.isPremium {
-                Text(LocalizationKeys.settingsPremiumActiveFooter.localized)
+                Text(LocalizationKeys.settingsPremiumActiveFooter)
             }
         }
     }
@@ -239,7 +239,7 @@ private struct SettingsRestoreButton: View {
             Task { await viewModel.restorePurchases() }
         } label: {
             HStack {
-                Text(LocalizationKeys.premiumPaywallRestore.localized)
+                Text(LocalizationKeys.premiumPaywallRestore)
 
                 if viewModel.isRestoring {
                     Spacer()
@@ -259,17 +259,18 @@ private struct SettingsAboutSection: View {
     @Environment(\.requestReview) private var requestReview
 
     var body: some View {
-        Section(LocalizationKeys.settingsSectionAbout.localized) {
-            LabeledContent(LocalizationKeys.settingsVersion.localized) {
+        Section(LocalizationKeys.settingsSectionAbout) {
+            LabeledContent(LocalizationKeys.settingsVersion) {
                 Text(viewModel.appVersion)
             }
 
-            Button(LocalizationKeys.settingsRate.localized) {
+            Button(LocalizationKeys.settingsRate) {
                 requestReview()
             }
 
-            ShareLink(item: LocalizationKeys.settingsShareText.localized) {
-                Text(LocalizationKeys.settingsShare.localized)
+            // `ShareLink(item:)` shares a value, not a label — it needs a real `String`.
+            ShareLink(item: String(localized: LocalizationKeys.settingsShareText)) {
+                Text(LocalizationKeys.settingsShare)
             }
         }
     }
@@ -281,8 +282,8 @@ private struct SettingsDebugSection: View {
     var body: some View {
         #if DEBUG
         if AppDebugOverrides.isEnabled {
-            Section(LocalizationKeys.settingsDebug.localized) {
-                Label(LocalizationKeys.settingsDebugSeededData.localized, systemImage: "ladybug.fill")
+            Section(LocalizationKeys.settingsDebug) {
+                Label(LocalizationKeys.settingsDebugSeededData, systemImage: "ladybug.fill")
                     .foregroundStyle(.statusCheck)
             }
         }

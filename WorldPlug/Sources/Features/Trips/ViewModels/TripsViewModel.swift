@@ -139,14 +139,25 @@ final class TripsViewModel {
         }
     }
 
+    /// "2 Ready · 1 Adapter needed".
+    ///
+    /// Resolved to a `String` here rather than deferred, because it is a composed tally of
+    /// per-status counts rather than one catalog entry. It is only ever built from inside a view
+    /// body (`upcomingRows`/`pastRows` are read there), so resolution still happens at display
+    /// time. `count.formatted()` keeps the numerals locale-correct — plain interpolation of an
+    /// `Int` would emit ASCII digits.
     private static func safetySummary(_ assessments: [DeviceSafetyAssessment]) -> String {
         guard !assessments.isEmpty else {
-            return LocalizationKeys.tripsRowNoDevices.localized
+            return String(localized: LocalizationKeys.tripsRowNoDevices)
         }
 
         return DeviceSafetyStatus.allCases.compactMap { status in
             let count = assessments.count(where: { $0.status == status })
-            return count == 0 ? nil : "\(count) \(status.title)"
+            guard count > 0 else {
+                return nil
+            }
+
+            return "\(count.formatted()) \(String(localized: status.title))"
         }
         .joined(separator: " · ")
     }

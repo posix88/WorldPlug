@@ -53,7 +53,7 @@ struct TripDetailView: View {
                         Image(systemName: "pencil")
                     }
                     .accessibilityIdentifier("trip.detail.edit")
-                    .accessibilityLabel(LocalizationKeys.tripDetailEdit.localized)
+                    .accessibilityLabel(LocalizationKeys.tripDetailEdit)
                 }
             }
             .sheet(isPresented: $viewModel.isDeviceEditorPresented) {
@@ -97,7 +97,7 @@ struct TripDetailView: View {
     private var content: some View {
         if viewModel.destination == nil {
             ContentUnavailableView(
-                LocalizationKeys.tripCheckUnavailable.localized,
+                LocalizationKeys.tripCheckUnavailable,
                 systemImage: "exclamationmark.triangle"
             )
         } else {
@@ -153,16 +153,18 @@ private struct TripHeaderSection: View {
                         .foregroundStyle(.textLight)
 
                     HStack(spacing: .md) {
+                        // Dedicated uppercase keys rather than the accessibility pair plus
+                        // `.textCase(.uppercase)` — see `LocalizationKeys.tripMetricVoltage`.
                         TripMetricTile(
                             icon: .boltCircleFill,
-                            title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                            title: LocalizationKeys.tripMetricVoltage,
                             value: destination.voltage,
                             color: .voltTint
                         )
 
                         TripMetricTile(
                             icon: .waveform,
-                            title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                            title: LocalizationKeys.tripMetricFrequency,
                             value: destination.frequency,
                             color: .frequencyTint
                         )
@@ -182,7 +184,7 @@ private struct TripDevicesSection: View {
     let viewModel: TripDetailViewModel
 
     var body: some View {
-        Section(LocalizationKeys.tripCheckSafetySection.localized) {
+        Section(LocalizationKeys.tripCheckSafetySection) {
             ForEach(viewModel.assessments) { assessment in
                 TripDeviceRow(assessment: assessment, viewModel: viewModel)
             }
@@ -205,11 +207,11 @@ private struct TripDevicesEmptyState: View {
                 .frame(width: DesignTokens.Size.smallIcon)
 
             VStack(alignment: .leading, spacing: .xs) {
-                Text(LocalizationKeys.tripDetailDevicesEmptyTitle.localized)
+                Text(LocalizationKeys.tripDetailDevicesEmptyTitle)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.textRegular)
 
-                Text(LocalizationKeys.tripDetailDevicesEmptyDescription.localized)
+                Text(LocalizationKeys.tripDetailDevicesEmptyDescription)
                     .font(.caption)
                     .foregroundStyle(.textLight)
                     .fixedSize(horizontal: false, vertical: true)
@@ -273,7 +275,7 @@ private struct TripDeviceRow: View {
             } label: {
                 Image(systemName: "trash")
             }
-            .accessibilityLabel(LocalizationKeys.tripCheckRemoveDevice.localized)
+            .accessibilityLabel(LocalizationKeys.tripCheckRemoveDevice)
 
             Button {
                 viewModel.editDevice(assessment.device)
@@ -281,7 +283,7 @@ private struct TripDeviceRow: View {
                 Image(systemName: "pencil")
             }
             .accessibilityIdentifier("trip.detail.edit")
-            .accessibilityLabel(LocalizationKeys.tripDetailEdit.localized)
+            .accessibilityLabel(LocalizationKeys.tripDetailEdit)
         }
     }
 }
@@ -300,7 +302,7 @@ private struct TripDeviceRatings: View {
             if !device.voltage.isEmpty {
                 ElectricalSpecificationPill(
                     icon: .boltCircleFill,
-                    label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                    label: LocalizationKeys.accessibilityVoltage,
                     value: device.voltage,
                     color: .voltTint
                 )
@@ -309,7 +311,7 @@ private struct TripDeviceRatings: View {
             if !device.frequency.isEmpty {
                 ElectricalSpecificationPill(
                     icon: .waveform,
-                    label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                    label: LocalizationKeys.accessibilityFrequency,
                     value: device.frequency,
                     color: .frequencyTint
                 )
@@ -326,7 +328,7 @@ private struct TripAddDeviceSection: View {
     var body: some View {
         Section {
             Button(action: viewModel.addDevice) {
-                Label(LocalizationKeys.tripCheckAddDevice.localized, systemImage: "plus")
+                Label(LocalizationKeys.tripCheckAddDevice, systemImage: "plus")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.voltTint)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -348,11 +350,11 @@ private struct TripDisclaimerButton: View {
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(LocalizationKeys.tripCheckDisclaimerTitle.localized)
+                    Text(LocalizationKeys.tripCheckDisclaimerTitle)
                         .font(.caption.weight(.semibold))
                         .foregroundStyle(.statusCheck)
 
-                    Text(LocalizationKeys.tripCheckDisclaimerSummary.localized)
+                    Text(LocalizationKeys.tripCheckDisclaimerSummary)
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
@@ -395,7 +397,9 @@ private extension DeviceSafetyStatus {
 
 private struct TripMetricTile: View {
     let icon: SFSymbols
-    let title: String
+    /// `LocalizedStringResource`, not `String`: user-facing text stays unresolved until it is
+    /// rendered, so it keeps honouring the `\.locale` environment override.
+    let title: LocalizedStringResource
     let value: String
     let color: Color
 
@@ -406,9 +410,10 @@ private struct TripMetricTile: View {
                     .font(.subheadline)
                     .foregroundStyle(color)
 
+                // Casing comes from the string, not a runtime transform — see
+                // `LocalizationKeys.tripMetricVoltage`.
                 Text(title)
                     .font(.caption2.weight(.semibold))
-                    .textCase(.uppercase)
                     .foregroundStyle(.textLight)
             }
 
@@ -451,7 +456,7 @@ private struct PackDeviceEditorSheet: View {
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel(LocalizationKeys.tripCheckCancel.localized)
+                        .accessibilityLabel(LocalizationKeys.tripCheckCancel)
                 }
             }
             .navigationDestination(for: PackDeviceEditorRoute.self) { route in
@@ -470,16 +475,24 @@ private struct PackDeviceEditorSheet: View {
 // MARK: - TripDateFormat
 
 enum TripDateFormat {
-    /// "12 Mar – 19 Mar 2027", collapsing to a single date for a same-day trip.
+    /// "12–19 Mar 2027", collapsing to a single date for a same-day trip.
+    ///
+    /// Uses `Date.IntervalFormatStyle` rather than interpolating two formatted dates around a
+    /// hard-coded en-dash. The interval style knows the locale's own range separator, collapses
+    /// components the two ends share (one "Mar 2027" instead of two), and orders the endpoints
+    /// correctly in RTL locales — none of which a hand-assembled string does.
     static func range(from trip: Trip, locale: Locale) -> String {
         let calendar = Calendar.current
-        let style = Date.FormatStyle.dateTime.day().month().year().locale(locale)
 
         guard !calendar.isDate(trip.departureDate, inSameDayAs: trip.returnDate) else {
-            return trip.departureDate.formatted(style)
+            return trip.departureDate.formatted(
+                Date.FormatStyle.dateTime.day().month().year().locale(locale)
+            )
         }
 
-        return "\(trip.departureDate.formatted(style)) – \(trip.returnDate.formatted(style))"
+        return (trip.departureDate ..< trip.returnDate).formatted(
+            Date.IntervalFormatStyle().day().month().year().locale(locale)
+        )
     }
 }
 
@@ -491,14 +504,14 @@ private struct TripDisclaimerView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text(LocalizationKeys.tripCheckDisclaimer.localized)
+                Text(LocalizationKeys.tripCheckDisclaimer)
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(20)
             }
             .scrollBounceBehavior(.basedOnSize)
-            .navigationTitle(LocalizationKeys.tripCheckDisclaimerTitle.localized)
+            .navigationTitle(LocalizationKeys.tripCheckDisclaimerTitle)
             .navigationBarTitleDisplayMode(.large)
             .background { Color.backgroundSurface.ignoresSafeArea() }
             .toolbar {

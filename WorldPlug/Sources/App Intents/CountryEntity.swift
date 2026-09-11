@@ -110,21 +110,29 @@ struct CountryEntity: IndexedEntity {
         )
     }
 
-    private static func formatted(_ key: String, locale: Locale, _ arguments: CVarArg...) -> String {
+    private static func formatted(
+        _ resource: LocalizedStringResource,
+        locale: Locale,
+        _ arguments: CVarArg...
+    ) -> String {
         String(
-            format: localizedString(key, locale: locale),
+            format: localizedString(resource, locale: locale),
             locale: locale,
             arguments: arguments
         )
     }
 
-    private static func localizedString(_ key: String, locale: Locale) -> String {
+    /// Resolves against an explicitly supplied locale rather than the environment: a Siri or
+    /// Spotlight answer has to come back in the language the request was made in, which is
+    /// not necessarily the app's current one.
+    private static func localizedString(_ resource: LocalizedStringResource, locale: Locale) -> String {
         let languageCode = locale.language.languageCode?.identifier
         let localizedBundle = languageCode
             .flatMap { Bundle.main.url(forResource: $0, withExtension: "lproj") }
             .flatMap { Bundle(url: $0) }
         return String(
-            localized: String.LocalizationValue(key),
+            localized: String.LocalizationValue(resource.key),
+            table: resource.table,
             bundle: localizedBundle ?? .main,
             locale: locale
         )

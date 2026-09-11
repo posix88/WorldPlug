@@ -37,7 +37,9 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var isPremiumPaywallPresented: Bool { get set }
     var isHomeCountryConfirmationPresented: Bool { get set }
     var savedCountrySymbolName: String { get }
-    var savedCountryAccessibilityLabel: String { get }
+    /// `LocalizedStringResource`: user-facing text exposed by a view model resolves at the
+    /// display site, not when the view model produced it.
+    var savedCountryAccessibilityLabel: LocalizedStringResource { get }
     var isPremium: Bool { get }
     /// The plug the user tapped while the info sheet was still open.
     ///
@@ -125,10 +127,10 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
 
     var isPremium: Bool { premiumEntitlement.isPremium }
 
-    var savedCountryAccessibilityLabel: String {
+    var savedCountryAccessibilityLabel: LocalizedStringResource {
         travelPreferencesStore.isSavedCountry(code: country.code)
-            ? LocalizationKeys.savedCountriesRemove.localized
-            : LocalizationKeys.savedCountriesAdd.localized
+            ? LocalizationKeys.savedCountriesRemove
+            : LocalizationKeys.savedCountriesAdd
     }
 
     func screenAppeared(using homeCountryViewModel: any HomeCountryViewModelType) {
@@ -268,7 +270,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 
     var showsCompatibilityOverview: Bool { shouldShowCompatibilityOverview }
     var savedCountrySymbolName: String { "star" }
-    var savedCountryAccessibilityLabel: String { "" }
+    var savedCountryAccessibilityLabel: LocalizedStringResource { "" }
     var isPremium = true
     var pendingPlug: Plug?
 
@@ -290,7 +292,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
 
     var mapLabelSubtitle: String {
         mapFocus == nil
-            ? LocalizationKeys.countryDetailMapLocating.localized
+            ? String(localized: LocalizationKeys.countryDetailMapLocating)
             : "\(country.voltage) • \(country.frequency)"
     }
 

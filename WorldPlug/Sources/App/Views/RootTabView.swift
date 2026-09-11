@@ -27,7 +27,7 @@ struct RootTabView: View {
                     deepLinkedCountryCode: $deepLinkedCountryCode
                 )
             } label: {
-                Label(LocalizationKeys.countriesTitle.localized, systemImage: "globe.europe.africa.fill")
+                Label(LocalizationKeys.countriesTitle, systemImage: "globe.europe.africa.fill")
                     .accessibilityIdentifier("tab.countries")
             }
 
@@ -39,7 +39,7 @@ struct RootTabView: View {
                     analyticsTracker: analyticsTracker
                 )
             } label: {
-                Label(LocalizationKeys.tripsTabTitle.localized, systemImage: "suitcase.rolling.fill")
+                Label(LocalizationKeys.tripsTabTitle, systemImage: "suitcase.rolling.fill")
                     .accessibilityIdentifier("tab.trips")
             }
 
@@ -51,7 +51,7 @@ struct RootTabView: View {
                     analyticsTracker: analyticsTracker
                 )
             } label: {
-                Label(LocalizationKeys.savedCountriesTitle.localized, systemImage: "star.fill")
+                Label(LocalizationKeys.savedCountriesTitle, systemImage: "star.fill")
                     .accessibilityIdentifier("tab.saved")
             }
         }

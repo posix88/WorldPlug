@@ -49,13 +49,13 @@ enum AppDebugOverrides {
                     returnDate: returnDate,
                     devices: [
                         PackDevice(
-                            name: LocalizationKeys.tripCheckDevicePhone.localized,
+                            name: String(localized: LocalizationKeys.tripCheckDevicePhone),
                             symbolName: "iphone",
                             voltage: "100-240V",
                             frequency: "50/60Hz"
                         ),
                         PackDevice(
-                            name: LocalizationKeys.tripCheckDeviceHairDryer.localized,
+                            name: String(localized: LocalizationKeys.tripCheckDeviceHairDryer),
                             symbolName: "wind",
                             voltage: "220-240V",
                             frequency: "50Hz"
@@ -68,7 +68,7 @@ enum AppDebugOverrides {
                     returnDate: calendar.date(byAdding: .day, value: 50, to: now) ?? returnDate,
                     devices: [
                         PackDevice(
-                            name: LocalizationKeys.tripCheckDeviceLaptop.localized,
+                            name: String(localized: LocalizationKeys.tripCheckDeviceLaptop),
                             symbolName: "laptopcomputer",
                             voltage: "100-240V",
                             frequency: "50/60Hz"
@@ -83,7 +83,7 @@ enum AppDebugOverrides {
                     returnDate: calendar.date(byAdding: .day, value: -21, to: now) ?? now,
                     devices: [
                         PackDevice(
-                            name: LocalizationKeys.tripCheckDeviceCamera.localized,
+                            name: String(localized: LocalizationKeys.tripCheckDeviceCamera),
                             symbolName: "camera",
                             voltage: "100-240V",
                             frequency: "50/60Hz"

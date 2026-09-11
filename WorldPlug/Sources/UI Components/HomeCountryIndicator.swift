@@ -7,7 +7,7 @@ struct HomeCountryIndicator: View {
         Image(systemName: "house.fill")
             .font(.subheadline.weight(.semibold))
             .foregroundStyle(.voltTint)
-            .accessibilityLabel(LocalizationKeys.homeCountryBadge.localized)
+            .accessibilityLabel(LocalizationKeys.homeCountryBadge)
     }
 }
 

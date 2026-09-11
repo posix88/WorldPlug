@@ -51,13 +51,13 @@ struct CountrySummaryCard: View {
             HStack(spacing: .xs) {
                 ElectricalSpecificationPill(
                     icon: .boltCircleFill,
-                    label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                    label: LocalizationKeys.accessibilityVoltage,
                     value: country.voltage,
                     color: .voltTint
                 )
                 ElectricalSpecificationPill(
                     icon: .waveform,
-                    label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                    label: LocalizationKeys.accessibilityFrequency,
                     value: country.frequency,
                     color: .frequencyTint
                 )
@@ -84,16 +84,16 @@ struct CountrySummaryCard: View {
     private var accessibilitySummary: String {
         var components = [
             country.localizedName(in: locale),
-            "\(LocalizationKeys.accessibilityVoltage.localized(from: .accessibility)): \(country.voltage)",
-            "\(LocalizationKeys.accessibilityFrequency.localized(from: .accessibility)): \(country.frequency)"
+            "\(String(localized: LocalizationKeys.accessibilityVoltage)): \(country.voltage)",
+            "\(String(localized: LocalizationKeys.accessibilityFrequency)): \(country.frequency)"
         ]
 
         if isHomeCountry {
-            components.append(LocalizationKeys.homeCountryBadge.localized)
+            components.append(String(localized: LocalizationKeys.homeCountryBadge))
         }
 
         if let compatibility {
-            components.append(compatibility.title)
+            components.append(String(localized: compatibility.title))
         }
 
         return components.joined(separator: ", ")

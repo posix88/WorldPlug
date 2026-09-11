@@ -10,13 +10,16 @@ enum DeviceSafetyStatus: CaseIterable {
     case checkLabel
     case unsafe
 
-    var title: String {
+    /// `LocalizedStringResource`, not `String`: a verdict is produced in the model layer and
+    /// displayed later, so resolving it here would freeze whatever language was active at
+    /// assessment time. The resource resolves at the display site instead.
+    var title: LocalizedStringResource {
         switch self {
-        case .ready: LocalizationKeys.tripCheckStatusReady.localized
-        case .adapterNeeded: LocalizationKeys.tripCheckStatusAdapter.localized
-        case .homeCountryRequired: LocalizationKeys.tripCheckStatusHomeCountry.localized
-        case .checkLabel: LocalizationKeys.tripCheckStatusCheckLabel.localized
-        case .unsafe: LocalizationKeys.tripCheckStatusUnsafe.localized
+        case .ready: LocalizationKeys.tripCheckStatusReady
+        case .adapterNeeded: LocalizationKeys.tripCheckStatusAdapter
+        case .homeCountryRequired: LocalizationKeys.tripCheckStatusHomeCountry
+        case .checkLabel: LocalizationKeys.tripCheckStatusCheckLabel
+        case .unsafe: LocalizationKeys.tripCheckStatusUnsafe
         }
     }
 
@@ -36,6 +39,14 @@ enum DeviceSafetyStatus: CaseIterable {
 struct DeviceSafetyAssessment: Identifiable {
     let device: PackDevice
     let status: DeviceSafetyStatus
+    /// Stays a `String` while `status.title` became a `LocalizedStringResource`, because two of
+    /// the five messages interpolate a runtime value (the destination's voltage or frequency) and
+    /// this project's catalog uses opaque keys whose *values* hold the `%@`. A resource cannot
+    /// carry that combination — see `LocalizedStringResource.string(_:)`. In practice nothing is
+    /// lost: assessments are built inside a view body and rendered in the same pass. Making this
+    /// a resource too would mean either moving the placeholders into the keys (a second catalog
+    /// convention) or turning the verdict into an enum with associated values — worth doing, but
+    /// not as a drive-by on the one type with real electrical-safety consequences.
     let message: String
 
     var id: UUID { device.id }
@@ -67,14 +78,14 @@ enum TripSafetyChecker {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .checkLabel,
-                message: LocalizationKeys.tripCheckMessageMissingVoltage.localized
+                message: String(localized: LocalizationKeys.tripCheckMessageMissingVoltage)
             )
         }
         guard VoltageCompatibility.deviceInputSupports(trimmedVoltage, destinationSupply: destination.voltage) else {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .unsafe,
-                message: LocalizationKeys.tripCheckMessageUnsafe.localized(destination.voltage)
+                message: LocalizationKeys.tripCheckMessageUnsafe.string(destination.voltage)
             )
         }
 
@@ -86,7 +97,7 @@ enum TripSafetyChecker {
                 return DeviceSafetyAssessment(
                     device: device,
                     status: .checkLabel,
-                    message: LocalizationKeys.tripCheckMessageFrequency.localized(destination.frequency)
+                    message: LocalizationKeys.tripCheckMessageFrequency.string(destination.frequency)
                 )
             }
         }
@@ -95,7 +106,7 @@ enum TripSafetyChecker {
             return DeviceSafetyAssessment(
                 device: device,
                 status: .homeCountryRequired,
-                message: LocalizationKeys.tripCheckMessageSetHome.localized
+                message: String(localized: LocalizationKeys.tripCheckMessageSetHome)
             )
         }
 
@@ -106,8 +117,8 @@ enum TripSafetyChecker {
             device: device,
             status: allHomePlugsMatch ? .ready : .adapterNeeded,
             message: allHomePlugsMatch
-                ? LocalizationKeys.tripCheckMessageReady.localized
-                : LocalizationKeys.tripCheckMessageAdapter.localized
+                ? String(localized: LocalizationKeys.tripCheckMessageReady)
+                : String(localized: LocalizationKeys.tripCheckMessageAdapter)
         )
     }
 }

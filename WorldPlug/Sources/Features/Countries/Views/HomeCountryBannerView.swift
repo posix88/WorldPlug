@@ -20,7 +20,7 @@ struct HomeCountryBannerView: View {
                 .foregroundStyle(.voltTint)
 
             VStack(alignment: .leading, spacing: .xxs) {
-                Text(LocalizationKeys.homeCountryComparingWith.localized)
+                Text(LocalizationKeys.homeCountryComparingWith)
                     .font(.caption)
                     .foregroundStyle(.textLight)
 
@@ -40,7 +40,7 @@ struct HomeCountryBannerView: View {
                     .foregroundStyle(.textLighter)
             }
             .buttonStyle(.plain)
-            .accessibilityLabel(LocalizationKeys.homeCountryRemove.localized)
+            .accessibilityLabel(LocalizationKeys.homeCountryRemove)
         }
         .padding(.horizontal, .xl)
         .padding(.vertical, .lg)

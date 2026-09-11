@@ -53,15 +53,15 @@ struct PackDeviceEditorView: View {
         .background { AppMeshBackground() }
         .navigationTitle(
             viewModel.isExisting
-                ? LocalizationKeys.tripCheckDeviceDetails.localized
-                : LocalizationKeys.tripCheckAddDevice.localized
+                ? LocalizationKeys.tripCheckDeviceDetails
+                : LocalizationKeys.tripCheckAddDevice
         )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button(action: saveDevice) { Image(systemName: "checkmark") }
                     .disabled(!viewModel.canSave)
-                    .accessibilityLabel(LocalizationKeys.tripCheckAction.localized)
+                    .accessibilityLabel(LocalizationKeys.tripCheckAction)
             }
         }
         .onChange(of: scannerValues) { _, values in
@@ -116,11 +116,11 @@ private struct ScanDeviceLabelCard: View {
                     .background(.premiumTint.opacity(0.14), in: Circle())
 
                 VStack(alignment: .leading, spacing: .xxs) {
-                    Text(LocalizationKeys.tripCheckScanLabel.localized)
+                    Text(LocalizationKeys.tripCheckScanLabel)
                         .font(.body.weight(.semibold))
                         .foregroundStyle(.textRegular)
 
-                    Text(LocalizationKeys.tripCheckScanLabelHint.localized)
+                    Text(LocalizationKeys.tripCheckScanLabelHint)
                         .font(.caption)
                         .foregroundStyle(.textLight)
                         .multilineTextAlignment(.leading)
@@ -140,7 +140,7 @@ private struct ScanDeviceLabelCard: View {
             }
         }
         .buttonStyle(.plain)
-        .accessibilityHint(LocalizationKeys.tripCheckScanLabelHint.localized)
+        .accessibilityHint(LocalizationKeys.tripCheckScanLabelHint)
     }
 }
 
@@ -154,12 +154,12 @@ private struct DeviceIdentityCard: View {
     var body: some View {
         Card {
             VStack(alignment: .leading, spacing: .sm) {
-                Text(LocalizationKeys.tripCheckDeviceName.localized)
+                Text(LocalizationKeys.tripCheckDeviceName)
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.textRegular)
 
                 HStack(spacing: .md) {
-                    TextField(LocalizationKeys.tripCheckDeviceName.localized, text: $name)
+                    TextField(LocalizationKeys.tripCheckDeviceName, text: $name)
                         .textInputAutocapitalization(.words)
                         .autocorrectionDisabled()
 
@@ -171,7 +171,7 @@ private struct DeviceIdentityCard: View {
                             .background(.voltTint.opacity(0.12), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel(LocalizationKeys.tripCheckDeviceChooseIcon.localized)
+                    .accessibilityLabel(LocalizationKeys.tripCheckDeviceChooseIcon)
                 }
                 .padding(.leading, .lg)
                 .background(.surfaceSecondary, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
@@ -192,7 +192,7 @@ private struct DeviceIconPickerSheet: View {
 
     var body: some View {
         VStack(spacing: .xl) {
-            Text(LocalizationKeys.tripCheckDeviceChooseIcon.localized)
+            Text(LocalizationKeys.tripCheckDeviceChooseIcon)
                 .font(.headline)
                 .foregroundStyle(.textRegular)
 
@@ -252,7 +252,7 @@ private struct DeviceElectricalRatingsCard: View {
     var body: some View {
         Card(spacing: .xl) {
             WheelPicker(
-                title: LocalizationKeys.tripCheckDeviceVoltage.localized,
+                title: LocalizationKeys.tripCheckDeviceVoltage,
                 selection: $voltage,
                 options: DeviceElectricalOption.voltages
             )
@@ -260,7 +260,7 @@ private struct DeviceElectricalRatingsCard: View {
             Divider()
 
             WheelPicker(
-                title: LocalizationKeys.tripCheckDeviceFrequency.localized,
+                title: LocalizationKeys.tripCheckDeviceFrequency,
                 selection: $frequency,
                 options: DeviceElectricalOption.frequencies
             )
@@ -271,7 +271,7 @@ private struct DeviceElectricalRatingsCard: View {
 // MARK: - WheelPicker
 
 private struct WheelPicker: View {
-    let title: String
+    let title: LocalizedStringResource
     @Binding var selection: String
     let options: [String]
 

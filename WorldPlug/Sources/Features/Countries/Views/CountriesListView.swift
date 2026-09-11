@@ -51,7 +51,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .searchable(
                     text: $viewModel.searchQuery,
                     placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
+                    prompt: Text(LocalizationKeys.searchCountriesPlaceholder)
                 )
                 .onChange(of: viewModel.searchQuery) { oldValue, newValue in
                     guard oldValue != newValue else {
@@ -78,16 +78,16 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     isPresented: $viewModel.isHomeCountryConfirmationPresented
                 ) {
                     if viewModel.isPendingHomeCountryRemoval {
-                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                        Button(LocalizationKeys.homeCountryRemove, role: .destructive) {
                             viewModel.confirmHomeCountryAction()
                         }
                     } else {
-                        Button(LocalizationKeys.homeCountryUpdate.localized) {
+                        Button(LocalizationKeys.homeCountryUpdate) {
                             viewModel.confirmHomeCountryAction()
                         }
                     }
 
-                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+                    Button(LocalizationKeys.generalCancel, role: .cancel) {}
                 } message: {
                     Text(homeCountryConfirmationMessage)
                 }
@@ -108,7 +108,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                             Image(systemName: "gearshape")
                         }
                         .accessibilityIdentifier("countries.settings")
-                        .accessibilityLabel(LocalizationKeys.settingsOpen.localized)
+                        .accessibilityLabel(LocalizationKeys.settingsOpen)
                     }
                 }
                 .fullScreenCover(isPresented: $isSettingsPresented) {
@@ -131,19 +131,22 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         deepLinkedCountryCode = nil
     }
 
-    private var homeCountryConfirmationTitle: String {
+    private var homeCountryConfirmationTitle: LocalizedStringResource {
         viewModel.isPendingHomeCountryRemoval
-            ? LocalizationKeys.homeCountryRemoveConfirmationTitle.localized
-            : LocalizationKeys.homeCountryUpdateConfirmationTitle.localized
+            ? LocalizationKeys.homeCountryRemoveConfirmationTitle
+            : LocalizationKeys.homeCountryUpdateConfirmationTitle
     }
 
+    /// `String`, unlike `homeCountryConfirmationTitle` above: the other branch interpolates a
+    /// country name through `.string(_:)`, and a resource can't carry a runtime argument with
+    /// this catalog's opaque keys.
     private var homeCountryConfirmationMessage: String {
         guard !viewModel.isPendingHomeCountryRemoval,
               let pendingHomeCountry = viewModel.pendingHomeCountry else {
-            return LocalizationKeys.homeCountryRemoveConfirmationMessage.localized
+            return String(localized: LocalizationKeys.homeCountryRemoveConfirmationMessage)
         }
 
-        return LocalizationKeys.homeCountryUpdateConfirmationMessage.localized(
+        return LocalizationKeys.homeCountryUpdateConfirmationMessage.string(
             pendingHomeCountry.localizedName(in: locale)
         )
     }
@@ -165,8 +168,8 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
         .swipeActionsContainer()
         .accessibilityIdentifier("countries.list")
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(LocalizationKeys.accessibilityCountriesList.localized(from: .accessibility))
-        .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription.localized(from: .accessibility))
+        .accessibilityLabel(LocalizationKeys.accessibilityCountriesList)
+        .accessibilityHint(LocalizationKeys.accessibilityCountriesListDescription)
     }
 
     @ViewBuilder
@@ -198,14 +201,14 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
         if !searchQuery.isEmpty {
             ContentUnavailableView.search(text: searchQuery)
                 .padding(.top, .special)
-                .accessibilityLabel(LocalizationKeys.accessibilityEmptyState.localized(from: .accessibility))
-                .accessibilityValue(LocalizationKeys.accessibilitySearchResults.localized(from: .accessibility, searchQuery))
-                .accessibilityHint(LocalizationKeys.accessibilityEmptyStateDescription.localized(from: .accessibility))
+                .accessibilityLabel(LocalizationKeys.accessibilityEmptyState)
+                .accessibilityValue(LocalizationKeys.accessibilitySearchResults.string(searchQuery))
+                .accessibilityHint(LocalizationKeys.accessibilityEmptyStateDescription)
         } else if viewModel.selectedFilter != .all {
             ContentUnavailableView(
-                LocalizationKeys.countriesFilterEmptyTitle.localized,
+                LocalizationKeys.countriesFilterEmptyTitle,
                 systemImage: "line.3.horizontal.decrease.circle",
-                description: Text(LocalizationKeys.countriesFilterEmptyDescription.localized)
+                description: Text(LocalizationKeys.countriesFilterEmptyDescription)
             )
             .padding(.top, .special)
         }
@@ -324,11 +327,11 @@ private struct CompatibilityFilterBar: View {
 
 private struct CompatibilityFilterTip: Tip {
     var title: Text {
-        Text(LocalizationKeys.compatibilityLegendTitle.localized)
+        Text(LocalizationKeys.compatibilityLegendTitle)
     }
 
     var message: Text? {
-        Text(LocalizationKeys.countriesFilterTip.localized)
+        Text(LocalizationKeys.countriesFilterTip)
     }
 
     var image: Image? {
@@ -346,12 +349,14 @@ enum CountryCompatibilityFilter: CaseIterable, Identifiable {
 
     var id: Self { self }
 
-    var title: String {
+    /// `LocalizedStringResource`: a filter case is a long-lived value, and its label is only
+    /// needed at the moment a pill renders.
+    var title: LocalizedStringResource {
         switch self {
-        case .all: LocalizationKeys.countriesFilterAll.localized
-        case .compatible: LocalizationKeys.compatibilityLegendCompatibleTitle.localized
-        case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterTitle.localized
-        case .converterRequired: LocalizationKeys.compatibilityLegendConverterTitle.localized
+        case .all: LocalizationKeys.countriesFilterAll
+        case .compatible: LocalizationKeys.compatibilityLegendCompatibleTitle
+        case .adapterNeeded: LocalizationKeys.compatibilityLegendAdapterTitle
+        case .converterRequired: LocalizationKeys.compatibilityLegendConverterTitle
         }
     }
 

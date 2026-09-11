@@ -2,7 +2,9 @@ import SwiftUI
 
 struct ElectricalSpecificationPill: View {
     let icon: SFSymbols
-    let label: String
+    /// `LocalizedStringResource`: this is user-facing text, so it stays unresolved until the
+    /// label is actually rendered and keeps honouring the `\.locale` environment override.
+    let label: LocalizedStringResource
     let value: String
     let color: Color
 

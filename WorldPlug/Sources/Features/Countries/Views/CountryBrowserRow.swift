@@ -48,8 +48,8 @@ struct CountryBrowserRow<ViewModel: CountriesListViewModelType>: View {
             }
             .accessibilityLabel(
                 model.isHomeCountry
-                    ? LocalizationKeys.homeCountryRemove.localized
-                    : LocalizationKeys.homeCountrySet.localized
+                    ? LocalizationKeys.homeCountryRemove
+                    : LocalizationKeys.homeCountrySet
             )
             .tint(model.isHomeCountry ? .statusUnsafe : .voltTint)
         }
@@ -65,13 +65,13 @@ struct CountryBrowserRow<ViewModel: CountriesListViewModelType>: View {
                 Button(role: .destructive) {
                     toggleHomeCountry()
                 } label: {
-                    Label(LocalizationKeys.homeCountryRemove.localized, systemImage: "house.fill")
+                    Label(LocalizationKeys.homeCountryRemove, systemImage: "house.fill")
                 }
             } else {
                 Button {
                     toggleHomeCountry()
                 } label: {
-                    Label(LocalizationKeys.homeCountrySet.localized, systemImage: "house.fill")
+                    Label(LocalizationKeys.homeCountrySet, systemImage: "house.fill")
                 }
             }
 
@@ -119,14 +119,14 @@ struct CountryBrowserRow<ViewModel: CountriesListViewModelType>: View {
             }
     }
 
-    private var savedCountryAccessibilityLabel: String {
+    private var savedCountryAccessibilityLabel: LocalizedStringResource {
         guard canToggleSavedCountry else {
-            return LocalizationKeys.premiumPaywallCountrySaveMessage.localized
+            return LocalizationKeys.premiumPaywallCountrySaveMessage
         }
 
         return model.isSavedCountry
-            ? LocalizationKeys.savedCountriesRemove.localized
-            : LocalizationKeys.savedCountriesAdd.localized
+            ? LocalizationKeys.savedCountriesRemove
+            : LocalizationKeys.savedCountriesAdd
     }
 
     private func handleSavedCountryAction() {

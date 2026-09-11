@@ -51,7 +51,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     Image(systemName: "chevron.backward")
                         .imageScale(.medium)
                 }
-                .accessibilityLabel(LocalizationKeys.navigationBack.localized)
+                .accessibilityLabel(LocalizationKeys.navigationBack)
             }
 
             ToolbarItem(placement: .topBarTrailing) {
@@ -63,8 +63,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 }
                 .accessibilityLabel(
                     viewModel.isHomeCountry
-                        ? LocalizationKeys.homeCountryRemove.localized
-                        : LocalizationKeys.homeCountrySet.localized
+                        ? LocalizationKeys.homeCountryRemove
+                        : LocalizationKeys.homeCountrySet
                 )
             }
 
@@ -130,16 +130,16 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     isPresented: $viewModel.isHomeCountryConfirmationPresented
                 ) {
                     if viewModel.isHomeCountry {
-                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                        Button(LocalizationKeys.homeCountryRemove, role: .destructive) {
                             viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
                         }
                     } else {
-                        Button(LocalizationKeys.homeCountryUpdate.localized) {
+                        Button(LocalizationKeys.homeCountryUpdate) {
                             viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
                         }
                     }
 
-                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+                    Button(LocalizationKeys.generalCancel, role: .cancel) {}
                 } message: {
                     Text(homeCountryConfirmationMessage)
                 }
@@ -150,16 +150,19 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         viewModel.country.localizedName(in: locale)
     }
 
-    private var homeCountryConfirmationTitle: String {
+    private var homeCountryConfirmationTitle: LocalizedStringResource {
         viewModel.isHomeCountry
-            ? LocalizationKeys.homeCountryRemoveConfirmationTitle.localized
-            : LocalizationKeys.homeCountryUpdateConfirmationTitle.localized
+            ? LocalizationKeys.homeCountryRemoveConfirmationTitle
+            : LocalizationKeys.homeCountryUpdateConfirmationTitle
     }
 
+    /// `String`, unlike `homeCountryConfirmationTitle` above: the other branch interpolates the
+    /// country name through `.string(_:)`, and a resource can't carry a runtime argument with
+    /// this catalog's opaque keys.
     private var homeCountryConfirmationMessage: String {
         viewModel.isHomeCountry
-            ? LocalizationKeys.homeCountryRemoveConfirmationMessage.localized
-            : LocalizationKeys.homeCountryUpdateConfirmationMessage.localized(countryName)
+            ? String(localized: LocalizationKeys.homeCountryRemoveConfirmationMessage)
+            : LocalizationKeys.homeCountryUpdateConfirmationMessage.string(countryName)
     }
 
     private func handleSavedCountryAction() {
@@ -225,7 +228,7 @@ private extension View {
 
 private struct CountryMapUnavailableNotice: View {
     var body: some View {
-        Label(LocalizationKeys.countryDetailMapUnavailable.localized, systemImage: "mappin.slash")
+        Label(LocalizationKeys.countryDetailMapUnavailable, systemImage: "mappin.slash")
             .font(.caption.weight(.medium))
             .foregroundStyle(.textRegular)
             .padding(.horizontal, .lg)
@@ -346,19 +349,19 @@ private struct CountryElectricalSection: View {
     let frequency: String
 
     var body: some View {
-        CountryDetailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
+        CountryDetailSection(title: LocalizationKeys.countryDetailElectricalSetup) {
             Grid(horizontalSpacing: .md, verticalSpacing: .md) {
                 GridRow {
                     CountryInfoMetricCard(
                         icon: .boltCircleFill,
-                        title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                        title: LocalizationKeys.accessibilityVoltage,
                         value: voltage,
                         color: .voltTint
                     )
 
                     CountryInfoMetricCard(
                         icon: .waveform,
-                        title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                        title: LocalizationKeys.accessibilityFrequency,
                         value: frequency,
                         color: .frequencyTint
                     )
@@ -374,7 +377,7 @@ private struct CountryPlugsSection<ViewModel: CountryDetailViewModelType>: View 
     let viewModel: ViewModel
 
     var body: some View {
-        CountryDetailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
+        CountryDetailSection(title: LocalizationKeys.countryDetailAllPlugs) {
             if viewModel.showsCompatibilityOverview {
                 VStack(alignment: .leading, spacing: .lg) {
                     CountryPlugCompatibilityGroup(
@@ -415,8 +418,8 @@ private struct CountryPlugCompatibilityGroup<ViewModel: CountryDetailViewModelTy
                     // registered "%@ (%@)" as a catalog key and hard-coded the parenthesized
                     // order. `count.formatted()` keeps the numeral locale-aware.
                     Text(
-                        LocalizationKeys.compatibilityGroupCount.localized(
-                            compatibility.title,
+                        LocalizationKeys.compatibilityGroupCount.string(
+                            String(localized: compatibility.title),
                             plugs.count.formatted()
                         )
                     )
@@ -459,7 +462,9 @@ private struct CountryPlugList<ViewModel: CountryDetailViewModelType>: View {
 /// A titled section wrapper. Was a `detailSection(title:content:)` `@ViewBuilder` helper on the
 /// parent; a real `View` type gives it its own invalidation boundary and its own type-check unit.
 private struct CountryDetailSection<Content: View>: View {
-    let title: String
+    /// `LocalizedStringResource`, not `String`: user-facing text stays unresolved until it is
+    /// rendered, so it keeps honouring the `\.locale` environment override.
+    let title: LocalizedStringResource
     @ViewBuilder let content: Content
 
     var body: some View {
@@ -495,7 +500,9 @@ extension CountryDetailView where ViewModel == CountryDetailViewModel {
 
 private struct CountryInfoMetricCard: View {
     let icon: SFSymbols
-    let title: String
+    /// `LocalizedStringResource`, not `String`: user-facing text stays unresolved until it is
+    /// rendered, so it keeps honouring the `\.locale` environment override.
+    let title: LocalizedStringResource
     let value: String
     let color: Color
 
@@ -533,7 +540,7 @@ private struct CountryDetailPlugRow: View {
                 .foregroundStyle(.textRegular)
 
             VStack(alignment: .leading, spacing: .xs) {
-                Text(LocalizationKeys.plugTypePrefix.localized(plug.id))
+                Text(LocalizationKeys.plugTypePrefix.string(plug.id))
                     .font(.body.weight(.semibold))
                     .foregroundStyle(.textRegular)
 
@@ -556,14 +563,14 @@ private struct CountryDetailPlugRow: View {
 }
 
 private extension PlugCompatibility {
-    var title: String {
+    var title: LocalizedStringResource {
         switch self {
         case .compatible:
-            LocalizationKeys.compatibilityLegendCompatibleTitle.localized
+            LocalizationKeys.compatibilityLegendCompatibleTitle
         case .adapterNeeded:
-            LocalizationKeys.compatibilityLegendAdapterTitle.localized
+            LocalizationKeys.compatibilityLegendAdapterTitle
         case .converterRequired:
-            LocalizationKeys.compatibilityLegendConverterTitle.localized
+            LocalizationKeys.compatibilityLegendConverterTitle
         }
     }
 

@@ -5047,6 +5047,40 @@
         }
       }
     },
+    "trip.metric.frequency": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FREQUENCY"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "FREQUENZA"
+          }
+        }
+      }
+    },
+    "trip.metric.voltage": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VOLTAGE"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VOLTAGGIO"
+          }
+        }
+      }
+    },
     "trip.remove": {
       "extractionState": "manual",
       "localizations": {
@@ -5087,13 +5121,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Next"
+            "value": "NEXT"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Prossimo"
+            "value": "PROSSIMO"
           }
         }
       }

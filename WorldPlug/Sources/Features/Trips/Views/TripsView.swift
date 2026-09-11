@@ -50,7 +50,7 @@ struct TripsView: View {
             .scrollContentBackground(.hidden)
             .background { AppMeshBackground() }
             .scrollBounceBehavior(.basedOnSize)
-            .navigationTitle(LocalizationKeys.tripsTitle.localized)
+            .navigationTitle(LocalizationKeys.tripsTitle)
             .accessibilityIdentifier("trips.list")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -112,7 +112,7 @@ private struct TripsAddButton: View {
             Image(systemName: "plus")
         }
         .accessibilityIdentifier("trips.add")
-        .accessibilityLabel(LocalizationKeys.tripsAdd.localized)
+        .accessibilityLabel(LocalizationKeys.tripsAdd)
         .popoverTip(tip, arrowEdge: .top)
         .appTipIconTint()
     }
@@ -123,9 +123,9 @@ private struct TripsAddButton: View {
 private struct TripsEmptyState: View {
     var body: some View {
         ContentUnavailableView(
-            LocalizationKeys.tripsEmptyTitle.localized,
+            LocalizationKeys.tripsEmptyTitle,
             systemImage: "suitcase.rolling",
-            description: Text(LocalizationKeys.tripsEmptyDescription.localized)
+            description: Text(LocalizationKeys.tripsEmptyDescription)
         )
         .padding(.top, .special)
         .listRowBackground(Color.clear)
@@ -176,10 +176,10 @@ private struct TripsSection: View {
         }
     }
 
-    private var title: String {
+    private var title: LocalizedStringResource {
         switch kind {
-        case .upcoming: LocalizationKeys.tripsSectionUpcoming.localized
-        case .past: LocalizationKeys.tripsSectionPast.localized
+        case .upcoming: LocalizationKeys.tripsSectionUpcoming
+        case .past: LocalizationKeys.tripsSectionPast
         }
     }
 
@@ -280,9 +280,10 @@ private struct TripRowDeviceIcons: View {
 
 private struct NextTripBadge: View {
     var body: some View {
-        Text(LocalizationKeys.tripsBadgeNext.localized)
+        // No `.textCase(.uppercase)`: the casing is baked into the string so translators can
+        // override it per language.
+        Text(LocalizationKeys.tripsBadgeNext)
             .font(.caption2.weight(.semibold))
-            .textCase(.uppercase)
             .foregroundStyle(.voltTint)
             .padding(.horizontal, .sm)
             .padding(.vertical, 2)
@@ -294,11 +295,11 @@ private struct NextTripBadge: View {
 
 private struct TripsTip: Tip {
     var title: Text {
-        Text(LocalizationKeys.tripsTitle.localized)
+        Text(LocalizationKeys.tripsTitle)
     }
 
     var message: Text? {
-        Text(LocalizationKeys.tripsIntroduction.localized)
+        Text(LocalizationKeys.tripsIntroduction)
     }
 
     var image: Image? {

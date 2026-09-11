@@ -25,11 +25,11 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         .padding(.top, .special)
                         .symbolEffect(.bounce, options: .nonRepeating, isActive: !reduceMotion)
 
-                    Text(LocalizationKeys.onboardingPickerTitle.localized)
+                    Text(LocalizationKeys.onboardingPickerTitle)
                         .font(.title.weight(.bold))
                         .foregroundStyle(.white)
 
-                    Text(LocalizationKeys.onboardingPickerSubtitle.localized)
+                    Text(LocalizationKeys.onboardingPickerSubtitle)
                         .font(.subheadline)
                         .foregroundStyle(.white.opacity(0.60))
                         .multilineTextAlignment(.center)
@@ -46,7 +46,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
 
                 TextField(
                     text: $viewModel.searchQuery,
-                    prompt: Text(LocalizationKeys.onboardingSearchPlaceholder.localized)
+                    prompt: Text(LocalizationKeys.onboardingSearchPlaceholder)
                         .foregroundStyle(.white.opacity(0.45))
                 ) { EmptyView() }
                     .autocorrectionDisabled()
@@ -62,7 +62,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(.white.opacity(0.45))
                     }
-                    .accessibilityLabel(LocalizationKeys.accessibilitySearchClear.localized(from: .accessibility))
+                    .accessibilityLabel(LocalizationKeys.accessibilitySearchClear)
                 }
             }
             .padding(.horizontal, 14)
@@ -125,7 +125,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                         )
                         .labelStyle(TrailingIconLabelStyle())
                     } else {
-                        Text(LocalizationKeys.onboardingSelectCountry.localized)
+                        Text(LocalizationKeys.onboardingSelectCountry)
                     }
                 }
                 .font(.headline)
