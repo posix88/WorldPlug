@@ -21,6 +21,19 @@ enum PremiumPaywallSource: String, Identifiable {
     }
 }
 
+// MARK: - PremiumBenefitRow
+
+private struct PremiumBenefitRow: View {
+    let key: String
+    let icon: String
+
+    var body: some View {
+        Label(key.localized, systemImage: icon)
+            .font(.body.weight(.medium))
+            .foregroundStyle(.textRegular)
+    }
+}
+
 // MARK: - PremiumPaywallView
 
 struct PremiumPaywallView: View {
@@ -58,6 +71,8 @@ private struct PremiumPaywallContent: View {
     }
 
     var body: some View {
+        @Bindable var viewModel = viewModel
+
         NavigationStack {
             VStack(spacing: .xxl) {
                 Image(systemName: "star.circle.fill")
@@ -77,9 +92,9 @@ private struct PremiumPaywallContent: View {
                 }
 
                 VStack(alignment: .leading, spacing: .lg) {
-                    benefit(LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
-                    benefit(LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
-                    benefit(LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
+                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
+                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
+                    PremiumBenefitRow(key: LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -123,7 +138,7 @@ private struct PremiumPaywallContent: View {
             }
             .alert(
                 LocalizationKeys.premiumPaywallErrorTitle.localized,
-                isPresented: errorPresentationBinding
+                isPresented: $viewModel.isErrorAlertPresented
             ) {
                 Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {}
             } message: {
@@ -131,7 +146,7 @@ private struct PremiumPaywallContent: View {
             }
             .alert(
                 LocalizationKeys.premiumPaywallPendingTitle.localized,
-                isPresented: pendingPresentationBinding
+                isPresented: $viewModel.isPendingAlertPresented
             ) {
                 Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {}
             } message: {
@@ -149,34 +164,6 @@ private struct PremiumPaywallContent: View {
                 await viewModel.loadProduct()
             }
         }
-    }
-
-    private func benefit(_ title: String, icon: String) -> some View {
-        Label(title.localized, systemImage: icon)
-            .font(.body.weight(.medium))
-            .foregroundStyle(.textRegular)
-    }
-
-    private var errorPresentationBinding: Binding<Bool> {
-        Binding(
-            get: { viewModel.errorMessage != nil },
-            set: { isPresented in
-                if !isPresented {
-                    viewModel.clearError()
-                }
-            }
-        )
-    }
-
-    private var pendingPresentationBinding: Binding<Bool> {
-        Binding(
-            get: { viewModel.isPurchasePending },
-            set: { isPresented in
-                if !isPresented {
-                    viewModel.clearPendingNotice()
-                }
-            }
-        )
     }
 
     private func purchasePremium() {

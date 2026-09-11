@@ -7,8 +7,10 @@ import SwiftUI
 /// Creates or edits the trip itself — destination, dates, name. Devices are added later, from
 /// `TripDetailView`.
 struct TripEditorView: View {
+    // `locale` moved down to `TripEditorDestinationLabel`, the only thing that read it. A keypath
+    // `@Environment` declaration subscribes the view to that key whether the body references it
+    // or not, so leaving it here would keep re-evaluating the whole form on locale changes.
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.locale) private var locale
     @Environment(\.analyticsTracker) private var analyticsTracker
     @State private var viewModel: TripEditorViewModel
     @State private var isDeleteConfirmationPresented = false
@@ -34,9 +36,9 @@ struct TripEditorView: View {
 
         NavigationStack {
             Form {
-                destinationSection
-                datesSection
-                nameSection
+                TripEditorDestinationSection(viewModel: viewModel, countries: countries)
+                TripEditorDatesSection(viewModel: viewModel)
+                TripEditorNameSection(viewModel: viewModel)
             }
             .onChange(of: viewModel.trip.departureDate) { _, _ in
                 viewModel.departureDateChanged()
@@ -46,7 +48,7 @@ struct TripEditorView: View {
             .navigationTitle(navigationTitle)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if viewModel.isExisting, onDelete != nil {
-                    removeTripButton
+                    TripEditorRemoveButton(isConfirmationPresented: $isDeleteConfirmationPresented)
                 }
             }
             .onAppear {
@@ -90,11 +92,21 @@ struct TripEditorView: View {
             ? LocalizationKeys.tripEditorEditTitle.localized
             : LocalizationKeys.tripEditorNewTitle.localized
     }
+}
 
-    private var destinationSection: some View {
+// MARK: - TripEditorDestinationSection
+
+/// Each `Form` section is its own `View` type rather than a `private var … some View` on
+/// `TripEditorView`: a computed property is inlined into the enclosing body, so typing in the
+/// name field used to re-evaluate both date pickers and the destination row too.
+private struct TripEditorDestinationSection: View {
+    let viewModel: TripEditorViewModel
+    let countries: [Country]
+
+    var body: some View {
         @Bindable var viewModel = viewModel
 
-        return Section(LocalizationKeys.tripDestination.localized) {
+        Section(LocalizationKeys.tripDestination.localized) {
             NavigationLink {
                 CountryDestinationPickerView(
                     selectedCountryCode: $viewModel.trip.countryCode,
@@ -103,28 +115,42 @@ struct TripEditorView: View {
             } label: {
                 // No inline label: the section header already says "Destination", and repeating it
                 // in the row read as a stutter on device.
-                destinationLabel
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                TripEditorDestinationLabel(
+                    destination: countries.first { $0.code == viewModel.trip.countryCode }
+                )
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .accessibilityLabel(LocalizationKeys.tripDestination.localized)
             .accessibilityIdentifier("trip.editor.destination")
         }
     }
+}
 
-    @ViewBuilder
-    private var destinationLabel: some View {
-        if let country = countries.first(where: { $0.code == viewModel.trip.countryCode }) {
-            Text(verbatim: "\(country.flagUnicode) \(country.localizedName(in: locale))")
+// MARK: - TripEditorDestinationLabel
+
+private struct TripEditorDestinationLabel: View {
+    let destination: Country?
+    @Environment(\.locale) private var locale
+
+    var body: some View {
+        if let destination {
+            Text(verbatim: "\(destination.flagUnicode) \(destination.localizedName(in: locale))")
         } else {
             Text(LocalizationKeys.tripEditorDestinationPlaceholder.localized)
                 .foregroundStyle(.textLight)
         }
     }
+}
 
-    private var datesSection: some View {
+// MARK: - TripEditorDatesSection
+
+private struct TripEditorDatesSection: View {
+    let viewModel: TripEditorViewModel
+
+    var body: some View {
         @Bindable var viewModel = viewModel
 
-        return Section(LocalizationKeys.tripDates.localized) {
+        Section(LocalizationKeys.tripDates.localized) {
             DatePicker(
                 LocalizationKeys.tripDeparture.localized,
                 selection: $viewModel.trip.departureDate,
@@ -139,24 +165,32 @@ struct TripEditorView: View {
             )
         }
     }
+}
 
-    private var nameSection: some View {
+// MARK: - TripEditorNameSection
+
+private struct TripEditorNameSection: View {
+    let viewModel: TripEditorViewModel
+
+    var body: some View {
         @Bindable var viewModel = viewModel
 
-        return Section(LocalizationKeys.tripName.localized) {
-            TextField(
-                LocalizationKeys.tripNamePlaceholder.localized,
-                text: Binding(
-                    get: { viewModel.trip.name ?? "" },
-                    set: { viewModel.trip.name = $0 }
-                )
-            )
+        Section(LocalizationKeys.tripName.localized) {
+            // `$viewModel.name` — the optional-to-empty-string projection lives on the view model
+            // (see `TripEditorViewModel.name`) instead of a `Binding(get:set:)` built here.
+            TextField(LocalizationKeys.tripNamePlaceholder.localized, text: $viewModel.name)
         }
     }
+}
 
-    private var removeTripButton: some View {
+// MARK: - TripEditorRemoveButton
+
+private struct TripEditorRemoveButton: View {
+    @Binding var isConfirmationPresented: Bool
+
+    var body: some View {
         Button(role: .destructive) {
-            isDeleteConfirmationPresented = true
+            isConfirmationPresented = true
         } label: {
             Label(LocalizationKeys.tripRemove.localized, systemImage: "trash")
                 .frame(maxWidth: .infinity)

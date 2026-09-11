@@ -101,22 +101,46 @@ struct TripDetailView: View {
                 systemImage: "exclamationmark.triangle"
             )
         } else {
-            List {
-                headerSection
-                devicesSection
-            }
-            .scrollContentBackground(.hidden)
-            .background { AppMeshBackground() }
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-                disclaimerButton
-            }
-            .scrollBounceBehavior(.basedOnSize)
-            .accessibilityIdentifier("trip.detail.list")
+            TripDetailList(viewModel: viewModel)
         }
     }
+}
 
-    @ViewBuilder
-    private var headerSection: some View {
+// MARK: - TripDetailList
+
+/// The trip's `List` and everything in it.
+///
+/// Each section below is its own `View` type rather than a `private var … some View` on
+/// `TripDetailView`. A computed property is inlined into the enclosing body, so it shares that
+/// body's invalidation boundary: adding a device used to re-evaluate the header, the date range,
+/// both metric tiles, the disclaimer inset and every other device row along with the one that
+/// changed.
+private struct TripDetailList: View {
+    let viewModel: TripDetailViewModel
+
+    var body: some View {
+        List {
+            TripHeaderSection(viewModel: viewModel)
+            TripDevicesSection(viewModel: viewModel)
+            TripAddDeviceSection(viewModel: viewModel)
+        }
+        .scrollContentBackground(.hidden)
+        .background { AppMeshBackground() }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            TripDisclaimerButton(viewModel: viewModel)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .accessibilityIdentifier("trip.detail.list")
+    }
+}
+
+// MARK: - TripHeaderSection
+
+private struct TripHeaderSection: View {
+    let viewModel: TripDetailViewModel
+    @Environment(\.locale) private var locale
+
+    var body: some View {
         if let destination = viewModel.destination {
             Section {
                 VStack(alignment: .leading, spacing: .lg) {
@@ -150,24 +174,30 @@ struct TripDetailView: View {
             }
         }
     }
+}
 
-    @ViewBuilder
-    private var devicesSection: some View {
+// MARK: - TripDevicesSection
+
+private struct TripDevicesSection: View {
+    let viewModel: TripDetailViewModel
+
+    var body: some View {
         Section(LocalizationKeys.tripCheckSafetySection.localized) {
             ForEach(viewModel.assessments) { assessment in
-                assessmentRow(assessment)
+                TripDeviceRow(assessment: assessment, viewModel: viewModel)
             }
-            if viewModel.trip.devices.isEmpty {
-                devicesEmptyState
-            }
-        }
 
-        Section {
-            addDeviceButton
+            if viewModel.trip.devices.isEmpty {
+                TripDevicesEmptyState()
+            }
         }
     }
+}
 
-    private var devicesEmptyState: some View {
+// MARK: - TripDevicesEmptyState
+
+private struct TripDevicesEmptyState: View {
+    var body: some View {
         HStack(alignment: .top, spacing: .lg) {
             SFSymbols.powerPlug.image
                 .font(.title3)
@@ -187,8 +217,22 @@ struct TripDetailView: View {
         }
         .listRowSeparator(.hidden)
     }
+}
 
-    private func assessmentRow(_ assessment: DeviceSafetyAssessment) -> some View {
+// MARK: - TripDeviceRow
+
+/// One packed device and its verdict.
+///
+/// Body is a single `Button` — one top-level view — so the enclosing `List` can template row ids
+/// from the `ForEach` element alone instead of evaluating every row's body just to diff them.
+/// Keep it unary if you add to it.
+private struct TripDeviceRow: View {
+    let assessment: DeviceSafetyAssessment
+    /// The view model rather than edit/remove closures: SwiftUI cannot compare function values,
+    /// so closure inputs would make every row count as changed on each pass of the list's body.
+    let viewModel: TripDetailViewModel
+
+    var body: some View {
         Button { viewModel.editDevice(assessment.device) } label: {
             Label {
                 VStack(alignment: .leading, spacing: .xs) {
@@ -204,11 +248,11 @@ struct TripDetailView: View {
                             .foregroundStyle(.tertiary)
                     }
 
-                    deviceRatings(assessment.device)
+                    TripDeviceRatings(device: assessment.device)
 
                     Text(assessment.status.title)
                         .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(statusColor(assessment.status))
+                        .foregroundStyle(assessment.status.color)
                     Text(assessment.message)
                         .font(.caption)
                         .foregroundStyle(.textLight)
@@ -216,7 +260,7 @@ struct TripDetailView: View {
                 }
             } icon: {
                 Image(systemName: assessment.device.symbolName)
-                    .foregroundStyle(statusColor(assessment.status))
+                    .foregroundStyle(assessment.status.color)
             }
             .contentShape(Rectangle())
         }
@@ -240,13 +284,18 @@ struct TripDetailView: View {
             .accessibilityLabel(LocalizationKeys.tripDetailEdit.localized)
         }
     }
+}
 
-    /// The device's own ratings, in the same chips the country cards use for a country's. Without
-    /// them the row asserted a verdict while hiding the two numbers it was derived from, so a bad
-    /// scan was invisible. A device with no frequency recorded shows only the voltage chip —
-    /// `PackDevice.frequency` defaults to "" and a scanned device can genuinely lack it.
-    @ViewBuilder
-    private func deviceRatings(_ device: PackDevice) -> some View {
+// MARK: - TripDeviceRatings
+
+/// The device's own ratings, in the same chips the country cards use for a country's. Without
+/// them the row asserted a verdict while hiding the two numbers it was derived from, so a bad
+/// scan was invisible. A device with no frequency recorded shows only the voltage chip —
+/// `PackDevice.frequency` defaults to "" and a scanned device can genuinely lack it.
+private struct TripDeviceRatings: View {
+    let device: PackDevice
+
+    var body: some View {
         HStack(spacing: .sm) {
             if !device.voltage.isEmpty {
                 ElectricalSpecificationPill(
@@ -267,19 +316,33 @@ struct TripDetailView: View {
             }
         }
     }
+}
 
-    private var addDeviceButton: some View {
-        Button(action: viewModel.addDevice) {
-            Label(LocalizationKeys.tripCheckAddDevice.localized, systemImage: "plus")
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(.voltTint)
-                .frame(maxWidth: .infinity, alignment: .leading)
+// MARK: - TripAddDeviceSection
+
+private struct TripAddDeviceSection: View {
+    let viewModel: TripDetailViewModel
+
+    var body: some View {
+        Section {
+            Button(action: viewModel.addDevice) {
+                Label(LocalizationKeys.tripCheckAddDevice.localized, systemImage: "plus")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.voltTint)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("trip.detail.addDevice")
         }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier("trip.detail.addDevice")
     }
+}
 
-    private var disclaimerButton: some View {
+// MARK: - TripDisclaimerButton
+
+private struct TripDisclaimerButton: View {
+    let viewModel: TripDetailViewModel
+
+    var body: some View {
         Button {
             viewModel.isDisclaimerPresented = true
         } label: {
@@ -309,9 +372,16 @@ struct TripDetailView: View {
         .buttonStyle(.plain)
         .padding([.horizontal, .bottom])
     }
+}
 
-    private func statusColor(_ status: DeviceSafetyStatus) -> Color {
-        switch status {
+// MARK: - DeviceSafetyStatus + Color
+
+/// Was a `statusColor(_:)` method on `TripDetailView`; moved onto the status so the extracted row
+/// can reach it without being handed a colour-mapping closure. Mirrors `PlugCompatibility.color`
+/// over in the country-detail feature.
+private extension DeviceSafetyStatus {
+    var color: Color {
+        switch self {
         case .ready: .statusReady
         case .adapterNeeded: .statusAdapter
         case .homeCountryRequired: .statusCheck

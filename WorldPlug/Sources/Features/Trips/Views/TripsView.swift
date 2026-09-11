@@ -54,7 +54,7 @@ struct TripsView: View {
             .accessibilityIdentifier("trips.list")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    addTripButton
+                    TripsAddButton(viewModel: viewModel, tip: tripsTip)
                 }
             }
             .sheet(isPresented: $viewModel.isEditorPresented) {
@@ -85,43 +85,43 @@ struct TripsView: View {
         .tint(.voltTint)
     }
 
-    private var addTripButton: some View {
+    @ViewBuilder
+    private var listContent: some View {
+        if !viewModel.hasTrips {
+            TripsEmptyState()
+        } else {
+            TripsSection(kind: .upcoming, viewModel: viewModel)
+            TripsSection(kind: .past, viewModel: viewModel)
+        }
+    }
+}
+
+// MARK: - TripsAddButton
+
+private struct TripsAddButton: View {
+    let viewModel: TripsViewModel
+    let tip: TripsTip?
+
+    var body: some View {
         Button {
             viewModel.beginTrip()
             if viewModel.isEditorPresented {
-                tripsTip?.invalidate(reason: .actionPerformed)
+                tip?.invalidate(reason: .actionPerformed)
             }
         } label: {
             Image(systemName: "plus")
         }
         .accessibilityIdentifier("trips.add")
         .accessibilityLabel(LocalizationKeys.tripsAdd.localized)
-        .popoverTip(tripsTip, arrowEdge: .top)
+        .popoverTip(tip, arrowEdge: .top)
         .appTipIconTint()
     }
+}
 
-    @ViewBuilder
-    private var listContent: some View {
-        if !viewModel.hasTrips {
-            emptyState
-        } else {
-            tripSection(
-                title: LocalizationKeys.tripsSectionUpcoming.localized,
-                rows: viewModel.upcomingRows,
-                isPast: false,
-                onDelete: viewModel.deleteUpcoming
-            )
+// MARK: - TripsEmptyState
 
-            tripSection(
-                title: LocalizationKeys.tripsSectionPast.localized,
-                rows: viewModel.pastRows,
-                isPast: true,
-                onDelete: viewModel.deletePast
-            )
-        }
-    }
-
-    private var emptyState: some View {
+private struct TripsEmptyState: View {
+    var body: some View {
         ContentUnavailableView(
             LocalizationKeys.tripsEmptyTitle.localized,
             systemImage: "suitcase.rolling",
@@ -132,14 +132,22 @@ struct TripsView: View {
         .listRowSeparator(.hidden)
         .transition(.opacity.combined(with: .scale(scale: 0.96)))
     }
+}
 
-    @ViewBuilder
-    private func tripSection(
-        title: String,
-        rows: [TripRowModel],
-        isPast: Bool,
-        onDelete: @escaping (IndexSet) -> Void
-    ) -> some View {
+// MARK: - TripsSection
+
+private struct TripsSection: View {
+    enum Kind {
+        case upcoming
+        case past
+    }
+
+    let kind: Kind
+    let viewModel: TripsViewModel
+
+    var body: some View {
+        let rows = rows
+
         if !rows.isEmpty {
             Section(title) {
                 ForEach(rows) { row in
@@ -149,21 +157,46 @@ struct TripsView: View {
                         TripRow(row: row)
                     }
                     .buttonStyle(.plain)
-                    .opacity(isPast ? 0.5 : 1)
+                    .opacity(kind == .past ? 0.5 : 1)
                     .accessibilityIdentifier("trips.row.\(row.country.code)")
                     .appEntityIdentifier(
                         EntityIdentifier(for: TripEntity.self, identifier: row.trip.id)
                     )
                 }
-                .onDelete(perform: onDelete)
+                .onDelete(perform: delete)
                 .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
+        }
+    }
+
+    private var rows: [TripRowModel] {
+        switch kind {
+        case .upcoming: viewModel.upcomingRows
+        case .past: viewModel.pastRows
+        }
+    }
+
+    private var title: String {
+        switch kind {
+        case .upcoming: LocalizationKeys.tripsSectionUpcoming.localized
+        case .past: LocalizationKeys.tripsSectionPast.localized
+        }
+    }
+
+    /// Deletion is by identity, not by offset into the flat `trips` array — a row's position
+    /// within its own section says nothing about its index in the whole list.
+    private func delete(at offsets: IndexSet) {
+        switch kind {
+        case .upcoming: viewModel.deleteUpcoming(at: offsets)
+        case .past: viewModel.deletePast(at: offsets)
         }
     }
 }
 
 // MARK: - TripRow
 
+/// Body is a single `HStack` — one top-level view — so the enclosing `List` can template row ids
+/// from the `ForEach` element alone. Keep it unary if you add to it.
 private struct TripRow: View {
     let row: TripRowModel
     @Environment(\.locale) private var locale
@@ -174,11 +207,17 @@ private struct TripRow: View {
                 .font(.title2)
 
             VStack(alignment: .leading, spacing: .xxs) {
-                titleLine
-                dateLine
+                TripRowTitle(
+                    title: row.trip.name ?? row.country.localizedName(in: locale),
+                    isNext: row.isNext
+                )
+
+                Text(TripDateFormat.range(from: row.trip, locale: locale))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
 
                 if !row.trip.devices.isEmpty {
-                    deviceIcons
+                    TripRowDeviceIcons(devices: row.trip.devices)
                 }
 
                 Text(row.safetySummary)
@@ -194,27 +233,35 @@ private struct TripRow: View {
         }
         .contentShape(Rectangle())
     }
+}
 
-    private var titleLine: some View {
+// MARK: - TripRowTitle
+
+private struct TripRowTitle: View {
+    let title: String
+    let isNext: Bool
+
+    var body: some View {
         HStack(spacing: .sm) {
-            Text(row.trip.name ?? row.country.localizedName(in: locale))
+            Text(title)
                 .font(.body.weight(.semibold))
 
-            if row.isNext {
+            if isNext {
                 NextTripBadge()
             }
         }
     }
+}
 
-    private var dateLine: some View {
-        Text(TripDateFormat.range(from: row.trip, locale: locale))
-            .font(.caption)
-            .foregroundStyle(.secondary)
-    }
+// MARK: - TripRowDeviceIcons
 
-    private var deviceIcons: some View {
+private struct TripRowDeviceIcons: View {
+    let devices: [PackDevice]
+
+    var body: some View {
         HStack(spacing: -CGFloat.xs) {
-            ForEach(Array(row.trip.devices.prefix(4))) { device in
+            // `prefix(4)` is a cheap slice, fine to take inline.
+            ForEach(devices.prefix(4)) { device in
                 Image(systemName: device.symbolName)
                     .font(.caption2.weight(.semibold))
                     .foregroundStyle(.tint)

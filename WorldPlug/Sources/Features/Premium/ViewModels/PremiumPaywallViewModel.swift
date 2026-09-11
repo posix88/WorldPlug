@@ -79,6 +79,32 @@ final class PremiumPaywallViewModel {
         errorMessage = nil
     }
 
+    /// `errorMessage != nil` and `isPurchasePending` as settable alert flags, so the two alerts
+    /// bind with `$viewModel.isErrorAlertPresented` / `$viewModel.isPendingAlertPresented`
+    /// instead of `Binding(get:set:)` pairs built in the view's body — those allocate a fresh
+    /// closure pair on every pass and, being closures, compare unequal every time.
+    var isErrorAlertPresented: Bool {
+        get { errorMessage != nil }
+        set {
+            guard !newValue else {
+                return
+            }
+
+            clearError()
+        }
+    }
+
+    var isPendingAlertPresented: Bool {
+        get { isPurchasePending }
+        set {
+            guard !newValue else {
+                return
+            }
+
+            clearPendingNotice()
+        }
+    }
+
     func clearPendingNotice() {
         isPurchasePending = false
     }

@@ -26,6 +26,20 @@ final class SettingsViewModel {
     var isRestoring = false
     var restoreFailureMessage: String?
 
+    /// `restoreFailureMessage != nil` as a settable flag, so the alert binds with
+    /// `$viewModel.isRestoreFailureAlertPresented` rather than a closure `Binding` assembled in
+    /// the view's body. Dismissal clears the message, which is what makes the alert one-shot.
+    var isRestoreFailureAlertPresented: Bool {
+        get { restoreFailureMessage != nil }
+        set {
+            guard !newValue else {
+                return
+            }
+
+            restoreFailureMessage = nil
+        }
+    }
+
     init(
         premiumEntitlement: any PremiumEntitlementProviding,
         travelPreferencesStore: any TravelPreferencesStoring,
@@ -62,6 +76,21 @@ final class SettingsViewModel {
         homeCountryViewModel.clearHome()
     }
 
+    /// A settable projection so the picker can bind with `$viewModel.selectedHomeCountryCode`
+    /// instead of a `Binding(get:set:)` built in the view's body — a closure binding allocates on
+    /// every pass and, being a closure, compares unequal every time. An empty code means "no home
+    /// country", which is why the setter branches rather than forwarding blindly.
+    var selectedHomeCountryCode: String {
+        get { homeCountryViewModel.homeCountryCode }
+        set {
+            if newValue.isEmpty {
+                clearHomeCountry()
+            } else {
+                setHomeCountry(code: newValue)
+            }
+        }
+    }
+
     // MARK: Favorite widget country
 
     /// The widget can only show a country the user has starred, so the picker offers exactly the
@@ -83,6 +112,13 @@ final class SettingsViewModel {
 
     func selectFavoriteWidgetCountry(code: String?) {
         travelPreferencesStore.setFavoriteWidgetCountry(code: code)
+    }
+
+    /// Settable projection for the widget picker's binding. `""` is the picker's "no selection"
+    /// sentinel and maps to `nil` on the way in.
+    var selectedFavoriteWidgetCountryCode: String {
+        get { favoriteWidgetCountry?.code ?? "" }
+        set { selectFavoriteWidgetCountry(code: newValue.isEmpty ? nil : newValue) }
     }
 
     // MARK: Premium

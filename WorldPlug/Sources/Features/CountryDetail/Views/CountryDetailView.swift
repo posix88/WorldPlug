@@ -13,7 +13,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
-    @State private var pendingSelectedPlug: Plug?
     @State private var dismissAfterSheet = false
 
     init(viewModel: ViewModel) {
@@ -21,7 +20,9 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     }
 
     var body: some View {
-        Map(position: mapPositionBinding, interactionModes: [.pan, .zoom]) {
+        @Bindable var viewModel = viewModel
+
+        Map(position: $viewModel.mapPosition, interactionModes: [.pan, .zoom]) {
             if let mapFocus = viewModel.mapFocus {
                 Annotation(countryName, coordinate: mapFocus.coordinate, anchor: .center) {
                     CountryMapFocusPin(countryName: countryName)
@@ -32,7 +33,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .ignoresSafeArea(edges: .bottom)
         .overlay(alignment: .top) {
             if viewModel.mapLoadState == .unavailable {
-                mapUnavailableNotice
+                CountryMapUnavailableNotice()
                     .padding(.top, .xl)
             }
         }
@@ -98,15 +99,13 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .onDisappear {
             viewModel.isInfoSheetPresented = false
         }
-        .onChange(of: homeCountryViewModel.homeCountryCode) { _, _ in
-            viewModel.syncHomeCountry(with: homeCountryViewModel)
-        }
+        .homeCountrySync(viewModel: viewModel)
         .navigationDestination(item: $selectedPlug) { plug in
             PlugDetailView(plug: plug)
                 .toolbarVisibility(.hidden, for: .tabBar)
         }
-        .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: handleInfoSheetDismissed) {
-            countryInfoSheet
+        .sheet(isPresented: $viewModel.isInfoSheetPresented, onDismiss: handleInfoSheetDismissed) {
+            CountryInfoSheet(viewModel: viewModel, countryName: countryName)
                 .presentationDetents(
                     [
                         .custom(CountryHeaderDetent.self),
@@ -114,7 +113,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                         .medium,
                         .large
                     ],
-                    selection: selectedDetentBinding
+                    selection: $viewModel.selectedDetent
                 )
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.enabled)
@@ -147,13 +146,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
     }
 
-    private var mapPositionBinding: Binding<MapCameraPosition> {
-        Binding(
-            get: { viewModel.mapPosition },
-            set: { viewModel.mapPosition = $0 }
-        )
-    }
-
     private var countryName: String {
         viewModel.country.localizedName(in: locale)
     }
@@ -170,7 +162,69 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             : LocalizationKeys.homeCountryUpdateConfirmationMessage.localized(countryName)
     }
 
-    private var mapUnavailableNotice: some View {
+    private func handleSavedCountryAction() {
+        viewModel.handleSavedCountryAction()
+    }
+}
+
+// MARK: - Navigation
+
+private extension CountryDetailView {
+    func presentPendingPlug() {
+        selectedPlug = viewModel.pendingPlug
+        viewModel.pendingPlug = nil
+    }
+
+    func handleInfoSheetDismissed() {
+        if dismissAfterSheet {
+            dismissAfterSheet = false
+            dismiss()
+            return
+        }
+
+        presentPendingPlug()
+    }
+
+    func handleBackNavigation() {
+        dismissAfterSheet = true
+        viewModel.isInfoSheetPresented = false
+    }
+}
+
+// MARK: - HomeCountrySyncModifier
+
+/// Owns the `homeCountryCode` read that used to sit in `CountryDetailView`'s body purely to feed
+/// an `.onChange`.
+///
+/// Reading an `@Environment` value in a body creates a dependency on it whether or not the body
+/// renders it — and `CountryDetailView`'s body is the most expensive in the app (a `Map`, three
+/// toolbar items, a four-detent sheet with all its presentation modifiers). Nothing there renders
+/// `homeCountryCode`; only `viewModel.isHomeCountry` is drawn. Isolating the read here means a
+/// home-country change re-runs this modifier's trivial body instead of all of that.
+private struct HomeCountrySyncModifier<ViewModel: CountryDetailViewModelType>: ViewModifier {
+    let viewModel: ViewModel
+    @Environment(\.homeCountryViewModel) private var homeCountryViewModel
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: homeCountryViewModel.homeCountryCode) { _, _ in
+                viewModel.syncHomeCountry(with: homeCountryViewModel)
+            }
+    }
+}
+
+private extension View {
+    func homeCountrySync(
+        viewModel: some CountryDetailViewModelType
+    ) -> some View {
+        modifier(HomeCountrySyncModifier(viewModel: viewModel))
+    }
+}
+
+// MARK: - CountryMapUnavailableNotice
+
+private struct CountryMapUnavailableNotice: View {
+    var body: some View {
         Label(LocalizationKeys.countryDetailMapUnavailable.localized, systemImage: "mappin.slash")
             .font(.caption.weight(.medium))
             .foregroundStyle(.textRegular)
@@ -178,51 +232,43 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             .padding(.vertical, .sm)
             .glassEffect(.regular, in: .capsule)
     }
+}
 
-    private func handleSavedCountryAction() {
-        viewModel.handleSavedCountryAction()
-    }
+// MARK: - CountryInfoSheet
 
-    private var isInfoSheetPresentedBinding: Binding<Bool> {
-        Binding(
-            get: { viewModel.isInfoSheetPresented },
-            set: { viewModel.isInfoSheetPresented = $0 }
-        )
-    }
+/// The detent-driven sheet over the map.
+///
+/// A separate `View` rather than a `private var countryInfoSheet: some View` on the parent: a
+/// computed property is inlined into the enclosing body and shares its invalidation boundary, so
+/// dragging the detent used to re-evaluate the `Map`, every toolbar item and all four
+/// presentation modifiers along with the sheet's contents.
+private struct CountryInfoSheet<ViewModel: CountryDetailViewModelType>: View {
+    let viewModel: ViewModel
+    let countryName: String
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    private var selectedDetentBinding: Binding<PresentationDetent> {
-        Binding(
-            get: { viewModel.selectedDetent },
-            set: { viewModel.selectedDetent = $0 }
-        )
-    }
-
-    private var countryInfoSheet: some View {
+    var body: some View {
         ZStack {
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: .xl) {
-                    sheetHeader
+                    // A hidden copy of the header, purely to reserve its height in the scrolling
+                    // layout — the visible one is pinned in the ZStack below so it can stay put
+                    // while the rest scrolls.
+                    header
                         .hidden()
                         .padding(.top, .xxl)
 
                     if !viewModel.isHeaderDetent {
-                        electricalSection
-                            .transition(
-                                .asymmetric(
-                                    insertion: .move(edge: .bottom).combined(with: .opacity),
-                                    removal: .move(edge: .bottom).combined(with: .opacity)
-                                )
-                            )
+                        CountryElectricalSection(
+                            voltage: viewModel.country.voltage,
+                            frequency: viewModel.country.frequency
+                        )
+                        .transition(Self.sectionTransition)
                     }
 
                     if viewModel.isExpandedDetent {
-                        expandedContent
-                            .transition(
-                                .asymmetric(
-                                    insertion: .move(edge: .bottom).combined(with: .opacity),
-                                    removal: .move(edge: .bottom).combined(with: .opacity)
-                                )
-                            )
+                        CountryPlugsSection(viewModel: viewModel)
+                            .transition(Self.sectionTransition)
                     }
                 }
                 .padding(.horizontal, .xxl)
@@ -232,7 +278,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             .scrollDisabled(!viewModel.isLargeDetent)
             .scrollBounceBehavior(.basedOnSize)
 
-            sheetHeader
+            header
                 .padding(.horizontal, .xxl)
                 .padding(.top, viewModel.isHeaderDetent ? 0 : .xxl)
                 .frame(
@@ -248,75 +294,120 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         .accessibilityIdentifier("countryDetail.infoSheet")
     }
 
-    private var sheetHeader: some View {
+    private static var sectionTransition: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .move(edge: .bottom).combined(with: .opacity)
+        )
+    }
+
+    /// Kept as a property rather than its own `View` type because it is instantiated twice in the
+    /// same body — once hidden for layout, once visible — and the two must stay byte-identical.
+    private var header: CountryInfoSheetHeader {
+        CountryInfoSheetHeader(
+            flagUnicode: viewModel.country.flagUnicode,
+            countryName: countryName,
+            isHomeCountry: viewModel.isHomeCountry,
+            isCentered: viewModel.isHeaderDetent
+        )
+    }
+}
+
+// MARK: - CountryInfoSheetHeader
+
+private struct CountryInfoSheetHeader: View {
+    let flagUnicode: String
+    let countryName: String
+    let isHomeCountry: Bool
+    let isCentered: Bool
+
+    var body: some View {
         HStack(alignment: .center, spacing: .md) {
             // `verbatim`: a flag emoji next to an already-localized country name is data, not a
             // translatable phrase. Without it the literal is a `LocalizedStringKey` and Xcode
             // extracts "%@ %@" into the catalog as a key.
-            Text(verbatim: "\(viewModel.country.flagUnicode) \(countryName)")
+            Text(verbatim: "\(flagUnicode) \(countryName)")
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(.textRegular)
                 .lineLimit(1)
 
-            if viewModel.isHomeCountry {
+            if isHomeCountry {
                 HomeCountryIndicator()
             }
         }
-        .frame(
-            maxWidth: .infinity,
-            alignment: viewModel.isHeaderDetent ? .center : .leading
-        )
+        .frame(maxWidth: .infinity, alignment: isCentered ? .center : .leading)
     }
+}
 
-    private var expandedContent: some View {
-        VStack(alignment: .leading, spacing: .xl) {
-            detailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
-                plugContent
+// MARK: - CountryElectricalSection
+
+private struct CountryElectricalSection: View {
+    let voltage: String
+    let frequency: String
+
+    var body: some View {
+        CountryDetailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
+            Grid(horizontalSpacing: .md, verticalSpacing: .md) {
+                GridRow {
+                    CountryInfoMetricCard(
+                        icon: .boltCircleFill,
+                        title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                        value: voltage,
+                        color: .voltTint
+                    )
+
+                    CountryInfoMetricCard(
+                        icon: .waveform,
+                        title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                        value: frequency,
+                        color: .frequencyTint
+                    )
+                }
             }
         }
     }
+}
 
-    private var electricalSection: some View {
-        detailSection(title: LocalizationKeys.countryDetailElectricalSetup.localized) {
-            electricalSetup
-        }
-    }
+// MARK: - CountryPlugsSection
 
-    private var electricalSetup: some View {
-        Grid(horizontalSpacing: .md, verticalSpacing: .md) {
-            GridRow {
-                CountryInfoMetricCard(
-                    icon: .boltCircleFill,
-                    title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
-                    value: viewModel.country.voltage,
-                    color: .voltTint
-                )
+private struct CountryPlugsSection<ViewModel: CountryDetailViewModelType>: View {
+    let viewModel: ViewModel
 
-                CountryInfoMetricCard(
-                    icon: .waveform,
-                    title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
-                    value: viewModel.country.frequency,
-                    color: .frequencyTint
-                )
+    var body: some View {
+        CountryDetailSection(title: LocalizationKeys.countryDetailAllPlugs.localized) {
+            if viewModel.showsCompatibilityOverview {
+                VStack(alignment: .leading, spacing: .lg) {
+                    CountryPlugCompatibilityGroup(
+                        compatibility: .compatible,
+                        plugs: viewModel.compatiblePlugs,
+                        viewModel: viewModel
+                    )
+                    CountryPlugCompatibilityGroup(
+                        compatibility: .adapterNeeded,
+                        plugs: viewModel.adapterPlugs,
+                        viewModel: viewModel
+                    )
+                    CountryPlugCompatibilityGroup(
+                        compatibility: .converterRequired,
+                        plugs: viewModel.converterPlugs,
+                        viewModel: viewModel
+                    )
+                }
+            } else {
+                CountryPlugList(plugs: viewModel.allPlugs, viewModel: viewModel)
             }
         }
     }
+}
 
-    @ViewBuilder
-    private var plugContent: some View {
-        if viewModel.showsCompatibilityOverview {
-            VStack(alignment: .leading, spacing: .lg) {
-                compatibilityGroup(.compatible, plugs: viewModel.compatiblePlugs)
-                compatibilityGroup(.adapterNeeded, plugs: viewModel.adapterPlugs)
-                compatibilityGroup(.converterRequired, plugs: viewModel.converterPlugs)
-            }
-        } else {
-            plugRows(viewModel.allPlugs)
-        }
-    }
+// MARK: - CountryPlugCompatibilityGroup
 
-    @ViewBuilder
-    private func compatibilityGroup(_ compatibility: PlugCompatibility, plugs: [Plug]) -> some View {
+private struct CountryPlugCompatibilityGroup<ViewModel: CountryDetailViewModelType>: View {
+    let compatibility: PlugCompatibility
+    let plugs: [Plug]
+    let viewModel: ViewModel
+
+    var body: some View {
         if !plugs.isEmpty {
             VStack(alignment: .leading, spacing: .sm) {
                 Label {
@@ -335,16 +426,25 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 }
                 .foregroundStyle(compatibility.color)
 
-                plugRows(plugs)
+                CountryPlugList(plugs: plugs, viewModel: viewModel)
             }
         }
     }
+}
 
-    private func plugRows(_ plugs: [Plug]) -> some View {
+// MARK: - CountryPlugList
+
+private struct CountryPlugList<ViewModel: CountryDetailViewModelType>: View {
+    let plugs: [Plug]
+    /// The view model rather than an `(Plug) -> Void` closure — see `pendingPlug` on
+    /// `CountryDetailViewModelType`.
+    let viewModel: ViewModel
+
+    var body: some View {
         VStack(spacing: .md) {
             ForEach(plugs) { plug in
                 Button {
-                    openPlugDetail(plug)
+                    viewModel.openPlugDetail(plug)
                 } label: {
                     CountryDetailPlugRow(plug: plug)
                 }
@@ -352,44 +452,24 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             }
         }
     }
+}
 
-    private func detailSection(title: String, @ViewBuilder content: () -> some View) -> some View {
+// MARK: - CountryDetailSection
+
+/// A titled section wrapper. Was a `detailSection(title:content:)` `@ViewBuilder` helper on the
+/// parent; a real `View` type gives it its own invalidation boundary and its own type-check unit.
+private struct CountryDetailSection<Content: View>: View {
+    let title: String
+    @ViewBuilder let content: Content
+
+    var body: some View {
         VStack(alignment: .leading, spacing: .md) {
             Text(title)
                 .font(.headline.weight(.semibold))
                 .foregroundStyle(.textRegular)
 
-            content()
+            content
         }
-    }
-}
-
-// MARK: - Navigation
-
-private extension CountryDetailView {
-    func openPlugDetail(_ plug: Plug) {
-        pendingSelectedPlug = plug
-        viewModel.isInfoSheetPresented = false
-    }
-
-    func presentPendingPlug() {
-        selectedPlug = pendingSelectedPlug
-        pendingSelectedPlug = nil
-    }
-
-    func handleInfoSheetDismissed() {
-        if dismissAfterSheet {
-            dismissAfterSheet = false
-            dismiss()
-            return
-        }
-
-        presentPendingPlug()
-    }
-
-    func handleBackNavigation() {
-        dismissAfterSheet = true
-        viewModel.isInfoSheetPresented = false
     }
 }
 

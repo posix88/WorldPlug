@@ -10,9 +10,11 @@ import SwiftUI
 /// half-sheet because it pushes its own sub-screens (the two country pickers) and because it is
 /// where settings will keep accumulating.
 struct SettingsView: View {
+    // `locale` and `requestReview` moved down to the sections that read them. A keypath
+    // `@Environment` declaration subscribes the view to that key whether or not the body
+    // references it, so leaving them here would have kept re-evaluating this whole `Form` on
+    // every locale change for nothing.
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.locale) private var locale
-    @Environment(\.requestReview) private var requestReview
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: SettingsViewModel
 
@@ -37,11 +39,11 @@ struct SettingsView: View {
 
         NavigationStack(path: $viewModel.navigationPath) {
             Form {
-                travelSection
-                widgetsSection
-                premiumSection
-                aboutSection
-                debugSection
+                SettingsTravelSection(viewModel: viewModel)
+                SettingsWidgetsSection(viewModel: viewModel)
+                SettingsPremiumSection(viewModel: viewModel)
+                SettingsAboutSection(viewModel: viewModel)
+                SettingsDebugSection()
             }
             .scrollContentBackground(.hidden)
             .background { AppMeshBackground() }
@@ -55,12 +57,7 @@ struct SettingsView: View {
             }
             .alert(
                 LocalizationKeys.settingsRestoreFailed.localized,
-                isPresented: Binding(
-                    get: { viewModel.restoreFailureMessage != nil },
-                    set: { if !$0 {
-                        viewModel.restoreFailureMessage = nil
-                    } }
-                )
+                isPresented: $viewModel.isRestoreFailureAlertPresented
             ) {
                 Button(LocalizationKeys.premiumPaywallDismiss.localized, role: .cancel) {
                     viewModel.restoreFailureMessage = nil
@@ -88,13 +85,68 @@ struct SettingsView: View {
         }
     }
 
-    // MARK: Sections
+    // MARK: Routes
 
-    private var travelSection: some View {
+    @ViewBuilder
+    private func destination(for route: SettingsRoute) -> some View {
+        @Bindable var viewModel = viewModel
+
+        switch route {
+        case .homeCountryPicker:
+            // `$viewModel.selectedHomeCountryCode` instead of a `Binding(get:set:)` assembled
+            // here — the branching "empty means clear" logic lives on the view model as a
+            // settable projection. See `SettingsViewModel.selectedHomeCountryCode`.
+            CountryDestinationPickerView(
+                selectedCountryCode: $viewModel.selectedHomeCountryCode,
+                countries: countries,
+                title: LocalizationKeys.settingsHomeCountry.localized,
+                screen: .settings,
+                allowsNoSelection: true,
+                noSelectionTitle: LocalizationKeys.settingsHomeCountryNone.localized
+            )
+
+        case .favoriteWidgetPicker:
+            CountryDestinationPickerView(
+                selectedCountryCode: $viewModel.selectedFavoriteWidgetCountryCode,
+                // Deliberately only the saved countries: the widget can't show one the user
+                // hasn't starred, so offering the full catalogue here would offer a dead end.
+                countries: viewModel.savedCountries,
+                title: LocalizationKeys.favoriteWidgetTitle.localized,
+                screen: .settings,
+                allowsNoSelection: true
+            )
+        }
+    }
+}
+
+// MARK: - Section names
+
+/// Each `Form` section is its own `View` type rather than a `private var … some View` on
+/// `SettingsView`. A computed property is inlined into the enclosing body and shares its
+/// invalidation boundary, so a restore spinner ticking used to re-evaluate the home-country row,
+/// the widget row, the version string and the share link along with it.
+private func settingsCountryName(_ country: Country?, locale: Locale) -> String? {
+    guard let country else {
+        return nil
+    }
+
+    return "\(country.flagUnicode) \(country.localizedName(in: locale))"
+}
+
+// MARK: - SettingsTravelSection
+
+private struct SettingsTravelSection: View {
+    let viewModel: SettingsViewModel
+    @Environment(\.locale) private var locale
+
+    var body: some View {
         Section {
             NavigationLink(value: SettingsRoute.homeCountryPicker) {
                 LabeledContent(LocalizationKeys.settingsHomeCountry.localized) {
-                    Text(name(of: viewModel.homeCountry) ?? LocalizationKeys.settingsHomeCountryNone.localized)
+                    Text(
+                        settingsCountryName(viewModel.homeCountry, locale: locale)
+                            ?? LocalizationKeys.settingsHomeCountryNone.localized
+                    )
                 }
             }
             .accessibilityIdentifier("settings.homeCountry")
@@ -110,13 +162,20 @@ struct SettingsView: View {
             Text(LocalizationKeys.settingsHomeCountryFooter.localized)
         }
     }
+}
 
-    private var widgetsSection: some View {
+// MARK: - SettingsWidgetsSection
+
+private struct SettingsWidgetsSection: View {
+    let viewModel: SettingsViewModel
+    @Environment(\.locale) private var locale
+
+    var body: some View {
         Section {
             NavigationLink(value: SettingsRoute.favoriteWidgetPicker) {
                 LabeledContent(LocalizationKeys.favoriteWidgetTitle.localized) {
                     Text(
-                        name(of: viewModel.favoriteWidgetCountry)
+                        settingsCountryName(viewModel.favoriteWidgetCountry, locale: locale)
                             ?? LocalizationKeys.favoriteWidgetNoSelection.localized
                     )
                 }
@@ -133,9 +192,14 @@ struct SettingsView: View {
             )
         }
     }
+}
 
-    @ViewBuilder
-    private var premiumSection: some View {
+// MARK: - SettingsPremiumSection
+
+private struct SettingsPremiumSection: View {
+    let viewModel: SettingsViewModel
+
+    var body: some View {
         Section {
             if viewModel.isPremium {
                 Label(LocalizationKeys.settingsPremiumActive.localized, systemImage: "checkmark.seal.fill")
@@ -151,7 +215,7 @@ struct SettingsView: View {
                 }
                 .accessibilityIdentifier("settings.unlockPremium")
 
-                restoreButton
+                SettingsRestoreButton(viewModel: viewModel)
             }
         } header: {
             Text(LocalizationKeys.settingsSectionPremium.localized)
@@ -161,8 +225,16 @@ struct SettingsView: View {
             }
         }
     }
+}
 
-    private var restoreButton: some View {
+// MARK: - SettingsRestoreButton
+
+/// Its own type mainly so `isRestoring` — which flips twice per restore — only invalidates this
+/// button, not the whole premium section.
+private struct SettingsRestoreButton: View {
+    let viewModel: SettingsViewModel
+
+    var body: some View {
         Button {
             Task { await viewModel.restorePurchases() }
         } label: {
@@ -178,8 +250,15 @@ struct SettingsView: View {
         .disabled(viewModel.isRestoring)
         .accessibilityIdentifier("settings.restorePurchases")
     }
+}
 
-    private var aboutSection: some View {
+// MARK: - SettingsAboutSection
+
+private struct SettingsAboutSection: View {
+    let viewModel: SettingsViewModel
+    @Environment(\.requestReview) private var requestReview
+
+    var body: some View {
         Section(LocalizationKeys.settingsSectionAbout.localized) {
             LabeledContent(LocalizationKeys.settingsVersion.localized) {
                 Text(viewModel.appVersion)
@@ -194,9 +273,12 @@ struct SettingsView: View {
             }
         }
     }
+}
 
-    @ViewBuilder
-    private var debugSection: some View {
+// MARK: - SettingsDebugSection
+
+private struct SettingsDebugSection: View {
+    var body: some View {
         #if DEBUG
         if AppDebugOverrides.isEnabled {
             Section(LocalizationKeys.settingsDebug.localized) {
@@ -205,56 +287,6 @@ struct SettingsView: View {
             }
         }
         #endif
-    }
-
-    // MARK: Routes
-
-    @ViewBuilder
-    private func destination(for route: SettingsRoute) -> some View {
-        @Bindable var viewModel = viewModel
-
-        switch route {
-        case .homeCountryPicker:
-            CountryDestinationPickerView(
-                selectedCountryCode: Binding(
-                    get: { viewModel.homeCountryCode },
-                    set: { code in
-                        if code.isEmpty {
-                            viewModel.clearHomeCountry()
-                        } else {
-                            viewModel.setHomeCountry(code: code)
-                        }
-                    }
-                ),
-                countries: countries,
-                title: LocalizationKeys.settingsHomeCountry.localized,
-                screen: .settings,
-                allowsNoSelection: true,
-                noSelectionTitle: LocalizationKeys.settingsHomeCountryNone.localized
-            )
-
-        case .favoriteWidgetPicker:
-            CountryDestinationPickerView(
-                selectedCountryCode: Binding(
-                    get: { viewModel.favoriteWidgetCountry?.code ?? "" },
-                    set: { viewModel.selectFavoriteWidgetCountry(code: $0.isEmpty ? nil : $0) }
-                ),
-                // Deliberately only the saved countries: the widget can't show one the user
-                // hasn't starred, so offering the full catalogue here would offer a dead end.
-                countries: viewModel.savedCountries,
-                title: LocalizationKeys.favoriteWidgetTitle.localized,
-                screen: .settings,
-                allowsNoSelection: true
-            )
-        }
-    }
-
-    private func name(of country: Country?) -> String? {
-        guard let country else {
-            return nil
-        }
-
-        return "\(country.flagUnicode) \(country.localizedName(in: locale))"
     }
 }
 

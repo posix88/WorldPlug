@@ -39,7 +39,16 @@ protocol CountryDetailViewModelType: AnyObject, Observable {
     var savedCountrySymbolName: String { get }
     var savedCountryAccessibilityLabel: String { get }
     var isPremium: Bool { get }
+    /// The plug the user tapped while the info sheet was still open.
+    ///
+    /// The sheet has to finish closing before the push can happen, so the choice is parked here
+    /// and read back in the sheet's dismissal handler. It lives on the view model rather than in
+    /// the view so the extracted plug-list subviews can record a tap by calling
+    /// `openPlugDetail(_:)` — handing them a `(Plug) -> Void` closure instead would make every
+    /// plug row compare as changed on each pass of the sheet's body.
+    var pendingPlug: Plug? { get set }
 
+    func openPlugDetail(_ plug: Plug)
     func screenAppeared(using homeCountryViewModel: any HomeCountryViewModelType)
     func handleSavedCountryAction()
     func handleHomeCountryAction(using homeCountryViewModel: any HomeCountryViewModelType)
@@ -72,6 +81,12 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     private let analyticsTracker: any AnalyticsTracker
     var isPremiumPaywallPresented = false
     var isHomeCountryConfirmationPresented = false
+    var pendingPlug: Plug?
+
+    func openPlugDetail(_ plug: Plug) {
+        pendingPlug = plug
+        isInfoSheetPresented = false
+    }
 
     var isLargeDetent: Bool {
         selectedDetent == .large
@@ -255,6 +270,12 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var savedCountrySymbolName: String { "star" }
     var savedCountryAccessibilityLabel: String { "" }
     var isPremium = true
+    var pendingPlug: Plug?
+
+    func openPlugDetail(_ plug: Plug) {
+        pendingPlug = plug
+        isInfoSheetPresented = false
+    }
 
     var sheetBackgroundOpacity: CGFloat {
         switch selectedDetent {

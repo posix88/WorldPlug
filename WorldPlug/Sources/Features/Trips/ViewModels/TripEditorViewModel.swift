@@ -36,6 +36,16 @@ final class TripEditorViewModel {
         set { trip.returnDate = max(newValue, trip.departureDate) }
     }
 
+    /// `Trip.name` is optional but a `TextField` needs a non-optional `String`. Projected here on
+    /// the same principle as `returnDate`, so the field binds with `$viewModel.name` instead of a
+    /// `Binding(get:set:)` assembled in the view's body — which would allocate a fresh closure
+    /// pair on every pass and compare unequal every time. `save()` is what turns a blank name
+    /// back into `nil`.
+    var name: String {
+        get { trip.name ?? "" }
+        set { trip.name = newValue }
+    }
+
     func departureDateChanged() {
         clampReturnDate()
     }
