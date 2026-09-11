@@ -219,7 +219,7 @@ struct FeatureViewModelTests {
         )
         let device = PackDevice(name: "Charger", voltage: "100-240V", frequency: "50/60Hz")
 
-        viewModel.appendDevice(device)
+        viewModel.saveDevice(device)
 
         #expect(store.preferences.trips.first?.devices == [device])
         #expect(viewModel.assessments.count == 1)

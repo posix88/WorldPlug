@@ -34,6 +34,8 @@ final class TripDetailViewModel {
     /// `deviceEditorPath` is that stack's path — the scanner push lives inside the sheet.
     var isDeviceEditorPresented = false
     var deviceEditorPath: [PackDeviceEditorRoute] = []
+    /// The device the editor sheet is currently editing; `nil` means it's adding a new one.
+    private(set) var editingDevice: PackDevice?
     var isPremiumPaywallPresented = false
     var isTripEditorPresented = false
     var isDisclaimerPresented = false
@@ -117,16 +119,28 @@ final class TripDetailViewModel {
             return
         }
 
-        deviceEditorPath = []
-        scannedValues = nil
-        isDeviceEditorPresented = true
+        presentDeviceEditor(for: nil)
+    }
+
+    /// Opens the same editor on an existing device. The free-device limit deliberately isn't
+    /// checked here — editing what you already have doesn't add anything, so a free user must be
+    /// able to correct a device's voltage after scanning it wrong.
+    func editDevice(_ device: PackDevice) {
+        presentDeviceEditor(for: device)
     }
 
     /// `PackDeviceEditorView` dismisses its own sheet after saving, so this only has to persist.
-    func appendDevice(_ device: PackDevice) {
-        trip.devices.append(device)
+    /// Replaces in place when the editor hands back a device that's already on the trip — the
+    /// editor preserves the original `id` for exactly this — and appends otherwise.
+    func saveDevice(_ device: PackDevice) {
+        if let index = trip.devices.firstIndex(where: { $0.id == device.id }) {
+            trip.devices[index] = device
+        } else {
+            trip.devices.append(device)
+            analyticsTracker.track(.tripCheckCompleted)
+        }
+
         persistTrip()
-        analyticsTracker.track(.tripCheckCompleted)
     }
 
     func removeDevice(id: UUID) {
@@ -150,6 +164,13 @@ final class TripDetailViewModel {
     }
 
     // MARK: - Private
+
+    private func presentDeviceEditor(for device: PackDevice?) {
+        editingDevice = device
+        deviceEditorPath = []
+        scannedValues = nil
+        isDeviceEditorPresented = true
+    }
 
     private func persistTrip() {
         travelPreferencesStore.saveTrip(trip)

@@ -10,6 +10,7 @@ struct PackDeviceEditorView: View {
     let onScanRequested: () -> Void
 
     init(
+        device: PackDevice? = nil,
         scannerValues: Binding<DeviceLabelValues?>,
         premiumEntitlement: any PremiumEntitlementProviding,
         onSave: @escaping (PackDevice) -> Void,
@@ -18,6 +19,7 @@ struct PackDeviceEditorView: View {
         _scannerValues = scannerValues
         _viewModel = State(
             initialValue: PackDeviceEditorViewModel(
+                device: device,
                 premiumEntitlement: premiumEntitlement
             )
         )
@@ -47,8 +49,13 @@ struct PackDeviceEditorView: View {
             .padding(.vertical, .xl)
         }
         .scrollBounceBehavior(.basedOnSize)
-        .background { Color.backgroundSurface.ignoresSafeArea() }
-        .navigationTitle(LocalizationKeys.tripCheckAddDevice.localized)
+        .scrollContentBackground(.hidden)
+        .background { AppMeshBackground() }
+        .navigationTitle(
+            viewModel.isExisting
+                ? LocalizationKeys.tripCheckDeviceDetails.localized
+                : LocalizationKeys.tripCheckAddDevice.localized
+        )
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {

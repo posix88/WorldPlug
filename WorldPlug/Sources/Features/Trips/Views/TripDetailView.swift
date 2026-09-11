@@ -41,10 +41,6 @@ struct TripDetailView: View {
 
     var body: some View {
         @Bindable var viewModel = viewModel
-
-        // Deliberately no `NavigationStack` here: this view is pushed onto `TripsView`'s stack, so
-        // owning one would nest a stack inside a stack. The device editor is a sheet, and it
-        // carries the one stack it needs for the scanner push.
         content
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
@@ -64,8 +60,9 @@ struct TripDetailView: View {
                 PackDeviceEditorSheet(
                     path: $viewModel.deviceEditorPath,
                     scannerValues: $viewModel.scannedValues,
+                    device: viewModel.editingDevice,
                     premiumEntitlement: premiumEntitlement,
-                    onSave: viewModel.appendDevice,
+                    onSave: viewModel.saveDevice,
                     onScanRequested: viewModel.requestLabelScan
                 )
             }
@@ -85,6 +82,7 @@ struct TripDetailView: View {
             .onAppear {
                 viewModel.screenAppeared(requestReview: { requestReview() })
             }
+            .tint(.voltTint)
     }
 
     private var navigationTitle: String {
@@ -108,7 +106,7 @@ struct TripDetailView: View {
                 devicesSection
             }
             .scrollContentBackground(.hidden)
-            .background { Color.backgroundSurface.ignoresSafeArea() }
+            .background { AppMeshBackground() }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 disclaimerButton
             }
@@ -121,17 +119,30 @@ struct TripDetailView: View {
     private var headerSection: some View {
         if let destination = viewModel.destination {
             Section {
-                VStack(alignment: .leading, spacing: .sm) {
+                VStack(alignment: .leading, spacing: .lg) {
                     Text("\(destination.flagUnicode) \(destination.localizedName(in: locale))")
-                        .font(.title2.weight(.bold))
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(.textRegular)
 
                     Text(TripDateFormat.range(from: viewModel.trip, locale: locale))
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote)
+                        .foregroundStyle(.textLight)
 
-                    Text("\(destination.voltage) · \(destination.frequency)")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                    HStack(spacing: .md) {
+                        TripMetricTile(
+                            icon: .boltCircleFill,
+                            title: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                            value: destination.voltage,
+                            color: .voltTint
+                        )
+
+                        TripMetricTile(
+                            icon: .waveform,
+                            title: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                            value: destination.frequency,
+                            color: .frequencyTint
+                        )
+                    }
                 }
                 .appEntityIdentifier(
                     EntityIdentifier(for: CountryEntity.self, identifier: destination.code)
@@ -143,54 +154,126 @@ struct TripDetailView: View {
     @ViewBuilder
     private var devicesSection: some View {
         Section(LocalizationKeys.tripCheckSafetySection.localized) {
-            if viewModel.trip.devices.isEmpty {
-                ContentUnavailableView(
-                    LocalizationKeys.tripDetailDevicesEmptyTitle.localized,
-                    systemImage: "powerplug",
-                    description: Text(LocalizationKeys.tripDetailDevicesEmptyDescription.localized)
-                )
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-            } else {
-                ForEach(viewModel.assessments) { assessment in
-                    assessmentRow(assessment)
-                }
+            ForEach(viewModel.assessments) { assessment in
+                assessmentRow(assessment)
             }
+            if viewModel.trip.devices.isEmpty {
+                devicesEmptyState
+            }
+        }
 
+        Section {
             addDeviceButton
         }
     }
 
+    private var devicesEmptyState: some View {
+        HStack(alignment: .top, spacing: .lg) {
+            SFSymbols.powerPlug.image
+                .font(.title3)
+                .foregroundStyle(.textLighter)
+                .frame(width: DesignTokens.Size.smallIcon)
+
+            VStack(alignment: .leading, spacing: .xs) {
+                Text(LocalizationKeys.tripDetailDevicesEmptyTitle.localized)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.textRegular)
+
+                Text(LocalizationKeys.tripDetailDevicesEmptyDescription.localized)
+                    .font(.caption)
+                    .foregroundStyle(.textLight)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .listRowSeparator(.hidden)
+    }
+
     private func assessmentRow(_ assessment: DeviceSafetyAssessment) -> some View {
         let color = Self.statusColor(assessment.status)
-
-        return Label {
-            VStack(alignment: .leading, spacing: .xxs) {
-                Text(assessment.device.name).fontWeight(.semibold)
-                Text(assessment.status.title).foregroundStyle(color)
-                Text(assessment.message).font(.caption).foregroundStyle(.secondary)
+        
+        return Button { viewModel.editDevice(assessment.device)  } label: {
+            Label {
+                VStack(alignment: .leading, spacing: .xs) {
+                    HStack(spacing: .sm) {
+                        Text(assessment.device.name)
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(.textRegular)
+                        
+                        Spacer(minLength: .xs)
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(.tertiary)
+                    }
+                    
+                    deviceRatings(assessment.device)
+                    
+                    Text(assessment.status.title)
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundStyle(color)
+                    Text(assessment.message)
+                        .font(.caption)
+                        .foregroundStyle(.textLight)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            } icon: {
+                Image(systemName: assessment.device.symbolName)
+                    .foregroundStyle(color)
             }
-        } icon: {
-            Image(systemName: assessment.device.symbolName)
-                .foregroundStyle(color)
+            .contentShape(Rectangle())
         }
         .appEntityIdentifier(
             EntityIdentifier(for: PackDeviceEntity.self, identifier: assessment.device.id)
         )
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
             Button(role: .destructive) {
                 viewModel.removeDevice(id: assessment.device.id)
             } label: {
                 Image(systemName: "trash")
             }
             .accessibilityLabel(LocalizationKeys.tripCheckRemoveDevice.localized)
+            
+            Button {
+                viewModel.editDevice(assessment.device)
+            } label: {
+                Image(systemName: "pencil")
+            }
+            .accessibilityIdentifier("trip.detail.edit")
+            .accessibilityLabel(LocalizationKeys.tripDetailEdit.localized)
+        }
+    }
+
+    /// The device's own ratings, in the same chips the country cards use for a country's. Without
+    /// them the row asserted a verdict while hiding the two numbers it was derived from, so a bad
+    /// scan was invisible. A device with no frequency recorded shows only the voltage chip —
+    /// `PackDevice.frequency` defaults to "" and a scanned device can genuinely lack it.
+    @ViewBuilder
+    private func deviceRatings(_ device: PackDevice) -> some View {
+        HStack(spacing: .sm) {
+            if !device.voltage.isEmpty {
+                ElectricalSpecificationPill(
+                    icon: .boltCircleFill,
+                    label: LocalizationKeys.accessibilityVoltage.localized(from: .accessibility),
+                    value: device.voltage,
+                    color: .voltTint
+                )
+            }
+
+            if !device.frequency.isEmpty {
+                ElectricalSpecificationPill(
+                    icon: .waveform,
+                    label: LocalizationKeys.accessibilityFrequency.localized(from: .accessibility),
+                    value: device.frequency,
+                    color: .frequencyTint
+                )
+            }
         }
     }
 
     private var addDeviceButton: some View {
         Button(action: viewModel.addDevice) {
             Label(LocalizationKeys.tripCheckAddDevice.localized, systemImage: "plus")
-                .font(.body.weight(.semibold))
+                .font(.subheadline.weight(.semibold))
                 .foregroundStyle(.voltTint)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -212,25 +295,21 @@ struct TripDetailView: View {
                         .font(.caption2)
                         .foregroundStyle(.secondary)
                 }
-
-                Spacer()
+                .frame(maxWidth: .infinity, alignment: .leading)
 
                 Image(systemName: "chevron.right")
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(.secondary)
+                    .foregroundStyle(.voltTint)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .glassEffect(.regular.interactive())
             .contentShape(Rectangle())
-            .overlay(alignment: .top) {
-                Rectangle()
-                    .fill(.statusCheck.opacity(0.25))
-                    .frame(height: 1)
-            }
         }
         .buttonStyle(.plain)
+        .padding([.horizontal, .bottom])
     }
 
     private static func statusColor(_ status: DeviceSafetyStatus) -> Color {
@@ -244,15 +323,50 @@ struct TripDetailView: View {
     }
 }
 
+// MARK: - TripMetricTile
+
+private struct TripMetricTile: View {
+    let icon: SFSymbols
+    let title: String
+    let value: String
+    let color: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .xs) {
+            HStack(spacing: .sm) {
+                icon.image
+                    .font(.subheadline)
+                    .foregroundStyle(color)
+
+                Text(title)
+                    .font(.caption2.weight(.semibold))
+                    .textCase(.uppercase)
+                    .foregroundStyle(.textLight)
+            }
+
+            Text(value)
+                .font(.title3.weight(.bold))
+                .foregroundStyle(.textRegular)
+                .monospacedDigit()
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.lg)
+        .background(.surfaceSecondary)
+        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+        .accessibilityElement(children: .combine)
+    }
+}
+
 // MARK: - PackDeviceEditorSheet
 
-/// Wraps the device editor in the one `NavigationStack` it needs, so the label scanner can be
-/// pushed on top of it without `TripDetailView` — which is itself already inside a stack — having
-/// to own a second one.
 private struct PackDeviceEditorSheet: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var path: [PackDeviceEditorRoute]
     @Binding var scannerValues: DeviceLabelValues?
+    /// `nil` when adding a device, set when editing one.
+    let device: PackDevice?
     let premiumEntitlement: any PremiumEntitlementProviding
     let onSave: (PackDevice) -> Void
     let onScanRequested: () -> Void
@@ -260,6 +374,7 @@ private struct PackDeviceEditorSheet: View {
     var body: some View {
         NavigationStack(path: $path) {
             PackDeviceEditorView(
+                device: device,
                 scannerValues: $scannerValues,
                 premiumEntitlement: premiumEntitlement,
                 onSave: onSave,
@@ -317,10 +432,13 @@ private struct TripDisclaimerView: View {
             .scrollBounceBehavior(.basedOnSize)
             .navigationTitle(LocalizationKeys.tripCheckDisclaimerTitle.localized)
             .navigationBarTitleDisplayMode(.large)
+            .background { Color.backgroundSurface.ignoresSafeArea() }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizationKeys.premiumPaywallDismiss.localized) {
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "checkmark")
                     }
                 }
             }

@@ -34,16 +34,6 @@
         }
       }
     },
-    "%@ · %@": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "new",
-            "value": "%1$@ · %2$@"
-          }
-        }
-      }
-    },
     "Check %@ for %@": {
       "extractionState": "manual",
       "localizations": {
@@ -3991,13 +3981,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Socket Buddy tells you which plug and voltage you need in 200+ countries, and whether your devices are safe to plug in. ⚡"
+            "value": "Socket Buddy tells you which plug and voltage you need in 200+ countries, and whether your devices are safe to plug in. ⚡\n\nhttps://apps.apple.com/app/id6805882062"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Socket Buddy ti dice quale spina e quale tensione servono in oltre 200 paesi, e se puoi collegare i tuoi dispositivi in sicurezza. ⚡"
+            "value": "Socket Buddy ti dice quale spina e quale tensione servono in oltre 200 paesi, e se puoi collegare i tuoi dispositivi in sicurezza. ⚡\n\nhttps://apps.apple.com/app/id6805882062"
           }
         }
       }
@@ -5001,6 +4991,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "Modifica viaggio"
+          }
+        }
+      }
+    },
+    "trip.detail.edit.device.hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit this device's voltage and frequency"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modifica voltaggio e frequenza di questo dispositivo"
           }
         }
       }

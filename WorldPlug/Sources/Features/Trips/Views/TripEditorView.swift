@@ -41,6 +41,8 @@ struct TripEditorView: View {
             .onChange(of: viewModel.trip.departureDate) { _, _ in
                 viewModel.departureDateChanged()
             }
+            .scrollContentBackground(.hidden)
+            .background { AppMeshBackground() }
             .navigationTitle(navigationTitle)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if viewModel.isExisting, onDelete != nil {

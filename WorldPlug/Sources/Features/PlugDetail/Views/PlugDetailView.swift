@@ -19,7 +19,7 @@ struct PlugDetailView<ViewModel: PlugDetailViewModelType>: View {
                 PlugDetailHero(plugID: viewModel.plug.id)
                 PlugDetailOverview(description: viewModel.description)
                 PlugDetailSpecifications(plug: viewModel.plug)
-                images
+                // images
             }
             .padding(.bottom, .xxxl)
         }

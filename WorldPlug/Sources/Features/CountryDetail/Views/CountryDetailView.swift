@@ -107,24 +107,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         }
         .sheet(isPresented: isInfoSheetPresentedBinding, onDismiss: handleInfoSheetDismissed) {
             countryInfoSheet
-                .alert(
-                    homeCountryConfirmationTitle,
-                    isPresented: $viewModel.isHomeCountryConfirmationPresented
-                ) {
-                    if viewModel.isHomeCountry {
-                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
-                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
-                        }
-                    } else {
-                        Button(LocalizationKeys.homeCountryUpdate.localized) {
-                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
-                        }
-                    }
-
-                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
-                } message: {
-                    Text(homeCountryConfirmationMessage)
-                }
                 .presentationDetents(
                     [
                         .custom(CountryHeaderDetent.self),
@@ -143,6 +125,24 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 .ignoresSafeArea(edges: .bottom)
                 .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
                     PremiumPaywallView(source: .countryDetailSave)
+                }
+                .alert(
+                    homeCountryConfirmationTitle,
+                    isPresented: $viewModel.isHomeCountryConfirmationPresented
+                ) {
+                    if viewModel.isHomeCountry {
+                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+                        }
+                    } else {
+                        Button(LocalizationKeys.homeCountryUpdate.localized) {
+                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+                        }
+                    }
+
+                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+                } message: {
+                    Text(homeCountryConfirmationMessage)
                 }
         }
     }

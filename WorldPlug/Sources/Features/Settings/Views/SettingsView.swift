@@ -43,6 +43,8 @@ struct SettingsView: View {
                 aboutSection
                 debugSection
             }
+            .scrollContentBackground(.hidden)
+            .background { AppMeshBackground() }
             .navigationTitle(LocalizationKeys.settingsTitle.localized)
             .accessibilityIdentifier("settings.form")
             .navigationDestination(for: SettingsRoute.self) { route in
@@ -68,8 +70,12 @@ struct SettingsView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizationKeys.settingsDone.localized) { dismiss() }
-                        .accessibilityIdentifier("settings.done")
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    .accessibilityIdentifier("settings.done")
                 }
             }
             .onAppear {

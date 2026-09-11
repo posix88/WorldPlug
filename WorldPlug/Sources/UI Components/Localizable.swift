@@ -174,6 +174,7 @@ enum LocalizationKeys {
     static let tripEditorEditTitle = "trip.editor.edit.title"
     static let tripEditorDestinationPlaceholder = "trip.editor.destination.placeholder"
     static let tripDetailEdit = "trip.detail.edit"
+    static let tripDetailEditDeviceHint = "trip.detail.edit.device.hint"
     static let tripDetailDevicesEmptyTitle = "trip.detail.devices.empty.title"
     static let tripDetailDevicesEmptyDescription = "trip.detail.devices.empty.description"
 

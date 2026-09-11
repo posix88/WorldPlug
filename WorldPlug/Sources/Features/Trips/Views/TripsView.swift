@@ -73,7 +73,6 @@ struct TripsView: View {
                     requestsReviewAfterAppearance: viewModel.requestsReviewForSelectedTrip,
                     analyticsTracker: analyticsTracker
                 )
-                .toolbarVisibility(.hidden, for: .tabBar)
             }
             .onAppear {
                 viewModel.updateCountries(countries)
@@ -83,6 +82,7 @@ struct TripsView: View {
                 viewModel.updateCountries(countries)
             }
         }
+        .tint(.voltTint)
     }
 
     private var addTripButton: some View {
@@ -143,28 +143,22 @@ struct TripsView: View {
         if !rows.isEmpty {
             Section(title) {
                 ForEach(rows) { row in
-                    tripRow(row, isPast: isPast)
+                    Button {
+                        viewModel.select(row.trip)
+                    } label: {
+                        TripRow(row: row)
+                    }
+                    .buttonStyle(.plain)
+                    .opacity(isPast ? 0.5 : 1)
+                    .accessibilityIdentifier("trips.row.\(row.country.code)")
+                    .appEntityIdentifier(
+                        EntityIdentifier(for: TripEntity.self, identifier: row.trip.id)
+                    )
                 }
                 .onDelete(perform: onDelete)
                 .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
         }
-    }
-
-    private func tripRow(_ row: TripRowModel, isPast: Bool) -> some View {
-        let identifier = "trips.row.\(row.country.code)"
-
-        return Button {
-            viewModel.select(row.trip)
-        } label: {
-            TripRow(row: row)
-        }
-        .buttonStyle(.plain)
-        .opacity(isPast ? 0.5 : 1)
-        .accessibilityIdentifier(identifier)
-        .appEntityIdentifier(
-            EntityIdentifier(for: TripEntity.self, identifier: row.trip.id)
-        )
     }
 }
 
