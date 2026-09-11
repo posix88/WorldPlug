@@ -18,25 +18,28 @@ enum SavedCountryLimit {
     /// **Un**saving is always allowed, premium or not — otherwise a free user who somehow ended up
     /// over the limit (bought premium, saved ten countries, refunded) would be stuck unable to
     /// remove any of them.
+    /// Takes the code list rather than the whole `TravelPreferences` value: callers reach this
+    /// from view-model properties that views read, and passing the blob would subscribe those
+    /// views to trips and packed devices too. See `TravelPreferencesStoring`.
     static func allowsToggling(
         code: String,
-        preferences: TravelPreferences,
+        savedCountryCodes: [String],
         isPremium: Bool
     ) -> Bool {
         let code = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
         return isPremium
-            || preferences.savedCountryCodes.contains(code)
-            || preferences.savedCountryCodes.count < free
+            || savedCountryCodes.contains(code)
+            || savedCountryCodes.count < free
     }
 
     /// How many saves a free user has left, for a "2 of 3 saved" style hint. `nil` for premium,
     /// which has no ceiling to report.
-    static func remaining(preferences: TravelPreferences, isPremium: Bool) -> Int? {
+    static func remaining(savedCountryCodes: [String], isPremium: Bool) -> Int? {
         guard !isPremium else {
             return nil
         }
 
-        return max(0, free - preferences.savedCountryCodes.count)
+        return max(0, free - savedCountryCodes.count)
     }
 }

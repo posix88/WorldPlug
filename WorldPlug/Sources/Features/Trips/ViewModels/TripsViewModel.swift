@@ -48,7 +48,7 @@ final class TripsViewModel {
         self.analyticsTracker = analyticsTracker
     }
 
-    var trips: [Trip] { travelPreferencesStore.preferences.trips }
+    var trips: [Trip] { travelPreferencesStore.trips }
 
     /// Soonest first — the trip you're about to take, or are on, belongs at the top.
     var upcomingRows: [TripRowModel] {
@@ -118,7 +118,7 @@ final class TripsViewModel {
 
     private func rows(for trips: [Trip]) -> [TripRowModel] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
-        let nextTripID = travelPreferencesStore.preferences.currentTrip()?.id
+        let nextTripID = travelPreferencesStore.currentTrip?.id
 
         return trips.compactMap { trip in
             guard let country = countriesByCode[trip.countryCode] else {

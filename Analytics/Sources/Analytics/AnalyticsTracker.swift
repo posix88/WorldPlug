@@ -65,7 +65,11 @@ public final class FirebaseAnalyticsTracker: AnalyticsTracker {
 // MARK: - NoopAnalyticsTracker
 
 /// No-op implementation for previews and features that do not collect analytics.
-public final class NoopAnalyticsTracker: AnalyticsTracker {
+///
+/// `Sendable` because it holds no state at all — which lets callers park a single shared instance
+/// in a `static let` (see the `analyticsTracker` environment entry) instead of allocating a new
+/// one per read.
+public final class NoopAnalyticsTracker: AnalyticsTracker, Sendable {
     public init() {}
 
     public func screen(_ screen: AnalyticsScreen) {}

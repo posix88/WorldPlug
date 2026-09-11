@@ -125,7 +125,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     func handleSavedCountryAction() {
         guard SavedCountryLimit.allowsToggling(
             code: country.code,
-            preferences: travelPreferencesStore.preferences,
+            savedCountryCodes: travelPreferencesStore.savedCountryCodes,
             isPremium: premiumEntitlement.isPremium
         ) else {
             analyticsTracker.track(.savedCountryLimitReached)

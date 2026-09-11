@@ -68,11 +68,11 @@ final class SettingsViewModel {
     /// saved ones. With nothing saved there is nothing to choose, and the row is disabled.
     var savedCountries: [Country] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
-        return travelPreferencesStore.preferences.savedCountryCodes.compactMap { countriesByCode[$0] }
+        return travelPreferencesStore.savedCountryCodes.compactMap { countriesByCode[$0] }
     }
 
     var favoriteWidgetCountry: Country? {
-        guard let code = travelPreferencesStore.preferences.favoriteWidgetCountryCode else {
+        guard let code = travelPreferencesStore.favoriteWidgetCountryCode else {
             return nil
         }
 

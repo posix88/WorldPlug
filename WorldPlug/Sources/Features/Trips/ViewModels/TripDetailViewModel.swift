@@ -177,7 +177,7 @@ final class TripDetailViewModel {
     }
 
     private func refreshFromStore() {
-        guard let storedTrip = travelPreferencesStore.preferences.trips.first(where: { $0.id == trip.id }) else {
+        guard let storedTrip = travelPreferencesStore.trips.first(where: { $0.id == trip.id }) else {
             return
         }
 

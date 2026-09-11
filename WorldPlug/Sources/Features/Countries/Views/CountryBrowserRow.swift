@@ -13,7 +13,7 @@ struct CountryBrowserRowModel {
 
 // MARK: - CountryBrowserRow
 
-struct CountryBrowserRow: View {
+struct CountryBrowserRow<ViewModel: CountriesListViewModelType>: View {
     let model: CountryBrowserRowModel
     let compatibility: CountryCompatibilitySummary?
     /// Whether the saved-country limit still has room. Passed in from the list rather than baked
@@ -22,8 +22,12 @@ struct CountryBrowserRow: View {
     /// deriving the lock inside `rowModel(for:)` left stale stars behind. As a plain property it
     /// is read in the list's own body, which does re-run.
     let canSaveMoreCountries: Bool
-    let onToggleHomeCountry: (Country) -> Void
-    let onToggleSavedCountry: (String) -> Bool
+    /// The view model rather than the two `(Country) -> Void` / `(String) -> Bool` closures this
+    /// row used to take. SwiftUI compares view inputs field by field and cannot compare function
+    /// values reliably, so a row holding closures counts as changed on every body pass of the
+    /// list — which defeats the whole point of building these rows in a `LazyVStack`. A class
+    /// reference compares by identity.
+    let viewModel: ViewModel
     @State private var isPremiumPaywallPresented = false
     @State private var actionFeedbackTrigger = 0
 
@@ -86,7 +90,7 @@ struct CountryBrowserRow: View {
     }
 
     private func toggleHomeCountry() {
-        onToggleHomeCountry(model.country)
+        viewModel.handleHomeCountryAction(for: model.country)
         actionFeedbackTrigger += 1
     }
 
@@ -126,7 +130,7 @@ struct CountryBrowserRow: View {
     }
 
     private func handleSavedCountryAction() {
-        guard onToggleSavedCountry(model.country.code) else {
+        guard viewModel.toggleSavedCountry(code: model.country.code) else {
             isPremiumPaywallPresented = true
             return
         }
@@ -166,8 +170,7 @@ import SwiftData
             ),
             compatibility: .compatible,
             canSaveMoreCountries: true,
-            onToggleHomeCountry: { _ in },
-            onToggleSavedCountry: { _ in true }
+            viewModel: PreviewCountriesListViewModel(countries: [country])
         )
         .padding(.xxl)
         .modelContainer(container)

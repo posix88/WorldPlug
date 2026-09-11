@@ -9,7 +9,26 @@ import WidgetKit
 
 @MainActor
 protocol TravelPreferencesStoring: AnyObject {
+    /// The whole blob, in the shape that round-trips to iCloud.
+    ///
+    /// **Don't read this from a view body, or from a computed property a view body reads.**
+    /// Observation tracks dependencies per *property*, not per field, so touching `preferences`
+    /// subscribes the reader to every field of it at once: adding a device to a trip would
+    /// invalidate the countries list, the country-detail sheet and the saved tab, none of which
+    /// care. Use the projections below for reading; `preferences` is for whole-value writes and
+    /// for encoding.
     var preferences: TravelPreferences { get set }
+
+    /// Individually-tracked projections of `preferences`, kept in sync by the conformance.
+    ///
+    /// A view that reads `savedCountryCodes` invalidates when saved countries change and stays
+    /// put when a trip changes.
+    var savedCountryCodes: [String] { get }
+    var trips: [Trip] { get }
+    var favoriteWidgetCountryCode: String? { get }
+    var homeCountryCode: String { get }
+    /// The one trip the widgets and Siri talk about, derived from `trips`.
+    var currentTrip: Trip? { get }
 
     /// Reloads values that arrived from another device through iCloud.
     func reloadFromICloud()
@@ -49,8 +68,32 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
                 return
             }
 
+            projectObservableValues()
             persist()
         }
+    }
+
+    // The fields of `preferences`, re-published as individual observable properties so readers
+    // depend on the one they actually use. Each setter short-circuits on an equal value (the
+    // `@Observable` macro emits that check because all four types are `Equatable`), so writing a
+    // trip doesn't invalidate readers of `savedCountryCodes`.
+    private(set) var savedCountryCodes: [String] = []
+    private(set) var trips: [Trip] = []
+    private(set) var favoriteWidgetCountryCode: String?
+    private(set) var homeCountryCode: String = ""
+
+    /// Derived from the `trips` projection rather than from `preferences`, so reading it doesn't
+    /// drag in the rest of the blob. Not cached: it depends on today's date as much as on the
+    /// trips themselves, so a stored value would go stale on its own overnight.
+    var currentTrip: Trip? {
+        TravelPreferences.currentTrip(among: trips)
+    }
+
+    private func projectObservableValues() {
+        savedCountryCodes = preferences.savedCountryCodes
+        trips = preferences.trips
+        favoriteWidgetCountryCode = preferences.favoriteWidgetCountryCode
+        homeCountryCode = preferences.homeCountryCode
     }
 
     init(
@@ -64,14 +107,19 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         self.analyticsTracker = analyticsTracker
         self.usesICloudPersistence = inMemoryPreferences == nil
 
+        // `projectObservableValues()` is called explicitly here because `didSet` does not fire for
+        // assignments made inside `init` — without it the projections would stay empty until the
+        // first write.
         if let inMemoryPreferences {
             self.preferences = inMemoryPreferences
+            projectObservableValues()
             mirrorWidgetValues()
             return
         }
 
         iCloudStore.synchronize()
         self.preferences = Self.loadPreferences(from: iCloudStore)
+        projectObservableValues()
         mirrorWidgetValues()
         observeExternalChanges()
     }
@@ -144,7 +192,10 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     }
 
     func isSavedCountry(code: String) -> Bool {
-        preferences.savedCountryCodes.contains(Self.normalizedCountryCode(code))
+        // Reads the projection, not `preferences`: this one *is* called from view bodies (the
+        // country-detail star, the list rows), so going through the blob would make those screens
+        // invalidate on every trip and device edit.
+        savedCountryCodes.contains(Self.normalizedCountryCode(code))
     }
 
     func saveTrip(_ trip: Trip) {
@@ -219,8 +270,8 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     private func mirrorWidgetValues() {
         // The widgets read a single trip from the App Group. Which one that is is derived here
         // rather than stored, so nothing needs to be re-written when a trip simply starts or ends.
-        let currentTrip = preferences.currentTrip()
-        appGroupDefaults.set(preferences.favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
+        let currentTrip = currentTrip
+        appGroupDefaults.set(favoriteWidgetCountryCode, forKey: AppGroup.favoriteCountryCodeKey)
         appGroupDefaults.set(currentTrip?.countryCode, forKey: AppGroup.nextTripCountryCodeKey)
         appGroupDefaults.set(currentTrip?.departureDate, forKey: AppGroup.nextTripDepartureDateKey)
         appGroupDefaults.set(currentTrip?.returnDate, forKey: AppGroup.nextTripReturnDateKey)
@@ -252,8 +303,20 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
 // MARK: - NullTravelPreferencesStore
 
-final class NullTravelPreferencesStore: TravelPreferencesStoring {
-    @MainActor var preferences = TravelPreferences()
+/// No-op fallback for the `@Entry` default value. Stateless — `preferences` is computed and
+/// discards writes — so the type is `Sendable` and a single instance can live in a `static let`
+/// (see the environment entry at the bottom of this file).
+final class NullTravelPreferencesStore: TravelPreferencesStoring, Sendable {
+    @MainActor var preferences: TravelPreferences {
+        get { TravelPreferences() }
+        set {}
+    }
+
+    @MainActor var savedCountryCodes: [String] { [] }
+    @MainActor var trips: [Trip] { [] }
+    @MainActor var favoriteWidgetCountryCode: String? { nil }
+    @MainActor var homeCountryCode: String { "" }
+    @MainActor var currentTrip: Trip? { nil }
 
     @MainActor func reloadFromICloud() {}
     @MainActor func toggleSavedCountry(code: String) {}
@@ -267,10 +330,38 @@ final class NullTravelPreferencesStore: TravelPreferencesStoring {
 @Observable
 @MainActor
 final class PreviewTravelPreferencesStore: TravelPreferencesStoring {
-    var preferences: TravelPreferences
+    /// Projected the same way the real store does it, rather than exposing the fields as computed
+    /// properties over `preferences` — otherwise previews and tests would observe a coarser
+    /// dependency graph than the app does, which is exactly the bug the projections fix.
+    var preferences: TravelPreferences {
+        didSet {
+            guard preferences != oldValue else {
+                return
+            }
+
+            projectObservableValues()
+        }
+    }
+
+    private(set) var savedCountryCodes: [String] = []
+    private(set) var trips: [Trip] = []
+    private(set) var favoriteWidgetCountryCode: String?
+    private(set) var homeCountryCode: String = ""
+
+    var currentTrip: Trip? {
+        TravelPreferences.currentTrip(among: trips)
+    }
 
     init(preferences: TravelPreferences = TravelPreferences()) {
         self.preferences = preferences
+        projectObservableValues()
+    }
+
+    private func projectObservableValues() {
+        savedCountryCodes = preferences.savedCountryCodes
+        trips = preferences.trips
+        favoriteWidgetCountryCode = preferences.favoriteWidgetCountryCode
+        homeCountryCode = preferences.homeCountryCode
     }
 
     func reloadFromICloud() {}
@@ -307,5 +398,11 @@ final class PreviewTravelPreferencesStore: TravelPreferencesStoring {
 #endif
 
 extension EnvironmentValues {
-    @Entry var travelPreferencesStore: any TravelPreferencesStoring = NullTravelPreferencesStore()
+    /// Backed by a `static let`: `@Entry` wraps its default in a computed getter, so an inline
+    /// `NullTravelPreferencesStore()` would allocate a fresh instance on every fallback read and
+    /// make every falling-back reader invalidate on unrelated environment writes. Latent today
+    /// (the app root injects the real store), kept as a regression guard.
+    @Entry var travelPreferencesStore: any TravelPreferencesStoring = defaultTravelPreferencesStore
+
+    private static let defaultTravelPreferencesStore = NullTravelPreferencesStore()
 }

@@ -45,10 +45,21 @@ final class CountriesListViewModel: CountriesListViewModelType {
     @ObservationIgnored private let travelPreferencesStore: any TravelPreferencesStoring
     @ObservationIgnored private let premiumEntitlement: any PremiumEntitlementProviding
 
-    var filteredCountries: [Country] = []
+    /// `private(set)` because `displayedCountries` is now derived from it and kept in sync by
+    /// `refreshCompatibilitySummaries()` — an outside write would leave the two disagreeing.
+    private(set) var filteredCountries: [Country] = []
     private(set) var compatibilitySummaries: [String: CountryCompatibilitySummary] = [:]
     var searchQuery = ""
-    var selectedFilter: CountryCompatibilityFilter = .all
+    var selectedFilter: CountryCompatibilityFilter = .all {
+        didSet {
+            guard oldValue != selectedFilter else {
+                return
+            }
+
+            refreshDisplayedCountries()
+        }
+    }
+
     var navigationPath: [Country] = []
     private(set) var pendingHomeCountry: Country?
     var isHomeCountryConfirmationPresented = false {
@@ -79,12 +90,23 @@ final class CountriesListViewModel: CountriesListViewModelType {
         pendingHomeCountry?.code == homeCountryViewModel.homeCountryCode
     }
 
-    var displayedCountries: [Country] {
+    /// The rows the list actually renders: `filteredCountries` narrowed by `selectedFilter`.
+    ///
+    /// Stored, not computed. It feeds a `ForEach`, and the collection handed to a `ForEach` is
+    /// re-evaluated on every body pass of the enclosing view — so as a computed property this
+    /// re-filtered all ~215 countries (with a dictionary lookup each) on invalidations that had
+    /// nothing to do with the list: a sheet presenting, a toolbar button's state changing, an
+    /// unrelated environment write. Recomputed only when one of its three inputs moves —
+    /// `filteredCountries`, `compatibilitySummaries`, `selectedFilter`.
+    private(set) var displayedCountries: [Country] = []
+
+    private func refreshDisplayedCountries() {
         guard selectedFilter != .all, !homeCountryViewModel.homeCountryCode.isEmpty else {
-            return filteredCountries
+            displayedCountries = filteredCountries
+            return
         }
 
-        return filteredCountries.filter {
+        displayedCountries = filteredCountries.filter {
             compatibilitySummaries[$0.code]?.filter == selectedFilter
         }
     }
@@ -212,7 +234,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
     /// every row, not just the one that was tapped.
     var canSaveMoreCountries: Bool {
         premiumEntitlement.isPremium
-            || travelPreferencesStore.preferences.savedCountryCodes.count < SavedCountryLimit.free
+            || travelPreferencesStore.savedCountryCodes.count < SavedCountryLimit.free
     }
 
     /// Returns `false` when the caller should show the paywall instead. A free user gets
@@ -221,7 +243,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
     func toggleSavedCountry(code: String) -> Bool {
         guard SavedCountryLimit.allowsToggling(
             code: code,
-            preferences: travelPreferencesStore.preferences,
+            savedCountryCodes: travelPreferencesStore.savedCountryCodes,
             isPremium: premiumEntitlement.isPremium
         ) else {
             analyticsTracker.track(.savedCountryLimitReached)
@@ -232,11 +254,16 @@ final class CountriesListViewModel: CountriesListViewModelType {
         return true
     }
 
+    /// The single funnel for the two derived collections. Every path that changes
+    /// `filteredCountries` or the home country ends here, so `displayedCountries` is refreshed
+    /// exactly once per input change and never during a body pass.
     private func refreshCompatibilitySummaries() {
         compatibilitySummaries = CountryCompatibilityCalculator(
             homeCountryViewModel: homeCountryViewModel
         )
         .summaries(for: filteredCountries)
+
+        refreshDisplayedCountries()
     }
 }
 

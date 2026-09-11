@@ -116,7 +116,9 @@ enum PremiumStoreError: LocalizedError {
 
 // MARK: - NullPremiumEntitlement
 
-final class NullPremiumEntitlement: PremiumEntitlementProviding {
+/// `Sendable` because it holds no state — see the `premiumEntitlement` entry below for why that
+/// matters.
+final class NullPremiumEntitlement: PremiumEntitlementProviding, Sendable {
     @MainActor var isPremium: Bool { false }
     @MainActor func refreshEntitlements() async {}
     @MainActor func premiumProduct() async throws -> PremiumProduct? { nil }
@@ -144,5 +146,11 @@ final class PreviewPremiumEntitlement: PremiumEntitlementProviding {
 // MARK: - Environment
 
 extension EnvironmentValues {
-    @Entry var premiumEntitlement: any PremiumEntitlementProviding = NullPremiumEntitlement()
+    /// Backed by a `static let`: `@Entry` wraps its default in a computed getter, so writing
+    /// `NullPremiumEntitlement()` inline would allocate a new instance on every fallback read and
+    /// make every falling-back reader invalidate on unrelated environment writes. Latent today
+    /// (the app root injects the real entitlement), kept as a regression guard.
+    @Entry var premiumEntitlement: any PremiumEntitlementProviding = defaultPremiumEntitlement
+
+    private static let defaultPremiumEntitlement = NullPremiumEntitlement()
 }

@@ -25,6 +25,20 @@ struct TravelPreferences: Codable, Equatable, Sendable {
     /// in-progress trip wins (the traveler is already there and wants socket information now),
     /// otherwise the soonest upcoming departure. Trips that have already ended are never picked.
     func currentTrip(now: Date = .now, calendar: Calendar = .current) -> Trip? {
+        Self.currentTrip(among: trips, now: now, calendar: calendar)
+    }
+
+    /// The same rule over a bare trip list.
+    ///
+    /// Exists so a store that projects `trips` as its own observable property can derive the
+    /// current trip from that projection alone. Going through the instance method instead would
+    /// read the whole `TravelPreferences` value and re-establish a dependency on every field of
+    /// it — the exact thing the projections are there to avoid.
+    static func currentTrip(
+        among trips: [Trip],
+        now: Date = .now,
+        calendar: Calendar = .current
+    ) -> Trip? {
         let today = calendar.startOfDay(for: now)
 
         if let ongoing = trips

@@ -31,14 +31,15 @@ final class SavedCountriesViewModel {
 
     var savedCountries: [Country] {
         let countriesByCode = Dictionary(uniqueKeysWithValues: countries.map { ($0.code, $0) })
-        return travelPreferencesStore.preferences.savedCountryCodes.compactMap { countriesByCode[$0] }
+        return travelPreferencesStore.savedCountryCodes.compactMap { countriesByCode[$0] }
     }
 
     /// "2 of 3 saved", so a free user discovers the ceiling here rather than being surprised by a
     /// paywall on their fourth star. `nil` for premium, which has no ceiling to report.
     var freeLimitHint: String? {
+        let savedCountryCodes = travelPreferencesStore.savedCountryCodes
         guard SavedCountryLimit.remaining(
-            preferences: travelPreferencesStore.preferences,
+            savedCountryCodes: savedCountryCodes,
             isPremium: premiumEntitlement.isPremium
         ) != nil else {
             return nil
@@ -46,7 +47,7 @@ final class SavedCountriesViewModel {
 
         return String(
             format: LocalizationKeys.savedCountriesFreeLimit.localized,
-            travelPreferencesStore.preferences.savedCountryCodes.count,
+            savedCountryCodes.count,
             SavedCountryLimit.free
         )
     }

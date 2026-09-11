@@ -31,106 +31,94 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         @Bindable var viewModel = viewModel
 
         NavigationStack(path: $viewModel.navigationPath) {
-            CountryResultsView(
-                countries: viewModel.displayedCountries,
-                compatibilitySummaries: viewModel.compatibilitySummaries,
-                searchQuery: viewModel.searchQuery,
-                selectedFilter: viewModel.selectedFilter,
-                rowModel: viewModel.rowModel,
-                canSaveMoreCountries: viewModel.canSaveMoreCountries,
-                onToggleHomeCountry: viewModel.handleHomeCountryAction,
-                onToggleSavedCountry: viewModel.toggleSavedCountry
-            )
-            .background { AppMeshBackground() }
-            .scrollContentBackground(.hidden)
-            .safeAreaBar(edge: .top, spacing: 0) {
-                CountriesListCompatibilityHeader(
-                    homeCountry: viewModel.homeCountry,
-                    countriesCount: viewModel.filteredCountries.count,
-                    summaries: viewModel.compatibilitySummaries,
-                    selectedFilter: $viewModel.selectedFilter,
-                    tip: compatibilityFilterTip,
-                    onClearHomeCountry: {
-                        guard let homeCountry = viewModel.homeCountry else {
-                            return
+            // Both subviews take the view model itself rather than a fan-out of values and
+            // closures. Forwarding `viewModel.rowModel`, `viewModel.handleHomeCountryAction` and
+            // `viewModel.toggleSavedCountry` as function values made both views — and every row
+            // under them — compare as changed on every pass of this body, because SwiftUI has no
+            // reliable way to compare closures. Passing the reference lets Observation scope each
+            // subview's invalidation to the properties it actually reads, and drops
+            // `displayedCountries`, `compatibilitySummaries` and `canSaveMoreCountries` out of
+            // *this* body's dependency set — it no longer re-runs when the catalog is re-filtered.
+            CountryResultsView(viewModel: viewModel)
+                .background { AppMeshBackground() }
+                .scrollContentBackground(.hidden)
+                .safeAreaBar(edge: .top, spacing: 0) {
+                    CountriesListCompatibilityHeader(
+                        viewModel: viewModel,
+                        tip: compatibilityFilterTip
+                    )
+                }
+                .searchable(
+                    text: $viewModel.searchQuery,
+                    placement: .navigationBarDrawer(displayMode: .always),
+                    prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
+                )
+                .onChange(of: viewModel.searchQuery) { oldValue, newValue in
+                    guard oldValue != newValue else {
+                        return
+                    }
+
+                    viewModel.search(query: newValue, locale: locale)
+                }
+                .onChange(of: locale.identifier) { _, _ in
+                    viewModel.localeChanged(locale)
+                }
+                .onAppear {
+                    viewModel.screenAppeared(locale: locale)
+                    openDeepLinkedCountryIfNeeded()
+                }
+                .onChange(of: deepLinkedCountryCode) { _, _ in
+                    openDeepLinkedCountryIfNeeded()
+                }
+                .onChange(of: viewModel.homeCountry?.code) { _, _ in
+                    viewModel.homeCountryChanged()
+                }
+                .alert(
+                    homeCountryConfirmationTitle,
+                    isPresented: $viewModel.isHomeCountryConfirmationPresented
+                ) {
+                    if viewModel.isPendingHomeCountryRemoval {
+                        Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
+                            viewModel.confirmHomeCountryAction()
                         }
-
-                        viewModel.handleHomeCountryAction(for: homeCountry)
-                    },
-                    onFilterSelected: viewModel.filterSelected
-                )
-            }
-            .searchable(
-                text: $viewModel.searchQuery,
-                placement: .navigationBarDrawer(displayMode: .always),
-                prompt: Text(LocalizationKeys.searchCountriesPlaceholder.localized)
-            )
-            .onChange(of: viewModel.searchQuery) { oldValue, newValue in
-                guard oldValue != newValue else {
-                    return
-                }
-
-                viewModel.search(query: newValue, locale: locale)
-            }
-            .onChange(of: locale.identifier) { _, _ in
-                viewModel.localeChanged(locale)
-            }
-            .onAppear {
-                viewModel.screenAppeared(locale: locale)
-                openDeepLinkedCountryIfNeeded()
-            }
-            .onChange(of: deepLinkedCountryCode) { _, _ in
-                openDeepLinkedCountryIfNeeded()
-            }
-            .onChange(of: viewModel.homeCountry?.code) { _, _ in
-                viewModel.homeCountryChanged()
-            }
-            .alert(
-                homeCountryConfirmationTitle,
-                isPresented: $viewModel.isHomeCountryConfirmationPresented
-            ) {
-                if viewModel.isPendingHomeCountryRemoval {
-                    Button(LocalizationKeys.homeCountryRemove.localized, role: .destructive) {
-                        viewModel.confirmHomeCountryAction()
+                    } else {
+                        Button(LocalizationKeys.homeCountryUpdate.localized) {
+                            viewModel.confirmHomeCountryAction()
+                        }
                     }
-                } else {
-                    Button(LocalizationKeys.homeCountryUpdate.localized) {
-                        viewModel.confirmHomeCountryAction()
+
+                    Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
+                } message: {
+                    Text(homeCountryConfirmationMessage)
+                }
+                .navigationDestination(for: Country.self) { country in
+                    CountryDetailView(
+                        country: country,
+                        premiumEntitlement: premiumEntitlement,
+                        travelPreferencesStore: travelPreferencesStore,
+                        analyticsTracker: analyticsTracker
+                    )
+                    .toolbarVisibility(.hidden, for: .tabBar)
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            isSettingsPresented = true
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                        .accessibilityIdentifier("countries.settings")
+                        .accessibilityLabel(LocalizationKeys.settingsOpen.localized)
                     }
                 }
-
-                Button(LocalizationKeys.generalCancel.localized, role: .cancel) {}
-            } message: {
-                Text(homeCountryConfirmationMessage)
-            }
-            .navigationDestination(for: Country.self) { country in
-                CountryDetailView(
-                    country: country,
-                    premiumEntitlement: premiumEntitlement,
-                    travelPreferencesStore: travelPreferencesStore,
-                    analyticsTracker: analyticsTracker
-                )
-                .toolbarVisibility(.hidden, for: .tabBar)
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        isSettingsPresented = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
-                    .accessibilityIdentifier("countries.settings")
-                    .accessibilityLabel(LocalizationKeys.settingsOpen.localized)
+                .fullScreenCover(isPresented: $isSettingsPresented) {
+                    SettingsView(
+                        premiumEntitlement: premiumEntitlement,
+                        travelPreferencesStore: travelPreferencesStore,
+                        homeCountryViewModel: homeCountryViewModel,
+                        analyticsTracker: analyticsTracker
+                    )
                 }
-            }
-            .fullScreenCover(isPresented: $isSettingsPresented) {
-                SettingsView(
-                    premiumEntitlement: premiumEntitlement,
-                    travelPreferencesStore: travelPreferencesStore,
-                    homeCountryViewModel: homeCountryViewModel,
-                    analyticsTracker: analyticsTracker
-                )
-            }
         }
     }
 
@@ -163,15 +151,8 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
 
 // MARK: - CountryResultsView
 
-private struct CountryResultsView: View {
-    let countries: [Country]
-    let compatibilitySummaries: [String: CountryCompatibilitySummary]
-    let searchQuery: String
-    let selectedFilter: CountryCompatibilityFilter
-    let rowModel: (Country) -> CountryBrowserRowModel
-    let canSaveMoreCountries: Bool
-    let onToggleHomeCountry: (Country) -> Void
-    let onToggleSavedCountry: (String) -> Bool
+private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
+    let viewModel: ViewModel
 
     var body: some View {
         ScrollView {
@@ -190,30 +171,37 @@ private struct CountryResultsView: View {
 
     @ViewBuilder
     private var countryRows: some View {
-        ForEach(countries) { country in
+        // `canSaveMoreCountries` is still read here, in the list's own body, rather than inside
+        // `rowModel(for:)` — rows live in a `LazyVStack`, so a row already on screen is not
+        // rebuilt when a *different* row's save fills the last free slot, and deriving the lock
+        // per row left stale stars behind.
+        let canSaveMoreCountries = viewModel.canSaveMoreCountries
+
+        ForEach(viewModel.displayedCountries) { country in
             CountryBrowserRow(
-                model: rowModel(country),
-                compatibility: compatibilitySummaries[country.code],
+                model: viewModel.rowModel(for: country),
+                compatibility: viewModel.compatibilitySummaries[country.code],
                 canSaveMoreCountries: canSaveMoreCountries,
-                onToggleHomeCountry: onToggleHomeCountry,
-                onToggleSavedCountry: onToggleSavedCountry
+                viewModel: viewModel
             )
         }
 
-        if countries.isEmpty {
+        if viewModel.displayedCountries.isEmpty {
             emptyState
         }
     }
 
     @ViewBuilder
     private var emptyState: some View {
+        let searchQuery = viewModel.searchQuery
+
         if !searchQuery.isEmpty {
             ContentUnavailableView.search(text: searchQuery)
                 .padding(.top, .special)
                 .accessibilityLabel(LocalizationKeys.accessibilityEmptyState.localized(from: .accessibility))
                 .accessibilityValue(LocalizationKeys.accessibilitySearchResults.localized(from: .accessibility, searchQuery))
                 .accessibilityHint(LocalizationKeys.accessibilityEmptyStateDescription.localized(from: .accessibility))
-        } else if selectedFilter != .all {
+        } else if viewModel.selectedFilter != .all {
             ContentUnavailableView(
                 LocalizationKeys.countriesFilterEmptyTitle.localized,
                 systemImage: "line.3.horizontal.decrease.circle",
@@ -226,44 +214,47 @@ private struct CountryResultsView: View {
 
 // MARK: - CountriesListCompatibilityHeader
 
-private struct CountriesListCompatibilityHeader: View {
-    let homeCountry: Country?
-    let countriesCount: Int
-    let summaries: [String: CountryCompatibilitySummary]
-    @Binding var selectedFilter: CountryCompatibilityFilter
+private struct CountriesListCompatibilityHeader<ViewModel: CountriesListViewModelType>: View {
+    let viewModel: ViewModel
     let tip: CompatibilityFilterTip?
-    let onClearHomeCountry: () -> Void
-    let onFilterSelected: () -> Void
 
     var body: some View {
-        if countriesCount > 0, let homeCountry {
+        @Bindable var viewModel = viewModel
+
+        if !viewModel.filteredCountries.isEmpty, let homeCountry = viewModel.homeCountry {
             VStack(spacing: .xs) {
-                HomeCountryBannerView(country: homeCountry, onClear: onClearHomeCountry)
+                HomeCountryBannerView(country: homeCountry, onClear: clearHomeCountry)
                     .padding(.horizontal, .xxl)
                     .transition(.opacity.combined(with: .move(edge: .top)))
 
-                CompatibilityFilterBar(selectedFilter: $selectedFilter, counts: filterCounts, tip: tip)
-                    .onChange(of: selectedFilter) { oldValue, newValue in
-                        guard oldValue != newValue else {
-                            return
-                        }
-
-                        tip?.invalidate(reason: .actionPerformed)
-                        onFilterSelected()
+                // `viewModel.filterCounts` rather than a second copy of the same tallying loop
+                // that used to live on this view — the view model already published it, and two
+                // implementations of one rule is one too many.
+                CompatibilityFilterBar(
+                    selectedFilter: $viewModel.selectedFilter,
+                    counts: viewModel.filterCounts,
+                    tip: tip
+                )
+                .onChange(of: viewModel.selectedFilter) { oldValue, newValue in
+                    guard oldValue != newValue else {
+                        return
                     }
-                    .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
+
+                    tip?.invalidate(reason: .actionPerformed)
+                    viewModel.filterSelected()
+                }
+                .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
             }
             .padding(.vertical, .sm)
         }
     }
 
-    private var filterCounts: [CountryCompatibilityFilter: Int] {
-        var counts = Dictionary(uniqueKeysWithValues: CountryCompatibilityFilter.allCases.map { ($0, 0) })
-        counts[.all] = countriesCount
-        for filter in summaries.values.map(\.filter) {
-            counts[filter, default: 0] += 1
+    private func clearHomeCountry() {
+        guard let homeCountry = viewModel.homeCountry else {
+            return
         }
-        return counts
+
+        viewModel.handleHomeCountryAction(for: homeCountry)
     }
 }
 

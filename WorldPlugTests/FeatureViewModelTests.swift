@@ -343,45 +343,71 @@ struct FeatureViewModelTests {
 
     @Test("a free user can save up to the limit")
     func freeUserCanSaveUpToTheLimit() {
-        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP"])
+        let savedCountryCodes = ["IT", "JP"]
 
         #expect(
-            SavedCountryLimit.allowsToggling(code: "GB", preferences: preferences, isPremium: false)
+            SavedCountryLimit.allowsToggling(
+                code: "GB",
+                savedCountryCodes: savedCountryCodes,
+                isPremium: false
+            )
         )
-        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: false) == 1)
+        #expect(
+            SavedCountryLimit.remaining(savedCountryCodes: savedCountryCodes, isPremium: false) == 1
+        )
     }
 
     @Test("a free user at the limit cannot save another country")
     func freeUserAtTheLimitCannotSaveAnother() {
-        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB"])
+        let savedCountryCodes = ["IT", "JP", "GB"]
 
         #expect(
-            !SavedCountryLimit.allowsToggling(code: "US", preferences: preferences, isPremium: false)
+            !SavedCountryLimit.allowsToggling(
+                code: "US",
+                savedCountryCodes: savedCountryCodes,
+                isPremium: false
+            )
         )
-        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: false) == 0)
+        #expect(
+            SavedCountryLimit.remaining(savedCountryCodes: savedCountryCodes, isPremium: false) == 0
+        )
     }
 
     @Test("unsaving is always allowed, even over the limit")
     func unsavingIsAlwaysAllowed() {
         // Over the limit on purpose: a refunded premium user must still be able to clear their list.
-        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB", "US"])
+        let savedCountryCodes = ["IT", "JP", "GB", "US"]
 
         #expect(
-            SavedCountryLimit.allowsToggling(code: "it", preferences: preferences, isPremium: false)
+            SavedCountryLimit.allowsToggling(
+                code: "it",
+                savedCountryCodes: savedCountryCodes,
+                isPremium: false
+            )
         )
         #expect(
-            !SavedCountryLimit.allowsToggling(code: "FR", preferences: preferences, isPremium: false)
+            !SavedCountryLimit.allowsToggling(
+                code: "FR",
+                savedCountryCodes: savedCountryCodes,
+                isPremium: false
+            )
         )
     }
 
     @Test("premium has no saved-country ceiling")
     func premiumHasNoCeiling() {
-        let preferences = TravelPreferences(savedCountryCodes: ["IT", "JP", "GB", "US", "FR"])
+        let savedCountryCodes = ["IT", "JP", "GB", "US", "FR"]
 
         #expect(
-            SavedCountryLimit.allowsToggling(code: "DE", preferences: preferences, isPremium: true)
+            SavedCountryLimit.allowsToggling(
+                code: "DE",
+                savedCountryCodes: savedCountryCodes,
+                isPremium: true
+            )
         )
-        #expect(SavedCountryLimit.remaining(preferences: preferences, isPremium: true) == nil)
+        #expect(
+            SavedCountryLimit.remaining(savedCountryCodes: savedCountryCodes, isPremium: true) == nil
+        )
     }
 
     @Test("the country list refuses the save that would exceed the free limit")

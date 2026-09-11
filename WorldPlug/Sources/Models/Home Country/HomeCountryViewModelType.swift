@@ -126,8 +126,9 @@ protocol HomeCountryViewModelType: AnyObject {
 
 /// No-op fallback for the @Entry default value.
 /// Plain class (no @MainActor, no @Observable) so its init is nonisolated — required by @Entry.
+/// `Sendable` because it holds no state, which lets a single instance live in a `static let`.
 /// Never observed; replaced at the app root with a real HomeCountryViewModel.
-final class NullHomeCountryViewModel: HomeCountryViewModelType {
+final class NullHomeCountryViewModel: HomeCountryViewModelType, Sendable {
     @MainActor var homeCountryCode: String { "" }
     @MainActor var homeCountry: Country? { nil }
     @MainActor var homePlugTypeIDs: Set<String> { [] }
@@ -140,7 +141,13 @@ final class NullHomeCountryViewModel: HomeCountryViewModelType {
 // MARK: - EnvironmentValues
 
 extension EnvironmentValues {
-    @Entry var homeCountryViewModel: any HomeCountryViewModelType = NullHomeCountryViewModel()
+    /// Backed by a `static let`: `@Entry` wraps its default in a computed getter, so an inline
+    /// `NullHomeCountryViewModel()` would allocate a fresh instance per fallback read and make
+    /// every falling-back reader invalidate on unrelated environment writes. Latent today (the
+    /// app root injects the real view model), kept as a regression guard.
+    @Entry var homeCountryViewModel: any HomeCountryViewModelType = defaultHomeCountryViewModel
+
+    private static let defaultHomeCountryViewModel = NullHomeCountryViewModel()
 }
 
 // MARK: - PreviewHomeCountryViewModel

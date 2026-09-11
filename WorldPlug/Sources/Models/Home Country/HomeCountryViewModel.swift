@@ -73,7 +73,7 @@ final class HomeCountryViewModel: HomeCountryViewModelType {
         }
 
         travelPreferencesStore.reloadFromICloud()
-        let countryCode = Self.normalizedCountryCode(travelPreferencesStore.preferences.homeCountryCode)
+        let countryCode = Self.normalizedCountryCode(travelPreferencesStore.homeCountryCode)
         guard countryCode != homeCountryCode || (!countryCode.isEmpty && homeCountry?.code != countryCode) else {
             return
         }
