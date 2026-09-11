@@ -12,6 +12,7 @@ repository, so check each item in App Store Connect before uploading the review 
 | SKU | `socket-buddy-ios` |
 | Primary category | Travel |
 | Secondary category | Utilities |
+| Copyright | `2026 Antonino Musolino` (canonical copy in `fastlane/metadata/copyright.txt`; not localized) |
 | Support URL | <https://posix88.github.io/socketbuddy/privacy.html> |
 | Marketing URL | <https://posix88.github.io/socketbuddy> |
 | Privacy policy URL | <https://posix88.github.io/socketbuddy/privacy.html> |

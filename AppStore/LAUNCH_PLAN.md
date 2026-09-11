@@ -53,10 +53,10 @@ plug,adapter,voltage,socket,travel,converter,outlet,electricity,frequency,charge
 - `Socket Buddy: Prese in viaggio` (30 caratteri)
 
 **Sottotitolo** (≤30 caratteri):
-> Prese, voltaggio, sicurezza
+> Prese e voltaggio senza rischi
 
 **Testo promozionale** (≤170 caratteri):
-> Non restare mai più senza corrente in viaggio: compatibilità per oltre 200 paesi, scansione etichette e pianificazione viaggi, tutto offline.
+> Non ritrovarti mai più con la spina sbagliata: compatibilità per oltre 200 paesi, scansione delle etichette e pianificazione dei viaggi, tutto offline.
 
 **Parole chiave** (≤100 caratteri, separate da virgola, senza spazi):
 ```
@@ -67,9 +67,16 @@ spina,adattatore,voltaggio,presa,viaggio,convertitore,elettricità,frequenza,car
 See [`fastlane/metadata/it/description.txt`](../fastlane/metadata/it/description.txt) — same rule as the English copy above: edit the metadata file, not this doc.
 
 **Novità (prima versione)**:
-> Benvenuto in Socket Buddy! Sfoglia tipi di presa e voltaggio per oltre 200 paesi, pianifica un viaggio e verifica tutto ciò che porti in valigia, scansiona le etichette dei dispositivi con la fotocamera e tieni sempre a portata di sguardo il tuo paese preferito e il prossimo viaggio grazie ai widget.
+> Benvenuto in Socket Buddy! Sfoglia spine, prese e voltaggio di oltre 200 paesi, pianifica un viaggio e verifica tutto quello che porti in valigia, inquadra le etichette dei dispositivi con la fotocamera e tieni paese preferito e prossimo viaggio a portata di sguardo con i widget.
 
-> **Note on the Italian copy**: machine-quality but idiomatic; a native-speaker pass (you) before submitting is still worth 10 minutes, especially on the app name/subtitle since those are the highest-visibility strings and can't be A/B tested cheaply.
+> **Note on the Italian copy**: the native-speaker pass was done on 2026-09-11 (see the dated entry in `CLAUDE.md`) — description, subtitle, promotional text and release notes were rewritten, not just spot-checked. The app *name* (`Socket Buddy: Prese in viaggio`) was reviewed and deliberately kept. It's at the 30-character ceiling, so any future edit has to trade a word for a word.
+
+## 3b. Copyright (not localized)
+
+`fastlane/metadata/copyright.txt` → `2026 Antonino Musolino`. App Store Connect renders this as
+"© 2026 Antonino Musolino" on the product page, so the file must **not** contain the © symbol itself.
+It's a single app-level value, not per-locale, which is why it lives in `fastlane/metadata/` rather
+than in the `en-US/` and `it/` folders.
 
 ## 4. Screenshots
 

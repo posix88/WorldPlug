@@ -7,7 +7,7 @@ WHAT SOCKET BUDDY DOES
 • Plan a trip — pick your destination and dates, then add the devices you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for where you're going.
 • Scan a device's label with your camera — Socket Buddy reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
 • Star the countries you keep coming back to, with home-screen and lock-screen widgets that always show the right plug at a glance — plus a countdown to whichever trip is next.
-• Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "What's my home country's plug type" just works.
+• Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "Show my home country in Socket Buddy" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
 ACCESSIBILITY
@@ -16,7 +16,7 @@ Socket Buddy is built to work with the accessibility features you already rely o
 
 • VoiceOver — country rows, plug details and device verdicts are read as complete sentences instead of a pile of fragments, and the spoken labels are translated, not just the text on screen.
 • Dynamic Type right up to the largest accessibility sizes — flags and icons scale with your text, and screens reflow rather than truncating what matters.
-• Compatibility never relies on colour alone — every verdict carries its own symbol and wording alongside the colour.
+• Compatibility never relies on color alone — every verdict carries its own symbol and wording alongside the color.
 • Reduce Motion is respected throughout.
 
 WHY SOCKET BUDDY

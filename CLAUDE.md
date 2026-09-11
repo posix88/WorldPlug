@@ -288,6 +288,53 @@ One judgement call: `AppDebugOverrides` seeds the trip 21 days out from *now*, s
 countdown and date are relative to the capture date. That's fine for a store shot and keeps the seed
 honest, but it does mean two captures taken on different days differ by more than noise.
 
+## 2026-09-11 — copyright metadata, and the Italian native-speaker pass
+
+**Copyright**: added `fastlane/metadata/copyright.txt` (`2026 Antonino Musolino`). It was simply
+absent — `deliver` reads the whole `metadata_path` folder and `run_deliver` passes no metadata
+whitelist, so the field would have gone up empty and App Store Connect would have blocked the
+submission on a required-field validation. It is **app-level, not per-locale**, hence the root
+`metadata/` folder and not `en-US/`+`it/`; and it must not contain the `©` glyph — Apple's field
+takes "year + rights holder" and renders the symbol itself. Recorded in
+`AppStore/APP_STORE_CONNECT_SETUP.md`'s app-record table and as LAUNCH_PLAN §3b.
+**`NSHumanReadableCopyright` is still absent from both `Info.plist`s** and was deliberately left
+alone: it's the bundle-level copyright, not the listing's, and adding it means a rebuild and another
+`CFBundleVersion` bump on top of the build 4 that has already reached ASC. Worth doing on the next
+binary, not as a metadata change.
+
+**Italian**: LAUNCH_PLAN §3 had been carrying a note asking for a native-speaker pass before
+submission. Done, and it turned up one substantive error rather than only style:
+
+- `it/promotional_text.txt` said "Non restare mai più senza corrente in viaggio" — *never run out of
+  power while travelling*, which is a battery-pack promise this app does not make. Now "Non
+  ritrovarti mai più con la spina sbagliata", which is what the English says and what the app does.
+- `it/description.txt` rewritten throughout. Beyond flow, the fixes that matter: "il Lock Screen" →
+  "la schermata di blocco" (Apple's own Italian term — leaving the English name in an Italian
+  listing reads like an untranslated string); "tipi di presa e spina" → "spine e prese", since IT
+  distinguishes *spina* (plug) from *presa* (socket) and the app's own strings already do;
+  `"..."` → `«...»` for quoted Siri phrases and «230 V»; "mai pubblicità" → "nessuna pubblicità,
+  mai"; and "Ci farebbe piacere sentirti" → "Scrivici, ci fa piacere".
+- `it/subtitle.txt`: "Prese, voltaggio, sicurezza" → "Prese e voltaggio senza rischi" (exactly 30
+  chars, the ceiling). Trailing bare "sicurezza" in Italian reads as *security* (privacy/data) at
+  least as readily as *safety*, which is the wrong promise for a plug app.
+- `it/release_notes.txt` polished to match ("spine, prese e voltaggio", "inquadra le etichette").
+- **Kept on purpose**: "voltaggio" over the technically-correct "tensione" — it's what Italians
+  actually search for and it's in `keywords.txt`; "convertitore di tensione" stays, because that's
+  the product's real name. "paese di origine" stays too: it matches the in-app Italian
+  (`settings.home.country`, `onboarding.home.country.title`), and store copy disagreeing with the UI
+  is worse than a slightly bureaucratic register. `it/name.txt` stays — it's at 30/30, so any edit
+  is a word-for-word trade.
+
+**Two English fixes found while diffing the two locales against each other:** the description used
+British "colour" twice in an `en-US` listing, and it quoted a Siri phrase that does not exist —
+*"What's my home country's plug type"*. The real shortcuts (`AppShortcuts.xcstrings`) are "Open a
+country in…", "Show my home country in…" and "What plug types does <country> use in…", so it now
+quotes "Show my home country in Socket Buddy". A reviewer who tries a quoted phrase and gets nothing
+is a rejection risk, not a typo.
+
+Lengths verified against Apple's caps: it subtitle 30/30, it name 30/30, it promo 151/170, it
+keywords 97/100, descriptions 3339 and 2853 of 4000.
+
 ## Known doc drift (`.github/` is not authoritative)
 
 `.github/copilot-instructions.md` and `.github/instructions/*.md` (gitignored, so they're local-only reference material, not shipped with the repo) describe:
