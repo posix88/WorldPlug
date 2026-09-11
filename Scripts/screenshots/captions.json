@@ -61,7 +61,7 @@
       }
     },
     {
-      "_comment": "Add raw/widgets_demo.png (Home Screen with the 3 widget families) before this renders.",
+      "_comment": "Home Screen with all three widget families. Captured by `fastlane capture_widget_screenshots` (not by `snapshot` — XCUITest can't drive SpringBoard), which needs a one-off `fastlane prepare_widget_device` first.",
       "id": "06_widgets",
       "raw": {
         "iphone": "widgets_demo.png"

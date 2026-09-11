@@ -62,6 +62,8 @@ bundle exec fastlane release             # test → bump build number → archiv
                                           # flip `submit_for_review: true` in the Fastfile once you're sure)
 bundle exec fastlane screenshots          # capture localized iPhone screenshots with mock data, then render them
 bundle exec fastlane capture_raw_screenshots # capture localized raw screenshots only
+bundle exec fastlane prepare_widget_device # ONE-OFF, interactive: set up the simulator used for the Home Screen widget shot
+bundle exec fastlane capture_widget_screenshots # capture the localized Home Screen widget shot (06_widgets)
 bundle exec fastlane render_screenshots  # render Scripts/screenshots/captions.json into AppStore/Screenshots/ (local only, no upload)
 bundle exec fastlane upload_metadata     # push ONLY fastlane/metadata/{en-US,it}/ to App Store Connect
 bundle exec fastlane upload_screenshots  # push ONLY AppStore/Screenshots/{en-US,it}/ to App Store Connect
@@ -70,6 +72,15 @@ bundle exec fastlane metadata            # convenience: upload_metadata + upload
 
 `upload_metadata`/`upload_screenshots`/`metadata` all skip the binary — none of them build or touch
 TestFlight. Run `render_screenshots` first if `AppStore/Screenshots/{en-US,it}/` is stale.
+
+The Home Screen widget shot is the one capture `snapshot` can't drive — XCUITest controls the app
+under test, not SpringBoard, so it can't open the widget gallery or place a widget. Instead,
+`prepare_widget_device` walks you once through placing the three Socket Buddy widgets on a
+dedicated simulator (`Voltly Shots 17 Pro Max`; override with `VOLTLY_WIDGET_DEVICE`) and records
+that you did; `capture_widget_screenshots` then runs unattended from there, switching the device's
+system language per locale so the widgets themselves are localized. `screenshots` calls it
+optionally, so a machine without that prepared simulator just skips this one shot with a warning.
+Full details in `Scripts/screenshots/README.md`.
 
 The screenshot lanes enable a DEBUG-only deterministic app mode through `UI_TEST_SEED_DATA`.
 It skips onboarding and the launch splash, grants premium, disables tips and MapKit loading, and

@@ -225,6 +225,69 @@ Verified: `xcodebuild build` on Xcode 27 / iPhone 17 Pro succeeds, and the built
 
 **Also fixed in the same pass**: `UIRequiredDeviceCapabilities` in `WorldPlug-Info.plist` said `armv7`, which is meaningless for an arm64-only iOS 27 app — a leftover from the original project template. Xcode was silently rewriting it to `arm64` in the built bundle (verified in both the rejected archive and a fresh build), so it was never a submission blocker; it is now `arm64` at the source instead of depending on that rewrite. No build-number bump was needed for this one — it landed in build 4 alongside the launch-screen fix, before build 4 was uploaded.
 
+## 2026-09-11 — the widget screenshot (06_widgets), and a fastlane lane for it
+
+`captions.json` had been carrying a `06_widgets` slot waiting on `raw/widgets_demo.png` since the
+pipeline was written, and `capture_raw_screenshots`' own docs said that shot "still needs a manual
+`xcrun simctl io booted screenshot` capture". It's captured now, **and the capture is a lane** —
+the manual instruction is gone from the Fastfile, because leaving a marketing asset as a
+hand-rolled one-off is how the App Store copy drifted in the first place.
+
+**Why `snapshot` can't do it**: XCUITest drives the app under test, not SpringBoard. It cannot open
+the widget gallery, place a widget, or leave the Home Screen showing. No amount of `snapshot`
+configuration fixes that — it's the test harness's boundary, not a missing flag. So the work splits
+in two:
+
+- **`prepare_widget_device`** (one-off, interactive): creates a dedicated simulator
+  `Voltly Shots 17 Pro Max` (`VOLTLY_WIDGET_DEVICE` overrides the name), installs a seeded build,
+  prints the steps for clearing the first Home Screen page and adding **Next trip (large), My
+  country (small), Favorite country (small) in that order** — that order is what puts the two small
+  widgets on the top row with the large one beneath — and, on a `UI.confirm`, writes a marker into
+  the device's own defaults (`com.posix88.Voltly.screenshots widgetsPlaced`).
+- **`capture_widget_screenshots`** (repeatable, unattended): refuses to run without that marker,
+  then per locale builds + installs, sets the device language, restarts, seeds, waits, cleans the
+  status bar and screenshots into `raw/<locale>/widgets_demo.png`. `screenshots` calls it with
+  `optional: true`, so a machine that never ran the prep step skips this one shot with a warning
+  instead of failing the whole run.
+
+**Three things that are load-bearing and non-obvious**, all learned by getting them wrong first:
+
+1. **The widgets read the *device* language, not the app's.** `snapshot` localizes by launching the
+   app with `-AppleLanguages`, which only affects that process; the widget extension is a separate
+   process and would have stayed English. The lane writes `AppleLanguages`/`AppleLocale` into the
+   device's global domain and restarts it. Which means:
+2. **`simctl spawn` needs the device booted.** The write-then-restart order is deliberate — writing
+   the language while shut down fails with exit 149 (`SIGTTIN`), which is what the first version of
+   the lane did. The prepared-device marker is read the same way, so the lane boots the device
+   *before* checking it.
+3. **The App Group mirror is slow on a first launch.** The widgets read
+   `group.com.posix88.Voltly` directly, and `AppCoordinator` only writes home country / favorite /
+   trip / premium into it once it's through the splash and entitlement refresh — measured at over
+   8s, under 25s. `seed_widget_device` polls the plist for all three country keys (90s ceiling)
+   rather than sleeping a guessed amount; capture before that lands photographs empty widgets.
+
+The lane also hard-fails if a capture isn't 1320 × 2868, since a wrong device type would otherwise
+produce a silently mis-sized asset that only App Store Connect would reject.
+
+**The shot itself**: Next Trip large (Japan, "21 days to go", 100V, 50/60Hz, Type A + Type B, and
+the "Converter may be needed" verdict against the seeded GB home country) with the Favorite (JP) and
+My country (GB) small widgets above it, on an otherwise empty Home Screen page. The page is empty on
+purpose — the caption template renders the capture at 92% width starting 21% down the canvas, so
+roughly the bottom 14% of the phone screen is cropped; anything below the large widget is not in the
+final image, and app icons above it would have pushed the widgets into that crop.
+
+Both locales are real captures, not an English capture with an Italian caption: the Italian one
+reads "Prossimo viaggio / Mancano 21 giorni / Giappone / Tipo A / Potrebbe servire un convertitore".
+
+Verified by running `bundle exec fastlane capture_widget_screenshots` and then
+`bundle exec fastlane render_screenshots` for real — 10 rendered, 1 skipped (`04_scanner`, which
+still has no raw capture), `AppStore/Screenshots/{en-US,it}/06_widgets.png` written. Note that
+`bundle install` was needed first: the checked-in `Gemfile.lock` was ahead of the installed gems.
+
+One judgement call: `AppDebugOverrides` seeds the trip 21 days out from *now*, so the widget's
+countdown and date are relative to the capture date. That's fine for a store shot and keeps the seed
+honest, but it does mean two captures taken on different days differ by more than noise.
+
 ## Known doc drift (`.github/` is not authoritative)
 
 `.github/copilot-instructions.md` and `.github/instructions/*.md` (gitignored, so they're local-only reference material, not shipped with the repo) describe:

@@ -113,4 +113,34 @@ bundle exec fastlane screenshots
 ```
 
 This captures raw English and Italian screenshots on iPhone 17 Pro Max, normalizes their filenames,
-renders the marketing frames, and refreshes `AppStore/Screenshots/{en-US,it}/`.
+captures the Home Screen widget shot (see below), renders the marketing frames, and refreshes
+`AppStore/Screenshots/{en-US,it}/`.
+
+### The Home Screen widget shot (`06_widgets`)
+
+`snapshot` can't produce this one: XCUITest drives the app under test, not SpringBoard, so it can
+neither open the widget gallery nor place a widget. It has its own pair of lanes instead.
+
+```sh
+bundle exec fastlane prepare_widget_device      # once, interactive
+bundle exec fastlane capture_widget_screenshots # every time after that, unattended
+```
+
+`prepare_widget_device` creates a dedicated simulator (`Voltly Shots 17 Pro Max`, override with
+`VOLTLY_WIDGET_DEVICE`), installs a seeded build, then asks you to clear its first Home Screen page
+and add three widgets by hand — **Next trip (large), then My country (small), then Favorite country
+(small)**, in that order, which lands the two small ones on the top row with the large one below.
+It records that you did so in the device's own defaults; `capture_widget_screenshots` refuses to run
+without that marker, because an unprepared device would photograph an empty Home Screen perfectly
+happily. Re-run it only if that simulator is deleted or the layout should change.
+
+`capture_widget_screenshots` then does everything else on its own, per locale: builds and installs
+the app, switches the device's **system** language (the widgets run in their own process and ignore
+the per-app `-AppleLanguages` argument `snapshot` uses), waits for the app to mirror its values into
+the App Group — the widgets read that suite directly, and it takes ~15s on a first launch — cleans
+the status bar to 9:41, screenshots, and writes `raw/<locale>/widgets_demo.png` (plus the flat
+`raw/widgets_demo.png` fallback from English). It fails loudly if a capture isn't 1320 × 2868.
+
+`bundle exec fastlane screenshots` calls it with `optional: true`, so on a machine where that
+simulator was never prepared the widget shot is skipped with a warning and the other five still
+render.

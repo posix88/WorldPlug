@@ -88,7 +88,7 @@ You need **3–10 screenshots per device size per locale** (5 is a good target).
 3. **Trip detail** — a trip's packed-devices list with a mix of ✅ Compatible / ⚠️ Adapter needed verdicts, to sell the "so you don't fry your charger" hook.
 4. **Device label scanner** — the camera view mid-scan with recognized text highlighted (this is the most differentiated, "wow" feature — put it early, not last).
 5. **Trips list + Saved countries** — the Upcoming/Past trip list with the NEXT badge, and the starred-countries tab; shows the premium value without being the paywall itself.
-6. *(optional 6th)* — a **widget gallery** shot (Home Country / Favorite Country / Next Trip widgets on a Home Screen) — widgets sell well as a screenshot and you already have three widget families built.
+6. **Widgets on the Home Screen** — done: the Next Trip large widget with the two small ones (Favorite country, My country) above it, on an otherwise empty Home Screen page. Captured by `bundle exec fastlane capture_widget_screenshots`, which needs a one-off `fastlane prepare_widget_device` first (XCUITest can't drive SpringBoard, so placing the widgets that first time is the only manual step).
 
 ### Captioning: use the on-brand renderer, not `frameit`
 

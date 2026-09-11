@@ -387,6 +387,15 @@ platform :ios do
     match && match["udid"]
   end
 
+  # Writes the system language/region into the booted device's global defaults. The caller has to
+  # restart the device afterward for SpringBoard and the widget extension to pick it up.
+  private_lane :set_device_language do |options|
+    udid = options[:udid]
+    language = options[:language]
+    sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLanguages -array #{language.shellescape}", log: false)
+    sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLocale -string #{language.tr('-', '_').shellescape}", log: false)
+  end
+
   private_lane :boot_widget_device do |options|
     udid = options[:udid]
     sh("xcrun simctl boot #{udid} || true", log: false)
@@ -484,7 +493,10 @@ platform :ios do
     ensure_ios27_sdk
 
     udid = widget_device_udid
-    marker = udid && sh("xcrun simctl spawn #{udid} defaults read #{WIDGET_MARKER_DOMAIN} #{WIDGET_MARKER_KEY} 2>/dev/null || true", log: false).strip
+    # The marker lives in the device's own defaults, so the device has to be up to read it —
+    # backticks, not `sh`, because a missing key is an expected answer here, not a lane failure.
+    boot_widget_device(udid: udid) unless udid.nil?
+    marker = udid && `xcrun simctl spawn #{udid} defaults read #{WIDGET_MARKER_DOMAIN} #{WIDGET_MARKER_KEY} 2>/dev/null`.strip
 
     if udid.nil? || marker != "1"
       message = "The widget capture device \"#{WIDGET_DEVICE_NAME}\" is not prepared. " \
@@ -498,7 +510,6 @@ platform :ios do
       UI.user_error!(message)
     end
 
-    boot_widget_device(udid: udid)
     build_widget_app(udid: udid)
 
     captured = []
@@ -506,9 +517,9 @@ platform :ios do
       UI.message("Capturing the widget shot in #{language}...")
       # The widgets run in their own process and read the *device* language, so a per-app
       # -AppleLanguages launch argument (what `snapshot` uses) would not localize them.
+      # `simctl spawn` needs the device booted, hence write-then-restart rather than the reverse.
+      set_device_language(udid: udid, language: language)
       sh("xcrun simctl shutdown #{udid}", log: false)
-      sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLanguages -array #{language.shellescape}", log: false)
-      sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLocale -string #{language.tr('-', '_').shellescape}", log: false)
       boot_widget_device(udid: udid)
 
       seed_widget_device(udid: udid)
@@ -538,8 +549,8 @@ platform :ios do
     end
 
     # Leave the device in English so a later manual look at it isn't confusingly Italian.
+    set_device_language(udid: udid, language: WIDGET_LANGUAGES.keys.first)
     sh("xcrun simctl shutdown #{udid}", log: false)
-    sh("xcrun simctl spawn #{udid} defaults write 'Apple Global Domain' AppleLanguages -array en-US", log: false)
 
     UI.success("Captured the widget shot for: #{captured.join(', ')}. Run `fastlane render_screenshots` next.")
   end
