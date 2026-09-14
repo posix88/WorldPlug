@@ -576,30 +576,36 @@ platform :ios do
     destination_root = File.expand_path("../AppStore/Screenshots", __dir__)
     copied = 0
 
-    # AppStore/Screenshots is generated output. Mirror the current render exactly so stale shots
-    # or invalid locale folders such as `it-IT` can never survive and be uploaded by deliver.
-    Dir.glob(File.join(destination_root, "*")).select { |entry| File.directory?(entry) }.each do |directory|
-      FileUtils.rm_rf(directory)
-    end
+    # AppStore/Screenshots is generated output with device-specific directory structure
+    # that deliver (fastlane's App Store Connect uploader) expects: Device/Locale/screenshot.png
+    # Clean it completely so stale shots, invalid locales, or wrong device dirs can't survive.
+    FileUtils.rm_rf(destination_root) if Dir.exist?(destination_root)
+    FileUtils.mkdir_p(destination_root)
 
-    # Copy locale directories and their contents (including device-specific subdirectories like ipad/)
+    # Map device names to their directory names for App Store Connect
+    device_map = {
+      "iphone" => "iPhone",
+      "ipad" => "iPad"
+    }
+
+    # Copy screenshots organized by device, then locale (what deliver expects)
     Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
       locale = File.basename(locale_dir)
-      destination = File.join(destination_root, locale)
-      FileUtils.mkdir_p(destination)
 
-      # Copy top-level PNG files (iPhone screenshots)
+      # iPhone screenshots: from render output root
+      device_destination = File.join(destination_root, device_map["iphone"], locale)
+      FileUtils.mkdir_p(device_destination)
       Dir.glob(File.join(locale_dir, "*.png")).each do |file|
-        FileUtils.cp(file, destination)
+        FileUtils.cp(file, device_destination)
         copied += 1
       end
 
-      # Copy device-specific subdirectories (e.g., ipad/) and their screenshots
-      Dir.glob(File.join(locale_dir, "*")).select { |entry| File.directory?(entry) }.each do |device_dir|
-        device = File.basename(device_dir)
-        device_destination = File.join(destination, device)
+      # iPad screenshots: from render output ipad/ subdirectory
+      ipad_src_dir = File.join(locale_dir, "ipad")
+      if Dir.exist?(ipad_src_dir)
+        device_destination = File.join(destination_root, device_map["ipad"], locale)
         FileUtils.mkdir_p(device_destination)
-        Dir.glob(File.join(device_dir, "*.png")).each do |file|
+        Dir.glob(File.join(ipad_src_dir, "*.png")).each do |file|
           FileUtils.cp(file, device_destination)
           copied += 1
         end
@@ -607,6 +613,6 @@ platform :ios do
     end
 
     UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane upload_screenshots` (or `fastlane metadata`) to upload.")
-    UI.message("Includes iPhone (1320×2868) and iPad (2048×2732) screenshots.")
+    UI.message("Directory structure: iPhone/[locale] + iPad/[locale] — deliver will upload both device sets.")
   end
 end
