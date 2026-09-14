@@ -292,15 +292,6 @@ platform :ios do
     upload_screenshots
   end
 
-  desc "Capture and render all App Store screenshots using deterministic DEBUG-only sample data"
-  desc "The Home Screen widget shot needs a one-off `fastlane prepare_widget_device`; without it"
-  desc "that single shot is skipped with a warning and the other five still render."
-  lane :screenshots do
-    capture_raw_screenshots
-    capture_widget_screenshots(optional: true)
-    render_screenshots
-  end
-
   desc "Drive WorldPlugUITests on the simulator via `snapshot` (see fastlane/Snapfile) and refresh"
   desc "Scripts/screenshots/raw/ with fresh captures for every shot the test covers (countries"
   desc "list, country detail sheet, trip check, saved countries). Does NOT capture the label scanner"

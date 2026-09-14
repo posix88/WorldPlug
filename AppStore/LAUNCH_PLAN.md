@@ -111,27 +111,39 @@ snapshot` once a UI Testing target exists for full multi-device/locale automatio
 **iPad screenshots are generated automatically**: The pipeline now automatically upscales iPhone raw
 captures to iPad dimensions (2048 × 2732) during rendering, since the UI is universal. No separate
 iPad capture is needed — one iPhone raw becomes both an iPhone screenshot and an iPad one, both with
-captions. They're placed in `AppStore/Screenshots/<locale>/ipad/` automatically.
+captions.
 
-Process:
-- [ ] Capture raw screenshots — either by hand (`xcrun simctl io booted screenshot`, on an iPhone
-      17 Pro Max–class simulator only, in English and Italian) or via
-      `fastlane snapshot` once set up (README has the setup steps) — into
-      `Scripts/screenshots/raw/`.
-- [ ] Run `bundle exec fastlane render_screenshots` — this runs the entire rendering and copy
-      pipeline in one command: it renders iPhone screenshots from the raw captures, automatically
-      generates upscaled iPad versions, captions both in all locales, and copies everything into
-      `AppStore/Screenshots/{en-US,it}/` with iPad screenshots in the `ipad/` subdirectory.
-      (Alternatively, for manual control: run `node render.mjs --input ... --caption "..." --output
-      ... --width ... --height ...` from `Scripts/screenshots/` per shot, or `node render-all.mjs`
-      for the whole batch from `captions.json`.)
-- [ ] Write one short, punchy caption per shot in both languages — reuse the shot list above as
-      your caption ideas (e.g. "200+ countries, one glance" for #1, "Know before you plug in" for
-      #3) rather than starting from a blank page. Captions are defined in
-      `Scripts/screenshots/captions.json`, shared between iPhone and iPad renders.
-- [ ] The final PNGs are ready in `AppStore/Screenshots/{en-US,it}/` (iPhone shots at root, iPad
-      shots in `ipad/` subdirectory) for upload — the `out/` and `raw/` folders are gitignored
-      scratch space, `AppStore/Screenshots/` is where the actual submission assets live.
+**Screenshot workflow** (use the granular lanes, not a combined one):
+```bash
+# 1. Capture raw iPhone screenshots (from XCUITest)
+bundle exec fastlane capture_raw_screenshots
+
+# 2. Capture widget screenshots (one-time after fastlane prepare_widget_device)
+bundle exec fastlane capture_widget_screenshots
+
+# 3. Render all screenshots with captions (iPhone 1320×2868 + iPad 2048×2732, both locales)
+bundle exec fastlane render_screenshots
+```
+
+Or skip step 2 if you don't need widget screenshots:
+```bash
+bundle exec fastlane capture_raw_screenshots
+bundle exec fastlane render_screenshots
+```
+
+The final PNGs are ready in `AppStore/Screenshots/` organized by device and locale:
+```
+AppStore/Screenshots/
+├── iPhone/
+│   ├── en-US/  (5 screenshots, 1320×2868)
+│   └── it/     (5 screenshots, 1320×2868)
+└── iPad/
+    ├── en-US/  (5 screenshots, 2048×2732, upscaled)
+    └── it/     (5 screenshots, 2048×2732, upscaled)
+```
+
+Captions are defined in `Scripts/screenshots/captions.json` and are shared between iPhone and iPad
+renders. To modify captions, edit that file and re-run `fastlane render_screenshots`.
 
 ## 5. App Privacy ("nutrition label")
 
