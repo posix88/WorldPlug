@@ -131,15 +131,25 @@ bundle exec fastlane capture_raw_screenshots
 bundle exec fastlane render_screenshots
 ```
 
-The final PNGs are ready in `AppStore/Screenshots/` organized by device and locale:
+The final PNGs are ready in `AppStore/Screenshots/` organized by locale (with iPad in subdirectories):
 ```
 AppStore/Screenshots/
-├── iPhone/
-│   ├── en-US/  (5 screenshots, 1320×2868)
-│   └── it/     (5 screenshots, 1320×2868)
-└── iPad/
-    ├── en-US/  (5 screenshots, 2048×2732, upscaled)
-    └── it/     (5 screenshots, 2048×2732, upscaled)
+├── en-US/
+│   ├── 01_countries.png          (5 iPhone screenshots, 1320×2868)
+│   ├── 02_tripcheck.png
+│   ├── ...
+│   └── ipad/
+│       ├── 01_countries.png      (5 iPad screenshots, 2048×2732, upscaled)
+│       ├── 02_tripcheck.png
+│       └── ...
+└── it/
+    ├── 01_countries.png          (5 iPhone screenshots, 1320×2868)
+    ├── 02_tripcheck.png
+    ├── ...
+    └── ipad/
+        ├── 01_countries.png      (5 iPad screenshots, 2048×2732, upscaled)
+        ├── 02_tripcheck.png
+        └── ...
 ```
 
 Captions are defined in `Scripts/screenshots/captions.json` and are shared between iPhone and iPad
