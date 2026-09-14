@@ -408,6 +408,9 @@ platform :ios do
   # before the mirror lands photographs empty widgets — it takes ~15s on a first launch.
   private_lane :seed_widget_device do |options|
     udid = options[:udid]
+    # Terminate the app if it's already running (from a previous failed attempt)
+    sh("xcrun simctl terminate #{udid} com.posix88.Voltly || true", log: false)
+    sleep(1)
     sh("xcrun simctl launch #{udid} com.posix88.Voltly -FASTLANE_SNAPSHOT YES", log: false)
 
     container = sh("xcrun simctl get_app_container #{udid} com.posix88.Voltly groups", log: false)
