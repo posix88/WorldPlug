@@ -4,13 +4,19 @@
     "iphone": {
       "width": 1320,
       "height": 2868
+    },
+    "ipad": {
+      "width": 2048,
+      "height": 2732,
+      "upscaleFrom": "iphone"
     }
   },
   "shots": [
     {
       "id": "01_countries",
       "raw": {
-        "iphone": "countries_demo.png"
+        "iphone": "countries_demo.png",
+        "ipad": "countries_demo.png"
       },
       "captions": {
         "en-US": "200+ countries, one glance",
@@ -21,7 +27,8 @@
       "_comment": "Shows the Trips list. The `02_tripcheck` id and `tripcheck_demo.png` filename are legacy names kept on purpose: they must stay in sync with `snapshot(\"02_tripcheck\")` in WorldPlugUITests and with shot_name_to_raw_filename in fastlane/Fastfile. Renaming them buys nothing and breaks all three.",
       "id": "02_tripcheck",
       "raw": {
-        "iphone": "tripcheck_demo.png"
+        "iphone": "tripcheck_demo.png",
+        "ipad": "tripcheck_demo.png"
       },
       "captions": {
         "en-US": "Plan a trip. Check every device.",
@@ -31,7 +38,8 @@
     {
       "id": "03_countrydetail",
       "raw": {
-        "iphone": "countrydetail_demo.png"
+        "iphone": "countrydetail_demo.png",
+        "ipad": "countrydetail_demo.png"
       },
       "captions": {
         "en-US": "Voltage, frequency and every plug",
@@ -42,7 +50,8 @@
       "_comment": "Add raw/scanner_demo.png (device label scanner mid-scan) before this renders.",
       "id": "04_scanner",
       "raw": {
-        "iphone": "scanner_demo.png"
+        "iphone": "scanner_demo.png",
+        "ipad": "scanner_demo.png"
       },
       "captions": {
         "en-US": "Just scan the label. We do the math.",
@@ -53,7 +62,8 @@
       "_comment": "Shows the Saved tab: starred countries only. Trip planning is shot 02.",
       "id": "05_saved",
       "raw": {
-        "iphone": "saved_demo.png"
+        "iphone": "saved_demo.png",
+        "ipad": "saved_demo.png"
       },
       "captions": {
         "en-US": "The places you keep going back to",
@@ -64,7 +74,8 @@
       "_comment": "Home Screen with all three widget families. Captured by `fastlane capture_widget_screenshots` (not by `snapshot` — XCUITest can't drive SpringBoard), which needs a one-off `fastlane prepare_widget_device` first.",
       "id": "06_widgets",
       "raw": {
-        "iphone": "widgets_demo.png"
+        "iphone": "widgets_demo.png",
+        "ipad": "widgets_demo.png"
       },
       "captions": {
         "en-US": "Your plug, one glance from Home",

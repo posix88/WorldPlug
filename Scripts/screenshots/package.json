@@ -8,6 +8,7 @@
     "render-all": "node render-all.mjs"
   },
   "dependencies": {
-    "puppeteer": "^23.0.0"
+    "puppeteer": "^23.0.0",
+    "sharp": "^0.33.0"
   }
 }

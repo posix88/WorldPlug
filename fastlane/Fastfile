@@ -559,6 +559,7 @@ platform :ios do
   desc "Scripts/screenshots/raw/) and copy the results into AppStore/Screenshots/. Does NOT touch"
   desc "App Store Connect — run `fastlane upload_screenshots` (or `fastlane metadata`/`release`)"
   desc "afterward to upload them."
+  desc "Includes both iPhone and iPad screenshots (iPad versions upscaled from iPhone raws)."
   desc "Doesn't capture raw screenshots itself: run `fastlane capture_raw_screenshots` first, or add"
   desc "PNGs to raw/ and an entry to captions.json by hand."
   lane :render_screenshots do
@@ -581,16 +582,31 @@ platform :ios do
       FileUtils.rm_rf(directory)
     end
 
+    # Copy locale directories and their contents (including device-specific subdirectories like ipad/)
     Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
       locale = File.basename(locale_dir)
       destination = File.join(destination_root, locale)
       FileUtils.mkdir_p(destination)
+
+      # Copy top-level PNG files (iPhone screenshots)
       Dir.glob(File.join(locale_dir, "*.png")).each do |file|
         FileUtils.cp(file, destination)
         copied += 1
       end
+
+      # Copy device-specific subdirectories (e.g., ipad/) and their screenshots
+      Dir.glob(File.join(locale_dir, "*")).select { |entry| File.directory?(entry) }.each do |device_dir|
+        device = File.basename(device_dir)
+        device_destination = File.join(destination, device)
+        FileUtils.mkdir_p(device_destination)
+        Dir.glob(File.join(device_dir, "*.png")).each do |file|
+          FileUtils.cp(file, device_destination)
+          copied += 1
+        end
+      end
     end
 
     UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane upload_screenshots` (or `fastlane metadata`) to upload.")
+    UI.message("Includes iPhone (1320×2868) and iPad (2048×2732) screenshots.")
   end
 end

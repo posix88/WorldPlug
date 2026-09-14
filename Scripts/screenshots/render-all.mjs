@@ -9,7 +9,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import puppeteer from "puppeteer";
-import { __dirname, executablePath, renderScreenshot } from "./lib.mjs";
+import { __dirname, executablePath, renderScreenshot, ensureImageSize } from "./lib.mjs";
 
 const manifestPath = path.join(__dirname, "captions.json");
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
@@ -25,6 +25,8 @@ fs.mkdirSync(outDir, { recursive: true });
 let rendered = 0;
 let skipped = 0;
 let usedNonEnglishRawForNonEnglishLocale = false;
+
+const tempFiles = [];
 
 const browser = await puppeteer.launch({ executablePath });
 try {
@@ -61,12 +63,30 @@ try {
           usedNonEnglishRawForNonEnglishLocale = true;
         }
 
-        const localeDir = path.join(outDir, locale);
+        // App Store Connect directory structure: iPhone goes to <locale>/, iPad to <locale>/ipad/
+        const deviceSubdir = deviceName === "iphone" ? "" : deviceName;
+        const localeDir = deviceSubdir
+          ? path.join(outDir, locale, deviceSubdir)
+          : path.join(outDir, locale);
         fs.mkdirSync(localeDir, { recursive: true });
         const outputPath = path.join(localeDir, `${shot.id}.png`);
 
+        // Handle upscaling if needed (e.g., iPhone raw for iPad output)
+        let renderInput = inputPath;
+        if (device.upscaleFrom) {
+          const { path: upscaledPath, isTempFile } = await ensureImageSize(
+            inputPath,
+            device.width,
+            device.height
+          );
+          renderInput = upscaledPath;
+          if (isTempFile) {
+            tempFiles.push(upscaledPath);
+          }
+        }
+
         await renderScreenshot(page, {
-          input: inputPath,
+          input: renderInput,
           caption,
           output: outputPath,
           width: device.width,
@@ -79,6 +99,14 @@ try {
   }
 } finally {
   await browser.close();
+  // Clean up temporary upscaled images
+  for (const tempFile of tempFiles) {
+    try {
+      fs.unlinkSync(tempFile);
+    } catch (err) {
+      console.warn(`Failed to clean up temp file ${tempFile}: ${err.message}`);
+    }
+  }
 }
 
 if (rendered === 0) {

@@ -2,7 +2,10 @@
 // driven by captions.json) — keeps the actual Puppeteer/template-filling logic in one place.
 
 import path from "node:path";
+import fs from "node:fs";
+import os from "node:os";
 import { fileURLToPath } from "node:url";
+import sharp from "sharp";
 
 export const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const templatePath = path.join(__dirname, "template.html");
@@ -12,6 +15,35 @@ export const templatePath = path.join(__dirname, "template.html");
 // lives elsewhere.
 export const executablePath =
   process.env.PUPPETEER_EXECUTABLE_PATH ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+
+/**
+ * Upscales an image to the specified dimensions if needed, returning either the original path
+ * (if already at the correct size) or a temp file path with the upscaled version.
+ * @param {string} inputPath
+ * @param {number} targetWidth
+ * @param {number} targetHeight
+ * @returns {Promise<{path: string, isTempFile: boolean}>}
+ */
+export async function ensureImageSize(inputPath, targetWidth, targetHeight) {
+  const metadata = await sharp(inputPath).metadata();
+  const { width, height } = metadata;
+
+  // If already at target size or larger, return as-is
+  if (width >= targetWidth && height >= targetHeight) {
+    return { path: inputPath, isTempFile: false };
+  }
+
+  // Upscale to target dimensions
+  const tempFile = path.join(os.tmpdir(), `upscaled-${Date.now()}-${path.basename(inputPath)}`);
+  await sharp(inputPath)
+    .resize(targetWidth, targetHeight, {
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .toFile(tempFile);
+
+  return { path: tempFile, isTempFile: true };
+}
 
 /**
  * Renders one captioned screenshot on an existing Puppeteer page.
