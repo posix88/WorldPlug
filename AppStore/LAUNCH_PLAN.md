@@ -131,26 +131,36 @@ bundle exec fastlane capture_raw_screenshots
 bundle exec fastlane render_screenshots
 ```
 
-The final PNGs are ready in `AppStore/Screenshots/` organized by locale (with iPad in subdirectories):
+The final PNGs are ready in `AppStore/Screenshots/` organized by locale with device-specific suffixes:
 ```
 AppStore/Screenshots/
 ├── en-US/
 │   ├── 01_countries.png          (5 iPhone screenshots, 1320×2868)
+│   ├── 01_countries_IPAD.png     (5 iPad screenshots, 2048×2732, upscaled)
 │   ├── 02_tripcheck.png
-│   ├── ...
-│   └── ipad/
-│       ├── 01_countries.png      (5 iPad screenshots, 2048×2732, upscaled)
-│       ├── 02_tripcheck.png
-│       └── ...
+│   ├── 02_tripcheck_IPAD.png
+│   ├── 03_countrydetail.png
+│   ├── 03_countrydetail_IPAD.png
+│   ├── 05_saved.png
+│   ├── 05_saved_IPAD.png
+│   ├── 06_widgets.png
+│   └── 06_widgets_IPAD.png
 └── it/
-    ├── 01_countries.png          (5 iPhone screenshots, 1320×2868)
+    ├── 01_countries.png
+    ├── 01_countries_IPAD.png
     ├── 02_tripcheck.png
-    ├── ...
-    └── ipad/
-        ├── 01_countries.png      (5 iPad screenshots, 2048×2732, upscaled)
-        ├── 02_tripcheck.png
-        └── ...
+    ├── 02_tripcheck_IPAD.png
+    ├── 03_countrydetail.png
+    ├── 03_countrydetail_IPAD.png
+    ├── 05_saved.png
+    ├── 05_saved_IPAD.png
+    ├── 06_widgets.png
+    └── 06_widgets_IPAD.png
 ```
+
+**Note**: Fastlane/deliver requires device-specific screenshots to have `_IPAD` suffix in the
+filename for it to recognize and upload them to the iPad screenshot slot in App Store Connect.
+The `_IPAD` suffix is added automatically during rendering.
 
 Captions are defined in `Scripts/screenshots/captions.json` and are shared between iPhone and iPad
 renders. To modify captions, edit that file and re-run `fastlane render_screenshots`.
