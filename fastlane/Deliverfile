@@ -6,6 +6,11 @@ app_identifier("com.posix88.Voltly")
 screenshots_path("./AppStore/Screenshots")
 metadata_path("./fastlane/metadata")
 
+# Allow device-specific screenshot subdirectories (ipad/) within locale directories.
+# Without this, deliver rejects "ipad" as an invalid directory name, even though it's
+# the standard way to provide device-specific screenshots (en-US/ipad/, it/ipad/, etc.).
+ignore_language_directory_validation(true)
+
 # Primary/secondary category (Travel / Utilities per LAUNCH_PLAN.md §1) is a one-time setting —
 # leave it to App Store Connect's UI rather than risk deliver's category-key syntax drifting from
 # what Apple actually expects.
