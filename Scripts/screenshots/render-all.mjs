@@ -63,13 +63,14 @@ try {
           usedNonEnglishRawForNonEnglishLocale = true;
         }
 
-        // App Store Connect directory structure: iPhone goes to <locale>/, iPad to <locale>/ipad/
-        const deviceSubdir = deviceName === "iphone" ? "" : deviceName;
-        const localeDir = deviceSubdir
-          ? path.join(outDir, locale, deviceSubdir)
-          : path.join(outDir, locale);
+        // App Store Connect directory structure: Both iPhone and iPad go to <locale>/ directory.
+        // Fastlane/deliver recognizes device-specific screenshots by filename suffix only.
+        // iPhone: 01_countries.png
+        // iPad: 01_countries_IPAD.png (deliver uses suffix to identify device)
+        const deviceSuffix = deviceName === "ipad" ? "_IPAD" : "";
+        const localeDir = path.join(outDir, locale);
         fs.mkdirSync(localeDir, { recursive: true });
-        const outputPath = path.join(localeDir, `${shot.id}.png`);
+        const outputPath = path.join(localeDir, `${shot.id}${deviceSuffix}.png`);
 
         // Handle upscaling if needed (e.g., iPhone raw for iPad output)
         let renderInput = inputPath;

@@ -570,37 +570,28 @@ platform :ios do
     destination_root = File.expand_path("../AppStore/Screenshots", __dir__)
     copied = 0
 
-    # AppStore/Screenshots is generated output. Structure that deliver expects: Locale/[ipad/]screenshot.png
-    # iPhone screenshots go to locale root, iPad screenshots go to locale/ipad/ subdirectory.
-    # Clean it completely so stale shots, invalid locales, or wrong device dirs can't survive.
+    # AppStore/Screenshots is generated output. Structure that deliver expects: Locale/*.png with device
+    # suffix in filename. Both iPhone and iPad screenshots go to the same locale directory.
+    # iPhone: 01_countries.png
+    # iPad: 01_countries_IPAD.png (fastlane/deliver uses suffix to identify iPad screenshots)
+    # Clean it completely so stale shots, invalid locales, or old subdirectory structures can't survive.
     FileUtils.rm_rf(destination_root) if Dir.exist?(destination_root)
     FileUtils.mkdir_p(destination_root)
 
-    # Copy screenshots organized by locale, then device (what deliver expects)
+    # Copy all screenshots (iPhone and iPad, with device suffix in filename) to locale directories
     Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
       locale = File.basename(locale_dir)
       locale_destination = File.join(destination_root, locale)
       FileUtils.mkdir_p(locale_destination)
 
-      # iPhone screenshots: from render output root → locale root
+      # Copy all PNG files: both iPhone (no suffix) and iPad (with _IPAD suffix)
       Dir.glob(File.join(locale_dir, "*.png")).each do |file|
         FileUtils.cp(file, locale_destination)
         copied += 1
       end
-
-      # iPad screenshots: from render output ipad/ → locale/ipad/
-      ipad_src_dir = File.join(locale_dir, "ipad")
-      if Dir.exist?(ipad_src_dir)
-        ipad_destination = File.join(locale_destination, "ipad")
-        FileUtils.mkdir_p(ipad_destination)
-        Dir.glob(File.join(ipad_src_dir, "*.png")).each do |file|
-          FileUtils.cp(file, ipad_destination)
-          copied += 1
-        end
-      end
     end
 
     UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane upload_screenshots` (or `fastlane metadata`) to upload.")
-    UI.message("Structure: <locale>/*.png (iPhone) + <locale>/ipad/*.png (iPad) — deliver will upload both device sets.")
+    UI.message("Structure: <locale>/*.png (iPhone) + <locale>/*_IPAD.png (iPad) — deliver recognizes device from filename suffix.")
   end
 end
