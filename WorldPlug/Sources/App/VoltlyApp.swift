@@ -89,6 +89,12 @@ struct VoltlyApp: App {
             .environment(\.travelPreferencesStore, travelPreferencesStore)
             .environment(\.premiumEntitlement, premiumEntitlement)
             .environment(\.analyticsTracker, analyticsTracker)
+            .modifier(
+                HomeCountryPreferencesSyncModifier(
+                    preferencesStore: travelPreferencesStore,
+                    homeCountryViewModel: homeCountryViewModel
+                )
+            )
             .sheet(item: $coordinator.premiumPaywallSource) { source in
                 PremiumPaywallView(source: source)
             }
@@ -106,5 +112,20 @@ struct VoltlyApp: App {
             .onOpenURL(perform: coordinator.open)
         }
         .modelContainer(Repository.sharedModelContainer)
+    }
+}
+
+// MARK: - HomeCountryPreferencesSyncModifier
+
+/// Keeps the iPhone's App Group-backed home-country model current when the Watch sends a new
+/// preference snapshot through WatchConnectivity.
+private struct HomeCountryPreferencesSyncModifier: ViewModifier {
+    let preferencesStore: ICloudTravelPreferencesStore
+    let homeCountryViewModel: HomeCountryViewModel
+
+    func body(content: Content) -> some View {
+        content.onChange(of: preferencesStore.homeCountryCode) { _, _ in
+            homeCountryViewModel.refreshHomeCountry()
+        }
     }
 }

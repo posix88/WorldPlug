@@ -46,12 +46,11 @@ protocol TravelPreferencesStoring: AnyObject {
 @Observable
 @MainActor
 final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
-    private static let preferencesKey = "travel.preferences.v1"
-
     private let iCloudStore: NSUbiquitousKeyValueStore
     private let appGroupDefaults: UserDefaults
     private let analyticsTracker: any AnalyticsTracker
     private let usesICloudPersistence: Bool
+    private let watchPreferencesSync: PhoneWatchPreferencesSync?
     /// `nonisolated(unsafe)`: written exactly once in `init` and read exactly once in `deinit`.
     /// Both run at a point where no other code can be concurrently touching `self`, so no
     /// additional synchronization is needed even though the class is `@MainActor`-isolated
@@ -70,6 +69,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
 
             projectObservableValues()
             persist()
+            watchPreferencesSync?.publish(preferences)
         }
     }
 
@@ -106,6 +106,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
         self.appGroupDefaults = appGroupDefaults ?? .standard
         self.analyticsTracker = analyticsTracker
         self.usesICloudPersistence = inMemoryPreferences == nil
+        self.watchPreferencesSync = inMemoryPreferences == nil ? PhoneWatchPreferencesSync() : nil
 
         // `projectObservableValues()` is called explicitly here because `didSet` does not fire for
         // assignments made inside `init` — without it the projections would stay empty until the
@@ -117,10 +118,13 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
             return
         }
 
-        iCloudStore.synchronize()
-        self.preferences = Self.loadPreferences(from: iCloudStore)
+        self.preferences = TravelPreferencesStorage.load(from: iCloudStore)
         projectObservableValues()
         mirrorWidgetValues()
+        watchPreferencesSync?.activate { [weak self] preferences in
+            self?.preferences = preferences
+        }
+        watchPreferencesSync?.publish(preferences)
         observeExternalChanges()
     }
 
@@ -152,8 +156,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
             return
         }
 
-        iCloudStore.synchronize()
-        let loadedPreferences = Self.loadPreferences(from: iCloudStore)
+        let loadedPreferences = TravelPreferencesStorage.load(from: iCloudStore)
 
         guard loadedPreferences != preferences else {
             // Nothing changed, so `preferences`' `didSet` won't fire — but the widgets' trip is
@@ -258,12 +261,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
             mirrorWidgetValues()
             return
         }
-        guard let data = try? JSONEncoder().encode(preferences) else {
-            return
-        }
-
-        iCloudStore.set(data, forKey: Self.preferencesKey)
-        iCloudStore.synchronize()
+        TravelPreferencesStorage.persist(preferences, to: iCloudStore)
         mirrorWidgetValues()
     }
 
@@ -281,19 +279,7 @@ final class ICloudTravelPreferencesStore: TravelPreferencesStoring {
     static func readPreferencesSnapshot(
         from store: NSUbiquitousKeyValueStore = .default
     ) -> TravelPreferences {
-        store.synchronize()
-        return loadPreferences(from: store)
-    }
-
-    private static func loadPreferences(
-        from store: NSUbiquitousKeyValueStore
-    ) -> TravelPreferences {
-        guard let data = store.data(forKey: preferencesKey),
-              let preferences = try? JSONDecoder().decode(TravelPreferences.self, from: data) else {
-            return TravelPreferences()
-        }
-
-        return preferences
+        TravelPreferencesStorage.load(from: store)
     }
 
     private static func normalizedCountryCode(_ code: String) -> String {

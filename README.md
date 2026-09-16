@@ -42,9 +42,10 @@ bundle exec fastlane test
 | Module | Type | Owns |
 |---|---|---|
 | `WorldPlug/` | App target | SwiftUI app, all features, App Intents, analytics wiring |
-| `Repository/` | SwiftPM package | SwiftData models, versioned schema/migrations, bundled country/plug catalog |
+| `Repository/` | SwiftPM package | SwiftData models, shared travel-preferences wire format, bundled country/plug catalog |
 | `Analytics/` | SwiftPM package | `AnalyticsTracker` protocol + Firebase Analytics implementation |
 | `VoltlyWidgets/` | Widget extension | Home Country, Favorite Country, Next Trip widgets |
+| `VoltlyWatch/` | watchOS app | Saved countries, Home country, country plug and power lookup |
 | `Tools/Formatter/` | SwiftPM package | Vendored SwiftFormat CLI used by the pre-commit hook |
 
 ## Shipping a build

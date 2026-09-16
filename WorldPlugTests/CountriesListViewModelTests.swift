@@ -386,6 +386,29 @@ struct HomeCountryViewModelTests {
         #expect(vm.homeCountry?.code == "IT")
     }
 
+    @Test("refresh applies an incoming home-country preference")
+    func refreshAppliesIncomingHomeCountryPreference() throws {
+        let container = try makeContainer()
+        _ = makeCountry(code: "GB", in: container.mainContext)
+        try container.mainContext.save()
+        let localStore = InMemoryHomeCountryStore()
+        localStore.homeCountryCode = "IT"
+        let preferencesStore = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(homeCountryCode: "IT")
+        )
+        let viewModel = HomeCountryViewModel(
+            store: localStore,
+            travelPreferencesStore: preferencesStore,
+            modelContext: container.mainContext
+        )
+
+        preferencesStore.preferences = TravelPreferences(homeCountryCode: "GB")
+        viewModel.refreshHomeCountry()
+
+        #expect(viewModel.homeCountryCode == "GB")
+        #expect(localStore.homeCountryCode == "GB")
+    }
+
     @Test("clearHome persists empty string through the store")
     func clearHomePersistsThroughStore() throws {
         let container = try makeContainer()

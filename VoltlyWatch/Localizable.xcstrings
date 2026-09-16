@@ -1,0 +1,188 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "watch.app.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Socket Buddy" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Socket Buddy" } }
+      }
+    },
+    "watch.action.ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
+      }
+    },
+    "watch.countries.browse" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Browse Countries" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Esplora paesi" } }
+      }
+    },
+    "watch.countries.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Countries" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paesi" } }
+      }
+    },
+    "watch.countries.unavailable.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Countries unavailable" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paesi non disponibili" } }
+      }
+    },
+    "watch.country.actions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Actions" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Azioni" } }
+      }
+    },
+    "watch.country.frequency" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Frequency" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Frequenza" } }
+      }
+    },
+    "watch.country.plug.types" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plug Types" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Tipi di spina" } }
+      }
+    },
+    "watch.country.power" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Power" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Alimentazione" } }
+      }
+    },
+    "watch.country.voltage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Voltage" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Tensione" } }
+      }
+    },
+    "watch.home.country" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home Country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paese di origine" } }
+      }
+    },
+    "watch.home.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No home country set." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nessun paese di origine impostato." } }
+      }
+    },
+    "watch.home.remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove Home" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi paese di origine" } }
+      }
+    },
+    "watch.home.section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paese di origine" } }
+      }
+    },
+    "watch.home.set" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set as Home" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Imposta come paese di origine" } }
+      }
+    },
+    "watch.home.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Paese di origine" } }
+      }
+    },
+    "watch.plug.type %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Type %@" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Tipo %@" } }
+      }
+    },
+    "watch.saved.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save Country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paese" } }
+      }
+    },
+    "watch.saved.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save countries from Browse." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salva paesi da Esplora." } }
+      }
+    },
+    "watch.saved.limit.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Premium includes unlimited saved countries." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Premium include paesi salvati illimitati." } }
+      }
+    },
+    "watch.saved.limit.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved limit reached" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Limite di paesi salvati raggiunto" } }
+      }
+    },
+    "watch.saved.remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove Saved" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Rimuovi dai salvati" } }
+      }
+    },
+    "watch.saved.section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salvati" } }
+      }
+    },
+    "watch.saved.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Salvati" } }
+      }
+    },
+    "watch.search.country.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Find country" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Trova un paese" } }
+      }
+    },
+    "watch.search.clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear Search" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Cancella ricerca" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

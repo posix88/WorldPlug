@@ -12,7 +12,7 @@
 		4CFD1A0930079D0E003E55E1 /* Analytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0830079D0E003E55E1 /* Analytics */; };
 		4CFD1A0C30079D53003E55E1 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = 4CFD1A0B30079D53003E55E1 /* Repository */; };
 		5A6B7C8D9E0F112233445566 /* UserDefaultsHomeCountryStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6B7C8D9E0F112233445567 /* UserDefaultsHomeCountryStoreTests.swift */; };
-		5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5B6C7D8E9F00112233445567 /* VoltlyWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5B6C7D8E9F00112233445567 /* VoltlyWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5C6D7E8F9001122334455667 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = 5C6D7E8F9001122334455668 /* Repository */; };
 		68F41831E2349038BA6A9AA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98F93F6C16158F03FCD13907 /* Foundation.framework */; };
 		69A42E0E8F01328388E1EFA4 /* WorldPlugUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD511DB7D841AB28D0AD4058 /* WorldPlugUITests.swift */; };
@@ -28,6 +28,8 @@
 		C0A11CE0000000000000000B /* PremiumEntitlementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000C /* PremiumEntitlementTests.swift */; };
 		C0A11CE0000000000000000D /* PremiumPaywallViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE0000000000000000E /* PremiumPaywallViewModelTests.swift */; };
 		C0A11CE0000000000000000F /* FeatureViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A11CE00000000000000010 /* FeatureViewModelTests.swift */; };
+		C0FFEE100000000000000001 /* VoltlyWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = C0FFEE100000000000000002 /* VoltlyWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C0FFEE100000000000000003 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = C0FFEE100000000000000004 /* Repository */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,18 +54,36 @@
 			remoteGlobalIDString = C1290446E04FB233F2D0D3FC;
 			remoteInfo = WorldPlug;
 		};
+		C0FFEE100000000000000005 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50B7ACC28A184B04797769E8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C0FFEE100000000000000006;
+			remoteInfo = VoltlyWatch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		5B6C7D8E9F00112233445569 /* Embed App Extensions */ = {
+		5B6C7D8E9F00112233445569 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed App Extensions */,
+				5B6C7D8E9F00112233445566 /* VoltlyWidgets.appex in Embed Foundation Extensions */,
 			);
-			name = "Embed App Extensions";
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFEE100000000000000007 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Watch;
+			dstSubfolderSpec = 1;
+			files = (
+				C0FFEE100000000000000001 /* VoltlyWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -87,6 +107,7 @@
 		C0A11CE0000000000000000C /* PremiumEntitlementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumEntitlementTests.swift; sourceTree = "<group>"; };
 		C0A11CE0000000000000000E /* PremiumPaywallViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumPaywallViewModelTests.swift; sourceTree = "<group>"; };
 		C0A11CE00000000000000010 /* FeatureViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModelTests.swift; sourceTree = "<group>"; };
+		C0FFEE100000000000000002 /* VoltlyWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoltlyWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C88B45CD0740631A00BBE12B /* WorldPlug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WorldPlug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -109,6 +130,11 @@
 		6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = VoltlyWidgets/Resources;
+			sourceTree = "<group>";
+		};
+		C0FFEE100000000000000008 /* VoltlyWatch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = VoltlyWatch;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -148,6 +174,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C0FFEE100000000000000009 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C0FFEE100000000000000003 /* Repository in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -174,6 +208,7 @@
 				C88B45CD0740631A00BBE12B /* WorldPlug.app */,
 				5B6C7D8E9F00112233445567 /* VoltlyWidgets.appex */,
 				BE895993981725173845D8CA /* WorldPlugTests.xctest */,
+				C0FFEE100000000000000002 /* VoltlyWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,6 +219,7 @@
 				EE5D78E57F7E27A8BE148313 /* WorldPlug */,
 				5D6E7F809001122334455668 /* VoltlyWidgets/Sources */,
 				6A7B8C9D0E1F223344556677 /* VoltlyWidgets/Resources */,
+				C0FFEE100000000000000008 /* VoltlyWatch */,
 				FE2533C686150C6EB74E560F /* WorldPlugTests */,
 				4164BA609669D3A239D6F01D /* Products */,
 				89D6C6E5649F72BBF01D6E4F /* WorldPlugUITests.xctest */,
@@ -255,6 +291,29 @@
 			productReference = 5B6C7D8E9F00112233445567 /* VoltlyWidgets.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		C0FFEE100000000000000006 /* VoltlyWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C0FFEE10000000000000000B /* Build configuration list for PBXNativeTarget "VoltlyWatch" */;
+			buildPhases = (
+				C0FFEE10000000000000000C /* Sources */,
+				C0FFEE10000000000000000D /* Resources */,
+				C0FFEE100000000000000009 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				C0FFEE100000000000000008 /* VoltlyWatch */,
+			);
+			name = VoltlyWatch;
+			packageProductDependencies = (
+				C0FFEE100000000000000004 /* Repository */,
+			);
+			productName = VoltlyWatch;
+			productReference = C0FFEE100000000000000002 /* VoltlyWatch.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C1290446E04FB233F2D0D3FC /* WorldPlug */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EA535D1A86E531EF78C0C985 /* Build configuration list for PBXNativeTarget "WorldPlug" */;
@@ -262,12 +321,14 @@
 				4FBA03E0B40D671D93970AD3 /* Sources */,
 				CCF435428A15EB9C67386CA3 /* Resources */,
 				9269A3B489152609D0B5D7F8 /* Frameworks */,
-				5B6C7D8E9F00112233445569 /* Embed App Extensions */,
+				5B6C7D8E9F00112233445569 /* Embed Foundation Extensions */,
+				C0FFEE100000000000000007 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				5B6C7D8E9F0011223344556A /* PBXTargetDependency */,
+				C0FFEE10000000000000000A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				4C5862312FEC210000B5718C /* Sources */,
@@ -328,7 +389,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 2700;
 			};
 			buildConfigurationList = C5072A5D08F5612C4DE074DB /* Build configuration list for PBXProject "WorldPlug" */;
 			developmentRegion = en;
@@ -351,6 +412,7 @@
 			targets = (
 				C1290446E04FB233F2D0D3FC /* WorldPlug */,
 				5D6E7F809001122334455667 /* VoltlyWidgets */,
+				C0FFEE100000000000000006 /* VoltlyWatch */,
 				FCF8AC8099A2E3C005E911E4 /* WorldPlugTests */,
 				EC1E1D5F9B04CA3D6BB029BE /* WorldPlugUITests */,
 			);
@@ -366,6 +428,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6637118355DF0223CF09FC7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0FFEE10000000000000000D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -424,6 +493,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C0FFEE10000000000000000C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -436,6 +512,11 @@
 			isa = PBXTargetDependency;
 			target = C1290446E04FB233F2D0D3FC /* WorldPlug */;
 			targetProxy = 9C38B02319830D243B7C255B /* PBXContainerItemProxy */;
+		};
+		C0FFEE10000000000000000A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C0FFEE100000000000000006 /* VoltlyWatch */;
+			targetProxy = C0FFEE100000000000000005 /* PBXContainerItemProxy */;
 		};
 		CF764785F55E0CC102329522 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -450,6 +531,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -556,6 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -644,6 +727,52 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		C0FFEE10000000000000000E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.posix88.Voltly;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				INFOPLIST_KEY_WKWatchKitApp = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Debug;
+		};
+		C0FFEE10000000000000000F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 5;
+				DEVELOPMENT_TEAM = NEE9ZGT53Y;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.posix88.Voltly;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
+				INFOPLIST_KEY_WKWatchKitApp = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 27.0;
+			};
+			name = Release;
 		};
 		CBF0083531FF18AAE4ACD782 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -783,6 +912,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		C0FFEE10000000000000000B /* Build configuration list for PBXNativeTarget "VoltlyWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FFEE10000000000000000E /* Debug */,
+				C0FFEE10000000000000000F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		C5072A5D08F5612C4DE074DB /* Build configuration list for PBXProject "WorldPlug" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -828,6 +966,10 @@
 			productName = Repository;
 		};
 		B423EFCB42CC328DC06463FE /* Repository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Repository;
+		};
+		C0FFEE100000000000000004 /* Repository */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Repository;
 		};
