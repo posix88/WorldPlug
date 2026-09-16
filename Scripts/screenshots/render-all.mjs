@@ -92,6 +92,10 @@ try {
           output: outputPath,
           width: device.width,
           height: device.height,
+          captionSize: device.captionSize,
+          shotTop: device.shotTop,
+          shotWidth: device.shotWidth,
+          shotRadius: device.shotRadius,
         });
         console.log(`Wrote ${path.relative(__dirname, outputPath)}`);
         rendered++;

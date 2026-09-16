@@ -60,8 +60,10 @@ bundle exec fastlane beta                # test → bump build number → archiv
 bundle exec fastlane release             # test → bump build number → archive → upload build + metadata + screenshots
                                           # (does NOT submit for review — that's a deliberate separate step,
                                           # flip `submit_for_review: true` in the Fastfile once you're sure)
-bundle exec fastlane screenshots          # capture localized iPhone screenshots with mock data, then render them
+bundle exec fastlane screenshots          # refresh iPhone + Watch + widget screenshots, then render all frames
 bundle exec fastlane capture_raw_screenshots # capture localized raw screenshots only
+bundle exec fastlane watch_screenshots    # capture + frame five localized Apple Watch screenshots
+bundle exec fastlane capture_raw_watch_screenshots # capture localized raw Apple Watch screenshots only
 bundle exec fastlane prepare_widget_device # ONE-OFF, interactive: set up the simulator used for the Home Screen widget shot
 bundle exec fastlane capture_widget_screenshots # capture the localized Home Screen widget shot (06_widgets)
 bundle exec fastlane render_screenshots  # render Scripts/screenshots/captions.json into AppStore/Screenshots/ (local only, no upload)

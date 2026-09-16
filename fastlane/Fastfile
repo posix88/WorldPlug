@@ -122,6 +122,20 @@ TEST_DEVICE = ENV["VOLTLY_TEST_DEVICE"] || "iPhone 17 Pro"
 BUILD_OUTPUT_DIRECTORY = "./build/fastlane"
 FASTLANE_DIRECTORY = Dir.pwd
 SCREENSHOT_RAW_DIRECTORY = File.expand_path("../Scripts/screenshots/raw", FASTLANE_DIRECTORY)
+WATCH_SCREENSHOT_DEVICE_NAME = ENV["VOLTLY_WATCH_SCREENSHOT_DEVICE"] || "Voltly Shots Apple Watch Series 12 (46mm)"
+WATCH_SCREENSHOT_DEVICE_TYPE = "com.apple.CoreSimulator.SimDeviceType.Apple-Watch-Series-12-46mm"
+WATCH_SCREENSHOT_DEVICE_RUNTIME = "com.apple.CoreSimulator.SimRuntime.watchOS-27-0"
+WATCH_SCREENSHOT_BUILD_DIRECTORY = File.expand_path("~/AI_Pod_DerivedData/VoltlyWatchShots")
+WATCH_APP_BUNDLE_ID = "com.posix88.Voltly.watchkitapp"
+WATCH_SCREENSHOT_SIZE = [416, 496].freeze
+WATCH_SCREENSHOT_LANGUAGES = { "en-US" => "en-US", "it-IT" => "it" }.freeze
+WATCH_SCREENSHOT_SHOTS = [
+  { filename: "watch_01_home.png" },
+  { filename: "watch_02_saved.png", launch_argument: "UI_TEST_SCREEN_SAVED" },
+  { filename: "watch_03_home_country.png", launch_argument: "UI_TEST_SCREEN_HOME_COUNTRY" },
+  { filename: "watch_04_countries.png", launch_argument: "UI_TEST_SCREEN_COUNTRIES" },
+  { filename: "watch_05_italy.png", launch_argument: "UI_TEST_SCREEN_ITALY" }
+].freeze
 
 # The Home Screen widget shot (06_widgets) can't go through `snapshot`: XCUITest drives the app
 # under test, not SpringBoard, so it can neither open the widget gallery nor place a widget. That
@@ -368,6 +382,133 @@ platform :ios do
     UI.success("Copied #{copied} fresh capture(s) into Scripts/screenshots/raw/. Run `fastlane render_screenshots` next.")
   end
 
+  # --- Apple Watch screenshots ---------------------------------------------------------------
+
+  private_lane :watch_screenshot_device_udid do
+    devices = JSON.parse(sh("xcrun simctl list devices --json", log: false))["devices"]
+    match = devices.values.flatten.find do |device|
+      device["name"] == WATCH_SCREENSHOT_DEVICE_NAME && device["isAvailable"]
+    end
+    match && match["udid"]
+  end
+
+  private_lane :boot_watch_screenshot_device do |options|
+    udid = options[:udid]
+    sh("xcrun simctl boot #{udid} || true", log: false)
+    sh("xcrun simctl bootstatus #{udid} -b", log: false)
+  end
+
+  private_lane :build_watch_screenshot_app do
+    project = File.expand_path("../WorldPlug.xcodeproj", __dir__)
+    UI.message("Building VoltlyWatch for #{WATCH_SCREENSHOT_DEVICE_NAME}...")
+    # `xcodebuild -target` produces a generic watch simulator product. Unlike a scheme build,
+    # it does not accept `-destination`; passing one exits with Xcode's command-line usage code 64.
+    # It also cannot use `-derivedDataPath`, which requires a scheme. Keep intermediates out of
+    # the worktree with explicit SYMROOT/OBJROOT build settings instead.
+    sh(
+      "xcodebuild -project #{project.shellescape} -target VoltlyWatch " \
+      "-configuration Debug -sdk watchsimulator " \
+      "SYMROOT=#{WATCH_SCREENSHOT_BUILD_DIRECTORY.shellescape} " \
+      "OBJROOT=#{File.join(WATCH_SCREENSHOT_BUILD_DIRECTORY, 'Intermediates').shellescape} " \
+      "CLANG_MODULE_CACHE_PATH=#{File.join(WATCH_SCREENSHOT_BUILD_DIRECTORY, 'ModuleCache').shellescape} " \
+      "COMPILER_INDEX_STORE_ENABLE=NO -quiet build"
+    )
+
+    app = File.join(WATCH_SCREENSHOT_BUILD_DIRECTORY, "Debug-watchsimulator/VoltlyWatch.app")
+    UI.user_error!("Build produced no Watch app at #{app}.") unless File.directory?(app)
+    app
+  end
+
+  private_lane :validate_watch_screenshot do |options|
+    path = options[:path]
+    locale = options[:locale]
+    dimensions = sh("sips -g pixelWidth -g pixelHeight #{path.shellescape}", log: false)
+    width = dimensions[/pixelWidth: (\d+)/, 1].to_i
+    height = dimensions[/pixelHeight: (\d+)/, 1].to_i
+    unless [width, height] == WATCH_SCREENSHOT_SIZE
+      UI.user_error!(
+        "#{locale} Watch capture is #{width}x#{height}, expected " \
+        "#{WATCH_SCREENSHOT_SIZE.join('x')} for Apple Watch Series 12 (46mm)."
+      )
+    end
+  end
+
+  desc "Capture raw, localized Apple Watch screenshots on a Series 12 (46mm) simulator"
+  desc "Creates a dedicated simulator if needed. The screenshots use debug-only seeded data and"
+  desc "are written to Scripts/screenshots/raw/{en-US,it}/; run `watch_screenshots` to frame them."
+  lane :capture_raw_watch_screenshots do
+    ensure_ios27_sdk
+
+    udid = watch_screenshot_device_udid
+    if udid.nil?
+      UI.message("Creating simulator \"#{WATCH_SCREENSHOT_DEVICE_NAME}\"...")
+      udid = sh(
+        "xcrun simctl create #{WATCH_SCREENSHOT_DEVICE_NAME.shellescape} " \
+        "#{WATCH_SCREENSHOT_DEVICE_TYPE} #{WATCH_SCREENSHOT_DEVICE_RUNTIME}",
+        log: false
+      ).strip
+    end
+    boot_watch_screenshot_device(udid: udid)
+
+    app = build_watch_screenshot_app
+    sh("xcrun simctl install #{udid} #{app.shellescape}", log: false)
+
+    WATCH_SCREENSHOT_SHOTS.each do |shot|
+      FileUtils.rm_f(File.join(SCREENSHOT_RAW_DIRECTORY, shot.fetch(:filename)))
+      WATCH_SCREENSHOT_LANGUAGES.each_value do |locale|
+        FileUtils.rm_f(File.join(SCREENSHOT_RAW_DIRECTORY, locale, shot.fetch(:filename)))
+      end
+    end
+
+    captured = []
+    WATCH_SCREENSHOT_LANGUAGES.each do |language, locale|
+      locale_directory = File.join(SCREENSHOT_RAW_DIRECTORY, locale)
+      FileUtils.mkdir_p(locale_directory)
+
+      WATCH_SCREENSHOT_SHOTS.each do |shot|
+        sh("xcrun simctl terminate #{udid} #{WATCH_APP_BUNDLE_ID} || true", log: false)
+        launch_arguments = [
+          "UI_TEST_SEED_DATA",
+          shot[:launch_argument],
+          "-AppleLanguages", "(#{language})",
+          "-AppleLocale", language.tr("-", "_")
+        ].compact.map(&:shellescape).join(" ")
+        sh(
+          "xcrun simctl launch #{udid} #{WATCH_APP_BUNDLE_ID} #{launch_arguments}",
+          log: false
+        )
+
+        # The catalog is loaded on the main actor when the Watch app becomes active. A small,
+        # fixed wait prevents capturing the progress indicator on the simulator's first launch.
+        sleep(5)
+        destination = File.join(locale_directory, shot.fetch(:filename))
+        sh("xcrun simctl io #{udid} screenshot #{destination.shellescape}", log: false)
+        validate_watch_screenshot(path: destination, locale: locale)
+        FileUtils.cp(destination, File.join(SCREENSHOT_RAW_DIRECTORY, shot.fetch(:filename))) if language.start_with?("en")
+        captured << "#{locale}/#{shot.fetch(:filename)}"
+      end
+    end
+
+    UI.success("Captured #{captured.count} Apple Watch screenshot(s): #{captured.join(', ')}")
+  end
+
+  desc "Capture and frame the full localized Apple Watch App Store screenshot set"
+  desc "Uses the same Socket Buddy artwork and caption renderer as the iPhone screenshots."
+  lane :watch_screenshots do
+    capture_raw_watch_screenshots
+    render_screenshots
+  end
+
+  desc "Refresh every local App Store screenshot set, then apply the branded caption frame"
+  desc "Captures iPhone, Apple Watch, and (when prepared) Home Screen widget screenshots in both"
+  desc "English and Italian. The scanner capture remains manual because its camera cannot be automated."
+  lane :screenshots do
+    capture_raw_screenshots
+    capture_raw_watch_screenshots
+    capture_widget_screenshots(optional: true)
+    render_screenshots
+  end
+
   # --- Home Screen widget shot (06_widgets) ------------------------------------------------
   # Helpers below shell out to simctl rather than using fastlane actions: none of the stock
   # actions can boot a named device, swap its system language, or take a raw device screenshot.
@@ -553,7 +694,7 @@ platform :ios do
   desc "Scripts/screenshots/raw/) and copy the results into AppStore/Screenshots/. Does NOT touch"
   desc "App Store Connect — run `fastlane upload_screenshots` (or `fastlane metadata`/`release`)"
   desc "afterward to upload them."
-  desc "Includes both iPhone and iPad screenshots (iPad versions upscaled from iPhone raws)."
+  desc "Includes iPhone, iPad (upscaled from iPhone raws), and Apple Watch screenshots."
   desc "Doesn't capture raw screenshots itself: run `fastlane capture_raw_screenshots` first, or add"
   desc "PNGs to raw/ and an entry to captions.json by hand."
   lane :render_screenshots do
@@ -570,15 +711,16 @@ platform :ios do
     destination_root = File.expand_path("../AppStore/Screenshots", __dir__)
     copied = 0
 
-    # AppStore/Screenshots is generated output. Structure that deliver expects: Locale/*.png with device
-    # suffix in filename. Both iPhone and iPad screenshots go to the same locale directory.
+    # AppStore/Screenshots is generated output. Structure that deliver expects: Locale/*.png. iPhone,
+    # iPad, and Apple Watch screenshots share each locale directory; deliver detects the Watch set from
+    # its 416x496 pixel size.
     # iPhone: 01_countries.png
     # iPad: 01_countries_IPAD.png (fastlane/deliver uses suffix to identify iPad screenshots)
     # Clean it completely so stale shots, invalid locales, or old subdirectory structures can't survive.
     FileUtils.rm_rf(destination_root) if Dir.exist?(destination_root)
     FileUtils.mkdir_p(destination_root)
 
-    # Copy all screenshots (iPhone and iPad, with device suffix in filename) to locale directories
+    # Copy all screenshots (iPhone, iPad, and Apple Watch) to locale directories.
     Dir.glob(File.join(rendered_root, "*")).select { |entry| File.directory?(entry) }.each do |locale_dir|
       locale = File.basename(locale_dir)
       locale_destination = File.join(destination_root, locale)
@@ -592,6 +734,6 @@ platform :ios do
     end
 
     UI.success("Copied #{copied} screenshot(s) into AppStore/Screenshots/. Run `fastlane upload_screenshots` (or `fastlane metadata`) to upload.")
-    UI.message("Structure: <locale>/*.png (iPhone) + <locale>/*_IPAD.png (iPad) — deliver recognizes device from filename suffix.")
+    UI.message("Structure: <locale>/*.png (iPhone/Watch) + <locale>/*_IPAD.png (iPad) — deliver recognizes Watch screenshots from 416x496 dimensions.")
   end
 end

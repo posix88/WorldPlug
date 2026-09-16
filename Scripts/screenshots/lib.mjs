@@ -49,7 +49,8 @@ export async function ensureImageSize(inputPath, targetWidth, targetHeight) {
  * Renders one captioned screenshot on an existing Puppeteer page.
  * @param {import("puppeteer").Page} page
  * @param {{input: string, caption: string, output: string, width: number, height: number,
- *   eyebrow?: string, captionSize?: number, shotTop?: string}} options
+ *   eyebrow?: string, captionSize?: number, shotTop?: string, shotWidth?: string,
+ *   shotRadius?: number}} options
  */
 export async function renderScreenshot(page, options) {
   const {
@@ -61,6 +62,8 @@ export async function renderScreenshot(page, options) {
     eyebrow = "Socket Buddy",
     captionSize = Math.round(width * 0.07),
     shotTop = "21%",
+    shotWidth = "92%",
+    shotRadius = Math.round(width * 0.042),
   } = options;
 
   const inputPath = path.resolve(input);
@@ -76,6 +79,8 @@ export async function renderScreenshot(page, options) {
       root.setProperty("--canvas-h", `${config.height}px`);
       root.setProperty("--caption-size", `${config.captionSize}px`);
       root.setProperty("--shot-top", config.shotTop);
+      root.setProperty("--shot-width", config.shotWidth);
+      root.setProperty("--shot-radius", `${config.shotRadius}px`);
 
       document.getElementById("eyebrow").textContent = config.eyebrow;
       document.getElementById("caption").textContent = config.caption;
@@ -86,6 +91,8 @@ export async function renderScreenshot(page, options) {
       height,
       captionSize,
       shotTop: typeof shotTop === "number" ? `${shotTop}%` : shotTop,
+      shotWidth: typeof shotWidth === "number" ? `${shotWidth}%` : shotWidth,
+      shotRadius,
       eyebrow,
       caption,
       imagePath: `file://${inputPath}`,

@@ -11,8 +11,15 @@ struct VoltlyWatchApp: App {
 
     init() {
         let catalog = WatchCatalogViewModel()
-        let preferencesStore = WatchTravelPreferencesStore()
-        let premiumEntitlement = WatchPremiumEntitlement()
+        let preferencesStore: WatchTravelPreferencesStore
+        if let previewPreferences = WatchAppDebugOverrides.travelPreferences {
+            preferencesStore = WatchTravelPreferencesStore(previewPreferences: previewPreferences)
+        } else {
+            preferencesStore = WatchTravelPreferencesStore()
+        }
+        let premiumEntitlement = WatchPremiumEntitlement(
+            isPremium: WatchAppDebugOverrides.isEnabled
+        )
         _catalog = State(initialValue: catalog)
         _preferencesStore = State(initialValue: preferencesStore)
         _premiumEntitlement = State(initialValue: premiumEntitlement)
@@ -20,16 +27,19 @@ struct VoltlyWatchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            WatchRootView(
+            WatchAppContent(
                 catalog: catalog,
                 preferencesStore: preferencesStore,
                 premiumEntitlement: premiumEntitlement
             )
             .task {
+                guard !WatchAppDebugOverrides.isEnabled else {
+                    return
+                }
                 await premiumEntitlement.refresh()
             }
             .onChange(of: scenePhase) { _, phase in
-                guard phase == .active else {
+                guard phase == .active, !WatchAppDebugOverrides.isEnabled else {
                     return
                 }
                 preferencesStore.reloadFromICloud()

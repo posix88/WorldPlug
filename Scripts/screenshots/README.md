@@ -112,9 +112,22 @@ does not start MapKit lookup because maps are unreliable on the current iOS 27 b
 bundle exec fastlane screenshots
 ```
 
-This captures raw English and Italian screenshots on iPhone 17 Pro Max, normalizes their filenames,
-captures the Home Screen widget shot (see below), renders the marketing frames, and refreshes
-`AppStore/Screenshots/{en-US,it}/`.
+This captures raw English and Italian screenshots on iPhone 17 Pro Max and Apple Watch Series 12,
+normalizes their filenames, captures the Home Screen widget shot when prepared (see below), renders
+the marketing frames, and refreshes `AppStore/Screenshots/{en-US,it}/`. The label scanner remains
+manual because a simulator cannot automate its camera.
+
+### Apple Watch
+
+```sh
+bundle exec fastlane watch_screenshots
+```
+
+This creates (or reuses) a dedicated Apple Watch Series 12 (46mm) simulator, captures five
+English and Italian screens with deterministic data, then applies the same Socket Buddy branded
+caption frame as the iPhone screenshots. Final 416 × 496 images are added to
+`AppStore/Screenshots/{en-US,it}/`; Fastlane detects that size as the Watch Series 10 display family
+used by Series 12 in App Store Connect.
 
 ### The Home Screen widget shot (`06_widgets`)
 

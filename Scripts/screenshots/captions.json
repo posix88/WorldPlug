@@ -9,6 +9,14 @@
       "width": 2048,
       "height": 2732,
       "upscaleFrom": "iphone"
+    },
+    "appleWatch": {
+      "width": 416,
+      "height": 496,
+      "captionSize": 25,
+      "shotTop": "29%",
+      "shotWidth": "60%",
+      "shotRadius": 24
     }
   },
   "shots": [
@@ -80,6 +88,56 @@
       "captions": {
         "en-US": "Your plug, one glance from Home",
         "it": "La tua presa, a un'occhiata dalla Home"
+      }
+    },
+    {
+      "id": "watch_01_home",
+      "raw": {
+        "appleWatch": "watch_01_home.png"
+      },
+      "captions": {
+        "en-US": "Your plug guide, on your wrist",
+        "it": "La guida alle prese, al tuo polso"
+      }
+    },
+    {
+      "id": "watch_02_saved",
+      "raw": {
+        "appleWatch": "watch_02_saved.png"
+      },
+      "captions": {
+        "en-US": "Saved countries, one tap away",
+        "it": "I paesi salvati, a un tocco"
+      }
+    },
+    {
+      "id": "watch_03_home_country",
+      "raw": {
+        "appleWatch": "watch_03_home_country.png"
+      },
+      "captions": {
+        "en-US": "Your home standard, always handy",
+        "it": "Lo standard di casa, sempre con te"
+      }
+    },
+    {
+      "id": "watch_04_countries",
+      "raw": {
+        "appleWatch": "watch_04_countries.png"
+      },
+      "captions": {
+        "en-US": "Every country. Every plug.",
+        "it": "Ogni paese. Ogni presa."
+      }
+    },
+    {
+      "id": "watch_05_italy",
+      "raw": {
+        "appleWatch": "watch_05_italy.png"
+      },
+      "captions": {
+        "en-US": "Every plug at a glance",
+        "it": "Ogni presa, a colpo d'occhio"
       }
     }
   ]

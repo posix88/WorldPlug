@@ -11,6 +11,8 @@
 //   --eyebrow "Socket Buddy"    small label above the caption (defaults to "Socket Buddy")
 //   --caption-size 92           caption font size in px, tune per caption length
 //   --shot-top 34               where the screenshot starts, as % of canvas height
+//   --shot-width 60             screenshot-card width, as % of canvas width
+//   --shot-radius 24            screenshot-card corner radius in px
 
 import puppeteer from "puppeteer";
 import { executablePath, renderScreenshot } from "./lib.mjs";
@@ -46,6 +48,8 @@ try {
     eyebrow: args.eyebrow,
     captionSize: args["caption-size"] ? parseInt(args["caption-size"], 10) : undefined,
     shotTop: args["shot-top"] ? `${args["shot-top"]}%` : undefined,
+    shotWidth: args["shot-width"] ? `${args["shot-width"]}%` : undefined,
+    shotRadius: args["shot-radius"] ? parseInt(args["shot-radius"], 10) : undefined,
   });
   console.log(`Wrote ${outputPath}`);
 } finally {

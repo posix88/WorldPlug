@@ -42,6 +42,9 @@ final class WatchTravelPreferencesStore {
     }
 
     func reloadFromICloud() {
+        guard persistsChanges else {
+            return
+        }
         replace(with: TravelPreferencesStorage.load(from: iCloudStore), persist: false)
     }
 
