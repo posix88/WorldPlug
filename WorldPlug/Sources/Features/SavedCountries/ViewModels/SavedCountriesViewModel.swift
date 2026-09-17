@@ -45,11 +45,12 @@ final class SavedCountriesViewModel {
             return nil
         }
 
-        // `.string(_:)` goes through `String(format:locale:)`, and each count is pre-formatted,
-        // so both numbers render in the user's own numerals rather than ASCII 0-9.
+        // The localized resource uses `%d` placeholders, so these must remain integer arguments.
+        // Passing pre-formatted `String`s makes `String(format:)` interpret their memory addresses
+        // as integers, which produces an implausibly large count in the UI.
         return LocalizationKeys.savedCountriesFreeLimit.string(
-            savedCountryCodes.count.formatted(),
-            SavedCountryLimit.free.formatted()
+            savedCountryCodes.count,
+            SavedCountryLimit.free
         )
     }
 

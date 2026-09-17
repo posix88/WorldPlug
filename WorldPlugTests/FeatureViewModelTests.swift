@@ -309,6 +309,26 @@ struct FeatureViewModelTests {
         #expect(store.preferences.savedCountryCodes.isEmpty)
     }
 
+    @Test("saved-country free-limit hint supplies integer format arguments")
+    func savedCountryFreeLimitHintUsesIntegerArguments() {
+        let store = PreviewTravelPreferencesStore(
+            preferences: TravelPreferences(savedCountryCodes: ["IT"])
+        )
+        let viewModel = SavedCountriesViewModel(
+            premiumEntitlement: PreviewPremiumEntitlement(isPremium: false),
+            travelPreferencesStore: store,
+            homeCountryViewModel: PreviewHomeCountryViewModel(),
+            analyticsTracker: NoopAnalyticsTracker()
+        )
+
+        #expect(
+            viewModel.freeLimitHint == LocalizationKeys.savedCountriesFreeLimit.string(
+                1,
+                SavedCountryLimit.free
+            )
+        )
+    }
+
     @Test("device label parser extracts voltage and frequency")
     func parsesDeviceLabel() {
         let values = DeviceLabelParser.values(in: "INPUT 100-240V AC 50/60Hz")

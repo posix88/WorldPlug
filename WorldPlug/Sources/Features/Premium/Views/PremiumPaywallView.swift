@@ -170,7 +170,7 @@ private struct PremiumPaywallContent: View {
             .task {
                 await viewModel.loadProduct()
             }
-            .offerCodeRedemption(isPresented: $isOfferCodeRedemptionPresented) { _ in
+            .offerCodeRedemption(options: [], isPresented: $isOfferCodeRedemptionPresented) { _ in
                 Task {
                     await viewModel.offerCodeRedemptionFinished()
                 }
