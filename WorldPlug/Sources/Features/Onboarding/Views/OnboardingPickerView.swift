@@ -137,7 +137,7 @@ struct OnboardingPickerView<ViewModel: OnboardingViewModelType>: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 18)
                 .background(
-                    viewModel.selectedCountry != nil ? .yellow : .white.opacity(0.08)
+                    viewModel.selectedCountry != nil ? .yellow : .yellow.opacity(0.5)
                 )
                 .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
                 .animation(
@@ -176,7 +176,7 @@ private struct TrailingIconLabelStyle: LabelStyle {
 
 #if DEBUG
 #Preview {
-    let countries = ["IT", "GB", "US", "JP", "DE"].map {
+    let countries = ["IT", "GB", "US", "JP", "DE", "MV", "ES", "FR"].map {
         Country(code: $0, voltage: "230V", frequency: "50Hz", flagUnicode: "🏳️")
     }
     let vm = PreviewOnboardingViewModel(countries: countries)

@@ -17,6 +17,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @State private var isSettingsPresented = false
+    @State private var isCompatibilityGuidePresented = false
     private var compatibilityFilterTip: CompatibilityFilterTip? {
         AppDebugOverrides.isEnabled ? nil : CompatibilityFilterTip()
     }
@@ -136,6 +137,15 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
+                            isCompatibilityGuidePresented = true
+                        } label: {
+                            Image(systemName: "info.circle")
+                        }
+                        .accessibilityLabel(LocalizationKeys.compatibilityLegendTitle)
+                    }
+
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
                             isSettingsPresented = true
                         } label: {
                             Image(systemName: "gearshape")
@@ -151,9 +161,12 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                         homeCountryViewModel: homeCountryViewModel,
                         analyticsTracker: analyticsTracker
                     )
+                    }
+                }
+                .sheet(isPresented: $isCompatibilityGuidePresented) {
+                    CompatibilityGuideView()
                 }
         }
-    }
 
     private func openDeepLinkedCountryIfNeeded() {
         guard let countryCode = deepLinkedCountryCode,
@@ -306,54 +319,109 @@ private struct CompatibilityFilterBar: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             GlassEffectContainer(spacing: .sm) {
-                HStack(spacing: .sm) {
-                    ForEach(CountryCompatibilityFilter.allCases) { filter in
-                        Button {
-                            withMotionAwareAnimation(.snappy, reduceMotion: reduceMotion) {
-                                selectedFilter = filter
-                            }
-                        } label: {
-                            HStack(spacing: .xs) {
-                                filter.icon.image
-                                    .imageScale(.small)
+                    HStack(spacing: .sm) {
+                        ForEach(CountryCompatibilityFilter.allCases) { filter in
+                            Button {
+                                withMotionAwareAnimation(.snappy, reduceMotion: reduceMotion) {
+                                    selectedFilter = filter
+                                }
+                            } label: {
+                                HStack(spacing: .xs) {
+                                    filter.icon.image
+                                        .imageScale(.small)
 
-                                Text(filter.title)
+                                    Text(filter.title)
 
-                                // `format:` rather than an interpolated literal: the literal was a
-                                // `LocalizedStringKey`, so Xcode extracted "%@" into the catalog
-                                // as a key. `.number` also localizes the digits.
-                                Text(counts[filter, default: 0], format: .number)
-                                    .font(.caption2)
-                                    .fontWeight(.bold)
-                                    .monospacedDigit()
-                                    .padding(.horizontal, .xs)
-                                    .padding(.vertical, 2)
-                                    .background(filter.isSelected(selectedFilter) ? .white.opacity(0.22) : .surfaceSecondary)
-                                    .clipShape(Capsule())
+                                    Text(counts[filter, default: 0], format: .number)
+                                        .font(.caption2)
+                                        .fontWeight(.bold)
+                                        .monospacedDigit()
+                                        .padding(.horizontal, .xs)
+                                        .padding(.vertical, 2)
+                                        .background(filter.isSelected(selectedFilter) ? .white.opacity(0.22) : .surfaceSecondary)
+                                        .clipShape(Capsule())
+                                }
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(filter.isSelected(selectedFilter) ? .white : filter.color)
+                                .padding(.horizontal, .lg)
+                                .padding(.vertical, .md)
+                                .glassEffect(
+                                    filter.isSelected(selectedFilter)
+                                        ? .regular.tint(filter.color.opacity(0.92)).interactive()
+                                        : .regular.tint(filter.color.opacity(0.14)).interactive(),
+                                    in: .capsule
+                                )
                             }
-                            .font(.caption)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(filter.isSelected(selectedFilter) ? .white : filter.color)
-                            .padding(.horizontal, .lg)
-                            .padding(.vertical, .md)
-                            .glassEffect(
-                                filter.isSelected(selectedFilter)
-                                    ? .regular.tint(filter.color.opacity(0.92)).interactive()
-                                    : .regular.tint(filter.color.opacity(0.14)).interactive(),
-                                in: .capsule
-                            )
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
                     }
-                }
-                .padding(.horizontal, .xxl)
-                .padding(.vertical, .xs)
             }
         }
         .popoverTip(tip, arrowEdge: .top)
         .appTipIconTint()
-        .scrollClipDisabled()
+        .padding(.horizontal, .xxl)
+        .padding(.vertical, .xs)
+        .scrollClipDi qsabled()
         .accessibilityElement(children: .contain)
+    }
+}
+
+private struct CompatibilityGuideView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    CompatibilityGuideRow(
+                        icon: .checkmarkCircleFill,
+                        color: .statusReady,
+                        title: LocalizationKeys.compatibilityLegendCompatibleTitle,
+                        description: LocalizationKeys.compatibilityLegendCompatibleDesc
+                    )
+                    CompatibilityGuideRow(
+                        icon: .powerPlugFill,
+                        color: .statusCheck,
+                        title: LocalizationKeys.compatibilityLegendAdapterTitle,
+                        description: LocalizationKeys.compatibilityLegendAdapterDesc
+                    )
+                    CompatibilityGuideRow(
+                        icon: .exclamationMarkTriangle,
+                        color: .statusUnsafe,
+                        title: LocalizationKeys.compatibilityLegendConverterTitle,
+                        description: LocalizationKeys.compatibilityLegendConverterDesc
+                    )
+                }
+                .groupedCellSurface()
+            }
+            .scrollContentBackground(.hidden)
+            .background { AppMeshBackground() }
+            .navigationTitle(LocalizationKeys.compatibilityLegendTitle)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(LocalizationKeys.generalClose) { dismiss() }
+                }
+            }
+        }
+    }
+}
+
+private struct CompatibilityGuideRow: View {
+    let icon: SFSymbols
+    let color: Color
+    let title: LocalizedStringResource
+    let description: LocalizedStringResource
+
+    var body: some View {
+        Label {
+            VStack(alignment: .leading, spacing: .xs) {
+                Text(title).font(.headline)
+                Text(description).font(.subheadline).foregroundStyle(.secondary)
+            }
+        } icon: {
+            icon.image.foregroundStyle(color)
+        }
     }
 }
 

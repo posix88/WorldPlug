@@ -279,13 +279,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Different plug shape; voltage is compatible"
+            "value": "Only the plug shape differs; voltage is compatible."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Spina diversa, tensione compatibile"
+            "value": "Cambia solo la forma della spina; la tensione è compatibile."
           }
         }
       }
@@ -296,13 +296,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adapter needed"
+            "value": "Plug adapter only"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adattatore necessario"
+            "value": "Solo adattatore"
           }
         }
       }
@@ -347,13 +347,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Different voltage — a voltage converter is required"
+            "value": "Voltage differs — a voltage converter is required."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tensione diversa — serve un convertitore di tensione"
+            "value": "La tensione è diversa: serve un convertitore di tensione."
           }
         }
       }
@@ -364,13 +364,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Converter required"
+            "value": "Voltage converter needed"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Convertitore necessario"
+            "value": "Convertitore di tensione"
           }
         }
       }
@@ -507,13 +507,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Filter by plug compatibility."
+            "value": "Learn whether you need a plug adapter or a voltage converter."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Filtra per compatibilità della spina."
+            "value": "Scopri quando serve un adattatore o un convertitore di tensione."
           }
         }
       }
@@ -864,13 +864,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Comparing plugs with"
+            "value": "Plug compatibility with"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Confronto con"
+            "value": "Compatibilità delle prese con"
           }
         }
       }
