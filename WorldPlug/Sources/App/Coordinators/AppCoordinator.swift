@@ -65,6 +65,14 @@ final class AppCoordinator {
 
             await self.premiumEntitlement.refreshEntitlements()
             self.syncPremiumWidgetAccess()
+        }
+
+        let container = Repository.sharedModelContainer
+        Task {
+            let didRefreshCatalog = await Repository.refreshCatalogIfNeeded(in: container)
+            if didRefreshCatalog {
+                NotificationCenter.default.post(name: Repository.catalogDidRefreshNotification, object: nil)
+            }
             try? await CountrySpotlightIndex.indexAllCountries()
         }
     }

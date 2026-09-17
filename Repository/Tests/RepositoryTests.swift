@@ -20,7 +20,7 @@ struct RepositoryTests {
     }
 
     @Test("preloadData refreshes the catalog when its bundled version changes")
-    func preloadRefreshesVersionedCatalog() throws {
+    func preloadRefreshesVersionedCatalog() async throws {
         let defaults = try #require(UserDefaults(suiteName: "RepositoryTests.catalogVersion"))
         defaults.removePersistentDomain(forName: "RepositoryTests.catalogVersion")
         defer { defaults.removePersistentDomain(forName: "RepositoryTests.catalogVersion") }
@@ -37,11 +37,15 @@ struct RepositoryTests {
         try Repository.sharedModelContainer.mainContext.save()
 
         defaults.set(0, forKey: "countryCatalogVersion")
-        Repository.preloadData(defaults: defaults)
+        let didRefresh = await Repository.refreshCatalogIfNeeded(
+            in: Repository.sharedModelContainer,
+            defaults: defaults
+        )
 
         let refreshedMaldives = try Repository.sharedModelContainer.mainContext
             .fetch(FetchDescriptor<Country>())
             .first(where: { $0.code == "MV" })
+        #expect(didRefresh)
         #expect(refreshedMaldives != nil)
     }
 

@@ -27,6 +27,7 @@ protocol CountriesListViewModelType: AnyObject, Observable {
     func search(query: String)
     func search(query: String, locale: Locale)
     func screenAppeared(locale: Locale)
+    func reloadCatalog(locale: Locale)
     func localeChanged(_ locale: Locale)
     func homeCountryChanged()
     func filterSelected()
@@ -166,6 +167,15 @@ final class CountriesListViewModel: CountriesListViewModelType {
         analyticsTracker.screen(.countries)
         loadCatalogIfNeeded()
         search(query: searchQuery, locale: locale)
+    }
+
+    func reloadCatalog(locale: Locale) {
+        do {
+            countries = try modelContext.fetch(FetchDescriptor<Country>())
+            search(query: searchQuery, locale: locale)
+        } catch {
+            assertionFailure("Unable to reload countries: \(error.localizedDescription)")
+        }
     }
 
     func localeChanged(_ locale: Locale) {
@@ -311,6 +321,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     var isPendingHomeCountryRemoval: Bool { pendingHomeCountry?.code == homeCountry?.code }
 
     func screenAppeared(locale: Locale) { search(query: searchQuery, locale: locale) }
+    func reloadCatalog(locale: Locale) { search(query: searchQuery, locale: locale) }
     func localeChanged(_ locale: Locale) { search(query: searchQuery, locale: locale) }
     func homeCountryChanged() {}
     func filterSelected() {}

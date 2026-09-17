@@ -1,4 +1,5 @@
 import Analytics
+import Combine
 import Repository
 import SwiftData
 import SwiftUI
@@ -9,6 +10,7 @@ import TipKit
 struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @State private var viewModel: ViewModel
     @Binding private var deepLinkedCountryCode: String?
+    @State private var hasScheduledInitialCatalogLoad = false
     @Environment(\.locale) private var locale
     @Environment(\.premiumEntitlement) private var premiumEntitlement
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
@@ -76,8 +78,27 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     viewModel.localeChanged(locale)
                 }
                 .onAppear {
-                    viewModel.screenAppeared(locale: locale)
-                    openDeepLinkedCountryIfNeeded()
+                    guard !hasScheduledInitialCatalogLoad else {
+                        viewModel.screenAppeared(locale: locale)
+                        openDeepLinkedCountryIfNeeded()
+                        return
+                    }
+
+                    // The first fetch, localized sort and compatibility pass cover the whole
+                    // catalog. Let the splash fade settle before they occupy the main actor.
+                    hasScheduledInitialCatalogLoad = true
+                    Task { @MainActor in
+                        try? await Task.sleep(for: .milliseconds(350))
+                        guard !Task.isCancelled else {
+                            return
+                        }
+
+                        viewModel.screenAppeared(locale: locale)
+                        openDeepLinkedCountryIfNeeded()
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: Repository.catalogDidRefreshNotification)) { _ in
+                    viewModel.reloadCatalog(locale: locale)
                 }
                 .onChange(of: deepLinkedCountryCode) { _, _ in
                     openDeepLinkedCountryIfNeeded()
