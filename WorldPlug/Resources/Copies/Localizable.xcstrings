@@ -3398,6 +3398,23 @@
         }
       }
     },
+    "premium.paywall.redeem.code": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Redeem offer code"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riscatta codice offerta"
+          }
+        }
+      }
+    },
     "premium.paywall.restore": {
       "extractionState": "manual",
       "localizations": {

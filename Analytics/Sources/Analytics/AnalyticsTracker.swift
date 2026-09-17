@@ -112,6 +112,7 @@ public enum AnalyticsEvent: String, Sendable {
     case premiumPurchaseCompleted = "premium_purchase_completed"
     case premiumRestoreStarted = "premium_restore_started"
     case premiumRestoreCompleted = "premium_restore_completed"
+    case premiumOfferCodeRedemptionPresented = "premium_offer_code_redemption_presented"
     case favoriteWidgetCountrySelected = "favorite_widget_country_selected"
     case favoriteWidgetCountryCleared = "favorite_widget_country_cleared"
     case tripCheckStarted = "trip_check_started"

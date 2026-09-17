@@ -75,6 +75,14 @@ final class PremiumPaywallViewModel {
         }
     }
 
+    func presentOfferCodeRedemption() {
+        analyticsTracker.track(.premiumOfferCodeRedemptionPresented)
+    }
+
+    func offerCodeRedemptionFinished() async {
+        await premiumEntitlement.refreshEntitlements()
+    }
+
     func clearError() {
         errorMessage = nil
     }

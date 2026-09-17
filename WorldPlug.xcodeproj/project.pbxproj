@@ -123,8 +123,6 @@
 				LaunchScreen.storyboard,
 				PrivacyInfo.xcprivacy,
 				StoreKit/Voltly.storekit,
-				en.lproj/InfoPlist.strings,
-				it.lproj/InfoPlist.strings,
 			);
 			target = C0FFEE100000000000000006 /* VoltlyWatch */;
 		};
@@ -620,7 +618,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
@@ -732,7 +730,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
@@ -742,7 +740,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -760,14 +758,14 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.posix88.Voltly;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				INFOPLIST_KEY_WKWatchKitApp = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -785,14 +783,14 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.posix88.Voltly;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				INFOPLIST_KEY_WKWatchKitApp = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -843,7 +841,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
@@ -853,7 +851,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.posix88.Voltly.widgets;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -871,7 +869,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";

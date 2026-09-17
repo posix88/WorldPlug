@@ -122,6 +122,16 @@ struct PremiumPaywallViewModelTests {
         #expect(!viewModel.isPurchasing)
     }
 
+    @Test("offer-code redemption refreshes the premium entitlement")
+    func offerCodeRedemptionRefreshesEntitlement() async {
+        let entitlement = PremiumEntitlementStub()
+        let viewModel = makeViewModel(entitlement: entitlement)
+
+        await viewModel.offerCodeRedemptionFinished()
+
+        #expect(entitlement.refreshCalls == 1)
+    }
+
     private func makeViewModel(entitlement: PremiumEntitlementStub) -> PremiumPaywallViewModel {
         PremiumPaywallViewModel(
             source: .savedCountries,
@@ -141,6 +151,7 @@ private final class PremiumEntitlementStub: PremiumEntitlementProviding {
     var productError: (any Error)?
     var purchaseError: (any Error)?
     var restoreError: (any Error)?
+    private(set) var refreshCalls = 0
     private(set) var restoreCalls = 0
 
     init(
@@ -157,7 +168,9 @@ private final class PremiumEntitlementStub: PremiumEntitlementProviding {
         self.restoreError = restoreError
     }
 
-    func refreshEntitlements() async {}
+    func refreshEntitlements() async {
+        refreshCalls += 1
+    }
 
     func premiumProduct() async throws -> PremiumProduct? {
         if let productError {

@@ -78,6 +78,7 @@ enum LocalizationKeys {
     static let premiumPaywallCountrySaveMessage = LocalizedStringResource("premium.paywall.country.save.message")
     static let premiumPaywallPurchase = LocalizedStringResource("premium.paywall.purchase")
     static let premiumPaywallPurchaseWithPrice = LocalizedStringResource("premium.paywall.purchase.with.price")
+    static let premiumPaywallRedeemCode = LocalizedStringResource("premium.paywall.redeem.code")
     static let premiumPaywallRestore = LocalizedStringResource("premium.paywall.restore")
     static let premiumPaywallBenefitSavedCountries = LocalizedStringResource("premium.paywall.benefit.saved.countries")
     static let premiumPaywallBenefitNextTrip = LocalizedStringResource("premium.paywall.benefit.next.trip")

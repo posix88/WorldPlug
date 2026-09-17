@@ -1,4 +1,5 @@
 import Analytics
+import StoreKit
 import SwiftUI
 
 // MARK: - PremiumPaywallSource
@@ -61,6 +62,7 @@ struct PremiumPaywallView: View {
 private struct PremiumPaywallContent: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: PremiumPaywallViewModel
+    @State private var isOfferCodeRedemptionPresented = false
 
     /// Marking `viewModel` `private` narrows the auto-synthesized memberwise init's access to
     /// inside this type only — a top-level `private struct` alone would be file-scoped, but a
@@ -121,6 +123,11 @@ private struct PremiumPaywallContent: View {
                     .buttonStyle(.glass)
                     .tint(.textRegular)
                     .disabled(viewModel.isPurchasing)
+
+                Button(LocalizationKeys.premiumPaywallRedeemCode, action: redeemOfferCode)
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.textLight)
+                    .disabled(viewModel.isPurchasing)
             }
             .frame(maxWidth: 480)
             .padding(.xxl)
@@ -163,6 +170,11 @@ private struct PremiumPaywallContent: View {
             .task {
                 await viewModel.loadProduct()
             }
+            .offerCodeRedemption(isPresented: $isOfferCodeRedemptionPresented) { _ in
+                Task {
+                    await viewModel.offerCodeRedemptionFinished()
+                }
+            }
         }
     }
 
@@ -176,6 +188,11 @@ private struct PremiumPaywallContent: View {
         Task {
             await viewModel.restore()
         }
+    }
+
+    private func redeemOfferCode() {
+        viewModel.presentOfferCodeRedemption()
+        isOfferCodeRedemptionPresented = true
     }
 }
 
