@@ -21,6 +21,14 @@ repository, so check each item in App Store Connect before uploading the review 
 Add listing localizations `en-US` and `it`. Metadata files under `fastlane/metadata/` contain the
 approved copy and URLs.
 
+## Apple Watch
+
+The submitted Watch app runs independently of its companion iPhone app. After the build finishes
+processing, open **Previews and Screenshots → Apple Watch** for each locale and upload the five
+416 × 496 screenshots from `AppStore/Screenshots/{en-US,it}/watch_*.png`. Confirm App Store Connect
+shows the Watch icon generated from the shared `Voltly.icon` source. The localized descriptions
+already explain the Apple Watch functionality.
+
 ## In-app purchase
 
 Create this product before submitting the app version:
@@ -80,5 +88,6 @@ backend are added.
 - [ ] TestFlight build tested with Sandbox purchase, pending flow where possible, and Restore.
 - [ ] Review screenshot for IAP uploaded.
 - [ ] `AppStore/REVIEW_NOTES.md` pasted into App Review Information.
-- [ ] Final screenshots uploaded for iPhone and iPad in both locales.
+- [ ] Final screenshots uploaded for iPhone, iPad, and Apple Watch in both locales.
+- [ ] Apple Watch tab shows the submitted Watch icon and five 416 × 496 screenshots per locale.
 - [ ] Submission remains manual after final App Store Connect review.

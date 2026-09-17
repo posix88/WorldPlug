@@ -32,6 +32,11 @@ Saved countries, trips, and their packed devices sync via the user's own iCloud 
 (NSUbiquitousKeyValueStore) — there is no backend server and no account system, so there is
 nothing for us to host, and no account for a user to delete (Guideline 5.1.1(v) does not apply).
 
+APPLE WATCH
+The Apple Watch app runs independently and lets reviewers browse plug types and power information
+for every country, open the Home Country, and manage Saved Countries. On a paired iPhone and Watch
+signed into the same iCloud account, home-country and saved-country changes sync in both directions.
+
 WIDGETS
 Home Country, Favorite Country, and Next Trip widgets can be added via the standard iOS widget
 gallery. Favorite Country and Next Trip widgets require Premium; Home Country does not. The

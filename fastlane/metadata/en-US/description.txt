@@ -7,6 +7,7 @@ WHAT SOCKET BUDDY DOES
 • Plan a trip — pick your destination and dates, then add the devices you're packing (phone charger, hair dryer, CPAP, laptop, camera gear…) and get a per-device safety verdict for where you're going.
 • Scan a device's label with your camera — Socket Buddy reads the voltage and frequency printed on the label for you, using on-device text recognition and Apple Intelligence where available. Nothing leaves your phone.
 • Star the countries you keep coming back to, with home-screen and lock-screen widgets that always show the right plug at a glance — plus a countdown to whichever trip is next.
+• Keep plug details on your Apple Watch — see your saved countries, home country, and the full country list right from your wrist.
 • Ask Siri or search Spotlight — "Open Japan in Socket Buddy" or "Show my home country in Socket Buddy" just works.
 • Works fully offline. Your data syncs privately across your own devices via iCloud — never shared with anyone else.
 
