@@ -44,6 +44,7 @@ struct TripEditorView: View {
                 viewModel.departureDateChanged()
             }
             .scrollContentBackground(.hidden)
+            .groupedCellSurface()
             .background { AppMeshBackground() }
             .navigationTitle(navigationTitle)
             .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -123,6 +124,7 @@ private struct TripEditorDestinationSection: View {
             .accessibilityLabel(LocalizationKeys.tripDestination)
             .accessibilityIdentifier("trip.editor.destination")
         }
+        .groupedCellSurface()
     }
 }
 
@@ -164,6 +166,7 @@ private struct TripEditorDatesSection: View {
                 displayedComponents: .date
             )
         }
+        .groupedCellSurface()
     }
 }
 
@@ -180,6 +183,7 @@ private struct TripEditorNameSection: View {
             // (see `TripEditorViewModel.name`) instead of a `Binding(get:set:)` built here.
             TextField(LocalizationKeys.tripNamePlaceholder, text: $viewModel.name)
         }
+        .groupedCellSurface()
     }
 }
 

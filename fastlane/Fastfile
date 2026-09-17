@@ -266,6 +266,10 @@ platform :ios do
       force: true, # skip deliver's interactive "review the diff in your browser" prompt
       skip_metadata: options[:skip_metadata],
       skip_screenshots: options[:skip_screenshots],
+      # Treat AppStore/Screenshots as the source of truth. Without this, deliver
+      # appends changed or renamed screenshots and App Store Connect retains the
+      # old completed assets as duplicates.
+      overwrite_screenshots: true,
       # The in-app purchase's own metadata/pricing is managed separately in App Store Connect
       # (see AppStore/LAUNCH_PLAN.md §1) — this only silences deliver's precheck warning about it.
       precheck_include_in_app_purchases: false

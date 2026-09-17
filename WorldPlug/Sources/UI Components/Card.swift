@@ -139,6 +139,12 @@ enum ShadowStyle {
 
 /// Extension to apply shadow styles
 extension View {
+    /// Uses the exact surface asset from country cards for native `List` or `Form` rows.
+    /// Apply it to a `Section`, which owns the generated grouped-cell backgrounds.
+    func groupedCellSurface() -> some View {
+        listRowBackground(Color.cardSurface)
+    }
+
     @ViewBuilder
     func applyShadow(_ style: ShadowStyle) -> some View {
         switch style {

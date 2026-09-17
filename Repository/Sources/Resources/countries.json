@@ -1,2461 +1,2465 @@
-[
-  {
-    "country_code": "AD",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇩",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇪",
-    "plug_types": [
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "AF",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇫",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AG",
-    "voltage": "230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇦🇬",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "AI",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇦🇮",
-    "plug_types": [
-      "A"
-    ]
-  },
-  {
-    "country_code": "AL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇱",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇲",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AO",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇴",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "AR",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇷",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "AS",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇦🇸",
-    "plug_types": [
-      "A",
-      "B",
-      "F",
-      "I"
-    ]
-  },
-  {
-    "country_code": "AT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇹",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AU",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇺",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "AW",
-    "voltage": "127V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇦🇼",
-    "plug_types": [
-      "A",
-      "B",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AX",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇽",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "AZ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇦🇿",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "BA",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇦",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "BB",
-    "voltage": "115V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇧",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "BD",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇩",
-    "plug_types": [
-      "C",
-      "D",
-      "G",
-      "K"
-    ]
-  },
-  {
-    "country_code": "BE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇪",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "BF",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇫",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "BG",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇬",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "BH",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇭",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "BI",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇮",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "BJ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇯",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "BL",
-    "voltage": "230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇧🇱",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "BM",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇧🇲",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "BN",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇳",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "BO",
-    "voltage": "115V / 230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇴",
-    "plug_types": [
-      "A",
-      "C"
-    ]
-  },
-  {
-    "country_code": "BQ",
-    "voltage": "127V (A/B) / 220V (C/F)",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇶",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "BR",
-    "voltage": "127V / 220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇧🇷",
-    "plug_types": [
-      "C",
-      "N"
-    ]
-  },
-  {
-    "country_code": "BS",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇧🇸",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "BT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇹",
-    "plug_types": [
-      "C",
-      "D",
-      "F",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "BW",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇼",
-    "plug_types": [
-      "D",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "BY",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇧🇾",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "BZ",
-    "voltage": "110V / 220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇧🇿",
-    "plug_types": [
-      "A",
-      "B",
-      "G"
-    ]
-  },
-  {
-    "country_code": "CA",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇨🇦",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "CC",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇨",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "CD",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇩",
-    "plug_types": [
-      "C",
-      "D",
-      "E"
-    ]
-  },
-  {
-    "country_code": "CF",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇫",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "CG",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇬",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "CH",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇭",
-    "plug_types": [
-      "C",
-      "J"
-    ]
-  },
-  {
-    "country_code": "CI",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇮",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "CK",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇰",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "CL",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇱",
-    "plug_types": [
-      "C",
-      "L"
-    ]
-  },
-  {
-    "country_code": "CM",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇲",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "CN",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇳",
-    "plug_types": [
-      "A",
-      "I"
-    ]
-  },
-  {
-    "country_code": "CO",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇨🇴",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "CR",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇨🇷",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "CU",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇨🇺",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "CV",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇻",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "CW",
-    "voltage": "127V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇼",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "CX",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇽",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "CY",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇾",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "CZ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇨🇿",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "DE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇩🇪",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "DJ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇩🇯",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "DK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇩🇰",
-    "plug_types": [
-      "C",
-      "E",
-      "F",
-      "K"
-    ]
-  },
-  {
-    "country_code": "DM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇩🇲",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "DO",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇩🇴",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "DZ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇩🇿",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "EC",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇪🇨",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "EE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇪🇪",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "EG",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇪🇬",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "ER",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇪🇷",
-    "plug_types": [
-      "C",
-      "L"
-    ]
-  },
-  {
-    "country_code": "ES",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇪🇸",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "ET",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇪🇹",
-    "plug_types": [
-      "C",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "FI",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇫🇮",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "FJ",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇫🇯",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "FK",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇫🇰",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "FM",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇫🇲",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "FO",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇫🇴",
-    "plug_types": [
-      "C",
-      "E",
-      "F",
-      "K"
-    ]
-  },
-  {
-    "country_code": "FR",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇫🇷",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "GA",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇦",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "GB",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇧",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "GD",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇩",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "GE",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇪",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "GF",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇫",
-    "plug_types": [
-      "C",
-      "D",
-      "E"
-    ]
-  },
-  {
-    "country_code": "GG",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇬",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "GH",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇭",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "GI",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇮",
-    "plug_types": [
-      "C",
-      "G"
-    ]
-  },
-  {
-    "country_code": "GL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇱",
-    "plug_types": [
-      "C",
-      "E",
-      "F",
-      "K"
-    ]
-  },
-  {
-    "country_code": "GM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇲",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "GN",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇳",
-    "plug_types": [
-      "C",
-      "F",
-      "K"
-    ]
-  },
-  {
-    "country_code": "GP",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇵",
-    "plug_types": [
-      "C",
-      "D",
-      "E"
-    ]
-  },
-  {
-    "country_code": "GQ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇶",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "GR",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "GT",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇬🇹",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "GU",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇬🇺",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "GW",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇬🇼",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "GY",
-    "voltage": "240V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇬🇾",
-    "plug_types": [
-      "A",
-      "B",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "HK",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇭🇰",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "HN",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇭🇳",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "HR",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇭🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "HT",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇭🇹",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "HU",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇭🇺",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "ID",
-    "voltage": "220V / 110V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇩",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "IE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇪",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "IL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇱",
-    "plug_types": [
-      "H"
-    ]
-  },
-  {
-    "country_code": "IM",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇲",
-    "plug_types": [
-      "C",
-      "G"
-    ]
-  },
-  {
-    "country_code": "IN",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇳",
-    "plug_types": [
-      "C",
-      "D",
-      "M"
-    ]
-  },
-  {
-    "country_code": "IQ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇶",
-    "plug_types": [
-      "C",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "IR",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "IS",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇸",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "IT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇮🇹",
-    "plug_types": [
-      "C",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "JE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇯🇪",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "JM",
-    "voltage": "110V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇯🇲",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "JO",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇯🇴",
-    "plug_types": [
-      "B",
-      "C",
-      "D",
-      "F",
-      "G",
-      "J"
-    ]
-  },
-  {
-    "country_code": "JP",
-    "voltage": "100V",
-    "frequency": "50Hz / 60Hz",
-    "flag_emoji": "🇯🇵",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "KE",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇪",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "KG",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇬",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "KH",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇭",
-    "plug_types": [
-      "A",
-      "C",
-      "G"
-    ]
-  },
-  {
-    "country_code": "KI",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇮",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "KM",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇲",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "KN",
-    "voltage": "230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇰🇳",
-    "plug_types": [
-      "A",
-      "B",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "KP",
-    "voltage": "220V / 110V",
-    "frequency": "50Hz / 60Hz",
-    "flag_emoji": "🇰🇵",
-    "plug_types": [
-      "A",
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "KR",
-    "voltage": "220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇰🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "KW",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇼",
-    "plug_types": [
-      "C",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "KY",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇰🇾",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "KZ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇰🇿",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LA",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇦",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "E",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LB",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇧",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "LC",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇨",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "LI",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇮",
-    "plug_types": [
-      "C",
-      "J"
-    ]
-  },
-  {
-    "country_code": "LK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇰",
-    "plug_types": [
-      "D",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "LR",
-    "voltage": "120V / 220V",
-    "frequency": "50Hz / 60Hz",
-    "flag_emoji": "🇱🇷",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "E",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LS",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇸",
-    "plug_types": [
-      "M"
-    ]
-  },
-  {
-    "country_code": "LT",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇹",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LU",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇺",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LV",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇻",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "LY",
-    "voltage": "127V / 230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇱🇾",
-    "plug_types": [
-      "C",
-      "D",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "MA",
-    "voltage": "127V / 220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇦",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "MC",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇨",
-    "plug_types": [
-      "C",
-      "D",
-      "E",
-      "F"
-    ]
-  },
-  {
-    "country_code": "MD",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇩",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "ME",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇪",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "MF",
-    "voltage": "120V / 220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇲🇫",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "MG",
-    "voltage": "127V / 220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇬",
-    "plug_types": [
-      "C",
-      "D",
-      "E",
-      "J",
-      "K"
-    ]
-  },
-  {
-    "country_code": "MH",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇲🇭",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "MK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇰",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "ML",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇱",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "MM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇲",
-    "plug_types": [
-      "C",
-      "D",
-      "F",
-      "G"
-    ]
-  },
-  {
-    "country_code": "MN",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇳",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "MO",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇴",
-    "plug_types": [
-      "D",
-      "F",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "MP",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇲🇵",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "MQ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇶",
-    "plug_types": [
-      "C",
-      "D",
-      "E"
-    ]
-  },
-  {
-    "country_code": "MR",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇷",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "MS",
-    "voltage": "230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇲🇸",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "MT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇹",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "MU",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇺",
-    "plug_types": [
-      "C",
-      "G"
-    ]
-  },
-  {
-    "country_code": "MV",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇻",
-    "plug_types": [
-      "C",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "MW",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇼",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "MX",
-    "voltage": "127V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇲🇽",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "MY",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇾",
-    "plug_types": [
-      "A",
-      "C",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "MZ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇲🇿",
-    "plug_types": [
-      "C",
-      "F",
-      "M"
-    ]
-  },
-  {
-    "country_code": "NA",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇦",
-    "plug_types": [
-      "D",
-      "M"
-    ]
-  },
-  {
-    "country_code": "NC",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇨",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "NE",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇪",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F"
-    ]
-  },
-  {
-    "country_code": "NF",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇫",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "NG",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇬",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "NI",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇳🇮",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "NL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇱",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "NO",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇴",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "NP",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇵",
-    "plug_types": [
-      "C",
-      "D",
-      "M"
-    ]
-  },
-  {
-    "country_code": "NR",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇷",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "NU",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇺",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "NZ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇳🇿",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "OM",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇴🇲",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "PA",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇦",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "PE",
-    "voltage": "220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇪",
-    "plug_types": [
-      "A",
-      "B",
-      "C"
-    ]
-  },
-  {
-    "country_code": "PF",
-    "voltage": "230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇫",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "PG",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇬",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "PH",
-    "voltage": "220V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇭",
-    "plug_types": [
-      "A",
-      "B",
-      "C"
-    ]
-  },
-  {
-    "country_code": "PK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇰",
-    "plug_types": [
-      "C",
-      "D",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "PL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇱",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "PM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇲",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "PN",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇳",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "PR",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇷",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "PS",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇸",
-    "plug_types": [
-      "C",
-      "H"
-    ]
-  },
-  {
-    "country_code": "PT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇹",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "PW",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇵🇼",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "PY",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇵🇾",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "QA",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇶🇦",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "RE",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇷🇪",
-    "plug_types": [
-      "E"
-    ]
-  },
-  {
-    "country_code": "RO",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇷🇴",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "RS",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇷🇸",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "RU",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇷🇺",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "RW",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇷🇼",
-    "plug_types": [
-      "C",
-      "J"
-    ]
-  },
-  {
-    "country_code": "SA",
-    "voltage": "220V / 230V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇸🇦",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "SB",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇧",
-    "plug_types": [
-      "G",
-      "I"
-    ]
-  },
-  {
-    "country_code": "SC",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇨",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "SD",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇩",
-    "plug_types": [
-      "C",
-      "D"
-    ]
-  },
-  {
-    "country_code": "SE",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇪",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "SG",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇬",
-    "plug_types": [
-      "C",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "SH",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇭",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "SI",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇮",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "SJ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇯",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "SK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇰",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "SL",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇱",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "SM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇲",
-    "plug_types": [
-      "C",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "SN",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇳",
-    "plug_types": [
-      "C",
-      "D",
-      "E",
-      "K"
-    ]
-  },
-  {
-    "country_code": "SO",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇴",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "SR",
-    "voltage": "127V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇸🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "SS",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇸",
-    "plug_types": [
-      "C",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "ST",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇹",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "SV",
-    "voltage": "115V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇸🇻",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "SX",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇸🇽",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "SY",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇾",
-    "plug_types": [
-      "C",
-      "E",
-      "L"
-    ]
-  },
-  {
-    "country_code": "SZ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇸🇿",
-    "plug_types": [
-      "M"
-    ]
-  },
-  {
-    "country_code": "TC",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇹🇨",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "TD",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇩",
-    "plug_types": [
-      "C",
-      "D",
-      "E",
-      "F"
-    ]
-  },
-  {
-    "country_code": "TG",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇬",
-    "plug_types": [
-      "C"
-    ]
-  },
-  {
-    "country_code": "TH",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇭",
-    "plug_types": [
-      "A",
-      "B",
-      "C",
-      "F",
-      "O"
-    ]
-  },
-  {
-    "country_code": "TJ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇯",
-    "plug_types": [
-      "C",
-      "F",
-      "I"
-    ]
-  },
-  {
-    "country_code": "TK",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇰",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "TL",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇱",
-    "plug_types": [
-      "C",
-      "E",
-      "F",
-      "I"
-    ]
-  },
-  {
-    "country_code": "TM",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇲",
-    "plug_types": [
-      "B",
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "TN",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇳",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "TO",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇴",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "TR",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇷",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "TT",
-    "voltage": "115V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇹🇹",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "TV",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇻",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "TW",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇹🇼",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "TZ",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇹🇿",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "UA",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇺🇦",
-    "plug_types": [
-      "C",
-      "F"
-    ]
-  },
-  {
-    "country_code": "UG",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇺🇬",
-    "plug_types": [
-      "G"
-    ]
-  },
-  {
-    "country_code": "US",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇺🇸",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "UY",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇺🇾",
-    "plug_types": [
-      "C",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "UZ",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇺🇿",
-    "plug_types": [
-      "C",
-      "I"
-    ]
-  },
-  {
-    "country_code": "VA",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇻🇦",
-    "plug_types": [
-      "C",
-      "F",
-      "L"
-    ]
-  },
-  {
-    "country_code": "VC",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇻🇨",
-    "plug_types": [
-      "A",
-      "C",
-      "E",
-      "G",
-      "I",
-      "K"
-    ]
-  },
-  {
-    "country_code": "VE",
-    "voltage": "120V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇻🇪",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "VG",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇻🇬",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "VI",
-    "voltage": "110V",
-    "frequency": "60Hz",
-    "flag_emoji": "🇻🇮",
-    "plug_types": [
-      "A",
-      "B"
-    ]
-  },
-  {
-    "country_code": "VN",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇻🇳",
-    "plug_types": [
-      "A",
-      "B",
-      "C"
-    ]
-  },
-  {
-    "country_code": "VU",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇻🇺",
-    "plug_types": [
-      "C",
-      "G",
-      "I"
-    ]
-  },
-  {
-    "country_code": "WF",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇼🇫",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "WS",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇼🇸",
-    "plug_types": [
-      "I"
-    ]
-  },
-  {
-    "country_code": "YE",
-    "voltage": "240V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇾🇪",
-    "plug_types": [
-      "D",
-      "G",
-      "M"
-    ]
-  },
-  {
-    "country_code": "YT",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇾🇹",
-    "plug_types": [
-      "C",
-      "E"
-    ]
-  },
-  {
-    "country_code": "ZA",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇿🇦",
-    "plug_types": [
-      "C",
-      "M",
-      "N"
-    ]
-  },
-  {
-    "country_code": "ZM",
-    "voltage": "230V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇿🇲",
-    "plug_types": [
-      "C",
-      "D",
-      "G"
-    ]
-  },
-  {
-    "country_code": "ZW",
-    "voltage": "220V",
-    "frequency": "50Hz",
-    "flag_emoji": "🇿🇼",
-    "plug_types": [
-      "D",
-      "G"
-    ]
-  }
-]
+{
+  "version": 1,
+  "countries": [
+    {
+      "country_code": "AD",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇩",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇪",
+      "plug_types": [
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "AF",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇫",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AG",
+      "voltage": "230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇦🇬",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "AI",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇦🇮",
+      "plug_types": [
+        "A"
+      ]
+    },
+    {
+      "country_code": "AL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇱",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇲",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AO",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇴",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "AR",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇷",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "AS",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇦🇸",
+      "plug_types": [
+        "A",
+        "B",
+        "F",
+        "I"
+      ]
+    },
+    {
+      "country_code": "AT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇹",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AU",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇺",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "AW",
+      "voltage": "127V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇦🇼",
+      "plug_types": [
+        "A",
+        "B",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AX",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇽",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "AZ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇦🇿",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "BA",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇦",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "BB",
+      "voltage": "115V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇧",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "BD",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇩",
+      "plug_types": [
+        "C",
+        "D",
+        "G",
+        "K"
+      ]
+    },
+    {
+      "country_code": "BE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇪",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "BF",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇫",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "BG",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇬",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "BH",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇭",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "BI",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇮",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "BJ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇯",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "BL",
+      "voltage": "230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇧🇱",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "BM",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇧🇲",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "BN",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇳",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "BO",
+      "voltage": "115V / 230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇴",
+      "plug_types": [
+        "A",
+        "C"
+      ]
+    },
+    {
+      "country_code": "BQ",
+      "voltage": "127V (A/B) / 220V (C/F)",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇶",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "BR",
+      "voltage": "127V / 220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇧🇷",
+      "plug_types": [
+        "C",
+        "N"
+      ]
+    },
+    {
+      "country_code": "BS",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇧🇸",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "BT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇹",
+      "plug_types": [
+        "C",
+        "D",
+        "F",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "BW",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇼",
+      "plug_types": [
+        "D",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "BY",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇧🇾",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "BZ",
+      "voltage": "110V / 220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇧🇿",
+      "plug_types": [
+        "A",
+        "B",
+        "G"
+      ]
+    },
+    {
+      "country_code": "CA",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇨🇦",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "CC",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇨",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "CD",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇩",
+      "plug_types": [
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "country_code": "CF",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇫",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "CG",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇬",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "CH",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇭",
+      "plug_types": [
+        "C",
+        "J"
+      ]
+    },
+    {
+      "country_code": "CI",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇮",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "CK",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇰",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "CL",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇱",
+      "plug_types": [
+        "C",
+        "L"
+      ]
+    },
+    {
+      "country_code": "CM",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇲",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "CN",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇳",
+      "plug_types": [
+        "A",
+        "I"
+      ]
+    },
+    {
+      "country_code": "CO",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇨🇴",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "CR",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇨🇷",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "CU",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇨🇺",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "CV",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇻",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "CW",
+      "voltage": "127V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇼",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "CX",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇽",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "CY",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇾",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "CZ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇨🇿",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "DE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇩🇪",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "DJ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇩🇯",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "DK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇩🇰",
+      "plug_types": [
+        "C",
+        "E",
+        "F",
+        "K"
+      ]
+    },
+    {
+      "country_code": "DM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇩🇲",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "DO",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇩🇴",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "DZ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇩🇿",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "EC",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇪🇨",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "EE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇪🇪",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "EG",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇪🇬",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "ER",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇪🇷",
+      "plug_types": [
+        "C",
+        "L"
+      ]
+    },
+    {
+      "country_code": "ES",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇪🇸",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "ET",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇪🇹",
+      "plug_types": [
+        "C",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "FI",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇫🇮",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "FJ",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇫🇯",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "FK",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇫🇰",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "FM",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇫🇲",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "FO",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇫🇴",
+      "plug_types": [
+        "C",
+        "E",
+        "F",
+        "K"
+      ]
+    },
+    {
+      "country_code": "FR",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇫🇷",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "GA",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇦",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "GB",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇧",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "GD",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇩",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "GE",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇪",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "GF",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇫",
+      "plug_types": [
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "country_code": "GG",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇬",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "GH",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇭",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "GI",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇮",
+      "plug_types": [
+        "C",
+        "G"
+      ]
+    },
+    {
+      "country_code": "GL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇱",
+      "plug_types": [
+        "C",
+        "E",
+        "F",
+        "K"
+      ]
+    },
+    {
+      "country_code": "GM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇲",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "GN",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇳",
+      "plug_types": [
+        "C",
+        "F",
+        "K"
+      ]
+    },
+    {
+      "country_code": "GP",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇵",
+      "plug_types": [
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "country_code": "GQ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇶",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "GR",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "GT",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇬🇹",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "GU",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇬🇺",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "GW",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇬🇼",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "GY",
+      "voltage": "240V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇬🇾",
+      "plug_types": [
+        "A",
+        "B",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "HK",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇭🇰",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "HN",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇭🇳",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "HR",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇭🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "HT",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇭🇹",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "HU",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇭🇺",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "ID",
+      "voltage": "220V / 110V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇩",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "IE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇪",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "IL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇱",
+      "plug_types": [
+        "H"
+      ]
+    },
+    {
+      "country_code": "IM",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇲",
+      "plug_types": [
+        "C",
+        "G"
+      ]
+    },
+    {
+      "country_code": "IN",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇳",
+      "plug_types": [
+        "C",
+        "D",
+        "M"
+      ]
+    },
+    {
+      "country_code": "IQ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇶",
+      "plug_types": [
+        "C",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "IR",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "IS",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇸",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "IT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇮🇹",
+      "plug_types": [
+        "C",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "JE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇯🇪",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "JM",
+      "voltage": "110V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇯🇲",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "JO",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇯🇴",
+      "plug_types": [
+        "B",
+        "C",
+        "D",
+        "F",
+        "G",
+        "J"
+      ]
+    },
+    {
+      "country_code": "JP",
+      "voltage": "100V",
+      "frequency": "50Hz / 60Hz",
+      "flag_emoji": "🇯🇵",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "KE",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇪",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "KG",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇬",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "KH",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇭",
+      "plug_types": [
+        "A",
+        "C",
+        "G"
+      ]
+    },
+    {
+      "country_code": "KI",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇮",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "KM",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇲",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "KN",
+      "voltage": "230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇰🇳",
+      "plug_types": [
+        "A",
+        "B",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "KP",
+      "voltage": "220V / 110V",
+      "frequency": "50Hz / 60Hz",
+      "flag_emoji": "🇰🇵",
+      "plug_types": [
+        "A",
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "KR",
+      "voltage": "220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇰🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "KW",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇼",
+      "plug_types": [
+        "C",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "KY",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇰🇾",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "KZ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇰🇿",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LA",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇦",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LB",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇧",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "LC",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇨",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "LI",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇮",
+      "plug_types": [
+        "C",
+        "J"
+      ]
+    },
+    {
+      "country_code": "LK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇰",
+      "plug_types": [
+        "D",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "LR",
+      "voltage": "120V / 220V",
+      "frequency": "50Hz / 60Hz",
+      "flag_emoji": "🇱🇷",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LS",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇸",
+      "plug_types": [
+        "M"
+      ]
+    },
+    {
+      "country_code": "LT",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇹",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LU",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇺",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LV",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇻",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "LY",
+      "voltage": "127V / 230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇱🇾",
+      "plug_types": [
+        "C",
+        "D",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "MA",
+      "voltage": "127V / 220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇦",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "MC",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇨",
+      "plug_types": [
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "country_code": "MD",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇩",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "ME",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇪",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "MF",
+      "voltage": "120V / 220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇲🇫",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "MG",
+      "voltage": "127V / 220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇬",
+      "plug_types": [
+        "C",
+        "D",
+        "E",
+        "J",
+        "K"
+      ]
+    },
+    {
+      "country_code": "MH",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇲🇭",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "MK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇰",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "ML",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇱",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "MM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇲",
+      "plug_types": [
+        "C",
+        "D",
+        "F",
+        "G"
+      ]
+    },
+    {
+      "country_code": "MN",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇳",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "MO",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇴",
+      "plug_types": [
+        "D",
+        "F",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "MP",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇲🇵",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "MQ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇶",
+      "plug_types": [
+        "C",
+        "D",
+        "E"
+      ]
+    },
+    {
+      "country_code": "MR",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇷",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "MS",
+      "voltage": "230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇲🇸",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "MT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇹",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "MU",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇺",
+      "plug_types": [
+        "C",
+        "G"
+      ]
+    },
+    {
+      "country_code": "MV",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇻",
+      "plug_types": [
+        "C",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "MW",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇼",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "MX",
+      "voltage": "127V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇲🇽",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "MY",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇾",
+      "plug_types": [
+        "A",
+        "C",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "MZ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇲🇿",
+      "plug_types": [
+        "C",
+        "F",
+        "M"
+      ]
+    },
+    {
+      "country_code": "NA",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇦",
+      "plug_types": [
+        "D",
+        "M"
+      ]
+    },
+    {
+      "country_code": "NC",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇨",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "NE",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇪",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "country_code": "NF",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇫",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "NG",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇬",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "NI",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇳🇮",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "NL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇱",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "NO",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇴",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "NP",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇵",
+      "plug_types": [
+        "C",
+        "D",
+        "M"
+      ]
+    },
+    {
+      "country_code": "NR",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇷",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "NU",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇺",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "NZ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇳🇿",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "OM",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇴🇲",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "PA",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇦",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "PE",
+      "voltage": "220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇪",
+      "plug_types": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "country_code": "PF",
+      "voltage": "230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇫",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "PG",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇬",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "PH",
+      "voltage": "220V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇭",
+      "plug_types": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "country_code": "PK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇰",
+      "plug_types": [
+        "C",
+        "D",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "PL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇱",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "PM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇲",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "PN",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇳",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "PR",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇷",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "PS",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇸",
+      "plug_types": [
+        "C",
+        "H"
+      ]
+    },
+    {
+      "country_code": "PT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇹",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "PW",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇵🇼",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "PY",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇵🇾",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "QA",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇶🇦",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "RE",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇷🇪",
+      "plug_types": [
+        "E"
+      ]
+    },
+    {
+      "country_code": "RO",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇷🇴",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "RS",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇷🇸",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "RU",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇷🇺",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "RW",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇷🇼",
+      "plug_types": [
+        "C",
+        "J"
+      ]
+    },
+    {
+      "country_code": "SA",
+      "voltage": "220V / 230V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇸🇦",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "SB",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇧",
+      "plug_types": [
+        "G",
+        "I"
+      ]
+    },
+    {
+      "country_code": "SC",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇨",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "SD",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇩",
+      "plug_types": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "country_code": "SE",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇪",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "SG",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇬",
+      "plug_types": [
+        "C",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "SH",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇭",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "SI",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇮",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "SJ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇯",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "SK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇰",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "SL",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇱",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "SM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇲",
+      "plug_types": [
+        "C",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "SN",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇳",
+      "plug_types": [
+        "C",
+        "D",
+        "E",
+        "K"
+      ]
+    },
+    {
+      "country_code": "SO",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇴",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "SR",
+      "voltage": "127V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇸🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "SS",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇸",
+      "plug_types": [
+        "C",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "ST",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇹",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "SV",
+      "voltage": "115V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇸🇻",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "SX",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇸🇽",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "SY",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇾",
+      "plug_types": [
+        "C",
+        "E",
+        "L"
+      ]
+    },
+    {
+      "country_code": "SZ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇸🇿",
+      "plug_types": [
+        "M"
+      ]
+    },
+    {
+      "country_code": "TC",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇹🇨",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "TD",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇩",
+      "plug_types": [
+        "C",
+        "D",
+        "E",
+        "F"
+      ]
+    },
+    {
+      "country_code": "TG",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇬",
+      "plug_types": [
+        "C"
+      ]
+    },
+    {
+      "country_code": "TH",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇭",
+      "plug_types": [
+        "A",
+        "B",
+        "C",
+        "F",
+        "O"
+      ]
+    },
+    {
+      "country_code": "TJ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇯",
+      "plug_types": [
+        "C",
+        "F",
+        "I"
+      ]
+    },
+    {
+      "country_code": "TK",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇰",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "TL",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇱",
+      "plug_types": [
+        "C",
+        "E",
+        "F",
+        "I"
+      ]
+    },
+    {
+      "country_code": "TM",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇲",
+      "plug_types": [
+        "B",
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "TN",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇳",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "TO",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇴",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "TR",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇷",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "TT",
+      "voltage": "115V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇹🇹",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "TV",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇻",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "TW",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇹🇼",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "TZ",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇹🇿",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "UA",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇺🇦",
+      "plug_types": [
+        "C",
+        "F"
+      ]
+    },
+    {
+      "country_code": "UG",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇺🇬",
+      "plug_types": [
+        "G"
+      ]
+    },
+    {
+      "country_code": "US",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇺🇸",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "UY",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇺🇾",
+      "plug_types": [
+        "C",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "UZ",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇺🇿",
+      "plug_types": [
+        "C",
+        "I"
+      ]
+    },
+    {
+      "country_code": "VA",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇻🇦",
+      "plug_types": [
+        "C",
+        "F",
+        "L"
+      ]
+    },
+    {
+      "country_code": "VC",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇻🇨",
+      "plug_types": [
+        "A",
+        "C",
+        "E",
+        "G",
+        "I",
+        "K"
+      ]
+    },
+    {
+      "country_code": "VE",
+      "voltage": "120V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇻🇪",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "VG",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇻🇬",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "VI",
+      "voltage": "110V",
+      "frequency": "60Hz",
+      "flag_emoji": "🇻🇮",
+      "plug_types": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "country_code": "VN",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇻🇳",
+      "plug_types": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "country_code": "VU",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇻🇺",
+      "plug_types": [
+        "C",
+        "G",
+        "I"
+      ]
+    },
+    {
+      "country_code": "WF",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇼🇫",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "WS",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇼🇸",
+      "plug_types": [
+        "I"
+      ]
+    },
+    {
+      "country_code": "YE",
+      "voltage": "240V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇾🇪",
+      "plug_types": [
+        "D",
+        "G",
+        "M"
+      ]
+    },
+    {
+      "country_code": "YT",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇾🇹",
+      "plug_types": [
+        "C",
+        "E"
+      ]
+    },
+    {
+      "country_code": "ZA",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇿🇦",
+      "plug_types": [
+        "C",
+        "M",
+        "N"
+      ]
+    },
+    {
+      "country_code": "ZM",
+      "voltage": "230V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇿🇲",
+      "plug_types": [
+        "C",
+        "D",
+        "G"
+      ]
+    },
+    {
+      "country_code": "ZW",
+      "voltage": "220V",
+      "frequency": "50Hz",
+      "flag_emoji": "🇿🇼",
+      "plug_types": [
+        "D",
+        "G"
+      ]
+    }
+  ]
+}
+

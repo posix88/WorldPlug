@@ -9,6 +9,7 @@ public enum Repository {
     /// Console and in Xcode's log/organizer views, which matters for the failures logged below —
     /// both would otherwise leave the app silently running with an empty catalog.
     private static let logger = Logger(subsystem: "com.posix88.Voltly.Repository", category: "Repository")
+    private static let countryCatalogVersionDefaultsKey = "countryCatalogVersion"
 
     /// There is deliberately no `VersionedSchema`/`SchemaMigrationPlan` here. `Country`/`Plug`
     /// are a read-only catalog reseeded from bundled JSON in `preloadData()` — never
@@ -49,15 +50,8 @@ public enum Repository {
     }
 
     @MainActor
-    public static func preloadData() {
+    public static func preloadData(defaults: UserDefaults = .standard) {
         do {
-            // Check we haven't already added our users.
-            let descriptor = FetchDescriptor<Country>()
-            let existingCountries = try sharedModelContainer.mainContext.fetchCount(descriptor)
-            guard existingCountries == 0 else {
-                return
-            }
-
             // Get the bundle for this Swift Package
             let bundle = Bundle.module
 
@@ -73,7 +67,20 @@ public enum Repository {
             let plugsData = try JSONDecoder().decode([PlugDecodable].self, from: dataplugs)
 
             let datacountries = try Data(contentsOf: urlcountries)
-            let countriesData = try JSONDecoder().decode([CountryDecodable].self, from: datacountries)
+            let countryCatalog = try JSONDecoder().decode(CountryCatalogDecodable.self, from: datacountries)
+
+            let existingCountries = try sharedModelContainer.mainContext.fetchCount(FetchDescriptor<Country>())
+            let storedVersion = defaults.object(forKey: countryCatalogVersionDefaultsKey) as? Int
+            guard existingCountries == 0 || storedVersion != countryCatalog.version else {
+                return
+            }
+
+            // The catalog is bundled reference data; only it is stored in this
+            // container. A version change can therefore safely replace every
+            // country and plug while user preferences remain in their own stores.
+            if existingCountries > 0 {
+                try cleanDataBase()
+            }
 
             // First, create all unique plugs and insert them
             var plugsDict: [String: Plug] = [:]
@@ -88,7 +95,7 @@ public enum Repository {
             }
 
             // Then create countries and establish relationships
-            for countryData in countriesData {
+            for countryData in countryCatalog.countries {
                 let country = Country(
                     code: countryData.code,
                     voltage: countryData.voltage,
@@ -108,6 +115,7 @@ public enum Repository {
 
             // Save the context to persist changes
             try sharedModelContainer.mainContext.save()
+            defaults.set(countryCatalog.version, forKey: countryCatalogVersionDefaultsKey)
 
         } catch {
             logger.error("Failed to pre-seed database: \(error.localizedDescription)")

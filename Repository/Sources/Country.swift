@@ -33,6 +33,13 @@ public final class Country: Identifiable, Hashable {
 
 // MARK: - CountryDecodable
 
+/// The bundled, versioned catalog. Increment `version` whenever the JSON's
+/// country entries change so existing installations reseed their SwiftData catalog.
+struct CountryCatalogDecodable: Decodable {
+    let version: Int
+    let countries: [CountryDecodable]
+}
+
 final class CountryDecodable: Decodable {
     let code: String
     let voltage: String

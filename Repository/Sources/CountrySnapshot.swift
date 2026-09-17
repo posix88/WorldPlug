@@ -54,8 +54,13 @@ public enum CountrySnapshotRepository {
         }
 
         let data = try Data(contentsOf: url)
-        return try JSONDecoder().decode([CountrySnapshotDecodable].self, from: data)
+        return try JSONDecoder().decode(CountrySnapshotCatalogDecodable.self, from: data).countries
     }
+}
+
+private struct CountrySnapshotCatalogDecodable: Decodable {
+    let version: Int
+    let countries: [CountrySnapshotDecodable]
 }
 
 // MARK: - CountrySnapshotRepositoryError

@@ -22,6 +22,18 @@ struct PremiumEntitlementTests {
         #expect(recorder.entitlementCalls == 0)
     }
 
+    @Test("cached premium status is available before StoreKit refreshes")
+    func cachedPremiumStatusIsAvailableBeforeRefresh() {
+        let recorder = PremiumStoreRecorder(entitlementResults: [false])
+        let entitlement = StoreKitPremiumEntitlement(
+            storeClient: recorder.client,
+            cachedPremiumStatus: true
+        )
+
+        #expect(entitlement.isPremium)
+        #expect(recorder.entitlementCalls == 0)
+    }
+
     @Test("successful purchase refreshes premium state")
     func successfulPurchaseRefreshesState() async throws {
         let recorder = PremiumStoreRecorder(purchaseResult: .purchased, entitlementResults: [true])

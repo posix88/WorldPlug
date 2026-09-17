@@ -49,12 +49,15 @@ final class StoreKitPremiumEntitlement: PremiumEntitlementProviding {
     init(
         productIDs: Set<String> = [PremiumProductIDs.premium],
         storeClient: PremiumStoreClient = .live,
+        cachedPremiumStatus: Bool = false,
         isPremiumOverride: Bool? = nil
     ) {
         self.productIDs = productIDs
         self.storeClient = storeClient
         self.isPremiumOverride = isPremiumOverride
-        self.isPremium = isPremiumOverride ?? false
+        // Use the last StoreKit-confirmed value while the fresh entitlement lookup runs. This
+        // keeps app launch independent from StoreKit's network/service latency.
+        self.isPremium = isPremiumOverride ?? cachedPremiumStatus
 
         guard isPremiumOverride == nil else {
             return

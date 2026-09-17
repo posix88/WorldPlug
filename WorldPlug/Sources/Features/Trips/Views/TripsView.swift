@@ -48,6 +48,7 @@ struct TripsView: View {
             }
             .animation(reduceMotion ? nil : .snappy, value: viewModel.hasTrips)
             .scrollContentBackground(.hidden)
+            .groupedCellSurface()
             .background { AppMeshBackground() }
             .scrollBounceBehavior(.basedOnSize)
             .navigationTitle(LocalizationKeys.tripsTitle)
@@ -166,6 +167,7 @@ private struct TripsSection: View {
                 .onDelete(perform: delete)
                 .transition(.opacity.combined(with: .move(edge: .bottom)))
             }
+            .groupedCellSurface()
         }
     }
 

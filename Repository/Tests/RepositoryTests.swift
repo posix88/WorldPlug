@@ -1,4 +1,5 @@
 @testable import Repository
+import Foundation
 import SwiftData
 import Testing
 
@@ -16,6 +17,32 @@ struct RepositoryTests {
         let count = try Repository.sharedModelContainer.mainContext
             .fetchCount(FetchDescriptor<Country>())
         #expect(count > 0)
+    }
+
+    @Test("preloadData refreshes the catalog when its bundled version changes")
+    func preloadRefreshesVersionedCatalog() throws {
+        let defaults = try #require(UserDefaults(suiteName: "RepositoryTests.catalogVersion"))
+        defaults.removePersistentDomain(forName: "RepositoryTests.catalogVersion")
+        defer { defaults.removePersistentDomain(forName: "RepositoryTests.catalogVersion") }
+
+        try Repository.cleanDataBase()
+        Repository.preloadData(defaults: defaults)
+
+        let maldives = try #require(
+            Repository.sharedModelContainer.mainContext
+                .fetch(FetchDescriptor<Country>())
+                .first(where: { $0.code == "MV" })
+        )
+        Repository.sharedModelContainer.mainContext.delete(maldives)
+        try Repository.sharedModelContainer.mainContext.save()
+
+        defaults.set(0, forKey: "countryCatalogVersion")
+        Repository.preloadData(defaults: defaults)
+
+        let refreshedMaldives = try Repository.sharedModelContainer.mainContext
+            .fetch(FetchDescriptor<Country>())
+            .first(where: { $0.code == "MV" })
+        #expect(refreshedMaldives != nil)
     }
 
     @Test("preloadData seeds at least one plug")

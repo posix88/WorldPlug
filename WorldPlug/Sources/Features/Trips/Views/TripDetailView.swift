@@ -125,6 +125,7 @@ private struct TripDetailList: View {
             TripAddDeviceSection(viewModel: viewModel)
         }
         .scrollContentBackground(.hidden)
+        .groupedCellSurface()
         .background { AppMeshBackground() }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             TripDisclaimerButton(viewModel: viewModel)
@@ -174,6 +175,7 @@ private struct TripHeaderSection: View {
                     EntityIdentifier(for: CountryEntity.self, identifier: destination.code)
                 )
             }
+            .groupedCellSurface()
         }
     }
 }
@@ -193,6 +195,7 @@ private struct TripDevicesSection: View {
                 TripDevicesEmptyState()
             }
         }
+        .groupedCellSurface()
     }
 }
 
@@ -336,6 +339,7 @@ private struct TripAddDeviceSection: View {
             .buttonStyle(.plain)
             .accessibilityIdentifier("trip.detail.addDevice")
         }
+        .groupedCellSurface()
     }
 }
 

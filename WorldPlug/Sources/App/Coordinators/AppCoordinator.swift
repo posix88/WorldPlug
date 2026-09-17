@@ -31,13 +31,6 @@ final class AppCoordinator {
 
     var premiumPaywallSource: PremiumPaywallSource?
     private(set) var phase: AppPhase
-    /// Flips to `true` once `premiumEntitlement.refreshEntitlements()` resolves. `LaunchExperienceView`
-    /// waits for this (in addition to its minimum splash duration) before dismissing, so the app
-    /// is never revealed with a stale/default `isPremium` — without this a genuinely premium user
-    /// could briefly see locked content, or even have a tap during that window misrouted to the
-    /// paywall, right after a cold launch.
-    private(set) var hasRefreshedEntitlements: Bool
-
     init(
         homeCountryViewModel: any HomeCountryViewModelType,
         premiumEntitlement: any PremiumEntitlementProviding,
@@ -54,18 +47,26 @@ final class AppCoordinator {
         self.needsOnboarding = !usesDebugOverrides
             && !standardDefaults.bool(forKey: Keys.hasSeenOnboarding)
         self.phase = usesDebugOverrides ? .main : .launchExperience
-        self.hasRefreshedEntitlements = usesDebugOverrides
     }
 
     func start() async {
+        // `isPremium` was hydrated from App Group storage before this coordinator was created.
+        // Publish that stable, last-known value immediately, then let StoreKit reconcile it in
+        // the background rather than holding the splash after its animation has ended.
         syncPremiumWidgetAccess()
-        await premiumEntitlement.refreshEntitlements()
-        hasRefreshedEntitlements = true
         guard !usesDebugOverrides else {
             return
         }
 
-        try? await CountrySpotlightIndex.indexAllCountries()
+        Task { [weak self] in
+            guard let self else {
+                return
+            }
+
+            await self.premiumEntitlement.refreshEntitlements()
+            self.syncPremiumWidgetAccess()
+            try? await CountrySpotlightIndex.indexAllCountries()
+        }
     }
 
     func sceneBecameActive() {

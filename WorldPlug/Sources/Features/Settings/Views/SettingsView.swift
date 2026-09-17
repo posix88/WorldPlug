@@ -46,6 +46,7 @@ struct SettingsView: View {
                 SettingsDebugSection()
             }
             .scrollContentBackground(.hidden)
+            .groupedCellSurface()
             .background { AppMeshBackground() }
             .navigationTitle(LocalizationKeys.settingsTitle)
             .accessibilityIdentifier("settings.form")
@@ -161,6 +162,7 @@ private struct SettingsTravelSection: View {
         } footer: {
             Text(LocalizationKeys.settingsHomeCountryFooter)
         }
+        .groupedCellSurface()
     }
 }
 
@@ -191,6 +193,7 @@ private struct SettingsWidgetsSection: View {
                     : LocalizationKeys.settingsFavoriteWidgetNeedsSaved
             )
         }
+        .groupedCellSurface()
     }
 }
 
@@ -224,6 +227,7 @@ private struct SettingsPremiumSection: View {
                 Text(LocalizationKeys.settingsPremiumActiveFooter)
             }
         }
+        .groupedCellSurface()
     }
 }
 
@@ -273,6 +277,7 @@ private struct SettingsAboutSection: View {
                 Text(LocalizationKeys.settingsShare)
             }
         }
+        .groupedCellSurface()
     }
 }
 
@@ -286,6 +291,7 @@ private struct SettingsDebugSection: View {
                 Label(LocalizationKeys.settingsDebugSeededData, systemImage: "ladybug.fill")
                     .foregroundStyle(.statusCheck)
             }
+            .groupedCellSurface()
         }
         #endif
     }

@@ -17,6 +17,7 @@ struct VoltlyApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     init() {
+        let appGroupDefaults = UserDefaults(suiteName: AppGroup.identifier) ?? .standard
         let analyticsTracker: any AnalyticsTracker = AppDebugOverrides.isEnabled
             ? NoopAnalyticsTracker()
             : FirebaseAnalyticsTracker()
@@ -35,6 +36,7 @@ struct VoltlyApp: App {
         )
         _homeCountryViewModel = State(initialValue: homeCountryViewModel)
         let premiumEntitlement = StoreKitPremiumEntitlement(
+            cachedPremiumStatus: appGroupDefaults.bool(forKey: AppGroup.premiumAccessKey),
             isPremiumOverride: AppDebugOverrides.premiumStatus
         )
         _premiumEntitlement = State(initialValue: premiumEntitlement)
@@ -44,7 +46,7 @@ struct VoltlyApp: App {
             homeCountryViewModel: homeCountryViewModel,
             premiumEntitlement: premiumEntitlement,
             navigationModel: navigationModel,
-            appGroupDefaults: UserDefaults(suiteName: AppGroup.identifier) ?? .standard,
+            appGroupDefaults: appGroupDefaults,
             standardDefaults: .standard
         )
         _coordinator = State(initialValue: coordinator)
@@ -60,7 +62,6 @@ struct VoltlyApp: App {
                 switch coordinator.phase {
                 case .launchExperience:
                     LaunchExperienceView(
-                        isReady: coordinator.hasRefreshedEntitlements,
                         dismiss: coordinator.launchExperienceCompleted
                     )
                     .transition(.opacity)
