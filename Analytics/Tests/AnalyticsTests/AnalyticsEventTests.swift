@@ -11,17 +11,17 @@ final class AnalyticsEventTests: XCTestCase {
 
     func testEventNamesAreStable() {
         XCTAssertEqual(AnalyticsEvent.premiumPurchaseCompleted.rawValue, "premium_purchase_completed")
-        XCTAssertEqual(AnalyticsEvent.nextTripCreated.rawValue, "next_trip_created")
+        XCTAssertEqual(AnalyticsEvent.compatibilityGuideOpened.rawValue, "compatibility_guide_opened")
     }
 
     func testTrackerCanBeReplacedWithASpy() {
         let tracker = AnalyticsTrackerSpy()
 
         tracker.screen(.countries)
-        tracker.track(.nextTripCreated, parameters: ["has_name": .boolean(true)])
+        tracker.track(.homeCountryPickerOpened, parameters: ["source": .string("setup")])
 
         XCTAssertEqual(tracker.screens, [.countries])
-        XCTAssertEqual(tracker.events, [.nextTripCreated])
+        XCTAssertEqual(tracker.events, [.homeCountryPickerOpened])
     }
 }
 

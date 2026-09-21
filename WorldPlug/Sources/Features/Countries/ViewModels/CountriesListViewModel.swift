@@ -8,6 +8,7 @@ import SwiftData
 
 @MainActor
 protocol CountriesListViewModelType: AnyObject, Observable {
+    var catalogCountries: [Country] { get }
     var filteredCountries: [Country] { get }
     var compatibilitySummaries: [String: CountryCompatibilitySummary] { get }
     var searchQuery: String { get set }
@@ -86,6 +87,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
     }
 
     var homeCountry: Country? { homeCountryViewModel.homeCountry }
+    var catalogCountries: [Country] { countries }
 
     var isPendingHomeCountryRemoval: Bool {
         pendingHomeCountry?.code == homeCountryViewModel.homeCountryCode
@@ -304,6 +306,8 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
         self.allCountries = countries
         self.filteredCountries = countries
     }
+
+    var catalogCountries: [Country] { allCountries }
 
     func search(query: String) {
         search(query: query, locale: .current)

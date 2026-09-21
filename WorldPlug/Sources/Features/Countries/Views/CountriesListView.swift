@@ -18,6 +18,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
     @State private var isSettingsPresented = false
     @State private var isCompatibilityGuidePresented = false
+    @State private var isHomeCountryPickerPresented = false
     private var compatibilityFilterTip: CompatibilityFilterTip? {
         AppDebugOverrides.isEnabled ? nil : CompatibilityFilterTip()
     }
@@ -48,7 +49,14 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .safeAreaBar(edge: .top, spacing: 0) {
                     CountriesListCompatibilityHeader(
                         viewModel: viewModel,
-                        tip: compatibilityFilterTip
+                        tip: compatibilityFilterTip,
+                        onHomeCountryPickerRequested: { source in
+                            analyticsTracker.track(
+                                .homeCountryPickerOpened,
+                                parameters: ["source": .string(source.rawValue)]
+                            )
+                            isHomeCountryPickerPresented = true
+                        }
                     )
                     .background {
                         Rectangle()
@@ -134,10 +142,22 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     )
                     .toolbarVisibility(.hidden, for: .tabBar)
                 }
+                .navigationDestination(isPresented: $isHomeCountryPickerPresented) {
+                    CountryDestinationPickerView(
+                        selectedCountryCode: homeCountryCode,
+                        countries: viewModel.catalogCountries,
+                        title: LocalizationKeys.settingsHomeCountry,
+                        screen: .settings
+                    )
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             isCompatibilityGuidePresented = true
+                            analyticsTracker.track(
+                                .compatibilityGuideOpened,
+                                parameters: ["source": .string("countries_toolbar")]
+                            )
                         } label: {
                             Image(systemName: "info.circle")
                         }
@@ -168,6 +188,19 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 }
         }
 
+    private var homeCountryCode: Binding<String> {
+        Binding(
+            get: { homeCountryViewModel.homeCountryCode },
+            set: { countryCode in
+                guard countryCode != homeCountryViewModel.homeCountryCode else {
+                    return
+                }
+
+                homeCountryViewModel.setHome(code: countryCode)
+            }
+        )
+    }
+
     private func openDeepLinkedCountryIfNeeded() {
         guard let countryCode = deepLinkedCountryCode,
               viewModel.openDeepLinkedCountry(code: countryCode) else {
@@ -196,6 +229,11 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
             pendingHomeCountry.localizedName(in: locale)
         )
     }
+}
+
+private enum HomeCountryPickerSource: String {
+    case setup
+    case change
 }
 
 // MARK: - CountryResultsView
@@ -267,44 +305,46 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
 private struct CountriesListCompatibilityHeader<ViewModel: CountriesListViewModelType>: View {
     let viewModel: ViewModel
     let tip: CompatibilityFilterTip?
+    let onHomeCountryPickerRequested: (HomeCountryPickerSource) -> Void
 
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        if !viewModel.filteredCountries.isEmpty, let homeCountry = viewModel.homeCountry {
+        if !viewModel.filteredCountries.isEmpty {
             VStack(spacing: .xs) {
-                HomeCountryBannerView(country: homeCountry, onClear: clearHomeCountry)
+                if let homeCountry = viewModel.homeCountry {
+                    HomeCountryBannerView(
+                        country: homeCountry,
+                        onChange: { onHomeCountryPickerRequested(.change) }
+                    )
                     .padding(.horizontal, .xxl)
                     .transition(.opacity.combined(with: .move(edge: .top)))
 
-                // `viewModel.filterCounts` rather than a second copy of the same tallying loop
-                // that used to live on this view — the view model already published it, and two
-                // implementations of one rule is one too many.
-                CompatibilityFilterBar(
-                    selectedFilter: $viewModel.selectedFilter,
-                    counts: viewModel.filterCounts,
-                    tip: tip
-                )
-                .onChange(of: viewModel.selectedFilter) { oldValue, newValue in
-                    guard oldValue != newValue else {
-                        return
-                    }
+                    // `viewModel.filterCounts` rather than a second copy of the same tallying loop
+                    // that used to live on this view — the view model already published it, and two
+                    // implementations of one rule is one too many.
+                    CompatibilityFilterBar(
+                        selectedFilter: $viewModel.selectedFilter,
+                        counts: viewModel.filterCounts,
+                        tip: tip
+                    )
+                    .onChange(of: viewModel.selectedFilter) { oldValue, newValue in
+                        guard oldValue != newValue else {
+                            return
+                        }
 
-                    tip?.invalidate(reason: .actionPerformed)
-                    viewModel.filterSelected()
+                        tip?.invalidate(reason: .actionPerformed)
+                        viewModel.filterSelected()
+                    }
+                    .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
+                } else {
+                    HomeCountrySetupBannerView(action: { onHomeCountryPickerRequested(.setup) })
+                        .padding(.horizontal, .xxl)
+                        .transition(.opacity.combined(with: .move(edge: .top)))
                 }
-                .transition(.opacity.combined(with: .scale(scale: 0.98, anchor: .top)))
             }
             .padding(.vertical, .sm)
         }
-    }
-
-    private func clearHomeCountry() {
-        guard let homeCountry = viewModel.homeCountry else {
-            return
-        }
-
-        viewModel.handleHomeCountryAction(for: homeCountry)
     }
 }
 
@@ -362,7 +402,7 @@ private struct CompatibilityFilterBar: View {
         .appTipIconTint()
         .padding(.horizontal, .xxl)
         .padding(.vertical, .xs)
-        .scrollClipDi qsabled()
+        .scrollClipDisabled()
         .accessibilityElement(children: .contain)
     }
 }

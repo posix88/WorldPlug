@@ -282,7 +282,10 @@ enum LocalizationKeys {
     // MARK: - Home Country
 
     static let homeCountryBadge = LocalizedStringResource("home.country.badge")
+    static let homeCountryChange = LocalizedStringResource("home.country.change")
     static let homeCountrySet = LocalizedStringResource("home.country.set")
+    static let homeCountrySetupTitle = LocalizedStringResource("home.country.setup.title")
+    static let homeCountrySetupDescription = LocalizedStringResource("home.country.setup.description")
     static let homeCountryRemove = LocalizedStringResource("home.country.remove")
     static let homeCountryUpdate = LocalizedStringResource("home.country.update")
     static let homeCountryCompatible = LocalizedStringResource("home.country.compatible")

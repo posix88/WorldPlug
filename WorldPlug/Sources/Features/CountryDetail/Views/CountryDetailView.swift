@@ -335,10 +335,22 @@ private struct CountryInfoSheetHeader: View {
                 .lineLimit(1)
 
             if isHomeCountry {
-                HomeCountryIndicator()
+                HomeCountrySheetBadge()
             }
         }
         .frame(maxWidth: .infinity, alignment: isCentered ? .center : .leading)
+    }
+}
+
+private struct HomeCountrySheetBadge: View {
+    var body: some View {
+        Label(LocalizationKeys.settingsHomeCountry, systemImage: "house.fill")
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.voltTint)
+            .padding(.horizontal, .sm)
+            .padding(.vertical, .xs)
+            .background(.voltTint.opacity(0.14), in: Capsule())
+            .accessibilityLabel(LocalizationKeys.settingsHomeCountry)
     }
 }
 

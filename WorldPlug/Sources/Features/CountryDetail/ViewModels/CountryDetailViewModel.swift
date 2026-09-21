@@ -71,7 +71,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     var mapFocus: CountryMapFocus?
     private(set) var mapLoadState: CountryMapLoadState = .locating
     var isInfoSheetPresented = true
-    var selectedDetent: PresentationDetent = .custom(CountrySummaryDetent.self)
+    var selectedDetent: PresentationDetent = .medium
 
     private(set) var isHomeCountry = false
     private(set) var compatiblePlugs: [Plug]

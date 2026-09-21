@@ -858,6 +858,23 @@
         }
       }
     },
+    "home.country.change": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Change"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cambia"
+          }
+        }
+      }
+    },
     "home.country.comparing.with": {
       "extractionState": "manual",
       "localizations": {
@@ -956,6 +973,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "Imposta come Paese di origine"
+          }
+        }
+      }
+    },
+    "home.country.setup.description": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compare plugs and voltage with every destination."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confronta spine e tensione con ogni destinazione."
+          }
+        }
+      }
+    },
+    "home.country.setup.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your home country"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scegli il Paese di origine"
           }
         }
       }
@@ -4509,13 +4560,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Read important information about device compatibility"
+            "value": "Learn how we assess device compatibility"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Leggi le informazioni importanti sulla compatibilità dei dispositivi"
+            "value": "Scopri come valutiamo la compatibilità dei dispositivi"
           }
         }
       }
@@ -4526,13 +4577,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Important information"
+            "value": "How device checks work"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Informazioni importanti"
+            "value": "Come funzionano i controlli"
           }
         }
       }
@@ -4679,13 +4730,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Device compatibility"
+            "value": "Check your devices"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Compatibilità dei dispositivi"
+            "value": "Controlla i tuoi dispositivi"
           }
         }
       }
@@ -4951,13 +5002,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add the devices you're taking to see whether they're safe to plug in at your destination."
+            "value": "We'll check whether you can use it safely at your destination."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Aggiungi i dispositivi che porterai per sapere se puoi collegarli in sicurezza a destinazione."
+            "value": "Verificheremo se puoi usarlo in sicurezza a destinazione."
           }
         }
       }
@@ -4968,13 +5019,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No devices yet"
+            "value": "Add a device to check"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nessun dispositivo"
+            "value": "Aggiungi un dispositivo da controllare"
           }
         }
       }
@@ -5206,13 +5257,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No devices yet"
+            "value": "Devices to check"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Nessun dispositivo"
+            "value": "Dispositivi da controllare"
           }
         }
       }
