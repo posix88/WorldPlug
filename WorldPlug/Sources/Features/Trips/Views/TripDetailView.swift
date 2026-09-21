@@ -335,6 +335,7 @@ private struct TripAddDeviceSection: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.voltTint)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("trip.detail.addDevice")

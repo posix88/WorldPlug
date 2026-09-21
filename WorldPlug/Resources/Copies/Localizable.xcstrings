@@ -4809,6 +4809,57 @@
         }
       }
     },
+    "trip.check.scan.success.message": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "We found %@. Review the values before saving the device."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abbiamo rilevato %@. Verifica i valori prima di salvare il dispositivo."
+          }
+        }
+      }
+    },
+    "trip.check.scan.success.review": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Review values"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifica valori"
+          }
+        }
+      }
+    },
+    "trip.check.scan.success.title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Values found"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valori rilevati"
+          }
+        }
+      }
+    },
     "trip.check.scan.smart.hint": {
       "extractionState": "manual",
       "localizations": {
@@ -5111,6 +5162,74 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nuovo viaggio"
+          }
+        }
+      }
+    },
+    "trip.editor.name.idea.discover": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Discover %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alla scoperta di %@"
+          }
+        }
+      }
+    },
+    "trip.editor.name.idea.escape": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ escape"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fuga in %@"
+          }
+        }
+      }
+    },
+    "trip.editor.name.idea.my.trip": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My %@ trip"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il mio viaggio in %@"
+          }
+        }
+      }
+    },
+    "trip.editor.name.ideas": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trip name ideas"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Idee per il nome"
           }
         }
       }

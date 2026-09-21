@@ -618,7 +618,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";
@@ -730,7 +730,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
@@ -758,7 +758,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
@@ -783,7 +783,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoltlyWatch/VoltlyWatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Socket Buddy";
@@ -841,7 +841,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_ENTITLEMENTS = VoltlyWidgets/VoltlyWidgets.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = VoltlyWidgets/Info.plist;
@@ -869,7 +869,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WorldPlug/WorldPlug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"WorldPlug/Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = NEE9ZGT53Y;
 				INFOPLIST_FILE = "WorldPlug/WorldPlug-Info.plist";

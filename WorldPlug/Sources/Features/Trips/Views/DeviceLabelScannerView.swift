@@ -11,7 +11,14 @@ struct DeviceLabelScannerView: View {
     @State private var camera = DeviceLabelScannerCamera()
     @State private var recognizedText = ""
     @State private var analyzeTask: Task<Void, Never>?
+    @State private var scanSuccessTask: Task<Void, Never>?
+    @State private var pendingScannedValues: DeviceLabelValues?
+    @State private var isScanSuccessAlertPresented = false
+    @State private var scanSuccessFeedbackTrigger = 0
     let onRecognized: (DeviceLabelValues) -> Void
+#if DEBUG
+    private let previewScannedValues: DeviceLabelValues?
+#endif
 
     init(
         interpreter: any DeviceLabelInterpreting,
@@ -19,7 +26,22 @@ struct DeviceLabelScannerView: View {
     ) {
         _viewModel = State(initialValue: DeviceLabelScannerViewModel(interpreter: interpreter))
         self.onRecognized = onRecognized
+#if DEBUG
+        previewScannedValues = nil
+#endif
     }
+
+#if DEBUG
+    init(
+        interpreter: any DeviceLabelInterpreting,
+        previewScannedValues: DeviceLabelValues,
+        onRecognized: @escaping (DeviceLabelValues) -> Void
+    ) {
+        _viewModel = State(initialValue: DeviceLabelScannerViewModel(interpreter: interpreter))
+        self.onRecognized = onRecognized
+        self.previewScannedValues = previewScannedValues
+    }
+#endif
 
     var body: some View {
         Group {
@@ -45,9 +67,30 @@ struct DeviceLabelScannerView: View {
         }
         .navigationTitle(LocalizationKeys.tripCheckScanLabel)
         .navigationBarTitleDisplayMode(.inline)
+        .sensoryFeedback(.success, trigger: scanSuccessFeedbackTrigger)
+        .alert(
+            LocalizationKeys.tripCheckScanSuccessTitle,
+            isPresented: $isScanSuccessAlertPresented
+        ) {
+            Button(LocalizationKeys.tripCheckScanSuccessReview) {
+                applyPendingScannedValues()
+            }
+        } message: {
+            Text(scanSuccessMessage)
+        }
         .onDisappear {
             analyzeTask?.cancel()
+            scanSuccessTask?.cancel()
         }
+#if DEBUG
+        .task {
+            guard let previewScannedValues else {
+                return
+            }
+
+            finish(with: previewScannedValues)
+        }
+#endif
     }
 
     private var scannerControls: some View {
@@ -147,7 +190,37 @@ struct DeviceLabelScannerView: View {
     }
 
     private func finish(with values: DeviceLabelValues) {
-        onRecognized(values)
+        guard pendingScannedValues == nil else {
+            return
+        }
+
+        analyzeTask?.cancel()
+        pendingScannedValues = values
+        scanSuccessFeedbackTrigger += 1
+        scanSuccessTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(250))
+            guard !Task.isCancelled, pendingScannedValues != nil else {
+                return
+            }
+
+            isScanSuccessAlertPresented = true
+        }
+    }
+
+    private var scanSuccessMessage: String {
+        let values = [pendingScannedValues?.voltage, pendingScannedValues?.frequency]
+            .compactMap { $0 }
+            .filter { !$0.isEmpty }
+            .joined(separator: " · ")
+        return LocalizationKeys.tripCheckScanSuccessMessage.string(values)
+    }
+
+    private func applyPendingScannedValues() {
+        guard let pendingScannedValues else {
+            return
+        }
+
+        onRecognized(pendingScannedValues)
         dismiss()
     }
 }
@@ -290,6 +363,16 @@ private struct DeviceLabelDataScanner: UIViewControllerRepresentable {
     NavigationStack {
         DeviceLabelScannerView(
             interpreter: FoundationModelDeviceLabelInterpreter(),
+            onRecognized: { _ in }
+        )
+    }
+}
+
+#Preview("Scan success feedback") {
+    NavigationStack {
+        DeviceLabelScannerView(
+            interpreter: FoundationModelDeviceLabelInterpreter(),
+            previewScannedValues: .init(voltage: "220V", frequency: "50Hz"),
             onRecognized: { _ in }
         )
     }
