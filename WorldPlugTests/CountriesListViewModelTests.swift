@@ -211,7 +211,7 @@ struct CountriesListViewModelTests {
         let didOpen = viewModel.openDeepLinkedCountry(code: " it\n")
 
         #expect(didOpen)
-        #expect(viewModel.navigationPath.map(\.code) == ["IT"])
+        #expect(viewModel.selectedCountry?.code == "IT")
         #expect(viewModel.searchQuery.isEmpty)
         #expect(viewModel.selectedFilter == .all)
         #expect(viewModel.filteredCountries.count == 3)
@@ -222,7 +222,7 @@ struct CountriesListViewModelTests {
         let didOpen = viewModel.openDeepLinkedCountry(code: "XX")
 
         #expect(didOpen == false)
-        #expect(viewModel.navigationPath.isEmpty)
+        #expect(viewModel.selectedCountry == nil)
     }
 }
 

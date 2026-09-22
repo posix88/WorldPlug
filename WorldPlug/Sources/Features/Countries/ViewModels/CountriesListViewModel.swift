@@ -13,7 +13,7 @@ protocol CountriesListViewModelType: AnyObject, Observable {
     var compatibilitySummaries: [String: CountryCompatibilitySummary] { get }
     var searchQuery: String { get set }
     var selectedFilter: CountryCompatibilityFilter { get set }
-    var navigationPath: [Country] { get set }
+    var selectedCountry: Country? { get set }
     var homeCountry: Country? { get }
     var pendingHomeCountry: Country? { get }
     var isHomeCountryConfirmationPresented: Bool { get set }
@@ -62,7 +62,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
         }
     }
 
-    var navigationPath: [Country] = []
+    var selectedCountry: Country?
     private(set) var pendingHomeCountry: Country?
     var isHomeCountryConfirmationPresented = false {
         didSet {
@@ -203,7 +203,7 @@ final class CountriesListViewModel: CountriesListViewModelType {
 
         selectedFilter = .all
         search(query: "")
-        navigationPath = [country]
+        selectedCountry = country
         return true
     }
 
@@ -291,7 +291,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
     private(set) var compatibilitySummaries: [String: CountryCompatibilitySummary] = [:]
     var searchQuery = ""
     var selectedFilter: CountryCompatibilityFilter = .all
-    var navigationPath: [Country] = []
+    var selectedCountry: Country?
     var homeCountry: Country?
     var pendingHomeCountry: Country?
     var isHomeCountryConfirmationPresented = false {
@@ -364,7 +364,7 @@ final class PreviewCountriesListViewModel: CountriesListViewModelType {
 
         selectedFilter = .all
         search(query: "")
-        navigationPath = [country]
+        selectedCountry = country
         return true
     }
 }

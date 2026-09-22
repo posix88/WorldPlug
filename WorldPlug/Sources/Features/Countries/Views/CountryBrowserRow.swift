@@ -40,6 +40,7 @@ struct CountryBrowserRow<ViewModel: CountriesListViewModelType>: View {
             )
         }
         .buttonStyle(.plain)
+        .navigationLinkIndicatorVisibility(.hidden)
         .swipeActions(edge: .leading, allowsFullSwipe: !model.hasHomeCountry) {
             Button {
                 toggleHomeCountry()

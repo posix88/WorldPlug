@@ -70,7 +70,7 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
     private(set) var mapLoadState: CountryMapLoadState = .locating
-    var isInfoSheetPresented = true
+    var isInfoSheetPresented = false
     var selectedDetent: PresentationDetent = .medium
 
     private(set) var isHomeCountry = false
@@ -135,7 +135,6 @@ final class CountryDetailViewModel: CountryDetailViewModelType {
 
     func screenAppeared(using homeCountryViewModel: any HomeCountryViewModelType) {
         analyticsTracker.screen(.countryDetail)
-        isInfoSheetPresented = true
         syncHomeCountry(with: homeCountryViewModel)
     }
 
@@ -245,7 +244,7 @@ final class PreviewCountryDetailViewModel: CountryDetailViewModelType {
     var mapPosition: MapCameraPosition = .region(.world)
     var mapFocus: CountryMapFocus?
     var mapLoadState: CountryMapLoadState = .locating
-    var isInfoSheetPresented = true
+    var isInfoSheetPresented = false
     var selectedDetent: PresentationDetent = .custom(CountryHeaderDetent.self)
     var isHomeCountry = false
     var compatiblePlugs: [Plug]

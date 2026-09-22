@@ -16,9 +16,11 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     @Environment(\.travelPreferencesStore) private var travelPreferencesStore
     @Environment(\.analyticsTracker) private var analyticsTracker
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var isSettingsPresented = false
     @State private var isCompatibilityGuidePresented = false
     @State private var isHomeCountryPickerPresented = false
+    @State private var preferredCompactColumn: NavigationSplitViewColumn = .sidebar
     private var compatibilityFilterTip: CompatibilityFilterTip? {
         AppDebugOverrides.isEnabled ? nil : CompatibilityFilterTip()
     }
@@ -34,7 +36,10 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        NavigationStack(path: $viewModel.navigationPath) {
+        NavigationSplitView(
+            columnVisibility: .constant(.all),
+            preferredCompactColumn: $preferredCompactColumn
+        ) {
             // Both subviews take the view model itself rather than a fan-out of values and
             // closures. Forwarding `viewModel.rowModel`, `viewModel.handleHomeCountryAction` and
             // `viewModel.toggleSavedCountry` as function values made both views — and every row
@@ -76,6 +81,7 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                     placement: .navigationBarDrawer(displayMode: .always),
                     prompt: Text(LocalizationKeys.searchCountriesPlaceholder)
                 )
+                .navigationBarTitleDisplayMode(.inline)
                 .onChange(of: viewModel.searchQuery) { oldValue, newValue in
                     guard oldValue != newValue else {
                         return
@@ -133,22 +139,15 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 } message: {
                     Text(homeCountryConfirmationMessage)
                 }
-                .navigationDestination(for: Country.self) { country in
-                    CountryDetailView(
-                        country: country,
-                        premiumEntitlement: premiumEntitlement,
-                        travelPreferencesStore: travelPreferencesStore,
-                        analyticsTracker: analyticsTracker
-                    )
-                    .toolbarVisibility(.hidden, for: .tabBar)
-                }
-                .navigationDestination(isPresented: $isHomeCountryPickerPresented) {
-                    CountryDestinationPickerView(
-                        selectedCountryCode: homeCountryCode,
-                        countries: viewModel.catalogCountries,
-                        title: LocalizationKeys.settingsHomeCountry,
-                        screen: .settings
-                    )
+                .sheet(isPresented: $isHomeCountryPickerPresented) {
+                    NavigationStack {
+                        CountryDestinationPickerView(
+                            selectedCountryCode: homeCountryCode,
+                            countries: viewModel.catalogCountries,
+                            title: LocalizationKeys.settingsHomeCountry,
+                            screen: .settings
+                        )
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
@@ -186,6 +185,18 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                 .sheet(isPresented: $isCompatibilityGuidePresented) {
                     CompatibilityGuideView()
                 }
+        } detail: {
+            NavigationStack {
+                countryDetail
+            }
+        }
+        .navigationSplitViewStyle(.balanced)
+        .onChange(of: horizontalSizeClass) { _, sizeClass in
+            guard sizeClass == .compact else {
+                return
+            }
+
+            preferredCompactColumn = .sidebar
         }
     }
 
@@ -202,12 +213,38 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
         )
     }
 
+    @ViewBuilder
+    private var countryDetail: some View {
+        if let country = viewModel.selectedCountry {
+            CountryDetailView(
+                country: country,
+                premiumEntitlement: premiumEntitlement,
+                travelPreferencesStore: travelPreferencesStore,
+                analyticsTracker: analyticsTracker,
+                presentation: .adaptiveSplitDetail,
+                onClose: closeCountryDetail
+            )
+            .id(country.code)
+        } else {
+            ContentUnavailableView(
+                LocalizationKeys.countriesTitle,
+                systemImage: "globe.europe.africa.fill"
+            )
+        }
+    }
+
+    private func closeCountryDetail() {
+        viewModel.selectedCountry = nil
+        preferredCompactColumn = .sidebar
+    }
+
     private func openDeepLinkedCountryIfNeeded() {
         guard let countryCode = deepLinkedCountryCode,
               viewModel.openDeepLinkedCountry(code: countryCode) else {
             return
         }
 
+        preferredCompactColumn = .detail
         deepLinkedCountryCode = nil
     }
 
@@ -243,13 +280,12 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
     let viewModel: ViewModel
 
     var body: some View {
-        ScrollView {
-            LazyVStack(spacing: .md) {
+        @Bindable var viewModel = viewModel
+
+        List(selection: $viewModel.selectedCountry) {
                 countryRows
-            }
-            .padding(.horizontal, .xxl)
-            .padding(.bottom, .xxl)
         }
+        .listStyle(.plain)
         .scrollEdgeEffectStyle(.soft, for: .top)
         .swipeActionsContainer()
         .accessibilityIdentifier("countries.list")
@@ -273,10 +309,17 @@ private struct CountryResultsView<ViewModel: CountriesListViewModelType>: View {
                 canSaveMoreCountries: canSaveMoreCountries,
                 viewModel: viewModel
             )
+            .listRowInsets(
+                EdgeInsets(top: .xs, leading: .xxl, bottom: .xs, trailing: .xxl)
+            )
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
 
         if viewModel.displayedCountries.isEmpty {
             emptyState
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
         }
     }
 

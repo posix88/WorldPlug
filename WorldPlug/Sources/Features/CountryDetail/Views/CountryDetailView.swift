@@ -6,24 +6,40 @@ import SwiftUI
 
 // MARK: - CountryDetailView
 
+enum CountryDetailPresentation {
+    /// The map-led, sheet-backed destination used by ordinary compact navigation.
+    case compactSheet
+    /// An adaptive split detail: inline information when space permits, compact sheet when it
+    /// collapses into a single navigation column.
+    case adaptiveSplitDetail
+}
+
 struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.homeCountryViewModel) private var homeCountryViewModel
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.locale) private var locale
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var viewModel: ViewModel
     @State private var selectedPlug: Plug?
     @State private var dismissAfterSheet = false
+    private let presentation: CountryDetailPresentation
+    private let onClose: (() -> Void)?
 
-    init(viewModel: ViewModel) {
+    init(
+        viewModel: ViewModel,
+        presentation: CountryDetailPresentation = .compactSheet,
+        onClose: (() -> Void)? = nil
+    ) {
         _viewModel = State(initialValue: viewModel)
+        self.presentation = presentation
+        self.onClose = onClose
     }
 
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        countryMap
-        .ignoresSafeArea(edges: .bottom)
+        detailLayout
         .navigationTitle(countryName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -31,11 +47,13 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             EntityIdentifier(for: CountryEntity.self, identifier: viewModel.country.code)
         )
         .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    handleBackNavigation()
-                } label: {
-                    Label(LocalizationKeys.navigationBack, systemImage: "chevron.backward")
+            if usesSheetPresentation {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        handleBackNavigation()
+                    } label: {
+                        Label(LocalizationKeys.navigationBack, systemImage: "chevron.backward")
+                    }
                 }
             }
 
@@ -80,6 +98,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 viewModel.selectedDetent = .large
             }
             viewModel.screenAppeared(using: homeCountryViewModel)
+            updateInfoSheetPresentation()
+        }
+        .onChange(of: horizontalSizeClass) { _, _ in
+            updateInfoSheetPresentation()
         }
         .onDisappear {
             viewModel.isInfoSheetPresented = false
@@ -89,7 +111,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
             PlugDetailView(plug: plug)
                 .toolbarVisibility(.hidden, for: .tabBar)
         }
-        .sheet(isPresented: $viewModel.isInfoSheetPresented, onDismiss: handleInfoSheetDismissed) {
+        .sheet(isPresented: sheetPresentationBinding, onDismiss: handleInfoSheetDismissed) {
             CountryInfoSheet(viewModel: viewModel, countryName: countryName)
                 .presentationDetents(
                     [
@@ -106,27 +128,27 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     viewModel.isLargeDetent ? .scrolls : .resizes
                 )
                 .interactiveDismissDisabled()
-                .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
-                    PremiumPaywallView(source: .countryDetailSave)
+        }
+        .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
+            PremiumPaywallView(source: .countryDetailSave)
+        }
+        .alert(
+            homeCountryConfirmationTitle,
+            isPresented: $viewModel.isHomeCountryConfirmationPresented
+        ) {
+            if viewModel.isHomeCountry {
+                Button(LocalizationKeys.homeCountryRemove, role: .destructive) {
+                    viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
                 }
-                .alert(
-                    homeCountryConfirmationTitle,
-                    isPresented: $viewModel.isHomeCountryConfirmationPresented
-                ) {
-                    if viewModel.isHomeCountry {
-                        Button(LocalizationKeys.homeCountryRemove, role: .destructive) {
-                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
-                        }
-                    } else {
-                        Button(LocalizationKeys.homeCountryUpdate) {
-                            viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
-                        }
-                    }
+            } else {
+                Button(LocalizationKeys.homeCountryUpdate) {
+                    viewModel.confirmHomeCountryAction(using: homeCountryViewModel)
+                }
+            }
 
-                    Button(LocalizationKeys.generalCancel, role: .cancel) {}
-                } message: {
-                    Text(homeCountryConfirmationMessage)
-                }
+            Button(LocalizationKeys.generalCancel, role: .cancel) {}
+        } message: {
+            Text(homeCountryConfirmationMessage)
         }
     }
 
@@ -145,6 +167,69 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     .padding(.top, .xl)
             }
         }
+    }
+
+    @ViewBuilder
+    private var detailLayout: some View {
+        if usesInlineInspector {
+            countryInspector
+        } else {
+            countryMap
+                .ignoresSafeArea(edges: .bottom)
+        }
+    }
+
+    private var countryInspector: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: .xl) {
+                CountryInfoSheetHeader(
+                    flagUnicode: viewModel.country.flagUnicode,
+                    countryName: countryName,
+                    isHomeCountry: viewModel.isHomeCountry,
+                    isCentered: false
+                )
+
+                CountryElectricalSection(
+                    voltage: viewModel.country.voltage,
+                    frequency: viewModel.country.frequency
+                )
+
+                countryMap
+                    .frame(height: 180)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .stroke(.separator.opacity(0.5), lineWidth: 1)
+                    }
+
+                CountryPlugsSection(viewModel: viewModel) { plug in
+                    selectedPlug = plug
+                }
+            }
+            .padding(.horizontal, .xxl)
+            .padding(.vertical, .xl)
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .background(.backgroundSurface)
+        .accessibilityIdentifier("countryDetail.inspector")
+    }
+
+    private var usesInlineInspector: Bool {
+        presentation == .adaptiveSplitDetail && horizontalSizeClass != .compact
+    }
+
+    private var usesSheetPresentation: Bool {
+        !usesInlineInspector
+    }
+
+    private var sheetPresentationBinding: Binding<Bool> {
+        Binding(
+            get: { usesSheetPresentation && viewModel.isInfoSheetPresented },
+            set: { isPresented in
+                viewModel.isInfoSheetPresented = isPresented
+            }
+        )
     }
 
     private var countryName: String {
@@ -170,6 +255,10 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
         viewModel.handleSavedCountryAction()
     }
 
+    private func updateInfoSheetPresentation() {
+        viewModel.isInfoSheetPresented = usesSheetPresentation
+    }
+
 }
 
 // MARK: - Navigation
@@ -183,7 +272,7 @@ private extension CountryDetailView {
     func handleInfoSheetDismissed() {
         if dismissAfterSheet {
             dismissAfterSheet = false
-            dismiss()
+            closeDetail()
             return
         }
 
@@ -193,6 +282,14 @@ private extension CountryDetailView {
     func handleBackNavigation() {
         dismissAfterSheet = true
         viewModel.isInfoSheetPresented = false
+    }
+
+    func closeDetail() {
+        if let onClose {
+            onClose()
+        } else {
+            dismiss()
+        }
     }
 }
 
@@ -389,6 +486,7 @@ private struct CountryElectricalSection: View {
 
 private struct CountryPlugsSection<ViewModel: CountryDetailViewModelType>: View {
     let viewModel: ViewModel
+    var onPlugSelected: ((Plug) -> Void)? = nil
 
     var body: some View {
         CountryDetailSection(title: LocalizationKeys.countryDetailAllPlugs) {
@@ -397,21 +495,28 @@ private struct CountryPlugsSection<ViewModel: CountryDetailViewModelType>: View 
                     CountryPlugCompatibilityGroup(
                         compatibility: .compatible,
                         plugs: viewModel.compatiblePlugs,
-                        viewModel: viewModel
+                        viewModel: viewModel,
+                        onPlugSelected: onPlugSelected
                     )
                     CountryPlugCompatibilityGroup(
                         compatibility: .adapterNeeded,
                         plugs: viewModel.adapterPlugs,
-                        viewModel: viewModel
+                        viewModel: viewModel,
+                        onPlugSelected: onPlugSelected
                     )
                     CountryPlugCompatibilityGroup(
                         compatibility: .converterRequired,
                         plugs: viewModel.converterPlugs,
-                        viewModel: viewModel
+                        viewModel: viewModel,
+                        onPlugSelected: onPlugSelected
                     )
                 }
             } else {
-                CountryPlugList(plugs: viewModel.allPlugs, viewModel: viewModel)
+                CountryPlugList(
+                    plugs: viewModel.allPlugs,
+                    viewModel: viewModel,
+                    onPlugSelected: onPlugSelected
+                )
             }
         }
     }
@@ -423,6 +528,7 @@ private struct CountryPlugCompatibilityGroup<ViewModel: CountryDetailViewModelTy
     let compatibility: PlugCompatibility
     let plugs: [Plug]
     let viewModel: ViewModel
+    var onPlugSelected: ((Plug) -> Void)? = nil
 
     var body: some View {
         if !plugs.isEmpty {
@@ -443,7 +549,11 @@ private struct CountryPlugCompatibilityGroup<ViewModel: CountryDetailViewModelTy
                 }
                 .foregroundStyle(compatibility.color)
 
-                CountryPlugList(plugs: plugs, viewModel: viewModel)
+                CountryPlugList(
+                    plugs: plugs,
+                    viewModel: viewModel,
+                    onPlugSelected: onPlugSelected
+                )
             }
         }
     }
@@ -456,12 +566,17 @@ private struct CountryPlugList<ViewModel: CountryDetailViewModelType>: View {
     /// The view model rather than an `(Plug) -> Void` closure — see `pendingPlug` on
     /// `CountryDetailViewModelType`.
     let viewModel: ViewModel
+    var onPlugSelected: ((Plug) -> Void)? = nil
 
     var body: some View {
         VStack(spacing: .md) {
             ForEach(plugs) { plug in
                 Button {
-                    viewModel.openPlugDetail(plug)
+                    if let onPlugSelected {
+                        onPlugSelected(plug)
+                    } else {
+                        viewModel.openPlugDetail(plug)
+                    }
                 } label: {
                     CountryDetailPlugRow(plug: plug)
                 }
@@ -497,7 +612,9 @@ extension CountryDetailView where ViewModel == CountryDetailViewModel {
         country: Country,
         premiumEntitlement: any PremiumEntitlementProviding,
         travelPreferencesStore: any TravelPreferencesStoring,
-        analyticsTracker: any AnalyticsTracker
+        analyticsTracker: any AnalyticsTracker,
+        presentation: CountryDetailPresentation = .compactSheet,
+        onClose: (() -> Void)? = nil
     ) {
         self.init(
             viewModel: CountryDetailViewModel(
@@ -505,7 +622,9 @@ extension CountryDetailView where ViewModel == CountryDetailViewModel {
                 premiumEntitlement: premiumEntitlement,
                 travelPreferencesStore: travelPreferencesStore,
                 analyticsTracker: analyticsTracker
-            )
+            ),
+            presentation: presentation,
+            onClose: onClose
         )
     }
 }

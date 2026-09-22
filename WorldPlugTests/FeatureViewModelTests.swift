@@ -73,6 +73,16 @@ struct FeatureViewModelTests {
         #expect(!viewModel.isHomeCountryConfirmationPresented)
     }
 
+    @Test("country detail appearance leaves sheet presentation to its container")
+    func countryDetailAppearanceDoesNotForceInfoSheet() {
+        let country = Country(code: "IT", voltage: "230V", frequency: "50Hz", flagUnicode: "🇮🇹")
+        let viewModel = makeCountryDetailViewModel(country: country)
+
+        viewModel.screenAppeared(using: PreviewHomeCountryViewModel())
+
+        #expect(!viewModel.isInfoSheetPresented)
+    }
+
     @Test("trip free limit presents paywall")
     func tripFreeLimit() {
         let trip = Trip(countryCode: "JP")
