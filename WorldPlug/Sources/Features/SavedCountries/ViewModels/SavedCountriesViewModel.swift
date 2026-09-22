@@ -68,5 +68,8 @@ final class SavedCountriesViewModel {
         }
 
         travelPreferencesStore.toggleSavedCountry(code: code)
+        if selectedCountry?.code == code {
+            selectedCountry = nil
+        }
     }
 }

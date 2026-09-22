@@ -15,7 +15,6 @@ struct LaunchExperienceView: View {
     var body: some View {
         ZStack {
             Color.backgroundSurface
-                .ignoresSafeArea()
             Image(systemName: socketSymbolName)
                 .font(.system(size: 58, weight: .medium))
                 .foregroundStyle(.backgroundSurface)
@@ -25,6 +24,8 @@ struct LaunchExperienceView: View {
                 .scaleEffect(isPresented ? 1 : 0.82)
                 .opacity(isPresented ? 1 : 0)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .ignoresSafeArea()
         .accessibilityHidden(true)
         .task {
             if reduceMotion {

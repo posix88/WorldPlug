@@ -194,7 +194,6 @@ struct FeatureViewModelTests {
             analyticsTracker: NoopAnalyticsTracker()
         )
         viewModel.updateCountries([italy])
-
         // Offset 0 of the Past section; offset 0 of `trips` is the upcoming trip.
         viewModel.deletePast(at: IndexSet(integer: 0))
 
@@ -302,7 +301,6 @@ struct FeatureViewModelTests {
             homeCountryViewModel: PreviewHomeCountryViewModel(),
             analyticsTracker: NoopAnalyticsTracker()
         )
-
         viewModel.removeSavedCountry(code: "IT")
         viewModel.removeSavedCountry(code: "IT")
 

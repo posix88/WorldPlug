@@ -11,6 +11,7 @@ struct TripsView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Query(sort: \Country.code) private var countries: [Country]
     @State private var viewModel: TripsViewModel
+    @State private var preferredCompactColumn: NavigationSplitViewColumn = .sidebar
     private let travelPreferencesStore: any TravelPreferencesStoring
     private let premiumEntitlement: any PremiumEntitlementProviding
     private let homeCountryViewModel: any HomeCountryViewModelType
@@ -42,8 +43,11 @@ struct TripsView: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        NavigationStack {
-            List {
+        NavigationSplitView(
+            columnVisibility: .constant(.all),
+            preferredCompactColumn: $preferredCompactColumn
+        ) {
+            List(selection: $viewModel.selectedTrip) {
                 listContent
             }
             .animation(reduceMotion ? nil : .snappy, value: viewModel.hasTrips)
@@ -64,17 +68,6 @@ struct TripsView: View {
             .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
                 PremiumPaywallView(source: .trips)
             }
-            .navigationDestination(item: $viewModel.selectedTrip) { trip in
-                TripDetailView(
-                    trip: trip,
-                    countries: countries,
-                    homeCountry: homeCountryViewModel.homeCountry,
-                    travelPreferencesStore: travelPreferencesStore,
-                    premiumEntitlement: premiumEntitlement,
-                    requestsReviewAfterAppearance: viewModel.requestsReviewForSelectedTrip,
-                    analyticsTracker: analyticsTracker
-                )
-            }
             .onAppear {
                 viewModel.updateCountries(countries)
                 viewModel.screenAppeared()
@@ -82,8 +75,31 @@ struct TripsView: View {
             .onChange(of: countries.count) { _, _ in
                 viewModel.updateCountries(countries)
             }
+        } detail: {
+            tripDetail
         }
+        .navigationSplitViewStyle(.balanced)
         .tint(.voltTint)
+    }
+
+    @ViewBuilder
+    private var tripDetail: some View {
+        if let trip = viewModel.selectedTrip {
+            TripDetailView(
+                trip: trip,
+                countries: countries,
+                homeCountry: homeCountryViewModel.homeCountry,
+                travelPreferencesStore: travelPreferencesStore,
+                premiumEntitlement: premiumEntitlement,
+                requestsReviewAfterAppearance: viewModel.requestsReviewForSelectedTrip,
+                analyticsTracker: analyticsTracker
+            )
+        } else {
+            ContentUnavailableView(
+                LocalizationKeys.tripsTitle,
+                systemImage: "suitcase.rolling"
+            )
+        }
     }
 
     @ViewBuilder
@@ -110,10 +126,9 @@ private struct TripsAddButton: View {
                 tip?.invalidate(reason: .actionPerformed)
             }
         } label: {
-            Image(systemName: "plus")
+            Label(LocalizationKeys.tripsAdd, systemImage: "plus")
         }
         .accessibilityIdentifier("trips.add")
-        .accessibilityLabel(LocalizationKeys.tripsAdd)
         .popoverTip(tip, arrowEdge: .top)
         .appTipIconTint()
     }
@@ -152,9 +167,7 @@ private struct TripsSection: View {
         if !rows.isEmpty {
             Section(title) {
                 ForEach(rows) { row in
-                    Button {
-                        viewModel.select(row.trip)
-                    } label: {
+                    NavigationLink(value: row.trip) {
                         TripRow(row: row)
                     }
                     .buttonStyle(.plain)
@@ -237,11 +250,6 @@ private struct TripRow: View {
 
             Spacer()
 
-            if !dynamicTypeSize.isAccessibilitySize {
-                Image(systemName: "chevron.right")
-                    .font(.caption.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
         }
         .contentShape(Rectangle())
     }

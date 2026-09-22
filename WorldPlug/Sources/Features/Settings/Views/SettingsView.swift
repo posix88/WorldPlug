@@ -71,7 +71,7 @@ struct SettingsView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
+                        Label(LocalizationKeys.generalClose, systemImage: "xmark")
                     }
                     .accessibilityIdentifier("settings.done")
                 }

@@ -60,9 +60,10 @@ struct PackDeviceEditorView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button(action: saveDevice) { Image(systemName: "checkmark") }
+                Button(action: saveDevice) {
+                    Label(LocalizationKeys.tripCheckAction, systemImage: "checkmark")
+                }
                     .disabled(!viewModel.canSave)
-                    .accessibilityLabel(LocalizationKeys.tripCheckAction)
             }
         }
         .onChange(of: scannerValues) { _, values in

@@ -5,20 +5,20 @@ COSA FA SOCKET BUDDY
 • Sfoglia spine e prese di oltre 200 paesi — schemi chiari, voltaggio, frequenza e tutti gli standard in uso nel paese.
 • Imposta una volta sola il tuo paese di origine e ritrovi i badge di compatibilità in ogni schermata: Compatibile, Adattatore necessario o Convertitore necessario.
 • Pianifica un viaggio — scegli destinazione e date, poi aggiungi i dispositivi che metti in valigia (caricabatterie, asciugacapelli, CPAP, laptop, attrezzatura fotografica…) e per ognuno ottieni un verdetto su quanto è sicuro a destinazione.
-• Inquadra l'etichetta di un dispositivo con la fotocamera — Socket Buddy legge voltaggio e frequenza stampati sopra, grazie al riconoscimento del testo che avviene direttamente sul dispositivo e ad Apple Intelligence dove è disponibile. Nessun dato esce dal tuo iPhone.
+• Inquadra l'etichetta di un dispositivo con la fotocamera — Socket Buddy legge voltaggio e frequenza stampati sopra, grazie al riconoscimento del testo che avviene direttamente sul dispositivo e al supporto per Apple Intelligence dove disponibile. Nessun dato esce dal tuo iPhone.
 • Salva i paesi in cui torni più spesso e tienili nei widget della schermata Home e della schermata di blocco: la spina giusta a portata di sguardo, più il conto alla rovescia per il viaggio più vicino.
-• Con Apple Watch hai le informazioni sulle prese sempre al polso — consulta i paesi salvati, il paese di origine e l'elenco completo.
-• Chiedi a Siri o cerca in Spotlight — «Apri Giappone in Socket Buddy» o «Mostra il mio paese di origine in Socket Buddy» funzionano subito.
-• Funziona del tutto offline. I tuoi dati si sincronizzano in privato tra i tuoi dispositivi tramite iCloud e non vengono condivisi con nessun altro.
+• Il supporto per Apple Watch tiene le informazioni sulle prese sempre al polso — consulta i paesi salvati, il paese di origine e l'elenco completo.
+• I comandi vocali Siri e la ricerca Spotlight ti permettono di aprire un paese o vedere il tuo paese di origine.
+• Funziona del tutto offline. La sincronizzazione privata con iCloud mantiene i tuoi dati tra i tuoi dispositivi e non vengono condivisi con nessun altro.
 
 ACCESSIBILITÀ
 
 Socket Buddy è fatto per funzionare con le funzioni di accessibilità che usi già:
 
-• VoiceOver — le righe dei paesi, i dettagli delle spine e i verdetti sui dispositivi vengono letti come frasi complete, non come una sequenza di frammenti, e le etichette vocali sono tradotte, non solo il testo a schermo.
-• Testo dinamico fino alle dimensioni di accessibilità più grandi — bandiere e icone crescono insieme al testo e le schermate si riorganizzano invece di tagliare ciò che conta.
+• Il supporto per VoiceOver fa leggere le righe dei paesi, i dettagli delle spine e i verdetti sui dispositivi come frasi complete, non come una sequenza di frammenti, e le etichette vocali sono tradotte, non solo il testo a schermo.
+• Il supporto per Dynamic Type fa crescere bandiere e icone insieme al testo e riorganizza le schermate invece di tagliare ciò che conta.
 • La compatibilità non si affida mai al solo colore: ogni verdetto ha un simbolo e una dicitura propri, oltre al colore.
-• «Riduci movimento» è rispettato in tutta l'app.
+• L'impostazione Riduci movimento è rispettata in tutta l'app.
 
 PERCHÉ SOCKET BUDDY
 

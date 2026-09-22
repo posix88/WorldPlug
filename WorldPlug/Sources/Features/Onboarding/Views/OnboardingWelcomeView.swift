@@ -16,6 +16,23 @@ struct OnboardingWelcomeView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var boltSize: CGFloat = 72
 
     var body: some View {
+        ViewThatFits(in: .vertical) {
+            welcomeContent
+
+            ScrollView {
+                welcomeContent
+                    .frame(maxWidth: .infinity)
+            }
+            .scrollBounceBehavior(.basedOnSize)
+            .scrollIndicators(.hidden)
+        }
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            callToAction
+        }
+        .onAppear { animateEntrance() }
+    }
+
+    private var welcomeContent: some View {
         VStack(spacing: 0) {
             Spacer()
 
@@ -78,23 +95,23 @@ struct OnboardingWelcomeView: View {
             .offset(y: featuresVisible ? 0 : .xxxl)
 
             Spacer()
-
-            // CTA
-            Button(action: onGetStarted) {
-                Text(LocalizationKeys.onboardingGetStarted)
-                    .font(.headline)
-                    .foregroundStyle(Color.deepNavy)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 18)
-                    .background(.yellow)
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-            }
-            .padding(.horizontal, .xxxl)
-            .padding(.bottom, 52)
-            .opacity(ctaVisible ? 1 : 0)
-            .offset(y: ctaVisible ? 0 : .xl)
         }
-        .onAppear { animateEntrance() }
+    }
+
+    private var callToAction: some View {
+        Button(action: onGetStarted) {
+            Text(LocalizationKeys.onboardingGetStarted)
+                .font(.headline)
+                .foregroundStyle(Color.deepNavy)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 18)
+                .background(.yellow)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        }
+        .padding(.horizontal, .xxxl)
+        .padding(.vertical, .lg)
+        .opacity(ctaVisible ? 1 : 0)
+        .offset(y: ctaVisible ? 0 : .xl)
     }
 
     private func animateEntrance() {

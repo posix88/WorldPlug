@@ -97,6 +97,9 @@ final class TripsViewModel {
 
     func delete(_ trip: Trip) {
         travelPreferencesStore.removeTrip(id: trip.id)
+        if selectedTrip?.id == trip.id {
+            selectedTrip = nil
+        }
     }
 
     /// Deletes by identity rather than by index into a flat array — the list is split into

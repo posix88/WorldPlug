@@ -159,19 +159,20 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                                 parameters: ["source": .string("countries_toolbar")]
                             )
                         } label: {
-                            Image(systemName: "info.circle")
+                            Label(
+                                LocalizationKeys.compatibilityLegendTitle,
+                                systemImage: "info.circle"
+                            )
                         }
-                        .accessibilityLabel(LocalizationKeys.compatibilityLegendTitle)
                     }
 
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             isSettingsPresented = true
                         } label: {
-                            Image(systemName: "gearshape")
+                            Label(LocalizationKeys.settingsOpen, systemImage: "gearshape")
                         }
                         .accessibilityIdentifier("countries.settings")
-                        .accessibilityLabel(LocalizationKeys.settingsOpen)
                     }
                 }
                 .fullScreenCover(isPresented: $isSettingsPresented) {
@@ -181,12 +182,12 @@ struct CountriesListView<ViewModel: CountriesListViewModelType>: View {
                         homeCountryViewModel: homeCountryViewModel,
                         analyticsTracker: analyticsTracker
                     )
-                    }
                 }
                 .sheet(isPresented: $isCompatibilityGuidePresented) {
                     CompatibilityGuideView()
                 }
         }
+    }
 
     private var homeCountryCode: Binding<String> {
         Binding(
@@ -440,7 +441,11 @@ private struct CompatibilityGuideView: View {
             .navigationTitle(LocalizationKeys.compatibilityLegendTitle)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizationKeys.generalClose) { dismiss() }
+                    Button {
+                        dismiss()
+                    } label: {
+                        Label(LocalizationKeys.generalClose, systemImage: "xmark")
+                    }
                 }
             }
         }

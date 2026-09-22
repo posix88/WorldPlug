@@ -73,8 +73,9 @@ struct TripEditorView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel(LocalizationKeys.tripCheckCancel)
+                    Button { dismiss() } label: {
+                        Label(LocalizationKeys.tripCheckCancel, systemImage: "xmark")
+                    }
                 }
 
                 ToolbarItem(placement: .confirmationAction) {
@@ -82,11 +83,10 @@ struct TripEditorView: View {
                         onSave(viewModel.save())
                         dismiss()
                     } label: {
-                        Image(systemName: "checkmark")
+                        Label(LocalizationKeys.tripCheckAction, systemImage: "checkmark")
                     }
                     .disabled(!viewModel.canSave)
                     .accessibilityIdentifier("trip.editor.save")
-                    .accessibilityLabel(LocalizationKeys.tripCheckAction)
                 }
             }
         }

@@ -50,10 +50,9 @@ struct TripDetailView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: viewModel.editTrip) {
-                        Image(systemName: "pencil")
+                        Label(LocalizationKeys.tripDetailEdit, systemImage: "pencil")
                     }
                     .accessibilityIdentifier("trip.detail.edit")
-                    .accessibilityLabel(LocalizationKeys.tripDetailEdit)
                 }
             }
             .sheet(isPresented: $viewModel.isDeviceEditorPresented) {
@@ -460,8 +459,9 @@ private struct PackDeviceEditorSheet: View {
             )
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button { dismiss() } label: { Image(systemName: "xmark") }
-                        .accessibilityLabel(LocalizationKeys.tripCheckCancel)
+                    Button { dismiss() } label: {
+                        Label(LocalizationKeys.tripCheckCancel, systemImage: "xmark")
+                    }
                 }
             }
             .navigationDestination(for: PackDeviceEditorRoute.self) { route in
@@ -524,7 +524,7 @@ private struct TripDisclaimerView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "checkmark")
+                        Label(LocalizationKeys.generalClose, systemImage: "checkmark")
                     }
                 }
             }

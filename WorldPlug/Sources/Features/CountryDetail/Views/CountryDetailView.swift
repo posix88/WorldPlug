@@ -22,21 +22,8 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     var body: some View {
         @Bindable var viewModel = viewModel
 
-        Map(position: $viewModel.mapPosition, interactionModes: [.pan, .zoom]) {
-            if let mapFocus = viewModel.mapFocus {
-                Annotation(countryName, coordinate: mapFocus.coordinate, anchor: .center) {
-                    CountryMapFocusPin(countryName: countryName)
-                }
-            }
-        }
-        .mapStyle(.standard(elevation: .realistic))
+        countryMap
         .ignoresSafeArea(edges: .bottom)
-        .overlay(alignment: .top) {
-            if viewModel.mapLoadState == .unavailable {
-                CountryMapUnavailableNotice()
-                    .padding(.top, .xl)
-            }
-        }
         .navigationTitle(countryName)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -48,30 +35,29 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 Button {
                     handleBackNavigation()
                 } label: {
-                    Image(systemName: "chevron.backward")
-                        .imageScale(.medium)
+                    Label(LocalizationKeys.navigationBack, systemImage: "chevron.backward")
                 }
-                .accessibilityLabel(LocalizationKeys.navigationBack)
             }
 
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     viewModel.handleHomeCountryAction(using: homeCountryViewModel)
                 } label: {
-                    Image(systemName: viewModel.isHomeCountry ? "house.slash.fill" : "house.fill")
-                        .imageScale(.medium)
+                    Label(
+                        viewModel.isHomeCountry
+                            ? LocalizationKeys.homeCountryRemove
+                            : LocalizationKeys.homeCountrySet,
+                        systemImage: viewModel.isHomeCountry ? "house.slash.fill" : "house.fill"
+                    )
                 }
-                .accessibilityLabel(
-                    viewModel.isHomeCountry
-                        ? LocalizationKeys.homeCountryRemove
-                        : LocalizationKeys.homeCountrySet
-                )
             }
 
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: handleSavedCountryAction) {
-                    Image(systemName: viewModel.savedCountrySymbolName)
-                        .imageScale(.medium)
+                    Label(
+                        viewModel.savedCountryAccessibilityLabel,
+                        systemImage: viewModel.savedCountrySymbolName
+                    )
                         .overlay(alignment: .bottomTrailing) {
                             if !viewModel.isPremium {
                                 Image(systemName: "lock.fill")
@@ -80,7 +66,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                             }
                         }
                 }
-                .accessibilityLabel(viewModel.savedCountryAccessibilityLabel)
             }
         }
         .task(id: viewModel.country.code) {
@@ -121,7 +106,6 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                     viewModel.isLargeDetent ? .scrolls : .resizes
                 )
                 .interactiveDismissDisabled()
-                .ignoresSafeArea(edges: .bottom)
                 .sheet(isPresented: $viewModel.isPremiumPaywallPresented) {
                     PremiumPaywallView(source: .countryDetailSave)
                 }
@@ -143,6 +127,23 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
                 } message: {
                     Text(homeCountryConfirmationMessage)
                 }
+        }
+    }
+
+    private var countryMap: some View {
+        Map(position: $viewModel.mapPosition, interactionModes: [.pan, .zoom]) {
+            if let mapFocus = viewModel.mapFocus {
+                Annotation(countryName, coordinate: mapFocus.coordinate, anchor: .center) {
+                    CountryMapFocusPin(countryName: countryName)
+                }
+            }
+        }
+        .mapStyle(.standard(elevation: .realistic))
+        .overlay(alignment: .top) {
+            if viewModel.mapLoadState == .unavailable {
+                CountryMapUnavailableNotice()
+                    .padding(.top, .xl)
+            }
         }
     }
 
@@ -168,6 +169,7 @@ struct CountryDetailView<ViewModel: CountryDetailViewModelType>: View {
     private func handleSavedCountryAction() {
         viewModel.handleSavedCountryAction()
     }
+
 }
 
 // MARK: - Navigation

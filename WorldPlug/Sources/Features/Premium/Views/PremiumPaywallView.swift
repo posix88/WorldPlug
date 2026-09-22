@@ -76,58 +76,15 @@ private struct PremiumPaywallContent: View {
         @Bindable var viewModel = viewModel
 
         NavigationStack {
-            VStack(spacing: .xxl) {
-                Image(systemName: "star.circle.fill")
-                    .font(.system(size: 88, weight: .medium))
-                    .symbolRenderingMode(.hierarchical)
-                    .foregroundStyle(.premiumTint)
+            ViewThatFits(in: .vertical) {
+                paywallContent(viewModel: viewModel)
 
-                VStack(spacing: .sm) {
-                    Text(LocalizationKeys.premiumPaywallTitle)
-                        .font(.largeTitle.weight(.bold))
-                        .foregroundStyle(.textRegular)
-
-                    Text(viewModel.source.message)
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(.textLight)
+                ScrollView {
+                    paywallContent(viewModel: viewModel)
+                        .frame(maxWidth: .infinity)
                 }
-
-                VStack(alignment: .leading, spacing: .lg) {
-                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
-                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
-                    PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-                Spacer()
-
-                Button(action: purchasePremium) {
-                    Group {
-                        if viewModel.isPurchasing {
-                            ProgressView()
-                        } else if let premiumPrice = viewModel.premiumPrice {
-                            Text(LocalizationKeys.premiumPaywallPurchaseWithPrice.string(premiumPrice))
-                        } else {
-                            Text(LocalizationKeys.premiumPaywallPurchase)
-                        }
-                    }
-                    .frame(minWidth: 260)
-                }
-                .buttonStyle(.glassProminent)
-                .tint(.premiumTint)
-                .controlSize(.large)
-                .disabled(viewModel.isPurchasing)
-
-                Button(LocalizationKeys.premiumPaywallRestore, action: restorePurchases)
-                    .buttonStyle(.glass)
-                    .tint(.textRegular)
-                    .disabled(viewModel.isPurchasing)
-
-                Button(LocalizationKeys.premiumPaywallRedeemCode, action: redeemOfferCode)
-                    .buttonStyle(.plain)
-                    .foregroundStyle(.textLight)
-                    .disabled(viewModel.isPurchasing)
+                .scrollBounceBehavior(.basedOnSize)
+                .scrollIndicators(.hidden)
             }
             .frame(maxWidth: 480)
             .padding(.xxl)
@@ -138,9 +95,8 @@ private struct PremiumPaywallContent: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
+                        Label(LocalizationKeys.generalClose, systemImage: "xmark")
                     }
-                    .accessibilityLabel(LocalizationKeys.generalClose)
                 }
             }
             .alert(
@@ -175,6 +131,62 @@ private struct PremiumPaywallContent: View {
                     await viewModel.offerCodeRedemptionFinished()
                 }
             }
+        }
+    }
+
+    private func paywallContent(viewModel: PremiumPaywallViewModel) -> some View {
+        VStack(spacing: .xxl) {
+            Image(systemName: "star.circle.fill")
+                .font(.system(size: 88, weight: .medium))
+                .symbolRenderingMode(.hierarchical)
+                .foregroundStyle(.premiumTint)
+
+            VStack(spacing: .sm) {
+                Text(LocalizationKeys.premiumPaywallTitle)
+                    .font(.largeTitle.weight(.bold))
+                    .foregroundStyle(.textRegular)
+
+                Text(viewModel.source.message)
+                    .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(.textLight)
+            }
+
+            VStack(alignment: .leading, spacing: .lg) {
+                PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitSavedCountries, icon: "star.fill")
+                PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitNextTrip, icon: "airplane.departure")
+                PremiumBenefitRow(text: LocalizationKeys.premiumPaywallBenefitWidgets, icon: "rectangle.on.rectangle")
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+
+            Spacer()
+
+            Button(action: purchasePremium) {
+                Group {
+                    if viewModel.isPurchasing {
+                        ProgressView()
+                    } else if let premiumPrice = viewModel.premiumPrice {
+                        Text(LocalizationKeys.premiumPaywallPurchaseWithPrice.string(premiumPrice))
+                    } else {
+                        Text(LocalizationKeys.premiumPaywallPurchase)
+                    }
+                }
+                .frame(minWidth: 260)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(.premiumTint)
+            .controlSize(.large)
+            .disabled(viewModel.isPurchasing)
+
+            Button(LocalizationKeys.premiumPaywallRestore, action: restorePurchases)
+                .buttonStyle(.glass)
+                .tint(.textRegular)
+                .disabled(viewModel.isPurchasing)
+
+            Button(LocalizationKeys.premiumPaywallRedeemCode, action: redeemOfferCode)
+                .buttonStyle(.plain)
+                .foregroundStyle(.textLight)
+                .disabled(viewModel.isPurchasing)
         }
     }
 
